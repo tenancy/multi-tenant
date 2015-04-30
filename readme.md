@@ -44,3 +44,6 @@ To support multi tenancy in other (3rd party) packages, __replace__ the class al
 ```php
 'Eloquent'  => 'HynMe\Framework\Models\AbstractModel',
 ```
+
+This will ensure that all extended classes will by default connect with the tenant database instead of the system database.
+If you want to manually connect to the tenant database, set the `$connection` property of your class to `tenant`.
