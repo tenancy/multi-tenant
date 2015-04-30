@@ -4,6 +4,8 @@ use Config, File;
 use HynMe\MultiTenant\Contracts\DirectoryContract;
 use HynMe\MultiTenant\Models\Hostname;
 use Illuminate\Support\ClassLoader;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
 
 /**
  * Class Directory
@@ -143,6 +145,19 @@ class Directory implements DirectoryContract
             $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->hostname->website_id}");
             // @TODO we really can't use cache yet for application cache
 
+            // replaces lang directory
+            if($this->lang()) {
+                $path = $this->lang();
+
+                $app->bindShared('translation.loader', function($app) use ($path)
+                {
+                    return new FileLoader($app['files'], $path);
+                });
+                $app->bindShared('translator', function($app)
+                {
+                    return (new Translator($app['translation.loader'], $app['config']['app.locale']))->setFallback($app['config']['app.fallback_locale']);
+                });
+            }
 
         }
         return $this;
@@ -151,10 +166,14 @@ class Directory implements DirectoryContract
     /**
      * Creates tenant directories
      *
+     * Creates all required tenant directories
      * @return void
      */
     public function create()
     {
-        // TODO: Implement create() method.
+        foreach(['base', 'views', 'lang', 'cache', 'media', 'vendor'] as $directory)
+        {
+            File::makeDirectory($this->{$directory}(), 0755, true);
+        }
     }
 }
