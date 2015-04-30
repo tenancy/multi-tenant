@@ -1,4 +1,5 @@
 # HynMe multi tenancy
+[![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
 
 This package allows for multi tenancy websites on one installation of Laravel.
 
