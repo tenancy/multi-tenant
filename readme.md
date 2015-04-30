@@ -4,7 +4,7 @@ This package allows for multi tenancy websites on one installation of Laravel.
 
 ### What is multi tenancy
 
-Referring to[wikipedia](http://en.wikipedia.org/wiki/Multitenancy);
+Referring to [wikipedia](http://en.wikipedia.org/wiki/Multitenancy);
 
 > Multitenancy refers to a software architecture in which a single instance of a software runs on a server and serves multiple tenants.
 
