@@ -13,11 +13,26 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     protected $website;
 
     /**
+     * @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract
+     */
+    protected $hostname;
+
+    /**
      * @param Hostname $hostname
      * @return \HynMe\MultiTenant\Models\Website
      */
     public function findByHostname(Hostname $hostname)
     {
         return $hostname->website;
+    }
+
+    /**
+     * Return default website
+     *
+     * @return \HynMe\MultiTenant\Models\Website
+     */
+    public function getDefault()
+    {
+        return $this->hostname->getDefault()->website;
     }
 }

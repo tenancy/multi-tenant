@@ -11,4 +11,10 @@ interface WebsiteRepositoryContract extends BaseRepositoryContract
      * @return \HynMe\MultiTenant\Models\Website
      */
     public function findByHostname(Hostname $hostname);
+
+    /**
+     * Return default website
+     * @return \HynMe\MultiTenant\Models\Website
+     */
+    public function getDefault();
 }

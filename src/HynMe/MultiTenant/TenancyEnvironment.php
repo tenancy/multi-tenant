@@ -6,6 +6,8 @@ use HynMe\MultiTenant\Models\Hostname;
 use HynMe\MultiTenant\Models\Website;
 use HynMe\MultiTenant\Repositories\HostnameRepository;
 use HynMe\MultiTenant\Repositories\WebsiteRepository;
+use HynMe\MultiTenant\Tenant\DatabaseConnection;
+use HynMe\MultiTenant\Tenant\Directory;
 
 class TenancyEnvironment
 {
@@ -14,6 +16,7 @@ class TenancyEnvironment
      * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
+
     /**
      * @var \HynMe\MultiTenant\Models\Hostname
      */
@@ -28,11 +31,21 @@ class TenancyEnvironment
     {
 
         $this->app = $app;
+
         // bind tenancy environment into IOC
         $this->setupBinds();
+
         // load hostname object or default
         $this->hostname = TenancyRequestHelper::hostname($this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
         $this->website = $this->hostname->website;
+
+        // sets the database connection for the tenant website
+        DatabaseConnection::setup($this->hostname);
+
+        // register binds for tenant website
+        $this->setupTenantBinds();
+
+        $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract');
     }
 
     /**
@@ -44,20 +57,23 @@ class TenancyEnvironment
         {
             return new HostnameRepository(new Hostname);
         });
-        $this->app->bind('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract', function()
+        $this->app->bind('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
         {
-            return new WebsiteRepository(new Website);
+            return new WebsiteRepository(new Website, $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
         });
     }
 
     /**
-     * Sets config/database.php database.connections.tenant
+     * Binds all tenant specific interfaces into the IOC container
      */
-    protected function setupTenantConnection()
+    protected function setupTenantBinds()
     {
-        $clone = Config::get('database.connections.system');
-        $clone['password'] = md5(env('APP_KEY') . $this->hostname->hostname);
-        $clone['username'] = $clone['database'] = str_replace(['.'], '-', $this->hostname->hostname);
-        Config::set('database.connections.tenant', $clone);
+        $hostname = $this->hostname;
+        $app = $this->app;
+
+        $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname, $app)
+        {
+            return (new Directory($hostname))->registerPaths($app);
+        });
     }
 }

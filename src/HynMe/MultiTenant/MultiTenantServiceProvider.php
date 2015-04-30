@@ -15,6 +15,10 @@ class MultiTenantServiceProvider extends ServiceProvider {
     public function boot()
     {
         /*
+         * Set configuration variables
+         */
+        $this->mergeConfigFrom(__DIR__.'/../../config/multi-tenant.php', 'multi-tenant');
+        /*
          * Bind tenancy into container
          */
         if(env('HYN_MULTI_TENANCY_HOSTNAME', false))
