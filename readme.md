@@ -34,7 +34,7 @@ Register the service provider in your config/app.php:
 
 ```php
 /*
- * Hyn Wm packages
+ * HynMe packages
  */
 'HynMe\MultiTenant\MultiTenantServiceProvider',
 ```
