@@ -64,4 +64,11 @@ interface DirectoryContract
      * @return void
      */
     public function create();
+
+    /**
+     * Path to tenant routes.php
+     *
+     * @return string|null
+     */
+    public function routes();
 }

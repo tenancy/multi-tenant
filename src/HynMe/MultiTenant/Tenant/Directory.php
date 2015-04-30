@@ -158,7 +158,9 @@ class Directory implements DirectoryContract
                     return (new Translator($app['translation.loader'], $app['config']['app.locale']))->setFallback($app['config']['app.fallback_locale']);
                 });
             }
-
+            // identify a possible routes.php file
+            if($this->routes())
+                File::requireOnce($this->routes());
         }
         return $this;
     }
@@ -175,5 +177,19 @@ class Directory implements DirectoryContract
         {
             File::makeDirectory($this->{$directory}(), 0755, true);
         }
+    }
+
+
+    /**
+     * Path to tenant routes.php
+     *
+     * @return string|null
+     */
+    public function routes()
+    {
+        if($this->base())
+            $routes = sprintf("%sroutes.php", $this->base());
+
+        return $this->base() && File::exists($routes) ? $routes : null;
     }
 }

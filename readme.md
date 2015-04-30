@@ -14,10 +14,15 @@ Referring to [wikipedia](http://en.wikipedia.org/wiki/Multitenancy);
 In its most abstract sense you can use hyn to manage multiple websites with only one application installation.
 - Multiple websites running on one code base.
 - Multiple hostnames configured per website.
-- Each website has its own folder, allowing for custom files (images, local plugins and themes).
-- Each website has its own database, allowing system and tenant information to be kept separate.
 
-For more information visit the official [hyn website](http://hyn.me).
+Each website has its own folder on disk, allowing:
+- seperation of routes, templates, translations etc
+- custom files (media, themes and packages)
+
+Also each website has its own database, this ensures that in no way one website can access data from another website.
+The distinction also gives proper division of responsibilities to the system (global) and tenant (local) databases.
+
+For more information visit the [hyn.me website](http://hyn.me).
 
 ### Requirements
 

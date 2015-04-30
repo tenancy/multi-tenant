@@ -1,6 +1,5 @@
 <?php namespace HynMe\MultiTenant;
 
-use Config;
 use HynMe\MultiTenant\Helpers\TenancyRequestHelper;
 use HynMe\MultiTenant\Models\Hostname;
 use HynMe\MultiTenant\Models\Website;
@@ -9,6 +8,13 @@ use HynMe\MultiTenant\Repositories\WebsiteRepository;
 use HynMe\MultiTenant\Tenant\DatabaseConnection;
 use HynMe\MultiTenant\Tenant\Directory;
 
+/**
+ * Class TenancyEnvironment
+ *
+ * Sets the tenant environment; overrules laravel core and sets the database connection
+ *
+ * @package HynMe\MultiTenant
+ */
 class TenancyEnvironment
 {
 
@@ -42,10 +48,11 @@ class TenancyEnvironment
         // sets the database connection for the tenant website
         DatabaseConnection::setup($this->hostname);
 
-        // register binds for tenant website
+        // register tenant IOC bindings
         $this->setupTenantBinds();
 
-        $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract');
+        // register tenant paths for website
+        $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
     }
 
     /**
@@ -53,10 +60,16 @@ class TenancyEnvironment
      */
     protected function setupBinds()
     {
+        /*
+         * Tenant hostname repository
+         */
         $this->app->bind('HynMe\MultiTenant\Contracts\HostnameRepositoryContract', function()
         {
             return new HostnameRepository(new Hostname);
         });
+        /*
+         * Tenant website repository
+         */
         $this->app->bind('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
         {
             return new WebsiteRepository(new Website, $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
@@ -69,11 +82,13 @@ class TenancyEnvironment
     protected function setupTenantBinds()
     {
         $hostname = $this->hostname;
-        $app = $this->app;
 
-        $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname, $app)
+        /*
+         * Tenant directory mapping and functionality
+         */
+        $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
         {
-            return (new Directory($hostname))->registerPaths($app);
+            return new Directory($hostname);
         });
     }
 }
