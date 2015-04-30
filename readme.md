@@ -15,6 +15,7 @@ In its most abstract sense you can use hyn to manage multiple websites with only
 - Multiple websites running on one code base.
 - Multiple hostnames configured per website.
 - Each website has its own folder, allowing for custom files (images, local plugins and themes).
+- Each website has its own database, allowing system and tenant information to be kept separate.
 
 For more information visit the official [hyn website](http://hyn.me).
 
