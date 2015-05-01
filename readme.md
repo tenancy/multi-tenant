@@ -1,7 +1,17 @@
 # HynMe multi tenancy
 [![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
 
-This package allows for multi tenancy websites on one installation of Laravel.
+> Please note this package is under development. A working multi tenant version is currently in production for laravel 4.1. These packages are an open-source refactoring for version 5 of laravel.
+> If you have questions or wish to participate reach out to me in any way.
+
+This package allows for multi tenancy websites on one installation of Laravel. 
+
+The goals for this and its related packages are:
+
+- Unobtrusive multi tenancy for Laravel 5+
+- Provide proper insight into tenants and webserver
+
+For more information visit the [hyn.me website](http://hyn.me).
 
 ## What is multi tenancy
 
