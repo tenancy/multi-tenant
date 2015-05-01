@@ -50,7 +50,7 @@ composer require hyn-me/multi-tenant
 
 ### Register service provider
 
-Register the service provider in your config/app.php:
+Register the service provider in your `config/app.php` within the `providers` array:
 
 ```php
 /*
@@ -61,7 +61,7 @@ Register the service provider in your config/app.php:
 
 ### Support third party eloquent models
 
-To support multi tenancy in other (3rd party) packages, __replace__ the class alias for Eloquent:
+To support multi tenancy in other (3rd party) packages, __replace__ the class alias for Eloquent under `aliases` in your `config/app.php`:
 
 ```php
 'Eloquent'  => 'HynMe\Framework\Models\AbstractModel',
