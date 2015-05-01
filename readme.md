@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
 
 > Please note this package is under development. A working (closed source) multi tenant version is currently in production for laravel 4.1. These packages are an open-source refactoring for version 5 of laravel.
-> If you have questions or wish to participate reach out to me in any way.
+> If you have questions or wish to contribute reach out in any way.
 
 This package allows for multi tenancy websites on one installation of Laravel. 
 
