@@ -36,7 +36,7 @@ For more information visit the [hyn.me website](http://hyn.me).
 
 ## Requirements
 
-All packages of HynMe (including multi tenancy) require Laravel 5 and up.
+All packages of HynMe (including multi tenancy) require Laravel 5+ ánd PHP 5.5.
 
 ## Installation
 
