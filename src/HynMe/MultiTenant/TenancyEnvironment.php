@@ -44,17 +44,19 @@ class TenancyEnvironment
 
         // load hostname object or default
         $this->hostname = TenancyRequestHelper::hostname($this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
-        $this->website = $this->hostname->website;
-
-        // sets the database connection for the tenant website
-        DatabaseConnection::setup($this->hostname);
+        $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
+        if(!is_null($this->website)) {
+            // sets the database connection for the tenant website
+            DatabaseConnection::setup($this->hostname);
+        }
 
         // register tenant IOC bindings
         $this->setupTenantBinds();
 
-        // register tenant paths for website
-        $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
-
+        if(!is_null($this->website)) {
+            // register tenant paths for website
+            $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
+        }
         // register view shares
         \View::share('_tenant', $this->app->make('HynMe\Tenant\View'));
 
@@ -93,7 +95,7 @@ class TenancyEnvironment
          */
         $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
         {
-            return new Directory($hostname);
+            return $hostname ? new Directory($hostname) : null;
         });
         /*
          * Tenant view shares

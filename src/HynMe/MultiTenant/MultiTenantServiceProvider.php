@@ -25,6 +25,10 @@ class MultiTenantServiceProvider extends ServiceProvider {
         {
             new TenancyEnvironment($this->app);
         }
+        /*
+         * Publish migrations
+         */
+        $this->publishes([__DIR__.'/../../migrations/' => database_path('/migrations')], 'migrations');
 
     }
 
