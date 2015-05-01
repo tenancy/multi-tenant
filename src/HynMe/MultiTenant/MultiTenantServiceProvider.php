@@ -44,7 +44,11 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return [];
+		return [
+            'HynMe\MultiTenant\Contracts\DirectoryContract',
+            'HynMe\MultiTenant\Contracts\WebsiteRepositoryContract',
+            'HynMe\MultiTenant\Contracts\HostnameRepositoryContract',
+        ];
 	}
 
 }

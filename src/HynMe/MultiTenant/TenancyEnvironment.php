@@ -7,6 +7,7 @@ use HynMe\MultiTenant\Repositories\HostnameRepository;
 use HynMe\MultiTenant\Repositories\WebsiteRepository;
 use HynMe\MultiTenant\Tenant\DatabaseConnection;
 use HynMe\MultiTenant\Tenant\Directory;
+use HynMe\MultiTenant\Tenant\View;
 
 /**
  * Class TenancyEnvironment
@@ -53,6 +54,10 @@ class TenancyEnvironment
 
         // register tenant paths for website
         $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
+
+        // register view shares
+        \View::share('_tenant', $this->app->make('HynMe\Tenant\View'));
+
     }
 
     /**
@@ -89,6 +94,15 @@ class TenancyEnvironment
         $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
         {
             return new Directory($hostname);
+        });
+        /*
+         * Tenant view shares
+         */
+        $this->app->singleton('HynMe\Tenant\View', function() use ($hostname)
+        {
+            return new View([
+                'hostname' => $hostname
+            ]);
         });
     }
 }

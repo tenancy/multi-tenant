@@ -35,4 +35,13 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     {
         return $this->hostname->getDefault()->website;
     }
+    /**
+     * Create a pagination object
+     * @param int $per_page
+     * @return mixed
+     */
+    public function paginated($per_page = 20)
+    {
+        return $this->website->paginate($per_page);
+    }
 }

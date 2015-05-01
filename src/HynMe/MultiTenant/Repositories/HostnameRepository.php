@@ -43,4 +43,15 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
 
         return $model;
     }
+
+
+    /**
+     * Create a pagination object
+     * @param int $per_page
+     * @return mixed
+     */
+    public function paginated($per_page = 20)
+    {
+        return $this->hostname->paginate($per_page);
+    }
 }
