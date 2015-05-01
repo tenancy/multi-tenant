@@ -12,7 +12,11 @@
     "require": {
         "php": ">=5.5.0",
         "illuminate/support": "5.0.*",
-        "laracasts/presenter": "~0.2.0"
+        "laracasts/presenter": "~0.2.0",
+        "hyn-me/framework": "*"
+    },
+    "suggest": {
+        "hyn-me/management-interface": "*"
     },
     "autoload": {
         "psr-0": {

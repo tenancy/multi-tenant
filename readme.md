@@ -30,6 +30,14 @@ All packages of HynMe (including multi tenancy) require Laravel 5 and up.
 
 ## Installation
 
+### composer
+
+Include the dependancy in your composer.json:
+
+```
+composer require hyn-me/multi-tenant
+```
+
 ### Register service provider
 
 Register the service provider in your config/app.php:
