@@ -1,8 +1,11 @@
 # HynMe multi tenancy
+[![Latest Stable Version](https://poser.pugx.org/hyn-me/multi-tenant/v/stable)](https://packagist.org/packages/hyn-me/multi-tenant)
+[![License](https://poser.pugx.org/hyn-me/multi-tenant/license)](https://packagist.org/packages/hyn-me/multi-tenant)
 [![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
 
+
 > Please note this package is under development. A working (closed source) multi tenant version is currently in production for laravel 4.1. These packages are an open-source refactoring for version 5 of laravel.
-> If you have questions or wish to contribute reach out in any way.
+> If you have questions or wish to participate reach out to me in any way.
 
 This package allows for multi tenancy websites on one installation of Laravel. 
 
@@ -36,7 +39,7 @@ For more information visit the [hyn.me website](http://hyn.me).
 
 ## Requirements
 
-All packages of HynMe (including multi tenancy) require Laravel 5+ ánd PHP 5.5.
+All packages of HynMe (including multi tenancy) require Laravel 5 and up.
 
 ## Installation
 
