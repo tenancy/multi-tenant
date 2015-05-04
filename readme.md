@@ -88,3 +88,7 @@ HYN_MULTI_TENANCY_HOSTNAME=<hostname>
 
 The entered hostname will be used to fallback if a hostname is hitting on the application that is unknown in the database,
 thus showing the fallback website.
+
+### Default hostname and website in database
+
+As this package is still under development, I can't offer an installation wizard. In order for this package to work you need to run the migrations in the hyn-me/multi-tenant package and then add a tenant, website and the default hostname linking to each other. So hostnames.website_id = websites.id and websites.tenant_id = tenants.id. In the near future an installer will take care of this step.
