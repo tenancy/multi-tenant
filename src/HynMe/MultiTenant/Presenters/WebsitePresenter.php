@@ -29,4 +29,12 @@ class WebsitePresenter extends Presenter
     {
         return 'website';
     }
+
+    /**
+     * @return mixed
+     */
+    public function name()
+    {
+        return $this->identifier;
+    }
 }

@@ -2,8 +2,10 @@
 
 use HynMe\MultiTenant\Helpers\TenancyRequestHelper;
 use HynMe\MultiTenant\Models\Hostname;
+use HynMe\MultiTenant\Models\Tenant;
 use HynMe\MultiTenant\Models\Website;
 use HynMe\MultiTenant\Repositories\HostnameRepository;
+use HynMe\MultiTenant\Repositories\TenantRepository;
 use HynMe\MultiTenant\Repositories\WebsiteRepository;
 use HynMe\MultiTenant\Tenant\DatabaseConnection;
 use HynMe\MultiTenant\Tenant\Directory;
@@ -67,6 +69,13 @@ class TenancyEnvironment
      */
     protected function setupBinds()
     {
+        /*
+         * Tenant repository
+         */
+        $this->app->bind('HynMe\MultiTenant\Contracts\TenantRepositoryContract', function()
+        {
+            return new TenantRepository(new Tenant);
+        });
         /*
          * Tenant hostname repository
          */

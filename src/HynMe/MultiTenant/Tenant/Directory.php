@@ -54,7 +54,7 @@ class Directory implements DirectoryContract
      */
     public function config()
     {
-        return $this->base() ? sprintf("%s/config/", $this->base()) : null;
+        return $this->base() ? sprintf("%sconfig/", $this->base()) : null;
     }
     /**
      * Tenant views directory
@@ -63,7 +63,7 @@ class Directory implements DirectoryContract
      */
     public function views()
     {
-        return $this->base() ? sprintf("%s/views/", $this->base()) : null;
+        return $this->base() ? sprintf("%sviews/", $this->base()) : null;
     }
 
     /**
@@ -73,7 +73,7 @@ class Directory implements DirectoryContract
      */
     public function lang()
     {
-        return $this->base() ? sprintf("%s/lang/", $this->base()) : null;
+        return $this->base() ? sprintf("%slang/", $this->base()) : null;
     }
 
     /**
@@ -83,7 +83,7 @@ class Directory implements DirectoryContract
      */
     public function vendor()
     {
-        return $this->base() ? sprintf("%s/vendor/", $this->base()) : null;
+        return $this->base() ? sprintf("%svendor/", $this->base()) : null;
     }
 
     /**
@@ -93,7 +93,7 @@ class Directory implements DirectoryContract
      */
     public function cache()
     {
-        return $this->base() ? sprintf("%s/cache/", $this->base()) : null;
+        return $this->base() ? sprintf("%scache/", $this->base()) : null;
     }
 
     /**
@@ -103,7 +103,7 @@ class Directory implements DirectoryContract
      */
     public function media()
     {
-        return $this->base() ? sprintf("%s/media/", $this->base()) : null;
+        return $this->base() ? sprintf("%smedia/", $this->base()) : null;
     }
 
     /**
@@ -155,7 +155,9 @@ class Directory implements DirectoryContract
                 });
                 $app->bindShared('translator', function($app)
                 {
-                    return (new Translator($app['translation.loader'], $app['config']['app.locale']))->setFallback($app['config']['app.fallback_locale']);
+                    $translator = new Translator($app['translation.loader'], $app['config']['app.locale']);
+                    $translator->setFallback($app['config']['app.fallback_locale']);
+                    return $translator;
                 });
             }
             // identify a possible routes.php file
