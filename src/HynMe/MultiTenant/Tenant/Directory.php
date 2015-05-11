@@ -18,7 +18,7 @@ use Illuminate\Translation\Translator;
  * - vendor
  * - lang
  *
-*@package HynMe\MultiTenant\Tenant
+ * @package HynMe\MultiTenant\Tenant
  */
 class Directory implements DirectoryContract
 {

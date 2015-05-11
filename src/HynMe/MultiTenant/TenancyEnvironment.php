@@ -9,7 +9,8 @@ use HynMe\MultiTenant\Repositories\TenantRepository;
 use HynMe\MultiTenant\Repositories\WebsiteRepository;
 use HynMe\MultiTenant\Tenant\DatabaseConnection;
 use HynMe\MultiTenant\Tenant\Directory;
-use HynMe\MultiTenant\Tenant\View;
+use HynMe\MultiTenant\Tenant\View as TenantView;
+use View;
 
 /**
  * Class TenancyEnvironment
@@ -38,7 +39,7 @@ class TenancyEnvironment
 
     public function __construct($app)
     {
-
+        // share the application
         $this->app = $app;
 
         // bind tenancy environment into IOC
@@ -60,8 +61,7 @@ class TenancyEnvironment
             $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
         // register view shares
-        \View::share('_tenant', $this->app->make('HynMe\Tenant\View'));
-
+        View::composer('*', 'HynMe\MultiTenant\Composers\TenantComposer');
     }
 
     /**
@@ -111,7 +111,7 @@ class TenancyEnvironment
          */
         $this->app->singleton('HynMe\Tenant\View', function() use ($hostname)
         {
-            return new View([
+            return new TenantView([
                 'hostname' => $hostname
             ]);
         });

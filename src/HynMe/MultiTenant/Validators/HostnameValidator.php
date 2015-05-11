@@ -2,10 +2,11 @@
 
 use HynMe\Framework\Validators\AbstractValidator;
 
-class WebsiteValidator extends AbstractValidator
+class HostnameValidator extends AbstractValidator
 {
     protected $rules = [
-        'identifier' => ['required', 'unique:websites,identifier'],
+        'hostname' => ['required', 'hostname'],
+        'website_id' => ['required', 'exists:websites,id'],
         'tenant_id' => ['required', 'exists:tenants,id'],
     ];
 }

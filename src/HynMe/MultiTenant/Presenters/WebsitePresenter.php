@@ -1,8 +1,8 @@
 <?php namespace HynMe\MultiTenant\Presenters;
 
-use Laracasts\Presenter\Presenter;
+use HynMe\Framework\Presenters\AbstractModelPresenter;
 
-class WebsitePresenter extends Presenter
+class WebsitePresenter extends AbstractModelPresenter
 {
     /**
      * Shows summary of hostnames

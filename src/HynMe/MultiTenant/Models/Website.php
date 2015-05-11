@@ -7,9 +7,9 @@ class Website extends SystemModel
 {
     use PresentableTrait;
 
-    protected $fillable = ['tenant_id', 'identifier'];
-
     protected $presenter = 'HynMe\MultiTenant\Presenters\WebsitePresenter';
+
+    protected $fillable = ['tenant_id', 'identifier'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection
