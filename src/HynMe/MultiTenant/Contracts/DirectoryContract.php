@@ -61,7 +61,7 @@ interface DirectoryContract
     /**
      * Creates tenant directories
      *
-     * @return void
+     * @return boolean
      */
     public function create();
 

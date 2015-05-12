@@ -56,11 +56,6 @@ class Directory implements DirectoryContract
             Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
             $this->website->id,
             $this->website->identifier);
-
-
-        // check the directory, otherwise unset
-        if(is_null($this->old_path) && !File::isDirectory($this->base_path))
-            $this->base_path = null;
     }
 
 
@@ -197,14 +192,17 @@ class Directory implements DirectoryContract
      * Creates tenant directories
      *
      * Creates all required tenant directories
-     * @return void
+     * @return boolean
      */
     public function create()
     {
-        foreach(['base', 'views', 'lang', 'cache', 'media', 'vendor'] as $directory)
+        $done = 0;
+        foreach(['base', 'views', 'lang', 'cache', 'media', 'vendor'] as $i => $directory)
         {
-            File::makeDirectory($this->{$directory}(), 0755, true);
+            if(File::makeDirectory($this->{$directory}(), 0755, true))
+                $done++;
         }
+        return $done == ($i+1);
     }
 
 

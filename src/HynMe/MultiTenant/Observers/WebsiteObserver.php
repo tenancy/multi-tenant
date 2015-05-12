@@ -7,6 +7,7 @@ class WebsiteObserver
 {
     /**
      * @param $model
+     * @return boolean
      */
     public function updating($model)
     {
@@ -17,5 +18,18 @@ class WebsiteObserver
              */
             return TenantDirectoryHelper::moveBasePath($model);
         }
+    }
+
+    public function creating($model)
+    {
+
+    }
+
+    /**
+     * @param $model
+     */
+    public function created($model)
+    {
+        TenantDirectoryHelper::createPaths($model);
     }
 }

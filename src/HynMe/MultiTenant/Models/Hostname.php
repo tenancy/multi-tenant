@@ -16,7 +16,15 @@ class Hostname extends SystemModel
     /**
      * @var array
      */
-    protected $fillable = ['website_id', 'hostname'];
+    protected $fillable = ['website_id','hostname','redirect_to','prefer_https','sub_of'];
+
+    /**
+     * @return null|Teanant
+     */
+    public function tenant()
+    {
+        return $this->belongsTo(__NAMESPACE__.'\Tenant');
+    }
 
     /**
      * @return null|Website
@@ -33,6 +41,24 @@ class Hostname extends SystemModel
     public function redirectToHostname()
     {
         return $this->belongsTo(__CLASS__, 'redirect_to');
+    }
+
+    /**
+     * Host this is a sub domain of
+     * @return null|Hostname
+     */
+    public function subDomainOf()
+    {
+        return $this->belongsTo(__CLASS__, 'sub_of');
+    }
+
+    /**
+     * Sub domains of this hostname
+     * @return \Illuminate\Eloquent\Collection
+     */
+    public function subDomains()
+    {
+        return $this->hasMany(__CLASS__, 'sub_of');
     }
 
     /**
