@@ -13,7 +13,7 @@
         "php": ">=5.5.0",
         "illuminate/support": "5.0.*",
         "laracasts/presenter": "~0.2.0",
-        "hyn-me/framework": "dev-master"
+        "hyn-me/framework": "~0.1.0"
     },
     "suggest": {
         "hyn-me/management-interface": "dev-master"
