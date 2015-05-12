@@ -47,6 +47,7 @@ class TenancyEnvironment
 
         // load hostname object or default
         $this->hostname = TenancyRequestHelper::hostname($this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
+
         $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
         if(!is_null($this->website)) {
             // sets the database connection for the tenant website
@@ -104,7 +105,7 @@ class TenancyEnvironment
          */
         $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
         {
-            return $hostname ? new Directory($hostname) : null;
+            return $hostname ? new Directory($hostname->website) : null;
         });
         /*
          * Tenant view shares
@@ -114,6 +115,13 @@ class TenancyEnvironment
             return new TenantView([
                 'hostname' => $hostname
             ]);
+        });
+        /*
+         * Tenant hostname
+         */
+        $this->app->singleton('HynMe\Tenant\Hostname', function() use ($hostname)
+        {
+            return $hostname;
         });
     }
 }

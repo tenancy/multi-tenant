@@ -30,6 +30,14 @@ class MultiTenantServiceProvider extends ServiceProvider {
          */
         $this->publishes([__DIR__.'/../../migrations/' => database_path('/migrations')], 'migrations');
 
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('HynMe\MultiTenant\Middleware\HostnameMiddleware');
+
+        $this->observers();
+    }
+
+    protected function observers()
+    {
+        Models\Website::observe(new Observers\WebsiteObserver);
     }
 
 	/**

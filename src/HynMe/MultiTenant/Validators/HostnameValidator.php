@@ -8,5 +8,8 @@ class HostnameValidator extends AbstractValidator
         'hostname' => ['required', 'hostname'],
         'website_id' => ['required', 'exists:websites,id'],
         'tenant_id' => ['required', 'exists:tenants,id'],
+        'sub_of' => ['exists:hostnames,id'],
+        'prefer_https' => ['boolean'],
+        'redirect_to' => ['exists:hostnames,id'],
     ];
 }

@@ -2,7 +2,7 @@
 
 use Config, File;
 use HynMe\MultiTenant\Contracts\DirectoryContract;
-use HynMe\MultiTenant\Models\Hostname;
+use HynMe\MultiTenant\Models\Website;
 use Illuminate\Support\ClassLoader;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
@@ -23,9 +23,9 @@ use Illuminate\Translation\Translator;
 class Directory implements DirectoryContract
 {
     /**
-     * @var Hostname
+     * @var Website
      */
-    protected $hostname;
+    protected $website;
 
     /**
      * Base tenant path
@@ -33,16 +33,33 @@ class Directory implements DirectoryContract
      */
     protected $base_path;
 
-    public function __construct(Hostname $hostname)
-    {
-        $this->hostname = $hostname;
+    /**
+     * Old directory for base
+     * @var string|null
+     */
+    protected $old_path;
 
-        $this->base_path = sprintf("%s/%d/",
+    public function __construct(Website $website)
+    {
+        $this->website = $website;
+
+        if($this->website->isDirty('identifier')) {
+            $this->old_path = sprintf("%s/%d-%s/",
+                Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
+                $this->website->id,
+                $this->website->getOriginal('identifier'));
+            if(!File::isDirectory($this->old_path))
+                $this->old_path = null;
+        }
+
+        $this->base_path = sprintf("%s/%d-%s/",
             Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
-            $this->hostname->website_id);
+            $this->website->id,
+            $this->website->identifier);
+
 
         // check the directory, otherwise unset
-        if(!File::isDirectory($this->base_path))
+        if(is_null($this->old_path) && !File::isDirectory($this->base_path))
             $this->base_path = null;
     }
 
@@ -117,6 +134,15 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Old base path for tenant
+     * @return null|string
+     */
+    public function old_base()
+    {
+        return $this->old_path;
+    }
+
+    /**
      * Register all available paths into the laravel system
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
@@ -142,7 +168,7 @@ class Directory implements DirectoryContract
                 ClassLoader::addDirectories([$this->vendor()]);
 
             // set cache
-            $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->hostname->website_id}");
+            $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
             // @TODO we really can't use cache yet for application cache
 
             // replaces lang directory
