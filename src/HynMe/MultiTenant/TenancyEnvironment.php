@@ -48,19 +48,22 @@ class TenancyEnvironment
         // load hostname object or default
         $this->hostname = TenancyRequestHelper::hostname($this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
 
+        // set website
         $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
+
+        // sets the database connection for the tenant website
         if(!is_null($this->website)) {
-            // sets the database connection for the tenant website
             DatabaseConnection::setup($this->hostname);
         }
 
         // register tenant IOC bindings
         $this->setupTenantBinds();
 
+        // register tenant paths for website
         if(!is_null($this->website)) {
-            // register tenant paths for website
             $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
+
         // register view shares
         View::composer('*', 'HynMe\MultiTenant\Composers\TenantComposer');
     }

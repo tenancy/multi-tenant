@@ -18,11 +18,12 @@ class WebsiteObserver
              */
             return TenantDirectoryHelper::moveBasePath($model);
         }
+
+
     }
 
     public function creating($model)
     {
-
     }
 
     /**

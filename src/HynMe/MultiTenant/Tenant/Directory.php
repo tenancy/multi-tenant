@@ -109,6 +109,16 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Tenant image cache directory
+     *
+     * @return null|string
+     */
+    public function image_cache()
+    {
+        return $this->cache() ? sprintf("%simage/", $this->cache()) : null;
+    }
+
+    /**
      * Tenant media directory
      *
      * @return string|null
@@ -197,7 +207,7 @@ class Directory implements DirectoryContract
     public function create()
     {
         $done = 0;
-        foreach(['base', 'views', 'lang', 'cache', 'media', 'vendor'] as $i => $directory)
+        foreach(['base', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'] as $i => $directory)
         {
             if(File::makeDirectory($this->{$directory}(), 0755, true))
                 $done++;

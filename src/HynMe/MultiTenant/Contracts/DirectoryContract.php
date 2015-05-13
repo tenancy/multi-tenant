@@ -37,6 +37,13 @@ interface DirectoryContract
     public function cache();
 
     /**
+     * Tenant image cache directory
+     *
+     * @return null|string
+     */
+    public function image_cache();
+
+    /**
      * Tenant media directory
      *
      * @return string|null
