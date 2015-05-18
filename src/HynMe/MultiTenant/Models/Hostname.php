@@ -9,12 +9,6 @@ class Hostname extends SystemModel
     use PresentableTrait;
 
     /**
-     * Relations to touch updated_at when updating
-     * @var array
-     */
-    protected $touches = ['website', 'tenant'];
-
-    /**
      * @var string
      */
     protected $presenter = 'HynMe\MultiTenant\Presenters\HostnamePresenter';

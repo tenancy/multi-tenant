@@ -11,6 +11,6 @@ class TenantComposer {
      */
     public function compose(View $view)
     {
-        $view->with('_tenant', App::make('HynMe\Tenant\View'));
+        $view->with('_tenant', App::make('tenant.view'));
     }
 }

@@ -13,9 +13,9 @@ class TenantDirectoryHelper
      */
     public static function moveBasePath(Website $website)
     {
-        if($website->directory()->old_base())
+        if($website->directory->old_base())
         {
-            return File::move($website->directory()->old_base(), $website->directory()->base());
+            return File::move($website->directory->old_base(), $website->directory->base());
         }
     }
 
@@ -26,7 +26,7 @@ class TenantDirectoryHelper
      */
     public static function createPaths(Website $website)
     {
-        if(!File::exists($website->directory()->base()))
-            return $website->directory()->create();
+        if(!File::exists($website->directory->base()))
+            return $website->directory->create();
     }
 }

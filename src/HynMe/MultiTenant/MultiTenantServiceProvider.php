@@ -58,6 +58,8 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	public function provides()
 	{
 		return [
+            'tenant.view',
+            'tenant.hostname',
             'HynMe\MultiTenant\Contracts\DirectoryContract',
             'HynMe\MultiTenant\Contracts\WebsiteRepositoryContract',
             'HynMe\MultiTenant\Contracts\HostnameRepositoryContract',

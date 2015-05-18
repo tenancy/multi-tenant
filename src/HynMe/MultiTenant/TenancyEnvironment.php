@@ -113,7 +113,7 @@ class TenancyEnvironment
         /*
          * Tenant view shares
          */
-        $this->app->singleton('HynMe\Tenant\View', function() use ($hostname)
+        $this->app->singleton('tenant.view', function() use ($hostname)
         {
             return new TenantView([
                 'hostname' => $hostname
@@ -122,7 +122,7 @@ class TenancyEnvironment
         /*
          * Tenant hostname
          */
-        $this->app->singleton('HynMe\Tenant\Hostname', function() use ($hostname)
+        $this->app->singleton('tenant.hostname', function() use ($hostname)
         {
             return $hostname;
         });

@@ -24,7 +24,7 @@ class Website extends SystemModel
      * Directory class
      * @return Directory
      */
-    public function directory()
+    public function getDirectoryAttribute()
     {
         return new Directory($this);
     }
