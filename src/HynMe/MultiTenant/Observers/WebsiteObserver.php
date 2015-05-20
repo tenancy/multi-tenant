@@ -16,7 +16,7 @@ class WebsiteObserver
             /*
              * Move tenant directories once the identifier changes
              */
-            return TenantDirectoryHelper::moveBasePath($model);
+            return $model->directory->move();
         }
 
 
@@ -31,6 +31,11 @@ class WebsiteObserver
      */
     public function created($model)
     {
-        TenantDirectoryHelper::createPaths($model);
+        $model->directory->create();
+    }
+
+    public function deleted($model)
+    {
+        $model->directory->delete();
     }
 }

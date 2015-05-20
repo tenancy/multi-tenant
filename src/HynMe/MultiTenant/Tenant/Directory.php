@@ -209,7 +209,7 @@ class Directory implements DirectoryContract
         $done = 0;
         foreach(['base', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'] as $i => $directory)
         {
-            if(File::makeDirectory($this->{$directory}(), 0755, true))
+            if(File::isDirectory($this->{$directory}()) || File::makeDirectory($this->{$directory}(), 0755, true))
                 $done++;
         }
         return $done == ($i+1);
@@ -227,5 +227,26 @@ class Directory implements DirectoryContract
             $routes = sprintf("%sroutes.php", $this->base());
 
         return $this->base() && File::exists($routes) ? $routes : null;
+    }
+
+    /**
+     * Move from old to new path
+     * @return bool
+     */
+    public function move()
+    {
+        if($this->old_base())
+        {
+            return File::move($this->old_base(), $this->base());
+        }
+    }
+
+    /**
+     * Delete directory
+     * @return bool
+     */
+    public function delete()
+    {
+        return File::deleteDirectory($this->base());
     }
 }
