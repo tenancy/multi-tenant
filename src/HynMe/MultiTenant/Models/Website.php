@@ -14,12 +14,39 @@ class Website extends SystemModel
 
     protected $fillable = ['tenant_id', 'identifier'];
 
+    protected $appends = ['directory'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function hostnames()
     {
-        return $this->hasMany(__NAMESPACE__.'\Hostname');
+        return $this->hasMany(__NAMESPACE__.'\Hostname')->with('certificate');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getHostnamesWithCertificateAttribute()
+    {
+        return $this->hostnames()->whereNotNull('ssl_certificate_id')->get();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getHostnamesWithoutCertificateAttribute()
+    {
+        return $this->hostnames()->whereNull('ssl_certificate_id')->get();
+    }
+
+    /**
+     * Loads the unique id's from the certificates
+     * @return array
+     */
+    public function getCertificateIdsAttribute()
+    {
+        return array_unique($this->hostnames()->whereNotNull('ssl_certificate_id')->lists('ssl_certificate_id'));
     }
 
     /**
@@ -29,5 +56,14 @@ class Website extends SystemModel
     public function getDirectoryAttribute()
     {
         return new Directory($this);
+    }
+
+    /**
+     * The website tenant
+     * @return Tenant
+     */
+    public function tenant()
+    {
+        return $this->belongsTo(__NAMESPACE__.'\Tenant');
     }
 }

@@ -207,7 +207,7 @@ class Directory implements DirectoryContract
     public function create()
     {
         $done = 0;
-        foreach(['base', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'] as $i => $directory)
+        foreach(['base', 'config', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'] as $i => $directory)
         {
             if(File::isDirectory($this->{$directory}()) || File::makeDirectory($this->{$directory}(), 0755, true))
                 $done++;

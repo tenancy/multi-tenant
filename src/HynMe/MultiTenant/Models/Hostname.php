@@ -18,6 +18,8 @@ class Hostname extends SystemModel
      */
     protected $fillable = ['website_id','hostname','redirect_to','prefer_https','sub_of'];
 
+    protected $appends = [];
+
     /**
      * @return null|Teanant
      */
@@ -59,6 +61,14 @@ class Hostname extends SystemModel
     public function subDomains()
     {
         return $this->hasMany(__CLASS__, 'sub_of');
+    }
+
+    /**
+     * @return \HynMe\Webserver\Models\SslCertificate|null
+     */
+    public function certificate()
+    {
+        return $this->belongsTo('HynMe\Webserver\Models\SslCertificate', 'ssl_certificate_id');
     }
 
     /**

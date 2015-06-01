@@ -18,7 +18,7 @@ class DatabaseConnection
     public static function setup(Hostname $hostname)
     {
         $clone = Config::get('database.connections.system');
-        $clone['password'] = md5(env('APP_KEY') . $hostname->hostname);
+        $clone['password'] = md5(Config::get('app.key') . $hostname->hostname);
         $clone['username'] = $clone['database'] = str_replace(['.'], '-', $hostname->hostname);
         Config::set('database.connections.tenant', $clone);
     }
