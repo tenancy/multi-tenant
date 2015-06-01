@@ -169,8 +169,8 @@ class Directory implements DirectoryContract
                 }
             }
             // add additional vendor directory
-            if($this->vendor())
-                ClassLoader::addDirectories([$this->vendor()]);
+            if($this->vendor() && File::exists($this->vendor() . 'autoload.php'))
+                File::requireOnce($this->vendor() . 'autoload.php');
 
             // set cache
             $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
