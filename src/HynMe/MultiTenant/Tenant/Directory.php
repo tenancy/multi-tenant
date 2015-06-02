@@ -139,6 +139,15 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Loads tenant providers
+     * @return string
+     */
+    public function providers()
+    {
+        return $this->base() && File::exists($this->base() . 'providers.php') ? $this->base() . 'providers.php' : null;
+    }
+
+    /**
      * Old base path for tenant
      * @return null|string
      */
@@ -158,19 +167,30 @@ class Directory implements DirectoryContract
         // only register if tenant directory exists
         if($this->base())
         {
-            // adds views in base namespace
-            if($this->views())
-                $app['view']->addLocation($this->views());
-            // merges overruling config files
+            /*
+             * critical priority, load vendors
+             */
+            if($this->vendor() && File::exists($this->vendor() . 'autoload.php'))
+                File::requireOnce($this->vendor() . 'autoload.php');
+            /*
+             * highest priority, load service providers; or possible custom code before any other include from tenant
+             */
+            if($this->providers())
+                File::requireOnce($this->providers());
+            /*
+             * mediocre priority, load additional config files
+             */
             if($this->config()) {
                 foreach (File::allFiles($this->config()) as $path) {
                     $key = File::name($path);
                     $app['config']->set($key, array_merge(require $path, $app['config']->get($key, [])));
                 }
             }
-            // add additional vendor directory
-            if($this->vendor() && File::exists($this->vendor() . 'autoload.php'))
-                File::requireOnce($this->vendor() . 'autoload.php');
+            /*
+             * lowest priority load view directory
+             */
+            if($this->views())
+                $app['view']->addLocation($this->views());
 
             // set cache
             $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
