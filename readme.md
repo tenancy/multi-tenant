@@ -1,4 +1,4 @@
-# HynMe multi tenancy
+# Hyn multi tenancy
 [![Latest Stable Version](https://poser.pugx.org/hyn-me/multi-tenant/v/stable)](https://packagist.org/packages/hyn-me/multi-tenant)
 [![License](https://poser.pugx.org/hyn-me/multi-tenant/license)](https://packagist.org/packages/hyn-me/multi-tenant)
 [![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
@@ -22,7 +22,7 @@ Referring to [wikipedia](http://en.wikipedia.org/wiki/Multitenancy);
 
 > Multitenancy refers to a software architecture in which a single instance of a software runs on a server and serves multiple tenants.
 
-### How has HynMe implemented multi tenancy
+### How has hyn implemented multi tenancy
 
 In its most abstract sense you can use hyn to manage multiple websites with only one application installation.
 - Multiple websites running on one code base.
@@ -39,7 +39,7 @@ For more information visit the [hyn.me website](http://hyn.me).
 
 ## Requirements
 
-All packages of HynMe (including multi tenancy) require Laravel 5 and up.
+All packages of hyn (including multi tenancy) require Laravel 5 and up.
 
 ## Installation
 
@@ -58,11 +58,12 @@ Register the service provider in your `config/app.php` within the `providers` ar
 ```php
 /*
  * HynMe packages
+ * @info FrameworkServiceProvider will load any available Service Provider from other hyn-me packages
  */
-'HynMe\MultiTenant\MultiTenantServiceProvider',
+'HynMe\Framework\FrameworkServiceProvider',
 ```
 
-### Third party eloquent models
+### Third party eloquent models (optional)
 
 To support multi tenancy in other (3rd party) packages, __replace__ the class alias for Eloquent under `aliases` in your `config/app.php`:
 
@@ -77,6 +78,11 @@ If you want to manually connect to the tenant database, set the `$connection` pr
 
 In your `config/database.php` file make sure a database connection is configured with the name `system`. Also prevent any other connection
 listed as `tenant`, this package will dynamically create a connection to the tenant database using that config identifier.
+
+The system connection must have the rights to create, alter and delete users and databases. This behavior is almost identical to a root (admin) user.
+For security reasons do not configure that user for this connection.
+
+In case you're wondering, you can still set the `system` connection as your `default` in the `database.php`. In order to be as unobtrusive as possible this is not forced for any hyn package.
 
 ### Default/fallback hostname
 
