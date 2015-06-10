@@ -10,7 +10,7 @@ class WebsitePresenter extends AbstractModelPresenter
      */
     public function hostnamesSummary()
     {
-        $hostnames = $this->hostnames->lists('hostname');
+        $hostnames = $this->hostnames->lists('hostname')->all();
         return implode(", ", array_splice($hostnames, 0, 5));
     }
 

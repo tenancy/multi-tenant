@@ -11,6 +11,10 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
+    protected $commands = [
+        'HynMe\MultiTenant\Commands\SetupCommand'
+    ];
+
 
     public function boot()
     {
@@ -33,8 +37,20 @@ class MultiTenantServiceProvider extends ServiceProvider {
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('HynMe\MultiTenant\Middleware\HostnameMiddleware');
 
         $this->observers();
+
+        foreach($this->commands as $command)
+        {
+            $this->app->bind($command, function() use ($command)
+            {
+                return new $command;
+            });
+        }
+        $this->commands($this->commands);
     }
 
+    /**
+     * Registers model observers
+     */
     protected function observers()
     {
         Models\Website::observe(new Observers\WebsiteObserver);
@@ -57,13 +73,13 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return [
+		return array_merge($this->commands, [
             'tenant.view',
             'tenant.hostname',
             'HynMe\MultiTenant\Contracts\DirectoryContract',
             'HynMe\MultiTenant\Contracts\WebsiteRepositoryContract',
             'HynMe\MultiTenant\Contracts\HostnameRepositoryContract',
-        ];
+        ]);
 	}
 
 }
