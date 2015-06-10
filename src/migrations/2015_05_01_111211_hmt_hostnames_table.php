@@ -21,6 +21,8 @@ class HmtHostnamesTable extends Migration {
             $table->string('hostname');
             // related to website x
             $table->bigInteger('website_id')->unsigned()->nullable();
+            // related to certificate
+            $table->bigInteger('ssl_certificate_id')->unsigned()->nullable();
             // subdomain of another hostname
             $table->bigInteger('sub_of')->unsigned()->nullable();
             // redirect to a different hostname

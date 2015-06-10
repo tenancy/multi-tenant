@@ -67,11 +67,7 @@ class SetupCommand extends Command
                 if($webservice && $this->confirm("Are you sure you want to continue setup with the integration for the webserver {$webservice}?"))
                 {
                     $webserviceClass = array_get($webserviceConfiguration, 'class');
-
-                    (new $webserviceClass)->register();
                 }
-
-
             }
             else
                 $this->info('We are skipping webserver configuration.');
@@ -93,8 +89,15 @@ class SetupCommand extends Command
             $hostModel = new Hostname();
             $hostModel->hostname = $hostname;
             $hostModel->tenant_id = $tenantModel->id;
+            $hostModel->website_id = $websiteModel->id;
             $hostModel->save();
-\dd($tenantModel, $websiteModel, $hostModel);
+
+            // todo create a database
+
+            if(isset($webserviceClass))
+                (new $webserviceClass($websiteModel))->register();
+
+
             if($tenantModel->exists && $websiteModel->exists && $hostModel->exists)
                 $this->info("Configuration succesful");
         }
