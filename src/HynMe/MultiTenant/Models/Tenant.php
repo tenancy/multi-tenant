@@ -14,10 +14,10 @@ class Tenant extends SystemModel
 
     public function hostnames()
     {
-        return $this->hasMany(__NAMESPACE__.'\Hostname');
+        return $this->hasMany(Hostname::class);
     }
     public function websites()
     {
-        return $this->hasMany(__NAMESPACE__.'\Website');
+        return $this->hasMany(Website::class);
     }
 }

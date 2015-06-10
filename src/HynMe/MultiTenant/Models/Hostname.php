@@ -25,7 +25,7 @@ class Hostname extends SystemModel
      */
     public function tenant()
     {
-        return $this->belongsTo(__NAMESPACE__.'\Tenant');
+        return $this->belongsTo(Tenant::class);
     }
 
     /**
@@ -33,7 +33,7 @@ class Hostname extends SystemModel
      */
     public function website()
     {
-        return $this->belongsTo(__NAMESPACE__.'\Website');
+        return $this->belongsTo(Website::class);
     }
 
     /**
@@ -42,7 +42,7 @@ class Hostname extends SystemModel
      */
     public function redirectToHostname()
     {
-        return $this->belongsTo(__CLASS__, 'redirect_to');
+        return $this->belongsTo(static::class, 'redirect_to');
     }
 
     /**
@@ -51,7 +51,7 @@ class Hostname extends SystemModel
      */
     public function subDomainOf()
     {
-        return $this->belongsTo(__CLASS__, 'sub_of');
+        return $this->belongsTo(static::class, 'sub_of');
     }
 
     /**
@@ -60,7 +60,7 @@ class Hostname extends SystemModel
      */
     public function subDomains()
     {
-        return $this->hasMany(__CLASS__, 'sub_of');
+        return $this->hasMany(static::class, 'sub_of');
     }
 
     /**

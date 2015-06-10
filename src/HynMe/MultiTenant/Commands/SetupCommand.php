@@ -1,6 +1,6 @@
 <?php namespace HynMe\MultiTenant\Commands;
 
-use File, Config;
+use DB, Config;
 use HynMe\MultiTenant\Models\Hostname;
 use HynMe\MultiTenant\Models\Tenant;
 use HynMe\MultiTenant\Models\Website;
@@ -76,6 +76,8 @@ class SetupCommand extends Command
              * Create the first tenant configurations
              */
 
+            DB::beginTransaction();
+
             $tenantModel = new Tenant();
             $tenantModel->name = $tenant;
             $tenantModel->email = $email;
@@ -92,8 +94,11 @@ class SetupCommand extends Command
             $hostModel->website_id = $websiteModel->id;
             $hostModel->save();
 
+            DB::commit();
+
             // todo create a database
 
+            // hook into the webservice of choice once object creation succeeded
             if(isset($webserviceClass))
                 (new $webserviceClass($websiteModel))->register();
 

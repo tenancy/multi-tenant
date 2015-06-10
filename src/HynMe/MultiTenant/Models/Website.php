@@ -21,7 +21,7 @@ class Website extends SystemModel
      */
     public function hostnames()
     {
-        return $this->hasMany(__NAMESPACE__.'\Hostname')->with('certificate');
+        return $this->hasMany(Hostname::class)->with('certificate');
     }
 
     /**
@@ -64,6 +64,6 @@ class Website extends SystemModel
      */
     public function tenant()
     {
-        return $this->belongsTo(__NAMESPACE__.'\Tenant');
+        return $this->belongsTo(Tenant::class);
     }
 }
