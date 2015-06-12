@@ -2,9 +2,12 @@
 
 use App;
 use HynMe\MultiTenant\Helpers\TenantDirectoryHelper;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class WebsiteObserver
 {
+    use DispatchesCommands;
+
     /**
      * @param $model
      * @return boolean

@@ -1,6 +1,7 @@
 <?php namespace HynMe\MultiTenant\Models;
 
 use HynMe\MultiTenant\Abstracts\Models\SystemModel;
+use HynMe\MultiTenant\Tenant\DatabaseConnection;
 use HynMe\MultiTenant\Tenant\Directory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -65,5 +66,14 @@ class Website extends SystemModel
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    /**
+     * Database tenant connection handler
+     * @return DatabaseConnection
+     */
+    public function getDatabaseAttribute()
+    {
+        return new DatabaseConnection($this);
     }
 }

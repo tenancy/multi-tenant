@@ -11,11 +11,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	 */
 	protected $defer = false;
 
-    protected $commands = [
-        'HynMe\MultiTenant\Commands\SetupCommand'
-    ];
-
-
     public function boot()
     {
         /*
@@ -38,14 +33,23 @@ class MultiTenantServiceProvider extends ServiceProvider {
 
         $this->observers();
 
-        foreach($this->commands as $command)
+        $this->app->bind('HynMe\MultiTenant\Commands\SetupCommand', function($app)
         {
-            $this->app->bind($command, function() use ($command)
-            {
-                return new $command;
-            });
-        }
-        $this->commands($this->commands);
+            return new Commands\SetupCommand(
+                $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'),
+                $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract'),
+                $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract')
+            );
+        });
+        $this->app->bind('HynMe\MultiTenant\Commands\TenantCommand', function($app)
+        {
+            return new Commands\TenantCommand();
+        });
+
+        $this->commands([
+            'HynMe\MultiTenant\Commands\SetupCommand',
+            'HynMe\MultiTenant\Commands\TenantCommand'
+        ]);
     }
 
     /**

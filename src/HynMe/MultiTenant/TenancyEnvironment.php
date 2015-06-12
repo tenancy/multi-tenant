@@ -53,7 +53,7 @@ class TenancyEnvironment
 
         // sets the database connection for the tenant website
         if(!is_null($this->website)) {
-            DatabaseConnection::setup($this->hostname);
+            $this->website->database->setCurrent();
         }
 
         // register tenant IOC bindings

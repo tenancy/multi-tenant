@@ -1,9 +1,9 @@
 <?php namespace HynMe\MultiTenant\Commands;
 
 use DB, Config;
-use HynMe\MultiTenant\Models\Hostname;
-use HynMe\MultiTenant\Models\Tenant;
-use HynMe\MultiTenant\Models\Website;
+use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
+use HynMe\MultiTenant\Contracts\TenantRepositoryContract;
+use HynMe\MultiTenant\Contracts\WebsiteRepositoryContract;
 use Illuminate\Console\Command;
 
 class SetupCommand extends Command
@@ -25,6 +25,19 @@ class SetupCommand extends Command
     protected $helperClass = '\HynMe\Webserver\Helpers\ServerConfigurationHelper';
 
     /**
+     * @var HostnameRepositoryContract
+     */
+    protected $hostname;
+    /**
+     * @var WebsiteRepositoryContract
+     */
+    protected $website;
+    /**
+     * @var TenantRepositoryContract
+     */
+    protected $tenant;
+
+    /**
      * @var array
      */
     protected $configuration;
@@ -33,6 +46,23 @@ class SetupCommand extends Command
      * @var int
      */
     protected $step = 1;
+
+    /**
+     * @param HostnameRepositoryContract $hostname
+     * @param WebsiteRepositoryContract  $website
+     * @param TenantRepositoryContract   $tenant
+     */
+    public function __construct(
+        HostnameRepositoryContract $hostname,
+        WebsiteRepositoryContract $website,
+        TenantRepositoryContract $tenant)
+    {
+        parent::__construct();
+
+        $this->hostname = $hostname;
+        $this->website = $website;
+        $this->tenant = $tenant;
+    }
 
     /**
      * Handles the set up
@@ -46,7 +76,7 @@ class SetupCommand extends Command
 
         $this->comment('In the following steps you will be asked to set up your first tenant website.');
 
-        $tenant = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
+        $name = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
         $email = $this->ask($this->step++ . ': What is the primary email address for this tenant?');
         $hostname = $this->ask($this->step++ . ': What is the primary hostname you want to use for multi tenancy? Please note this hostname needs to point to the IP address of this server.');
 
@@ -78,21 +108,11 @@ class SetupCommand extends Command
 
             DB::beginTransaction();
 
-            $tenantModel = new Tenant();
-            $tenantModel->name = $tenant;
-            $tenantModel->email = $email;
-            $tenantModel->save();
+            $tenant = $this->tenant->create(compact('name', 'email'));
 
-            $websiteModel = new Website();
-            $websiteModel->tenant_id = $tenantModel->id;
-            $websiteModel->identifier = str_replace(['.'], '-', $hostname);
-            $websiteModel->save();
+            $website = $this->website->create(['tenant_id' => $tenant->id, 'identifier' => str_replace(['.'], '-', $hostname)]);
 
-            $hostModel = new Hostname();
-            $hostModel->hostname = $hostname;
-            $hostModel->tenant_id = $tenantModel->id;
-            $hostModel->website_id = $websiteModel->id;
-            $hostModel->save();
+            $host = $this->hostname->create(['hostname' => $hostname, 'website_id' => $website->id, 'tenant_id' => $tenant->id]);
 
             DB::commit();
 
@@ -100,10 +120,10 @@ class SetupCommand extends Command
 
             // hook into the webservice of choice once object creation succeeded
             if(isset($webserviceClass))
-                (new $webserviceClass($websiteModel))->register();
+                (new $webserviceClass($website))->register();
 
 
-            if($tenantModel->exists && $websiteModel->exists && $hostModel->exists)
+            if($tenant->exists && $website->exists && $host->exists)
                 $this->info("Configuration succesful");
         }
         else
