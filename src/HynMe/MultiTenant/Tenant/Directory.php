@@ -175,12 +175,12 @@ class Directory implements DirectoryContract
             /*
              * highest priority, load service providers; or possible custom code before any other include from tenant
              */
-            if($this->providers())
+            if($this->providers() && File::exists($this->providers()))
                 File::requireOnce($this->providers());
             /*
              * mediocre priority, load additional config files
              */
-            if($this->config()) {
+            if($this->config() && File::isDirectory($this->config())) {
                 foreach (File::allFiles($this->config()) as $path) {
                     $key = File::name($path);
                     $app['config']->set($key, array_merge(require $path, $app['config']->get($key, [])));
@@ -189,15 +189,17 @@ class Directory implements DirectoryContract
             /*
              * lowest priority load view directory
              */
-            if($this->views())
+            if($this->views() && File::isDirectory($this->views()))
                 $app['view']->addLocation($this->views());
 
             // set cache
-            $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
+            if(File::isDirectory($this->cache()))
+                $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
+
             // @TODO we really can't use cache yet for application cache
 
             // replaces lang directory
-            if($this->lang()) {
+            if($this->lang() && File::isDirectory($this->lang())) {
                 $path = $this->lang();
 
                 $app->bindShared('translation.loader', function($app) use ($path)
@@ -212,7 +214,7 @@ class Directory implements DirectoryContract
                 });
             }
             // identify a possible routes.php file
-            if($this->routes())
+            if($this->routes() && File::exists($this->routes()))
                 File::requireOnce($this->routes());
         }
         return $this;
