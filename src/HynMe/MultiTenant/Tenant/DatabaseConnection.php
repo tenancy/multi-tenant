@@ -2,6 +2,7 @@
 
 use DB;
 use Config;
+use HynMe\Framework\Exceptions\TenantDatabaseException;
 use HynMe\MultiTenant\Models\Website;
 
 /**
@@ -56,7 +57,7 @@ class DatabaseConnection
 
     /**
      * Loads the currently set global tenant connection name
-     * @return mixed
+     * @return string
      */
     public static function getCurrent()
     {
@@ -80,20 +81,18 @@ class DatabaseConnection
 
     /**
      * Generic configuration for tenant
-     * @param Hostname $hostname
-     * @return mixed
+     * @return array
      */
     protected function config()
     {
         $clone = Config::get('database.connections.system');
         $clone['password'] = md5(Config::get('app.key') . $this->website->id);
-        $clone['username'] = $clone['database'] = str_replace(['.'], '-', $this->website->present()->identifier);
+        $clone['username'] = $clone['database'] = sprintf("%d-%s", $this->website->id, $this->website->present()->identifier);
         return $clone;
     }
 
     /**
      * Sets the tenant database connection
-     * @param Hostname $hostname
      */
     public function setup()
     {
@@ -101,15 +100,30 @@ class DatabaseConnection
     }
 
     /**
-     * @param Hostname $hostname
      * @return bool
      */
-    public function create(Website $website)
+    public function create()
     {
         $clone = $this->config();
-        return
-            DB::statement("CREATE DATABASE {$clone['database']}")
-            && DB::statement("CREATE USER {$clone['username']} IDENTIFIED BY '{$clone['password']}'")
-            && DB::statement("GRANT ALL ON {$clone['database']}.* TO '{$clone['username']}'@'localhost'");
+
+        DB::beginTransaction();
+        try {
+            if (!DB::statement("create database `{$clone['database']}`")) {
+                throw new TenantDatabaseException("Could not create database {$clone['database']}");
+            }
+            if (!DB::statement("create user `{$clone['username']}`@'localhost' identified by '{$clone['password']}'")) {
+                throw new TenantDatabaseException("Could not create user {$clone['username']}");
+            }
+            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost'")) {
+                throw new TenantDatabaseException("Could not grant privileges to user {$clone['username']} for {$clone['database']}");
+            }
+            DB::commit();
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return true;
     }
 }

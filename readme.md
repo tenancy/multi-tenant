@@ -79,8 +79,32 @@ If you want to manually connect to the tenant database, set the `$connection` pr
 In your `config/database.php` file make sure a database connection is configured with the name `system`. Also prevent any other connection
 listed as `tenant`, this package will dynamically create a connection to the tenant database using that config identifier.
 
-The system connection must have the rights to create, alter and delete users and databases. This behavior is almost identical to a root (admin) user.
-For security reasons do not configure that user for this connection.
+The system connection must have the rights to create, alter and delete users and databases and grant rights to others. This behavior is almost identical to a root (admin) user.
+For security reasons do not configure that user for this connection. You could create such a user manually using:
+
+```sql
+
+create database `hyn_multi_tenancy`;
+create user `hyn`@'localhost' identified by '<your_strong_random_string>';
+grant all privileges on *.* to 'hyn'@'localhost' with grant option;
+```
+
+Using the above snippet you would then add in your config `database.php` as `system` key under `connections`:
+
+```php
+
+        'system' => [
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'hyn_multi_tenancy',
+            'username'  => 'hyn',
+            'password'  => '<your_strong_random_string>',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+        ],
+```
 
 In case you're wondering, you can still set the `system` connection as your `default` in the `database.php`. In order to be as unobtrusive as possible this is not forced for any hyn package.
 

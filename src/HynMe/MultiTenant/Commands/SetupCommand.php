@@ -64,11 +64,16 @@ class SetupCommand extends Command
         $this->tenant = $tenant;
     }
 
+
+
     /**
      * Handles the set up
      */
     public function handle()
     {
+
+        \dd($this->website->findById(3)->database->create());
+
         if(class_exists($this->helperClass))
             $this->helper = new $this->helperClass;
 
@@ -82,6 +87,15 @@ class SetupCommand extends Command
 
         $webservice = null;
 
+        /*
+         * Setup database?
+         * @todo
+         */
+
+
+        /*
+         * Setup webserver
+         */
         if($this->helper)
         {
             $this->comment('In the next steps we will ask you about webserver configuration.');
@@ -115,8 +129,6 @@ class SetupCommand extends Command
             $host = $this->hostname->create(['hostname' => $hostname, 'website_id' => $website->id, 'tenant_id' => $tenant->id]);
 
             DB::commit();
-
-            // todo create a database
 
             // hook into the webservice of choice once object creation succeeded
             if(isset($webserviceClass))
