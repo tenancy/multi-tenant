@@ -106,24 +106,15 @@ class DatabaseConnection
     {
         $clone = $this->config();
 
-        DB::beginTransaction();
-        try {
-            if (!DB::statement("create database `{$clone['database']}`")) {
-                throw new TenantDatabaseException("Could not create database {$clone['database']}");
-            }
-            if (!DB::statement("create user `{$clone['username']}`@'localhost' identified by '{$clone['password']}'")) {
-                throw new TenantDatabaseException("Could not create user {$clone['username']}");
-            }
-            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost'")) {
-                throw new TenantDatabaseException("Could not grant privileges to user {$clone['username']} for {$clone['database']}");
-            }
-            DB::commit();
-        } catch (\Exception $e)
+        return DB::transaction(function() use ($clone)
         {
-            DB::rollBack();
-            throw $e;
-        }
-
-        return true;
+            if (!DB::statement("create database `{$clone['database']}`"))
+                throw new TenantDatabaseException("Could not create database {$clone['database']}");
+            if (!DB::statement("create user `{$clone['username']}`@'localhost' identified by '{$clone['password']}'"))
+                throw new TenantDatabaseException("Could not create user {$clone['username']}");
+            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost'"))
+                throw new TenantDatabaseException("Could not grant privileges to user {$clone['username']} for {$clone['database']}");
+            return true;
+        });
     }
 }
