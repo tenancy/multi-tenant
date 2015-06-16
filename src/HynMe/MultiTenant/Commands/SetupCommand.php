@@ -71,9 +71,6 @@ class SetupCommand extends Command
      */
     public function handle()
     {
-
-        \dd($this->website->findById(3)->database->create());
-
         if(class_exists($this->helperClass))
             $this->helper = new $this->helperClass;
 
