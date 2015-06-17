@@ -5,8 +5,25 @@ php:
   - 5.6
   - hhvm
 
+addons:
+  hosts:
+    - system.hyn.me
+    - tenant.hyn.me
+
+before_install:
+  - sudo composer self-update
+
+install:
+  - composer create-project laravel/laravel
+  - cd ./laravel
+  - composer require hyn-me/multi-tenant ~0.1.0
+  - composer update
+
+
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --prefer-source --no-interaction --dev
+  - cp .env.travis .env
+  - export APP_ENV="testing"
+  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
+  - cd ./vendor/hyn-me/multi-tenant
 
 script: phpunit
