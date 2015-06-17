@@ -1,10 +1,12 @@
 <?php namespace HynMe\MultiTenant\Commands;
 
-use DB, Config;
+use DB, Config, File;
 use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
 use HynMe\MultiTenant\Contracts\TenantRepositoryContract;
 use HynMe\MultiTenant\Contracts\WebsiteRepositoryContract;
+use HynMe\MultiTenant\MultiTenantServiceProvider;
 use Illuminate\Console\Command;
+use HynMe\Webserver\Helpers\ServerConfigurationHelper;
 
 class SetupCommand extends Command
 {
@@ -19,10 +21,9 @@ class SetupCommand extends Command
     protected $description = 'Final configuration step for hyn multi tenancy packages';
 
     /**
-     * @var \HynMe\Webserver\Helpers\ServerConfigurationHelper
+     * @var ServerConfigurationHelper
      */
     protected $helper;
-    protected $helperClass = '\HynMe\Webserver\Helpers\ServerConfigurationHelper';
 
     /**
      * @var HostnameRepositoryContract
@@ -62,6 +63,8 @@ class SetupCommand extends Command
         $this->hostname = $hostname;
         $this->website = $website;
         $this->tenant = $tenant;
+
+        $this->helper = new ServerConfigurationHelper;
     }
 
 
@@ -71,24 +74,29 @@ class SetupCommand extends Command
      */
     public function handle()
     {
-        if(class_exists($this->helperClass))
-            $this->helper = new $this->helperClass;
 
         $this->configuration = Config::get('webserver');
 
+        $this->comment('Welcome to hyn multi tenancy.');
+        $this->comment('First off, migrations for the packages will run.');
+
+        $this->runMigrations();
+
+
         $this->comment('In the following steps you will be asked to set up your first tenant website.');
 
+        $tenantDirectory = Config::get('multi-tenant.tenant-directory');
+
+        if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
+        {
+            $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
+        }
+
         $name = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
-        $email = $this->ask($this->step++ . ': What is the primary email address for this tenant?');
+        $email = $this->ask($this->step++ . ': What is the email address for this tenant?');
         $hostname = $this->ask($this->step++ . ': What is the primary hostname you want to use for multi tenancy? Please note this hostname needs to point to the IP address of this server.');
 
         $webservice = null;
-
-        /*
-         * Setup database?
-         * @todo
-         */
-
 
         /*
          * Setup webserver
@@ -137,5 +145,23 @@ class SetupCommand extends Command
         }
         else
             $this->comment('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
+    }
+
+    protected function runMigrations()
+    {
+        foreach(foreach(Config::get('hyn.packages', []) as $name => $package)
+        {
+
+            if(class_exists(array_get($package, 'service-provider'))) {
+                $this->call('vendor:publish', [
+                    '--provider' => array_get($package, 'service-provider'),
+                    '-n'
+                ]);
+            }
+        }
+        $this->call('migrate', [
+            '--database' => 'hyn',
+            '-n'
+        ]);
     }
 }

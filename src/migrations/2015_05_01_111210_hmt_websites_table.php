@@ -12,7 +12,7 @@ class HmtWebsitesTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::connection('system')->create('websites', function(Blueprint $table)
+        Schema::connection('hyn')->create('websites', function(Blueprint $table)
         {
             $table->bigIncrements('id');
             $table->bigInteger('tenant_id')->unsigned();
@@ -34,7 +34,7 @@ class HmtWebsitesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('system')->dropIfExists('websites');
+		Schema::connection('hyn')->dropIfExists('websites');
 	}
 
 }

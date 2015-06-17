@@ -12,7 +12,7 @@ class HmtTenantsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('system')->create('tenants', function(Blueprint $table)
+		Schema::connection('hyn')->create('tenants', function(Blueprint $table)
         {
             $table->bigIncrements('id');
             $table->string('customer_no')->nullable();
@@ -40,7 +40,7 @@ class HmtTenantsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('system')->dropIfExists('tenants');
+		Schema::connection('hyn')->dropIfExists('tenants');
 	}
 
 }

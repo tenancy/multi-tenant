@@ -62,6 +62,7 @@ Register the service provider in your `config/app.php` within the `providers` ar
  */
 'HynMe\Framework\FrameworkServiceProvider',
 ```
+> Please note this says __FrameworkServiceProvider__ from the __Framework__ package, do not register the __MultiTenantServiceProvider__!
 
 ### Third party eloquent models (optional)
 
@@ -76,7 +77,7 @@ If you want to manually connect to the tenant database, set the `$connection` pr
 
 ### System database connection
 
-In your `config/database.php` file make sure a database connection is configured with the name `system`. Also prevent any other connection
+In your `config/database.php` file make sure a database connection is configured with the name `hyn`. Also prevent any other connection
 listed as `tenant`, this package will dynamically create a connection to the tenant database using that config identifier.
 
 The system connection must have the rights to create, alter and delete users and databases and grant rights to others. This behavior is almost identical to a root (admin) user.
@@ -89,7 +90,7 @@ create user `hyn`@'localhost' identified by '<your_strong_random_string>';
 grant all privileges on *.* to 'hyn'@'localhost' with grant option;
 ```
 
-Using the above snippet you would then add in your config `database.php` as `system` key under `connections`:
+Using the above snippet you would then add in your config `database.php` as `hyn` key under `connections`:
 
 ```php
 
@@ -106,7 +107,7 @@ Using the above snippet you would then add in your config `database.php` as `sys
         ],
 ```
 
-In case you're wondering, you can still set the `system` connection as your `default` in the `database.php`. In order to be as unobtrusive as possible this is not forced for any hyn package.
+In case you're wondering, you can still set the `hyn` connection as your `default` in the `database.php`. In order to be as unobtrusive as possible this is not forced for any hyn package.
 
 ### Default/fallback hostname
 

@@ -5,5 +5,5 @@ use HynMe\Framework\Models\AbstractModel;
 
 class SystemModel extends AbstractModel
 {
-    protected $connection = 'system';
+    protected $connection = 'hyn';
 }

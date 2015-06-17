@@ -2,7 +2,7 @@
     "name": "hyn-me/multi-tenant",
     "description": "Making a laravel installation multi tenant",
     "keywords": ["laravel", "multi-tenant", "multi-tenancy", "hyn-me"],
-    "license": "CC-BY-4.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Daniël `Luceos` Klabbers",

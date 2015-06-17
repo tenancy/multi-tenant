@@ -27,6 +27,10 @@ class DatabaseConnection
      */
     public $name;
 
+    /**
+     * Current active global tenant connection
+     * @var string
+     */
     protected static $current;
 
     public function __construct(Website $website)

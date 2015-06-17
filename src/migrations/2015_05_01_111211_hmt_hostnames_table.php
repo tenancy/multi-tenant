@@ -12,7 +12,7 @@ class HmtHostnamesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::connection('system')->create('hostnames', function(Blueprint $table)
+		Schema::connection('hyn')->create('hostnames', function(Blueprint $table)
         {
             $table->bigIncrements('id');
             // tenant owner
@@ -52,7 +52,7 @@ class HmtHostnamesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::connection('system')->dropIfExists('hostnames');
+		Schema::connection('hyn')->dropIfExists('hostnames');
 	}
 
 }
