@@ -149,7 +149,7 @@ class SetupCommand extends Command
 
     protected function runMigrations()
     {
-        foreach(foreach(Config::get('hyn.packages', []) as $name => $package)
+        foreach(Config::get('hyn.packages', []) as $name => $package)
         {
 
             if(class_exists(array_get($package, 'service-provider'))) {
