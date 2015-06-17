@@ -13,7 +13,7 @@ addons:
 install:
   - composer create-project laravel/laravel
   - cd ./laravel
-  - composer require hyn-me/multi-tenant ~0.1.0
+  - composer require hyn-me/multi-tenant dev-master
   - composer update
 
 
