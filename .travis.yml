@@ -10,9 +10,6 @@ addons:
     - system.hyn.me
     - tenant.hyn.me
 
-before_install:
-  - sudo composer self-update
-
 install:
   - composer create-project laravel/laravel
   - cd ./laravel
