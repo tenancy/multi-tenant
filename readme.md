@@ -94,7 +94,7 @@ Using the above snippet you would then add in your config `database.php` as `hyn
 
 ```php
 
-        'system' => [
+        'hyn' => [
             'driver'    => 'mysql',
             'host'      => 'localhost',
             'database'  => 'hyn_multi_tenancy',
