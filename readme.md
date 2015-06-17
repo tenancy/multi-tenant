@@ -120,6 +120,12 @@ HYN_MULTI_TENANCY_HOSTNAME=<hostname>
 The entered hostname will be used to fallback if a hostname is hitting on the application that is unknown in the database,
 thus showing the fallback website.
 
-### Default hostname and website in database
+### Run the setup
 
-As this package is still under development, I can't offer an installation wizard. In order for this package to work you need to run the migrations in the hyn-me/multi-tenant package and then add a tenant, website and the default hostname linking to each other. So hostnames.website_id = websites.id and websites.tenant_id = tenants.id. In the near future an installer will take care of this step.
+Go into your terminal and run the following artisan command to finish installation of multi tenancy.
+
+```bash
+php artisan multi-tenant:setup
+```
+
+Please note, if you decide to skip the configuration of the webserver you will have to configure it by yourself. Example files are generated in the `storage/webserver` directories.
