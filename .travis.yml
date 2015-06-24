@@ -14,6 +14,7 @@ install:
 #  - composer create-project laravel/laravel
 #  - cd ./laravel
 #  - composer require hyn-me/multi-tenant dev-master
+  - composer config -g github-oauth.github.com $GITHUB_TOKEN
   - composer update
 
 

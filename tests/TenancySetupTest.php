@@ -1,6 +1,6 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
-use App;
+/*use App;
 use TestCase;
 
 class TenancySetupTest extends TestCase
@@ -8,7 +8,7 @@ class TenancySetupTest extends TestCase
 
     public function testSetupHasNotRun()
     {
-//        $this->tenant = App::make('tenant.hostname');
-//        $this->assertNull($this->tenant);
+        $this->tenant = App::make('tenant.hostname');
+        $this->assertNull($this->tenant);
     }
-}
+}*/
