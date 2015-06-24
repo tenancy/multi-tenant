@@ -118,7 +118,7 @@ HYN_MULTI_TENANCY_HOSTNAME=<hostname>
 ```
 
 The entered hostname will be used to fallback if a hostname is hitting on the application that is unknown in the database,
-thus showing the fallback website.
+thus showing the fallback website. If you don't define this environment variable, a backtrace is generated.
 
 ### Run the setup
 

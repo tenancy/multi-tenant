@@ -9,6 +9,11 @@
             "email": "daniel+hyn@klabbers.email"
         }
     ],
+    "support": {
+        "issues": "https://github.com/hyn-me/multi-tenant/issues",
+        "source": "https://github.com/hyn-me/multi-tenant",
+        "docs": "http://hyn.me"
+    },
     "require": {
         "php": ">=5.5.0",
         "hyn-me/framework": "~0.1.0",

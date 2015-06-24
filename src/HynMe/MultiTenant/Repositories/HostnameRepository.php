@@ -37,7 +37,7 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     {
         $default = env('HYN_MULTI_TENANCY_HOSTNAME');
         if(!$default)
-            throw new \Exception("No default hostname to create");
+            throw new \Exception("No default hostname to create; please specify in the env file with HYN_MULTI_TENANCY_HOSTNAME");
 
         $model = $this->hostname->create(['hostname' => $default]);
 

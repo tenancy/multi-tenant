@@ -20,10 +20,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * Bind tenancy into container
          */
-        if(env('HYN_MULTI_TENANCY_HOSTNAME', false))
-        {
-            new TenancyEnvironment($this->app);
-        }
+        new TenancyEnvironment($this->app);
         /*
          * Publish migrations
          */
@@ -48,7 +45,8 @@ class MultiTenantServiceProvider extends ServiceProvider {
 
         $this->commands([
             'HynMe\MultiTenant\Commands\SetupCommand',
-            'HynMe\MultiTenant\Commands\TenantCommand'
+            // @todo not yet ready
+//            'HynMe\MultiTenant\Commands\TenantCommand'
         ]);
     }
 
