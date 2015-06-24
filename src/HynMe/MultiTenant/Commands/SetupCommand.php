@@ -85,7 +85,8 @@ class SetupCommand extends Command
 
         $this->comment('In the following steps you will be asked to set up your first tenant website.');
 
-        $tenantDirectory = Config::get('multi-tenant.tenant-directory');
+        $tenantDirectory = Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant');
+
 
         if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
         {
