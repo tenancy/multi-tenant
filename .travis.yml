@@ -24,7 +24,7 @@ install:
   - composer require hyn-me/framework "dev-master as 0.1.9"
   - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH
   # set environment globals for connection mysql
-  - export DB_USERNAME=travis DB_DATABASE=hyn
+  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
 
 before_script:
