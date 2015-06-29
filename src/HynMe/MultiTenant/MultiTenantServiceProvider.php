@@ -57,6 +57,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     {
         Models\Website::observe(new Observers\WebsiteObserver);
         Models\Hostname::observe(new Observers\HostnameObserver);
+        Models\Tenant::observe(new Observers\TenantObserver);
     }
 
 	/**
