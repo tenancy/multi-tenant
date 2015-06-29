@@ -23,11 +23,11 @@ install:
   - composer require hyn-me/multi-tenant dev-master
   # set environment globals for connection hyn
   - export DB_CONNECTION=hyn DB_USERNAME=root DB_DATABASE=hyn
-
-
-before_script:
   # moves the package phpunit config to root
   - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
+
+
+#before_script:
 #  - cp .env.travis .env
 #  - export APP_ENV="testing"
 #  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
