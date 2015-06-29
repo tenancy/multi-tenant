@@ -20,6 +20,7 @@ install:
   # move into the laravel directory
   - cd ./laravel
   # require the package for inclusion in the project
+  - composer require hyn-me/framework "dev-master as 0.1.9"
   - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH
   # set environment globals for connection hyn
   - export DB_CONNECTION=hyn DB_USERNAME=root DB_DATABASE=hyn
