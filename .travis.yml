@@ -27,7 +27,7 @@ install:
 
 before_script:
   # moves the package phpunit config to root
-  - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.yml ./phpunit.yml
+  - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
 #  - cp .env.travis .env
 #  - export APP_ENV="testing"
 #  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
