@@ -13,7 +13,11 @@ class SetupCommand extends Command
     /**
      * @var string
      */
-    protected $name = 'multi-tenant:setup';
+    protected $signature = 'multi-tenant:setup
+        {--tenant= : Name of the first tenant}
+        {--email= : Email address of the first tenant}
+        {--hostname= : Domain- or hostname for the first tenant website}
+        {--webserver= : Hook into webserver (nginx|apache|no)}';
 
     /**
      * @var string
@@ -93,9 +97,12 @@ class SetupCommand extends Command
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 
-        $name = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
-        $email = $this->ask($this->step++ . ': What is the email address for this tenant?');
-        $hostname = $this->ask($this->step++ . ': What is the primary hostname you want to use for multi tenancy? Please note this hostname needs to point to the IP address of this server.');
+        $name = $this->option('tenant');
+        $email = $this->option('email');
+        $hostname = $this->option('hostname');
+//        $name = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
+//        $email = $this->ask($this->step++ . ': What is the email address for this tenant?');
+//        $hostname = $this->ask($this->step++ . ': What is the primary hostname you want to use for multi tenancy? Please note this hostname needs to point to the IP address of this server.');
 
         $webservice = null;
 
@@ -105,22 +112,14 @@ class SetupCommand extends Command
         if($this->helper)
         {
             $this->comment('In the next steps we will ask you about webserver configuration.');
-            $webserver = $this->confirm($this->step++ . ': Do you want to automatically configure the webserver during this setup?');
-            if($webserver)
+            $webservice = $this->option('webserver');
+            if($webservice != 'no')
             {
-                if($this->helper->currentUser() != 'root')
-                    return $this->error('Configuration of the webserver can only be done under the root user, please run this command again prefixed with sudo or under root user.');
-
-                $webservice = $this->choice($this->step++ . ': Which webserver do you want to configure?', array_get($this->configuration, 'webservers'));
                 $webserviceConfiguration = array_get($this->configuration, $webservice);
-
-                if($webservice && $this->confirm("Are you sure you want to continue setup with the integration for the webserver {$webservice}?"))
-                {
-                    $webserviceClass = array_get($webserviceConfiguration, 'class');
-                }
+                $webserviceClass = array_get($webserviceConfiguration, 'class')
             }
             else
-                $this->info('We are skipping webserver configuration.');
+                $webservice = null;
 
             /*
              * Create the first tenant configurations

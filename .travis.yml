@@ -11,6 +11,8 @@ addons:
     - tenant.hyn.me
 
 install:
+  # create a new database for the hyn connection
+  - mysql -e 'create database hyn;'
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new laravel project in the subfolder laravel (default composer behaviour)
@@ -24,7 +26,7 @@ install:
 
 
 before_script:
-  - mysql -e 'create database hyn;'
+ - php artisan multi-tenant --tenant="Hyn.me" --email="info@example.com" --hostname="example.org" --webserver=no
 #  - cp .env.travis .env
 #  - export APP_ENV="testing"
 #  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
