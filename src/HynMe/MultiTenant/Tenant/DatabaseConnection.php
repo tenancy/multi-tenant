@@ -89,7 +89,7 @@ class DatabaseConnection
      */
     protected function config()
     {
-        $clone = Config::get('database.connections.system');
+        $clone = Config::get('database.connections.hyn');
         $clone['password'] = md5(Config::get('app.key') . $this->website->id);
         $clone['username'] = $clone['database'] = sprintf("%d-%s", $this->website->id, $this->website->present()->identifier);
         return $clone;
