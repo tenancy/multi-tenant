@@ -17,15 +17,12 @@ install:
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-  - mkdir tmp
-  - cp -r * tmp/
   - composer create-project laravel/laravel
   # move into the laravel directory
   - cd ./laravel
   # require the package for inclusion in the project
-  - composer require hyn-me/framework "dev-master as 0.1.99"
-  - mkdir vendor/hyn-me/multi-tenant
-  - cp -r ../tmp/* vendor/hyn-me/multi-tenant
+  - composer require hyn-me/framework "dev-master as 0.1.9"
+  - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH#$TRAVIS_COMMIT
   # set environment globals for connection mysql
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
