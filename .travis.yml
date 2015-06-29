@@ -23,8 +23,7 @@ install:
   # move into the laravel directory
   - cd ./laravel
   # require the package for inclusion in the project
-  - composer require hyn-me/framework "dev-master as 0.1.9"
-  - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH
+  - composer require hyn-me/framework "dev-master as 0.1.99"
   - mkdir vendor/hyn-me/multi-tenant
   - cp -r ../tmp/* vendor/hyn-me/multi-tenant
   # set environment globals for connection mysql
