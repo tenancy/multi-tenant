@@ -12,7 +12,8 @@ addons:
 
 install:
   # create a new database for the hyn connection
-  - mysql -e 'create database hyn;'
+  - mysql -e 'create database hyn;' -uroot
+  - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new laravel project in the subfolder laravel (default composer behaviour)
@@ -23,7 +24,7 @@ install:
   - composer require hyn-me/framework "dev-master as 0.1.9"
   - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH
   # set environment globals for connection mysql
-  - export DB_USERNAME=root DB_DATABASE=hyn
+  - export DB_USERNAME=travis DB_DATABASE=hyn
 
 
 before_script:
