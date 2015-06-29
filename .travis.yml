@@ -26,10 +26,14 @@ install:
 
 
 before_script:
- - php artisan multi-tenant --tenant="Hyn.me" --email="info@example.com" --hostname="example.org" --webserver=no
+  # moves the package phpunit config to root
+  - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.yml ./phpunit.yml
 #  - cp .env.travis .env
 #  - export APP_ENV="testing"
 #  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
 #  - cd ./vendor/hyn-me/multi-tenant
 
-script: phpunit
+script:
+  # registers first tenant in database for multi tenancy
+  - php artisan multi-tenant --tenant="Hyn.me" --email="info@example.com" --hostname="example.org" --webserver=no
+  - phpunit

@@ -9,4 +9,11 @@ interface TenantRepositoryContract extends BaseRepositoryContract
      * @return mixed
      */
     public function all();
+
+    /**
+     * Removes tenant and everything related
+     * @param $name
+     * @return mixed
+     */
+    public function forceDeleteByName($name);
 }

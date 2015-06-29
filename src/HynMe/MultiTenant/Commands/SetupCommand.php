@@ -116,7 +116,7 @@ class SetupCommand extends Command
             if($webservice != 'no')
             {
                 $webserviceConfiguration = array_get($this->configuration, $webservice);
-                $webserviceClass = array_get($webserviceConfiguration, 'class')
+                $webserviceClass = array_get($webserviceConfiguration, 'class');
             }
             else
                 $webservice = null;

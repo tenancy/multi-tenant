@@ -1,14 +1,25 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
-/*use App;
-use TestCase;
+use Artisan;
+use HynMe\Framework\Testing\TestCase;
 
 class TenancySetupTest extends TestCase
 {
-
-    public function testSetupHasNotRun()
+    public function testCommand()
     {
-        $this->tenant = App::make('tenant.hostname');
-        $this->assertNull($this->tenant);
+        Artisan::call('multi-tenant:setup', [
+            '--tenant' => 'example',
+            '--email' => 'info@example.org',
+            '--hostname' => 'example.org'
+        ]);
     }
-}*/
+
+    public function tearDown()
+    {
+        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
+        $tenantRepository = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+        $tenantRepository->forceDeleteByName('example');
+
+        parent::tearDown();
+    }
+}
