@@ -11,14 +11,20 @@ addons:
     - tenant.hyn.me
 
 install:
-#  - composer create-project laravel/laravel
-#  - cd ./laravel
-#  - composer require hyn-me/multi-tenant dev-master
+  # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
-  - composer update
+  # create a new laravel project in the subfolder laravel (default composer behaviour)
+  - composer create-project laravel/laravel
+  # move into the laravel directory
+  - cd ./laravel
+  # require the package for inclusion in the project
+  - composer require hyn-me/multi-tenant dev-master
+  # set environment globals for connection hyn
+  - export DB_CONNECTION=hyn DB_USERNAME=root DB_DATABASE=hyn
 
 
-#before_script:
+before_script:
+  - mysql -e 'create database hyn;'
 #  - cp .env.travis .env
 #  - export APP_ENV="testing"
 #  - php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
