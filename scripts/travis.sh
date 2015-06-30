@@ -19,4 +19,5 @@ fi
 # moves the unit test to the root laravel directory
 cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
 
-phpunit
+# sudo required to run webserver tasks
+sudo phpunit
