@@ -39,6 +39,12 @@ The distinction also gives proper division of responsibilities to the system (gl
 
 For more information visit the [hyn.me website](http://hyn.me).
 
+### Example tenant website & demo
+
+One website running on the multi tenant installation of [hyn.me](http://hyn.me) is [dummy.hyn.me](http://dummy.hyn.me).
+
+A demo showing the back-end will be available soon.
+
 ## Requirements
 
 All packages of hyn (including multi tenancy) require Laravel 5 and up.
@@ -64,7 +70,7 @@ Register the service provider in your `config/app.php` within the `providers` ar
  */
 'HynMe\Framework\FrameworkServiceProvider',
 ```
-> Please note this says __FrameworkServiceProvider__ from the __Framework__ package, do not register the __MultiTenantServiceProvider__!
+> Please note this says __FrameworkServiceProvider__ from the __Framework__ package, registering the __MultiTenantServiceProvider__ will break multi tenancy features!
 
 ### Third party eloquent models (optional)
 
@@ -131,3 +137,26 @@ php artisan multi-tenant:setup
 ```
 
 Please note, if you decide to skip the configuration of the webserver you will have to configure it by yourself. Example files are generated in the `storage/webserver` directories.
+
+## Facts
+
+Q: How do you pronounce hyn?
+A: You would pronounce it just like `hine` with the same sound as `dine`.
+ 
+Q: Why not use/help/extend [AuraEQ](https://github.com/AuraEQ/laravel-multi-tenant)?
+A: AuraEQ is different in comparison to hyn in the sense that is uses the same database with specific columns per table to identify different tenants. Hyn aims to keep tenants seperated by giving a tenant website it's own database, disk folder, routes, vendor packages etc.
+
+Q: Why not use/help/extends [tenanti](https://github.com/orchestral/tenanti)?
+A: One primary goal of hyn is to remain unobtrusive, meaning you should use the package the way you want, without the need to completely change how you code/work/play. Also I think auto selecting the tenant website based on the configured hostnames is easier for website development companies to work with.
+
+Q: Why do you need root or sudo to run the setup or the queue?
+A: Sudo or root is only required to register the webserver configuration files into the webserver services. Running the queue under root allows the tasks to immediately update the webserver once new configuration files are written.
+
+Q: Will you make this package paid in the future?
+A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
+
+Q: I have a bug, feature request or technical question.
+A: Visit the [issues page](http://github.com/hyn-me/multi-tenant/issues) on github.
+
+Q: I have need for more direct support, advice or consultation for implementation.
+A: Contact me or other experienced implementation developers on [gitter](https://gitter.im/hyn-me/multi-tenant).
