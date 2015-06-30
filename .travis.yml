@@ -11,25 +11,18 @@ addons:
     - tenant.hyn.me
 
 install:
+  # updates composer on travis
+  - travis_retry composer self-update
+  # set the global github token, so connections won't be cancelled
+  - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
   - mysql -e 'create database hyn;' -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
-  # set the global github token, so connections won't be cancelled
-  - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new laravel project in the subfolder laravel (default composer behaviour)
   - composer create-project laravel/laravel
-  # move into the laravel directory
-  - cd ./laravel
-  # require the package for inclusion in the project
-  - composer require hyn-me/framework "dev-master as 0.1.9"
-  - composer require hyn-me/multi-tenant dev-$TRAVIS_BRANCH
-  # set environment globals for connection mysql
+  # set global variables
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
-
-before_script:
-  # moves the package phpunit config to root
-  - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
-
 script:
-  - phpunit
+  # run the script calling unit tests and so on
+  - ./scripts/travis.sh
