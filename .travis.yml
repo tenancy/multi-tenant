@@ -21,7 +21,7 @@ install:
   - mysql -e 'create database hyn;' -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-  - travis_retry composer create-project laravel/laravel
+  - composer create-project laravel/laravel
   # set global variables
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
