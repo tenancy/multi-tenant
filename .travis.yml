@@ -13,6 +13,7 @@ addons:
     - tenant.hyn.me
 
 install:
+  # fix ipv6 issue that prevented composer requests and resulted in failing builds
   - sudo sh -c "echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf"
   # updates composer on travis
   - travis_retry composer self-update
