@@ -11,6 +11,8 @@ addons:
     - tenant.hyn.me
 
 install:
+  # updates composer on travis
+  - travis_retry composer self-update
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
@@ -28,11 +30,6 @@ install:
   # set environment globals for connection mysql
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
-
-before_script:
-  - ./scripts/travis.sh
-  # moves the package phpunit config to root
-  - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
-
 script:
-  - phpunit
+  # run the script calling unit tests and so on
+  - ./scripts/travis.sh
