@@ -136,6 +136,8 @@ Go into your terminal and run the following artisan command to finish installati
 php artisan multi-tenant:setup --tenant=EXAMPLE --email=foo@example.com --hostname=example.com
 ```
 
+Either run this command as root or under sudo if you want to configure your webserver service as well. Currently supported are apache2 and nginx.
+
 Please note, if you decide to skip the configuration of the webserver you will have to configure it by yourself. Example files are generated in the `storage/webserver` directories.
 
 ## Facts
