@@ -13,21 +13,19 @@ addons:
 install:
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
-  # update composer
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev
   # create a new database for the hyn connection
   - mysql -e 'create database hyn;' -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-#  - composer create-project laravel/laravel
+  - composer create-project laravel/laravel
   # move into the laravel directory
-#  - cd ./laravel
+  - cd ./laravel
   # require the package for inclusion in the project
-#  - composer require hyn-me/framework "dev-master as 0.1.9"
-#  - composer require $TRAVIS_REPO_SLUG dev-$TRAVIS_BRANCH#$TRAVIS_COMMIT
+  - travis_retry composer require hyn-me/framework "dev-master as 0.1.9"
+  - if [[ $TRAVIS_BRANCH = 'master' ]]; then travis_retry composer require $TRAVIS_REPO_SLUG dev-$TRAVIS_BRANCH#$TRAVIS_COMMIT; fi
+  - if [[ $TRAVIS_BRANCH != 'master' ]]; then travis_retry composer require $TRAVIS_REPO_SLUG $TRAVIS_BRANCH#$TRAVIS_COMMIT; fi
   # set environment globals for connection mysql
-#  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
+  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
 
 before_script:
