@@ -4,10 +4,15 @@
 # v prints every line before executing
 set -ev
 
-if [[ "${$TRAVIS_BRANCH}" =~ (([0-9]+\.)+[0-9]+) ]]
-    composer require ${TRAVIS_REPO_SLUG} ${$TRAVIS_BRANCH}
+cd ${TRAVIS_BUILD_DIR}/laravel
+
+
+if [[ "${TRAVIS_BRANCH}" =~ (([0-9]+\.)+[0-9]+) ]]
+    composer require ${TRAVIS_REPO_SLUG} ${TRAVIS_BRANCH}
 else
-    composer require ${TRAVIS_REPO_SLUG} dev-${$TRAVIS_BRANCH}
+    # development package of framework could be required for the package
+    composer require hyn-me/framework "dev-master as 0.1.99"
+    composer require ${TRAVIS_REPO_SLUG} dev-${TRAVIS_BRANCH}
 fi
 
 # moves the unit test to the root laravel directory
