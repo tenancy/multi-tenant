@@ -23,13 +23,14 @@ install:
   # require the package for inclusion in the project
   - travis_retry composer require hyn-me/framework "dev-master as 0.1.9"
   # support tags; eg 1.3.5
-  - if [[ $TRAVIS_BRANCH = 'master' ]]; then travis_retry composer require $TRAVIS_REPO_SLUG dev-$TRAVIS_BRANCH; fi
-  - if [[ $TRAVIS_BRANCH != 'master' ]]; then travis_retry composer require $TRAVIS_REPO_SLUG $TRAVIS_BRANCH; fi
+#  - if [[ $TRAVIS_BRANCH = /^v?([0-9]+)+$/ ]]; then travis_retry composer require $TRAVIS_REPO_SLUG $TRAVIS_BRANCH; fi
+#  - if [[ $TRAVIS_BRANCH != 'master' ]]; then travis_retry composer require $TRAVIS_REPO_SLUG dev-$TRAVIS_BRANCH; fi
   # set environment globals for connection mysql
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
 
 
 before_script:
+  - ./scripts/travis.sh
   # moves the package phpunit config to root
   - cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
 
