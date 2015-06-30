@@ -7,7 +7,7 @@ set -ev
 cd ${TRAVIS_BUILD_DIR}/laravel
 
 
-if [[ "${TRAVIS_BRANCH}" =~ (([0-9]+\.)+[0-9]+) ]]
+if [[ "${TRAVIS_BRANCH}" =~ (([0-9]+\.)+[0-9]+) ]]; then
     composer require ${TRAVIS_REPO_SLUG} ${TRAVIS_BRANCH}
 else
     # development package of framework could be required for the package
