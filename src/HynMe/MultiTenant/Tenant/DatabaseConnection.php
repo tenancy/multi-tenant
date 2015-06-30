@@ -110,7 +110,7 @@ class DatabaseConnection
     {
         $clone = $this->config();
 
-        return DB::transaction(function() use ($clone)
+        return DB::connection('hyn')->transaction(function() use ($clone)
         {
             if (!DB::statement("create database `{$clone['database']}`"))
                 throw new TenantDatabaseException("Could not create database {$clone['database']}");
