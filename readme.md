@@ -162,3 +162,9 @@ A: Visit the [issues page](http://github.com/hyn-me/multi-tenant/issues) on gith
 
 Q: I have need for more direct support, advice or consultation for implementation.
 A: Contact me or other experienced implementation developers on [gitter](https://gitter.im/hyn-me/multi-tenant).
+
+Q: Why does the user for the `hyn` connection need `grant` rights?
+A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
+
+Q: How safe is this implementation against hackers/hacking?
+A: The laravel application generates a random hash after installation, hyn uses this unique hash for generating database passwords. Using this package will not make your application more open to attacks.

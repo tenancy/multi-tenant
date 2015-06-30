@@ -6,7 +6,7 @@ set -ev
 
 cd ${TRAVIS_BUILD_DIR}/laravel
 
-$BRANCH_REGEX = "^(([[:digit:]]+\.)+[[:digit:]]+)$"
+BRANCH_REGEX="^(([[:digit:]]+\.)+[[:digit:]]+)$"
 
 if [[ ${TRAVIS_BRANCH} =~ $BRANCH_REGEX ]]; then
     echo "composer require ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH}"
