@@ -10,7 +10,7 @@ class HostnameMiddleware implements Middleware
     {
         /* @var \HynMe\MultiTenant\Models\Hostname */
         $hostname = App::make('tenant.hostname');
-        if(!is_null($redirect = $hostname->redirectActionRequired()))
+        if($hostname && !is_null($redirect = $hostname->redirectActionRequired()))
             return $redirect;
 
         return $next($request);
