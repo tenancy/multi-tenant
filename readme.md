@@ -133,7 +133,7 @@ thus showing the fallback website. If you don't define this environment variable
 Go into your terminal and run the following artisan command to finish installation of multi tenancy.
 
 ```bash
-php artisan multi-tenant:setup --tenant=EXAMPLE --email=foo@example.com --hostname=example.com
+php artisan multi-tenant:setup --tenant=EXAMPLE --email=foo@example.com --hostname=example.com --webserver=(nginx|apache|no)
 ```
 
 Either run this command as root or under sudo if you want to configure your webserver service as well. Currently supported are apache2 and nginx.
