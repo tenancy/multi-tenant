@@ -140,7 +140,7 @@ Either run this command as root or under sudo if you want to configure your webs
 
 Please note, if you decide to skip the configuration of the webserver you will have to configure it by yourself. Example files are generated in the `storage/webserver` directories.
 
-## Facts
+## Q&A
 
 Q: How do you pronounce hyn?
 A: You would pronounce it just like `hine` with the same sound as `dine`.
@@ -166,5 +166,11 @@ A: Contact me or other experienced implementation developers on [gitter](https:/
 Q: Why does the user for the `hyn` connection need `grant` rights?
 A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
 
-Q: How safe is this implementation against hackers/hacking?
-A: The laravel application generates a random hash after installation, hyn uses this unique hash for generating database passwords. Using this package will not make your application more open to attacks.
+Q: Is hyn multi tenancy more vulnerable to hacking?
+A: Using this package will not make your application more open to attacks. For instance the laravel application generates a random hash after installation, hyn uses this unique hash for generating tenant database passwords.
+
+Q: Are these hyn packages a CMS?
+A: No. The packages are meant for developers or development companies who want to run identical code on several websites, without the need to duplicate the code. This while also allowing for per-website different settings, vendor packages etc.
+
+Q: Hooking apache config files to OSX apache webservice?
+A: Edit `/etc/apache2/httpd.conf` and at the bottom at a line `Include /<laravel installation>/storage/webserver/apache/*.conf`. Now reload or restart apache. 
