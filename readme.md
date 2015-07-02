@@ -6,15 +6,17 @@
 [![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
 
 
-> Please note this package is under development. A working (closed source) multi tenant version is currently in production for laravel 4.1. These packages are an open-source refactoring for version 5 of laravel.
+> Please note this package is under development. A working version can be seen in production on [hyn.me](http://hyn.me).
+> This package is compatible only with Laravel __5.1 LTS__.
 > If you have questions or wish to participate reach out to me in any way.
 
 This package allows for multi tenancy websites on one installation of Laravel. 
 
 The goals for this and its related packages are:
 
-- Unobtrusive multi tenancy for Laravel 5+
+- Unobtrusive multi tenancy for Laravel 5.1 LTS
 - Provide proper insight into tenants and webserver
+- Flexibility for developers, use it the way you want
 
 For more information visit the [hyn.me website](http://hyn.me).
 
@@ -47,7 +49,7 @@ A demo showing the back-end will be available soon.
 
 ## Requirements
 
-All packages of hyn (including multi tenancy) require Laravel 5 and up.
+All packages of hyn (including multi tenancy) require Laravel 5.1 LTS.
 
 ## Installation
 
