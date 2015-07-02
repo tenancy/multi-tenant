@@ -16,8 +16,8 @@
     },
     "require": {
         "php": ">=5.5.0",
-        "hyn-me/framework": "~0.1.0",
-        "hyn-me/webserver": "~0.1.0"
+        "hyn-me/framework": "~0.1",
+        "hyn-me/webserver": "~0.1"
     },
     "suggest": {
         "hyn-me/management-interface": "dev-master"
