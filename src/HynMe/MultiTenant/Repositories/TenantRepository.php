@@ -12,22 +12,6 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
     protected $tenant;
 
     /**
-     * Create a pagination object
-     *
-     * @param int $per_page
-     * @return mixed
-     */
-    public function paginated($per_page = 20)
-    {
-        return $this->tenant->paginate($per_page);
-    }
-
-    public function all()
-    {
-        return $this->tenant->all();
-    }
-
-    /**
      * Removes tenant and everything related
      *
      * @param $name
@@ -37,6 +21,4 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
     {
         return $this->tenant->where('name', $name)->first()->delete();
     }
-
-
 }
