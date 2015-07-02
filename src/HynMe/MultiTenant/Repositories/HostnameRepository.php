@@ -28,24 +28,6 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
-     * Creates hostname object for default
-     *
-     * @throws \Exception
-     * @return \HynMe\MultiTenant\Models\Hostname
-     */
-    public function createDefault()
-    {
-        $default = env('HYN_MULTI_TENANCY_HOSTNAME');
-        if(!$default)
-            throw new \Exception("No default hostname to create; please specify in the env file with HYN_MULTI_TENANCY_HOSTNAME");
-
-        $model = $this->hostname->create(['hostname' => $default]);
-
-        return $model;
-    }
-
-
-    /**
      * Create a pagination object
      * @param int $per_page
      * @return mixed

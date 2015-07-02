@@ -14,10 +14,4 @@ interface HostnameRepositoryContract extends BaseRepositoryContract
      * @return \HynMe\MultiTenant\Models\Hostname
      */
     public function getDefault();
-
-    /**
-     * Creates hostname object for default
-     * @return void
-     */
-    public function createDefault();
 }
