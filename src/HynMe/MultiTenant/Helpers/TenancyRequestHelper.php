@@ -21,14 +21,10 @@ abstract class TenancyRequestHelper
      */
     public static function hostname(HostnameRepositoryContract $hostname)
     {
-        try {
-            $hostname = ($host = $hostname->findByHostname(Request::getHttpHost()))
-                ? $host
-                : $hostname->getDefault();
-        } catch(\Exception $e)
-        {
-            $hostname = null;
-        }
+        $hostname = ($host = $hostname->findByHostname(Request::getHttpHost()))
+            ? $host
+            : $hostname->getDefault();
+
         return $hostname;
     }
 }
