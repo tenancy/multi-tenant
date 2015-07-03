@@ -55,13 +55,4 @@ class TenancySetupTest extends TestCase
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
 
     }
-
-    public function tearDownAfterClass()
-    {
-        if($this->app) {
-            /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
-            $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
-            $this->tenant->forceDeleteByName('example');
-        }
-    }
 }
