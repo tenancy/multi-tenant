@@ -17,11 +17,7 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
-        Artisan::call('migrate', [
-            '-q',
-            '-n',
-            '--path' => base_path('vendor/hyn-me/multi-tenant/src/migrations')
-        ]);
+        $this->expectOutputString("Configuration succesful");
         Artisan::call('multi-tenant:setup', [
             '--tenant' => 'example',
             '--email' => 'info@example.org',
