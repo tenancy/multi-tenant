@@ -1,5 +1,6 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
+use Artisan;
 use HynMe\Framework\Testing\TestCase;
 
 class TenancySetupTest extends TestCase
@@ -16,14 +17,17 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
-        exec(sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
-            base_path(),
-            'example',
-            'info@example.org',
-            'example.org',
-            'no')
-        );
-
+        Artisan::call('migrate', [
+            '-q',
+            '-n',
+            '--path' => base_path('vendor/hyn-me/multi-tenant/src/migrations')
+        ]);
+        Artisan::call('multi-tenant:setup', [
+            '--tenant' => 'example',
+            '--email' => 'info@example.org',
+            '--hostname' => 'example.org',
+            '--webserver' => 'no'
+        ]);
     }
 
     /**
