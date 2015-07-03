@@ -28,6 +28,18 @@ class TenancySetupTest extends TestCase
         $this->assertNotNull($tenant);
     }
 
+    public function testHostnameExistence()
+    {
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
+
+        /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        $this->assertNotNull($hostname);
+
+    }
+
     public function tearDown()
     {
         if($this->app) {
