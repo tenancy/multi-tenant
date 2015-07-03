@@ -15,7 +15,7 @@ else
     echo "composer require ${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}"
     # development package of framework could be required for the package
     composer require hyn-me/framework "dev-master as 0.1.99"
-    composer require ${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}
+    composer require "${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}#${TRAVIS_COMMIT}"
 fi
 
 # moves the unit test to the root laravel directory
