@@ -1,6 +1,7 @@
 <?php namespace HynMe\MultiTenant\Commands;
 
 use DB, Config, File;
+use HynMe\Framework\Exceptions\TenantPropertyException;
 use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
 use HynMe\MultiTenant\Contracts\TenantRepositoryContract;
 use HynMe\MultiTenant\Contracts\WebsiteRepositoryContract;
@@ -100,9 +101,15 @@ class SetupCommand extends Command
         $name = $this->option('tenant');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
-//        $name = $this->ask($this->step++ . ': Please name your first tenant, this by default would be your company or your name.');
-//        $email = $this->ask($this->step++ . ': What is the email address for this tenant?');
-//        $hostname = $this->ask($this->step++ . ': What is the primary hostname you want to use for multi tenancy? Please note this hostname needs to point to the IP address of this server.');
+
+        if(empty($name))
+            throw new TenantPropertyException("No tenant name given; use --tenant");
+
+        if(empty($email))
+            throw new TenantPropertyException("No tenant email given; use --email");
+
+        if(empty($hostname))
+            throw new TenantPropertyException("No tenant hostname given; use --hostname");
 
         $webservice = null;
 
@@ -111,8 +118,8 @@ class SetupCommand extends Command
          */
         if($this->helper)
         {
-            $this->comment('In the next steps we will ask you about webserver configuration.');
-            $webservice = $this->option('webserver');
+            $webservice = $this->option('webserver') ?: 'no';
+
             if($webservice != 'no')
             {
                 $webserviceConfiguration = array_get($this->configuration, $webservice);
@@ -129,7 +136,9 @@ class SetupCommand extends Command
 
             $tenant = $this->tenant->create(compact('name', 'email'));
 
-            $website = $this->website->create(['tenant_id' => $tenant->id, 'identifier' => str_replace(['.'], '-', $hostname)]);
+            $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
+
+            $website = $this->website->create(['tenant_id' => $tenant->id, 'identifier' => $identifier]);
 
             $host = $this->hostname->create(['hostname' => $hostname, 'website_id' => $website->id, 'tenant_id' => $tenant->id]);
 
@@ -144,7 +153,7 @@ class SetupCommand extends Command
                 $this->info("Configuration succesful");
         }
         else
-            $this->comment('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
+            $this->error('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
     }
 
     protected function runMigrations()
