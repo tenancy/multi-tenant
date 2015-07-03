@@ -17,7 +17,7 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testCommand
      */
-    public function testTenantExistance()
+    public function testTenantExistence()
     {
         /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('example.org');
