@@ -23,7 +23,10 @@ class TenancySetupTest extends TestCase
             'info@example.org',
             'example.org',
             'no');
+        $this->expectOutputString($setupCommand);
+
         print $setupCommand;
+        
         exec($setupCommand);
     }
 
