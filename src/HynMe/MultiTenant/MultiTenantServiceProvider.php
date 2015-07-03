@@ -1,6 +1,7 @@
 <?php namespace HynMe\MultiTenant;
 
 use Illuminate\Support\ServiceProvider;
+use HynMe\MultiTenant\Commands\SetupCommand;
 
 class MultiTenantServiceProvider extends ServiceProvider {
 
@@ -18,33 +19,50 @@ class MultiTenantServiceProvider extends ServiceProvider {
          */
         $this->mergeConfigFrom(__DIR__.'/../../config/multi-tenant.php', 'multi-tenant');
         /*
-         * Bind tenancy into container
-         */
-        new TenancyEnvironment($this->app);
-        /*
          * Publish migrations
          */
         $this->publishes([__DIR__.'/../../migrations/' => database_path('/migrations')], 'migrations');
 
+
+        /*
+         * Bind tenancy into container
+         */
+        new TenancyEnvironment($this->app);
+
+        /*
+         * Register middleware to detect hostname and redirect if required
+         */
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('HynMe\MultiTenant\Middleware\HostnameMiddleware');
 
+        /*
+         * Model observers
+         */
         $this->observers();
 
-        $this->app->bind('HynMe\MultiTenant\Commands\SetupCommand', function($app)
+        /*
+         * Bind setup command into ioc
+         */
+        $this->app->bind(SetupCommand::class, function($app)
         {
-            return new Commands\SetupCommand(
-                $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'),
-                $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract'),
-                $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract')
+            return new SetupCommand(
+                $app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'),
+                $app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract'),
+                $app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract')
             );
         });
+        /*
+         * Bind tenant command into ioc
+         */
         $this->app->bind('HynMe\MultiTenant\Commands\TenantCommand', function($app)
         {
             return new Commands\TenantCommand();
         });
 
+        /*
+         * Register commands
+         */
         $this->commands([
-            'HynMe\MultiTenant\Commands\SetupCommand',
+            SetupCommand::class,
             // @todo not yet ready
 //            'HynMe\MultiTenant\Commands\TenantCommand'
         ]);

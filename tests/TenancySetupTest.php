@@ -1,7 +1,7 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
-use Artisan;
 use HynMe\Framework\Testing\TestCase;
+use HynMe\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
 {
@@ -10,6 +10,8 @@ class TenancySetupTest extends TestCase
     {
         $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
         $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'), 'packages are not loaded through FrameworkServiceProvider');
+
+        $this->assertTrue(in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()), 'MultiTenantService provider is not loaded in Laravel');
     }
 
     /**
@@ -17,7 +19,13 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
-        $setupCommand = sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
+        $this->assertEquals($this->artisan('multi-tenant:setup', [
+            '--tenant' => 'example',
+            '--hostname' => 'example.org',
+            '--email' => 'info@example.org',
+            '--webserver' => 'no'
+        ]), 1000000);
+/*        $setupCommand = sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
             base_path(),
             'example',
             'info@example.org',
@@ -26,7 +34,7 @@ class TenancySetupTest extends TestCase
 
         exec($setupCommand, $output);
 
-        $this->assertEquals(1, count($output), "More ouput received from command than expected: " . implode('\r\n', $output));
+        $this->assertEquals(1, count($output), "More ouput received from command than expected: " . implode('\r\n', $output));*/
     }
 
     /**
