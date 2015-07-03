@@ -14,6 +14,23 @@ class TenancySetupTest extends TestCase
         ]);
     }
 
+    /**
+     * @depends testCommand
+     */
+    public function testTenantExistance()
+    {
+        /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        $this->assertNotNull($hostname);
+
+        $this->assertEquals($hostname->hostname, 'example.org');
+
+        $this->assertNotNull($hostname->tenant);
+
+        $this->assertEquals($hostname->tenant->present()->name, 'example');
+    }
+
     public function tearDown()
     {
         if($this->app) {
