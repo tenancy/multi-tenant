@@ -16,6 +16,8 @@ install:
   - sudo sh -c "echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf"
   # updates composer on travis
   - travis_retry composer self-update
+  # clear composer cache, might speed up finding new tags
+  - travis_retry composer clear-cache
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
