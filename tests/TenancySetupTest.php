@@ -20,18 +20,12 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantExistence()
     {
-        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
-        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
-        $hostname = $this->hostname->findByHostname('example.org');
+        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract tenant */
+        $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+        /** @var \HynMe\MultiTenant\Models\Tenant|null $tenant */
+        $tenant = $this->tenant->findByName('example');
 
-        $this->assertNotNull($hostname);
-
-        $this->assertEquals($hostname->hostname, 'example.org');
-
-        $this->assertNotNull($hostname->tenant);
-
-        $this->assertEquals($hostname->tenant->present()->name, 'example');
+        $this->assertNotNull($tenant);
     }
 
     public function tearDown()

@@ -11,6 +11,17 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
      */
     protected $tenant;
 
+
+    /**
+     * Find a tenant by name
+     * @param $name
+     * @return \HynMe\MultiTenant\Models\Tenant
+     */
+    public function findByName($name)
+    {
+        return $this->tenant->where('name', $name)->first();
+    }
+
     /**
      * Removes tenant and everything related
      *

@@ -16,4 +16,11 @@ interface TenantRepositoryContract extends BaseRepositoryContract
      * @return bool|null
      */
     public function forceDeleteByName($name);
+
+    /**
+     * Find a tenant by name
+     * @param $name
+     * @return \HynMe\MultiTenant\Models\Tenant
+     */
+    public function findByName($name);
 }
