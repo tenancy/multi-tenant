@@ -24,7 +24,7 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
      */
     public function getDefault()
     {
-        return $this->hostname->where('hostname', env('HYN_MULTI_TENANCY_HOSTNAME'))->first();
+        return env('HYN_MULTI_TENANCY_HOSTNAME') ? $this->hostname->where('hostname', env('HYN_MULTI_TENANCY_HOSTNAME'))->first() : null;
     }
 
     /**
