@@ -16,9 +16,11 @@ class TenancySetupTest extends TestCase
 
     public function tearDown()
     {
-        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
-        $tenantRepository = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
-        $tenantRepository->forceDeleteByName('example');
+        if($this->app) {
+            /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
+            $tenantRepository = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+            $tenantRepository->forceDeleteByName('example');
+        }
 
         parent::tearDown();
     }
