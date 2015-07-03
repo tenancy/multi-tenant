@@ -2,9 +2,8 @@
 
 
 use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
-use HynMe\MultiTenant\Contracts\WebsiteRepositoryContract;
 use Illuminate\Database\QueryException;
-use Request;
+use Request, App;
 
 /**
  * Class TenancyRequestHelper
@@ -23,15 +22,18 @@ abstract class TenancyRequestHelper
     public static function hostname(HostnameRepositoryContract $hostname)
     {
         try {
-            $hostname = ($host = $hostname->findByHostname(Request::getHttpHost()))
-                ? $host
-                : $hostname->getDefault();
+            if(!App::runningUnitTests() && !App::runningInConsole())
+                $tenant_hostname = $hostname->findByHostname(Request::getHttpHost();
+
+            if(!$tenant_hostname)
+                $tenant_hostname = $hostname->getDefault();
         }
         catch(QueryException $e) {
             // table not found, set up not yet done
             if(preg_match('/\Qtable or view not found\E/', $e->getMessage()))
                 return null;
         }
-        return $hostname;
+
+        return $tenant_hostname;
     }
 }

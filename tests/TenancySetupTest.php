@@ -10,7 +10,8 @@ class TenancySetupTest extends TestCase
         Artisan::call('multi-tenant:setup', [
             '--tenant' => 'example',
             '--email' => 'info@example.org',
-            '--hostname' => 'example.org'
+            '--hostname' => 'example.org',
+            '--webserver' => 'no'
         ]);
     }
 

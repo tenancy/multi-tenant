@@ -19,6 +19,6 @@ else
 fi
 
 # moves the unit test to the root laravel directory
-cp ./vendor/hyn-me/multi-tenant/phpunit.travis.xml ./phpunit.xml
+cp ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml ./phpunit.xml
 
 phpunit
