@@ -132,7 +132,7 @@ class DatabaseConnection
 
         return DB::connection('hyn')->transaction(function() use ($clone)
         {
-            if (!DB::statement("revoke all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost'"))
+            if (!DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'"))
                 throw new TenantDatabaseException("Could not revoke privileges to user {$clone['username']} for {$clone['database']}");
             if (!DB::statement("drop database `{$clone['database']}`"))
                 throw new TenantDatabaseException("Could not drop database {$clone['database']}");
