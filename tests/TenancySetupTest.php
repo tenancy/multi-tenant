@@ -19,6 +19,8 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantExistence()
     {
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('example.org');
 
@@ -35,7 +37,7 @@ class TenancySetupTest extends TestCase
     {
         if($this->app) {
             /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
-            $tenantRepository = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+            $this->tenant = $$this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
             $tenantRepository->forceDeleteByName('example');
         }
 
