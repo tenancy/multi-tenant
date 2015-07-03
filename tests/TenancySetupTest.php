@@ -7,6 +7,7 @@ class TenancySetupTest extends TestCase
 {
     public function testCommand()
     {
+        $this->expectOutputString('Configuration succesful');
         Artisan::call('multi-tenant:setup', [
             '--tenant' => 'example',
             '--email' => 'info@example.org',
@@ -25,9 +26,12 @@ class TenancySetupTest extends TestCase
         /** @var \HynMe\MultiTenant\Models\Tenant|null $tenant */
         $tenant = $this->tenant->findByName('example');
 
-        $this->assertNotNull($tenant);
+        $this->assertNotNull($tenant, 'Tenant from command has not been created');
     }
 
+    /**
+     * @depends testTenantExistence
+     */
     public function testHostnameExistence()
     {
         /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
@@ -36,7 +40,7 @@ class TenancySetupTest extends TestCase
         /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('example.org');
 
-        $this->assertNotNull($hostname);
+        $this->assertNotNull($hostname, 'Hostname from command has not been created');
 
     }
 
