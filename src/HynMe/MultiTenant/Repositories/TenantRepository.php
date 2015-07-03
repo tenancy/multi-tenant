@@ -15,10 +15,11 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
      * Removes tenant and everything related
      *
      * @param $name
-     * @return mixed
+     * @return bool|null
      */
     public function forceDeleteByName($name)
     {
-        return $this->tenant->where('name', $name)->first()->delete();
+        $tenant = $this->tenant->where('name', $name)->first();
+        return $tenant ? $tenant->delete() : null;
     }
 }
