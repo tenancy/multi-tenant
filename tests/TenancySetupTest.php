@@ -17,7 +17,6 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
-        $this->expectOutputString("Configuration succesful");
         $setupCommand = sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
             base_path(),
             'example',
