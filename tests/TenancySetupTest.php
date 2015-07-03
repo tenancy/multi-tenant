@@ -12,6 +12,9 @@ class TenancySetupTest extends TestCase
         $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'), 'packages are not loaded through FrameworkServiceProvider');
 
         $this->assertTrue(in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()), 'MultiTenantService provider is not loaded in Laravel');
+        $this->assertTrue($this->app->isBooted());
+
+        $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'));
     }
 
     /**
