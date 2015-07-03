@@ -4,6 +4,16 @@ use HynMe\Framework\Testing\TestCase;
 
 class TenancySetupTest extends TestCase
 {
+
+    public function testPackages()
+    {
+        $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
+        $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'), 'packages are not loaded through FrameworkServiceProvider');
+    }
+
+    /**
+     * @depends testPackages
+     */
     public function testCommand()
     {
         exec(sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
