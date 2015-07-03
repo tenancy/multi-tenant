@@ -21,4 +21,6 @@ fi
 # moves the unit test to the root laravel directory
 cp ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml ./phpunit.xml
 
+php artisan migrate -q -n --path ./vendor/hyn-me/multi-tenant/src/migrations
+
 phpunit
