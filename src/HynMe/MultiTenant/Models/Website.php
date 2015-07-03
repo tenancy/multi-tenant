@@ -6,6 +6,13 @@ use HynMe\MultiTenant\Tenant\Directory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
+/**
+ * Class Website
+ *
+ *
+ * @property-read DatabaseConnection database
+ * @package HynMe\MultiTenant\Models
+ */
 class Website extends SystemModel
 {
     use PresentableTrait,
