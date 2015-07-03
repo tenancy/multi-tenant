@@ -27,7 +27,7 @@ class TenancySetupTest extends TestCase
             '--hostname' => 'example.org',
             '--email' => 'info@example.org',
             '--webserver' => 'no'
-        ]), 1000000);
+        ]), 0);
 /*        $setupCommand = sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
             base_path(),
             'example',
