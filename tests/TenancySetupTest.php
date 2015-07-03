@@ -37,7 +37,7 @@ class TenancySetupTest extends TestCase
     {
         if($this->app) {
             /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract $tenantRepository */
-            $this->tenant = $$this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+            $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
             $tenantRepository->forceDeleteByName('example');
         }
 
