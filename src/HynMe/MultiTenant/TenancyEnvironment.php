@@ -95,7 +95,10 @@ class TenancyEnvironment
          */
         $this->app->bind('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
         {
-            return new WebsiteRepository(new Website, $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
+            return new WebsiteRepository(
+                new Website,
+                $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract')
+            );
         });
     }
 

@@ -50,21 +50,12 @@ class MultiTenantServiceProvider extends ServiceProvider {
                 $app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract')
             );
         });
-        /*
-         * Bind tenant command into ioc
-         */
-        $this->app->bind('HynMe\MultiTenant\Commands\TenantCommand', function($app)
-        {
-            return new Commands\TenantCommand();
-        });
 
         /*
          * Register commands
          */
         $this->commands([
             SetupCommand::class,
-            // @todo not yet ready
-//            'HynMe\MultiTenant\Commands\TenantCommand'
         ]);
     }
 
