@@ -112,12 +112,10 @@ class DatabaseConnection
 
         return DB::connection('hyn')->transaction(function() use ($clone)
         {
-            if (!DB::statement("create database `{$clone['database']}`"))
+            if (!DB::statement("create database if not exists `{$clone['database']}`"))
                 throw new TenantDatabaseException("Could not create database {$clone['database']}");
-            if (!DB::statement("create user `{$clone['username']}`@'localhost' identified by '{$clone['password']}'"))
-                throw new TenantDatabaseException("Could not create user {$clone['username']}");
-            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost'"))
-                throw new TenantDatabaseException("Could not grant privileges to user {$clone['username']} for {$clone['database']}");
+            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost' identified by '{$clone['password']}'"))
+                throw new TenantDatabaseException("Could not create or grant privileges to user {$clone['username']} for {$clone['database']}");
             return true;
         });
     }

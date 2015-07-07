@@ -1,6 +1,6 @@
 <?php namespace HynMe\MultiTenant\Commands;
 
-use DB, Config, File;
+use DB, File;
 use HynMe\Framework\Exceptions\TenantPropertyException;
 use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
 use HynMe\MultiTenant\Contracts\TenantRepositoryContract;
@@ -80,7 +80,7 @@ class SetupCommand extends Command
     public function handle()
     {
 
-        $this->configuration = Config::get('webserver');
+        $this->configuration = config('webserver');
 
         $name = $this->option('tenant');
         $email = $this->option('email');
@@ -100,7 +100,7 @@ class SetupCommand extends Command
 
         $this->runMigrations();
 
-        $tenantDirectory = Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant');
+        $tenantDirectory = config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant');
 
 
         if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
@@ -158,7 +158,7 @@ class SetupCommand extends Command
 
     protected function runMigrations()
     {
-        foreach(Config::get('hyn.packages', []) as $name => $package)
+        foreach(config('hyn.packages', []) as $name => $package)
         {
 
             if(class_exists(array_get($package, 'service-provider'))) {
