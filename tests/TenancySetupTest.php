@@ -28,16 +28,6 @@ class TenancySetupTest extends TestCase
             '--email' => 'info@example.org',
             '--webserver' => 'no'
         ]), 0);
-/*        $setupCommand = sprintf('cd %s; sudo php artisan multi-tenant:setup --tenant=%s --email=%s --hostname=%s --webserver=%s',
-            base_path(),
-            'example',
-            'info@example.org',
-            'example.org',
-            'no');
-
-        exec($setupCommand, $output);
-
-        $this->assertEquals(1, count($output), "More ouput received from command than expected: " . implode('\r\n', $output));*/
     }
 
     /**

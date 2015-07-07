@@ -82,22 +82,6 @@ class SetupCommand extends Command
 
         $this->configuration = Config::get('webserver');
 
-        $this->comment('Welcome to hyn multi tenancy.');
-        $this->comment('First off, migrations for the packages will run.');
-
-        $this->runMigrations();
-
-
-        $this->comment('In the following steps you will be asked to set up your first tenant website.');
-
-        $tenantDirectory = Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant');
-
-
-        if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
-        {
-            $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
-        }
-
         $name = $this->option('tenant');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
@@ -111,6 +95,19 @@ class SetupCommand extends Command
         if(empty($hostname))
             throw new TenantPropertyException("No tenant hostname given; use --hostname");
 
+        $this->comment('Welcome to hyn multi tenancy.');
+        $this->comment('First off, migrations for the packages will run.');
+
+        $this->runMigrations();
+
+        $tenantDirectory = Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant');
+
+
+        if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
+        {
+            $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
+        }
+
         $webservice = null;
 
         /*
@@ -118,6 +115,9 @@ class SetupCommand extends Command
          */
         if($this->helper)
         {
+            // creates directories
+            $this->helper->createDirectories();
+
             $webservice = $this->option('webserver') ?: 'no';
 
             if($webservice != 'no')
