@@ -85,6 +85,14 @@ To support multi tenancy in other (3rd party) packages, __replace__ the class al
 This will ensure that all extended classes will by default connect with the tenant database instead of the system database.
 If you want to manually connect to the tenant database, set the `$connection` property of your class to `tenant`.
 
+### Queue
+
+Hyn uses the queue heavily. In order to work properly setup the queue functionality.
+- [Laravel documentation on queues](http://laravel.com/docs/5.1/queues)
+- How to setup a queue using [beanstalkd](https://laracasts.com/lessons/beanstalkd-queues-with-laravel), [iron.io](https://laracasts.com/lessons/ironclad-queues).
+
+Please note the queue __has to__ run as root for configuration files and other task to be run without issues.
+
 ### System database connection
 
 In your `config/database.php` file make sure a database connection is configured with the name `hyn`. Also prevent any other connection
