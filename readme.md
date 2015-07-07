@@ -87,7 +87,8 @@ If you want to manually connect to the tenant database, set the `$connection` pr
 
 ### Queue
 
-Hyn uses the queue heavily. In order to work properly setup the queue functionality.
+Hyn uses the queue heavily to generate config files, create databases and unix users without blocking the application. In order to work properly setup the queue functionality.
+
 - [Laravel documentation on queues](http://laravel.com/docs/5.1/queues)
 - How to setup a queue using [beanstalkd](https://laracasts.com/lessons/beanstalkd-queues-with-laravel), [iron.io](https://laracasts.com/lessons/ironclad-queues).
 
