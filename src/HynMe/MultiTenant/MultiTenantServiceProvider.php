@@ -45,12 +45,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
          * Model observers
          */
         $this->observers();
-        
-        /*
-         * override the default migrate command
-         */
-        $this->registerCommands();
-
     }
 
     /**
@@ -70,6 +64,14 @@ class MultiTenantServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+        /*
+         * override the default migrate command
+         */
+        $this->app->booted(function()
+        {
+            $this->registerCommands();
+        });
+
         /*
          * Bind setup command into ioc
          */
