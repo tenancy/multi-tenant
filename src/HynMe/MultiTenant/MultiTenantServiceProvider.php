@@ -82,7 +82,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
          * Force loading the MigrationServiceProvider from the framework
          *
          */
-        $this->app->loadDeferredProvider(MigrationServiceProvider::class);
+        $this->app->register(MigrationServiceProvider::class);
         /*
          * override the default migrate command
          */
