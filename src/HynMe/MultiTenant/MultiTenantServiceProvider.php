@@ -46,6 +46,16 @@ class MultiTenantServiceProvider extends ServiceProvider {
          * Model observers
          */
         $this->observers();
+
+        /*
+         * Force loading the MigrationServiceProvider from the framework
+         *
+         */
+        $this->app->register(MigrationServiceProvider::class);
+        /*
+         * override the default migrate command
+         */
+        $this->registerCommands();
     }
 
     /**
@@ -77,25 +87,10 @@ class MultiTenantServiceProvider extends ServiceProvider {
             );
         });
 
-
-        /*
-         * Force loading the MigrationServiceProvider from the framework
-         *
-         */
-        $this->app->register(MigrationServiceProvider::class);
-        /*
-         * override the default migrate command
-         */
-        $this->registerCommands();
-
         /*
          * Register commands
          */
         $this->commands([
-            'command.migrate', 'command.migrate.make',
-            'command.migrate.install', 'command.migrate.rollback',
-            'command.migrate.reset', 'command.migrate.refresh',
-            'command.migrate.status',
             SetupCommand::class,
         ]);
 	}
