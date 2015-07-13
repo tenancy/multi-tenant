@@ -1,6 +1,5 @@
 <?php namespace HynMe\MultiTenant;
 
-use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use HynMe\MultiTenant\Commands\SetupCommand;
 use HynMe\MultiTenant\Commands\Migrate\MigrateCommand;
@@ -47,12 +46,14 @@ class MultiTenantServiceProvider extends ServiceProvider {
          */
         $this->observers();
 
-        (new MigrationServiceProvider($this->app))->register();
 
         /*
          * override the default migrate command
          */
-        $this->registerCommands();
+        $this->app->afterBootstrapping('Illuminate\Foundation\Bootstrap\BootProviders', function()
+        {
+            $this->registerCommands();
+        });
     }
 
     /**
