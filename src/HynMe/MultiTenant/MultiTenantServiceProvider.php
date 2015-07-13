@@ -47,11 +47,8 @@ class MultiTenantServiceProvider extends ServiceProvider {
          */
         $this->observers();
 
-        /*
-         * Force loading the MigrationServiceProvider from the framework
-         *
-         */
-        $this->app->register(MigrationServiceProvider::class);
+        (new MigrationServiceProvider($this->app))->register();
+
         /*
          * override the default migrate command
          */
