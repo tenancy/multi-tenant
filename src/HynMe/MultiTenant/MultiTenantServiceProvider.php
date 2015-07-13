@@ -46,17 +46,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
          * Model observers
          */
         $this->observers();
-
-
-        /*
-         * Force loading the MigrationServiceProvider from the framework
-         *
-         */
-        $this->app->loadDeferredProvider(MigrationServiceProvider::class);
-        /*
-         * override the default migrate command
-         */
-        $this->registerCommands();
     }
 
     /**
@@ -87,6 +76,17 @@ class MultiTenantServiceProvider extends ServiceProvider {
                 $app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract')
             );
         });
+
+
+        /*
+         * Force loading the MigrationServiceProvider from the framework
+         *
+         */
+        $this->app->loadDeferredProvider(MigrationServiceProvider::class);
+        /*
+         * override the default migrate command
+         */
+        $this->registerCommands();
 
         /*
          * Register commands
