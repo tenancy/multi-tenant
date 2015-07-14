@@ -23,8 +23,8 @@
         "hyn-me/management-interface": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "HynMe\\MultiTenant": "src/"
+        "psr-4": {
+            "HynMe\\MultiTenant\\": "src/"
         }
     },
     "minimum-stability": "stable"

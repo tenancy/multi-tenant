@@ -24,11 +24,11 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * Set configuration variables
          */
-        $this->mergeConfigFrom(__DIR__.'/../../config/multi-tenant.php', 'multi-tenant');
+        $this->mergeConfigFrom(__DIR__.'/../config/multi-tenant.php', 'multi-tenant');
         /*
          * Publish migrations
          */
-        $this->publishes([__DIR__.'/../../migrations/' => database_path('/migrations')], 'migrations');
+        $this->publishes([__DIR__.'/../database/migrations/' => database_path('/migrations')], 'migrations');
 
 
         /*
