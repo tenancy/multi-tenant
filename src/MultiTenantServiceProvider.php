@@ -138,7 +138,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerMigrateCommand()
     {
         $this->app->bind('command.migrate', function ($object, $app) {
-            return new MigrateCommand($app->make('migrator'));
+            return new MigrateCommand($this->app->make('migrator'));
         });
     }
 
@@ -150,7 +150,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerRollbackCommand()
     {
         $this->app->bind('command.migrate.rollback', function ($object, $app) {
-            return new RollbackCommand($app->make('migrator'));
+            return new RollbackCommand($this->app->make('migrator'));
         });
     }
 
@@ -162,7 +162,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerResetCommand()
     {
         $this->app->bind('command.migrate.reset', function ($object, $app) {
-            return new ResetCommand($app->make('migrator'));
+            return new ResetCommand($this->app->make('migrator'));
         });
     }
 
@@ -181,7 +181,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerStatusCommand()
     {
         $this->app->bind('command.migrate.status', function ($object, $app) {
-            return new StatusCommand($app->make('migrator'));
+            return new StatusCommand($this->app->make('migrator'));
         });
     }
 
