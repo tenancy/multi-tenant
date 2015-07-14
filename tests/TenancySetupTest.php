@@ -78,7 +78,7 @@ class TenancySetupTest extends TestCase
         /** @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract website */
         $this->website = $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
         /** @var \HynMe\MultiTenant\Models\Website|null $website */
-        $website = $this->website->finndByHostname('example.org');
+        $website = $this->website->findByHostname('example.org');
 
         foreach(\File::allFiles(__DIR__ . 'database/migrations') as $file)
         {
