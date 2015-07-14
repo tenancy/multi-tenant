@@ -30,7 +30,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
          */
         $this->publishes([__DIR__.'/../database/migrations/' => database_path('/migrations')], 'migrations');
 
-
         /*
          * Bind tenancy into container
          */
@@ -45,7 +44,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
          * Model observers
          */
         $this->observers();
-
 
         /*
          * override the default migrate command
@@ -133,7 +131,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerMigrateCommand()
     {
-        $this->app->extend('command.migrate', function ($object, $app) {
+        $this->app->bind('command.migrate', function ($object, $app) {
             return new MigrateCommand($app['migrator']);
         });
     }
@@ -145,7 +143,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerRollbackCommand()
     {
-        $this->app->singleton('command.migrate.rollback', function ($object, $app) {
+        $this->app->bind('command.migrate.rollback', function ($object, $app) {
             return new RollbackCommand($app['migrator']);
         });
     }
@@ -157,7 +155,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerResetCommand()
     {
-        $this->app->extend('command.migrate.reset', function ($object, $app) {
+        $this->app->bind('command.migrate.reset', function ($object, $app) {
             return new ResetCommand($app['migrator']);
         });
     }
@@ -169,14 +167,14 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerRefreshCommand()
     {
-        $this->app->extend('command.migrate.refresh', function ($object, $app) {
+        $this->app->bind('command.migrate.refresh', function ($object, $app) {
             return new RefreshCommand;
         });
     }
 
     protected function registerStatusCommand()
     {
-        $this->app->extend('command.migrate.status', function ($object, $app) {
+        $this->app->bind('command.migrate.status', function ($object, $app) {
             return new StatusCommand($app['migrator']);
         });
     }
@@ -188,7 +186,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerInstallCommand()
     {
-        $this->app->extend('command.migrate.install', function ($object, $app) {
+        $this->app->bind('command.migrate.install', function ($object, $app) {
             return new InstallCommand($app['migration.repository']);
         });
     }
@@ -201,7 +199,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerMakeCommand()
     {
 
-        $this->app->extend('command.migrate.make', function ($object, $app) {
+        $this->app->bind('command.migrate.make', function ($object, $app) {
             // Once we have the migration creator registered, we will create the command
             // and inject the creator. The creator is responsible for the actual file
             // creation of the migrations, and may be extended by these developers.
