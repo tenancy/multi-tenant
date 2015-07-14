@@ -48,7 +48,10 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * override the default migrate command
          */
-        $this->registerCommands();
+        $this->app->afterLoadingEnvironment(function()
+        {
+            $this->registerCommands();
+        });
     }
 
     /**
