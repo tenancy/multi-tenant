@@ -84,7 +84,13 @@ class TenancySetupTest extends TestCase
 
         foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
-            $this->assertGreaterThan(0, $hostname->website->database->get()->table('migrations')->where('migration', $file->getBaseName('.'.$file->getExtension()))->count());
+            $fileBaseName = $file->getBaseName('.'.$file->getExtension());
+            $found = $hostname->website->database->get()->table('migrations')->where('migration', $fileBaseName)->count();
+            $this->assertEquals(
+                1,
+                $found,
+                "Migration {$fileBaseName} was not found in the tenant migrations table."
+            );
         }
     }
 }

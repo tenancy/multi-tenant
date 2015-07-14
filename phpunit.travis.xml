@@ -15,4 +15,12 @@
             <directory suffix=".php">./vendor/hyn-me/multi-tenant/tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./vendor/hyn-me/</directory>
+            <exclude>
+                <directory suffix=".php">./vendor/hyn-me/multi-tenant/tests/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
