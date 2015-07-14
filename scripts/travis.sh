@@ -21,6 +21,4 @@ fi
 # moves the unit test to the root laravel directory
 cp ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml ./phpunit.xml
 
-phpunit --coverage-text --coverage-clover=coverage.clover
-
-php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+phpunit
