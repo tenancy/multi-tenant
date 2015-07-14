@@ -77,7 +77,7 @@ class DatabaseConnection
         if(is_null($this->connection))
         {
             $this->setup();
-            $this->connection = DB::connection("database.connections.{$this->name}");
+            $this->connection = DB::connection($this->name);
         }
 
         return $this->connection;
