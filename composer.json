@@ -19,6 +19,10 @@
         "hyn-me/framework": "*",
         "hyn-me/webserver": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
+    },
     "suggest": {
         "hyn-me/management-interface": "dev-master"
     },
