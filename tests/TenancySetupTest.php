@@ -68,7 +68,6 @@ class TenancySetupTest extends TestCase
         $this->assertEquals($this->artisan('migrate', [
             '--tenant' => 'true',
             '--path' => __DIR__ . '/database/migrations'
-
         ]), 0);
     }
 
@@ -81,6 +80,9 @@ class TenancySetupTest extends TestCase
         $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('example.org');
+
+        if(!$hostname)
+            throw new \Exception("Unit test hostname not found");
 
         foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
