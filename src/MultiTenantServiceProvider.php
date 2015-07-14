@@ -118,7 +118,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
 
         $this->app = $app;
 
-        $app->register(MigrationServiceProvider::class);
+        $app->registerDeferredProvider(MigrationServiceProvider::class);
 
         $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status'];
 
