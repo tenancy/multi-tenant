@@ -75,14 +75,14 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigrationEntryExists()
     {
-        /** @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract website */
-        $this->website = $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
-        /** @var \HynMe\MultiTenant\Models\Website|null $website */
-        $website = $this->website->findByHostname('example.org');
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
+        $hostname = $this->hostname->findByHostname('example.org');
 
         foreach(\File::allFiles(__DIR__ . 'database/migrations') as $file)
         {
-            $this->assertGreaterThan(0, $website->database->get()->table('migrations')->where('migration', $file->getBaseName('.'.$file->getExtension()))->count());
+            $this->assertGreaterThan(0, $hostname->website->database->get()->table('migrations')->where('migration', $file->getBaseName('.'.$file->getExtension()))->count());
         }
     }
 }
