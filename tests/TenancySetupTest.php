@@ -57,4 +57,32 @@ class TenancySetupTest extends TestCase
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
 
     }
+
+    /**
+     * @depends testTenantExistence
+     */
+    public function testTenantMigrationRuns()
+    {
+        $this->assertEquals($this->artisan('migrate', [
+            '--tenant' => 'true',
+            '--path' => __DIR__ . 'database/migrations'
+
+        ]), 0);
+    }
+
+    /**
+     * @depends testTenantMigrationRuns
+     */
+    public function testTenantMigrationEntryExists()
+    {
+        /** @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract website */
+        $this->website = $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
+        /** @var \HynMe\MultiTenant\Models\Website|null $website */
+        $website = $this->website->finndByHostname('example.org');
+
+        foreach(\File::allFiles(__DIR__ . 'database/migrations') as $file)
+        {
+            $this->assertGreaterThan(0, $website->database->get()->table('migrations')->where('migration', $file->getBaseName('.'.$file->getExtension()))->count());
+        }
+    }
 }
