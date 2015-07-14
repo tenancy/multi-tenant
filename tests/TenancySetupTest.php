@@ -1,5 +1,7 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
+
+use File;
 use HynMe\Framework\Testing\TestCase;
 use HynMe\MultiTenant\MultiTenantServiceProvider;
 
@@ -80,7 +82,7 @@ class TenancySetupTest extends TestCase
         /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('example.org');
 
-        foreach(\File::allFiles(__DIR__ . 'database/migrations') as $file)
+        foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
             $this->assertGreaterThan(0, $hostname->website->database->get()->table('migrations')->where('migration', $file->getBaseName('.'.$file->getExtension()))->count());
         }
