@@ -33,6 +33,3 @@ install:
 script:
   # run the script calling unit tests and so on
   - ./scripts/travis.sh
-
-after_script:
-  - if [[ $TRAVIS_PHP_VERSION != '7.0' ]]; then php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover; fi
