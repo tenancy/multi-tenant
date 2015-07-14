@@ -48,10 +48,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * override the default migrate command
          */
-        $this->app->afterBootstrapping('Illuminate\Foundation\Bootstrap\BootProviders', function()
-        {
-            $this->registerCommands();
-        });
+        $this->registerCommands();
     }
 
     /**
