@@ -48,9 +48,9 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * override the default migrate command
          */
-        $this->app->booted(function()
+        $this->app->booted(function($app)
         {
-            $this->registerCommands();
+            $this->registerCommands($app);
         });
     }
 
@@ -112,8 +112,11 @@ class MultiTenantServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    protected function registerCommands()
+    protected function registerCommands($app)
     {
+        
+        $this->app = $app;
+
         $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status'];
 
         // We'll simply spin through the list of commands that are migration related
