@@ -71,14 +71,17 @@ class TenancySetupTest extends TestCase
         $databases = DB::connection('hyn')->select('SHOW DATABASES');
 
         $found = false;
+        $list = [];
 
         foreach($databases as $database)
         {
             if(substr($database->Database,0,1) == 1)
                 $found = true;
+
+            $list[] = $database->Database;
         }
 
-        $this->assertTrue($found, "Databases found: " . implode(', ', $databases));
+        $this->assertTrue($found, "Databases found: " . implode(', ', $list));
     }
 
     /**
