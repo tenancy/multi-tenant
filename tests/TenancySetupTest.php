@@ -74,7 +74,7 @@ class TenancySetupTest extends TestCase
 
         foreach($databases as $database)
         {
-            if(substr($database,0,1) == 1)
+            if(substr($database->Database,0,1) == 1)
                 $found = true;
         }
 
