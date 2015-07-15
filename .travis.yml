@@ -28,7 +28,7 @@ install:
   # create a new laravel project in the subfolder laravel (default composer behaviour)
   - composer create-project laravel/laravel
   # set global variables
-  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD=
+  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=redis
 
 script:
   # run the script calling unit tests and so on
