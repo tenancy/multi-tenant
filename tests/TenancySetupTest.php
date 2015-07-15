@@ -30,6 +30,8 @@ class TenancySetupTest extends TestCase
             '--email' => 'info@example.org',
             '--webserver' => 'no'
         ]), 0);
+        // wait for the queue to handle all steps
+        sleep(5);
     }
 
     /**
