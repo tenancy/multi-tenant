@@ -69,7 +69,7 @@ class TenancySetupTest extends TestCase
     public function testTenantMigrationRuns()
     {
         $this->assertEquals($this->artisan('migrate', [
-            '--tenant' => 1,
+            '--tenant' => 'true',
             '--path' => __DIR__ . '/database/migrations'
         ]), 0);
     }
@@ -84,18 +84,15 @@ class TenancySetupTest extends TestCase
         /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('example.org');
 
+        $hostname->website->database->setCurrent();
+
         if(!$hostname)
             throw new \Exception("Unit test hostname not found");
 
         foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
             $fileBaseName = $file->getBaseName('.'.$file->getExtension());
-            $found = $hostname->website->database->get()->table('migrations')->where('migration', $fileBaseName)->count();
-            $this->assertEquals(
-                1,
-                $found,
-                "Migration {$fileBaseName} was not found in the tenant migrations table on connection {$hostname->website->database->name}."
-            );
+            $this->seeInDatabase('migrations', ['migration' => $fileBaseName]);
         }
     }
 }
