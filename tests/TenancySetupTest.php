@@ -24,9 +24,6 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
-        // test whether queue is ready to process tenant creation actions
-        $this->assertTrue(Queue::connected());
-
         // create first tenant
         $this->assertEquals($this->artisan('multi-tenant:setup', [
             '--tenant' => 'example',
