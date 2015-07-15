@@ -1,7 +1,7 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
 
-use File, Queue;
+use File, DB;
 use HynMe\Framework\Testing\TestCase;
 use HynMe\MultiTenant\MultiTenantServiceProvider;
 
@@ -61,6 +61,24 @@ class TenancySetupTest extends TestCase
 
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
 
+    }
+
+    /**
+     * @depends testTenantExistence
+     */
+    public function testDatabaseExists()
+    {
+        $databases = DB::connection('hyn')->raw('SHOW DATABASES');
+
+        $found = false;
+
+        foreach($databases as $database)
+        {
+            if(substr($database,0,1) == 1)
+                $found = true;
+        }
+
+        $this->assertTrue($found);
     }
 
     /**
