@@ -94,7 +94,7 @@ class TenancySetupTest extends TestCase
             $this->assertEquals(
                 1,
                 $found,
-                "Migration {$fileBaseName} was not found in the tenant migrations table."
+                "Migration {$fileBaseName} was not found in the tenant migrations table on connection {$hostname->website->database->name}."
             );
         }
     }
