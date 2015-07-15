@@ -92,7 +92,7 @@ class TenancySetupTest extends TestCase
         foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
             $fileBaseName = $file->getBaseName('.'.$file->getExtension());
-            $this->seeInDatabase('migrations', ['migration' => $fileBaseName], 'tenant');
+            $this->seeInDatabase('migrations', ['migration' => $fileBaseName], $hostname->website->database->name);
         }
     }
 }
