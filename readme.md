@@ -18,7 +18,7 @@ The goals for this and its related packages are:
 - Provide proper insight into tenants and webserver
 - Flexibility for developers, use it the way you want
 
-For more information visit the [hyn.me website](http://hyn.me).
+For more information visit the [hyn.me website](http://hyn.me) or read the [changelog](CHANGELOG.md).
 
 ## What is multi tenancy
 
@@ -166,7 +166,7 @@ Q: Why do you need root or sudo to run the setup or the queue?
 > A: Sudo or root is only required to register the webserver configuration files into the webserver services. Running the queue under root allows the tasks to immediately update the webserver once new configuration files are written.
 
 Q: Will you make this package paid in the future?
-> A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
+> A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
 
 Q: I have a bug, feature request or technical question.
 > A: Visit the [issues page](http://github.com/hyn-me/multi-tenant/issues) on github.

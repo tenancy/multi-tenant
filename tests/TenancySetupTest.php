@@ -68,7 +68,7 @@ class TenancySetupTest extends TestCase
      */
     public function testDatabaseExists()
     {
-        $databases = DB::select('hyn')->raw('SHOW DATABASES');
+        $databases = DB::connection('hyn')->select('SHOW DATABASES');
 
         $found = false;
 
