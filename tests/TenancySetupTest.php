@@ -78,11 +78,11 @@ class TenancySetupTest extends TestCase
                 $found = true;
         }
 
-        $this->assertTrue($found);
+        $this->assertTrue($found, "Databases found: " . implode(', ', $databases));
     }
 
     /**
-     * @depends testTenantExistence
+     * @depends testDatabaseExists
      */
     public function testTenantMigrationRuns()
     {
