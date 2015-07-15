@@ -2,9 +2,6 @@ language: php
 
 sudo: true
 
-services:
-  - redis-server
-
 php:
   - 5.5
   - 5.6
@@ -31,7 +28,7 @@ install:
   # create a new laravel project in the subfolder laravel (default composer behaviour)
   - composer create-project laravel/laravel
   # set global variables
-  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=redis
+  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=sync
 
 script:
   # run the script calling unit tests and so on

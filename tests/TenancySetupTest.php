@@ -1,7 +1,7 @@
 <?php namespace HynMe\MultiTenant\Tests;
 
 
-use File;
+use File, Queue;
 use HynMe\Framework\Testing\TestCase;
 use HynMe\MultiTenant\MultiTenantServiceProvider;
 
@@ -24,14 +24,18 @@ class TenancySetupTest extends TestCase
      */
     public function testCommand()
     {
+        // test whether queue is ready to process tenant creation actions
+        $this->assertTrue(Queue::connected());
+
+        // create first tenant
         $this->assertEquals($this->artisan('multi-tenant:setup', [
             '--tenant' => 'example',
             '--hostname' => 'example.org',
             '--email' => 'info@example.org',
             '--webserver' => 'no'
         ]), 0);
-        // wait for the queue to handle all steps
-        sleep(5);
+
+
     }
 
     /**
