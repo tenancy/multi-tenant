@@ -38,6 +38,8 @@ class DatabaseConnection
         $this->website = $website;
 
         $this->name = "tenant.{$this->website->id}";
+
+        $this->setup();
     }
 
     /**
