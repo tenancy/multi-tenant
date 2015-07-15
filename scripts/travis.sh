@@ -18,6 +18,8 @@ else
     composer require "${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}#${TRAVIS_COMMIT}"
 fi
 
+composer require predis/predis
+
 # moves the unit test to the root laravel directory
 cp ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml ./phpunit.xml
 
