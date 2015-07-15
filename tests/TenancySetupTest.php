@@ -8,6 +8,7 @@ use HynMe\MultiTenant\MultiTenantServiceProvider;
 class TenancySetupTest extends TestCase
 {
 
+
     public function testPackages()
     {
         $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
@@ -110,6 +111,17 @@ class TenancySetupTest extends TestCase
 
         $hostname->website->database->setCurrent();
 
+        $tables = $hostname->website->database->get()->select('show tables');
+        $found = false;
+        foreach($tables as $tmp => $table)
+        {
+            $table = (array) $table;
+            $table = $table[0];
+            if($table == 'migrations')
+                $found = true;
+        }
+        $this->assertTrue($found, 'Migrations table not found in this tenant database');
+        
         foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
         {
             $fileBaseName = $file->getBaseName('.'.$file->getExtension());
