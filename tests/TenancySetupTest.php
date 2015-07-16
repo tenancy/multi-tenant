@@ -7,8 +7,6 @@ use HynMe\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
 {
-
-
     public function testPackages()
     {
         $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
@@ -112,7 +110,8 @@ class TenancySetupTest extends TestCase
             ->database
             ->get()
             ->table('tenant_migration_test')
-            ->insertGetId(['some_field' => 'foo']));
+            ->insertGetId(['some_field' => 'foo'])
+        );
     }
 
     /**
