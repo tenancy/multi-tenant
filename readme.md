@@ -17,7 +17,11 @@ The goals for this and its related packages are:
 - Provide proper insight into tenants and webserver
 - Flexibility for developers, use it the way you want
 
-For more information visit the [hyn.me website](http://hyn.me) or read the [changelog](CHANGELOG.md).
+### Reading material:
+
+- [changelog](CHANGELOG.md)
+- [todo](https://trello.com/b/vIROJOMC/lara-league-multi-tenant)
+- [website](http://hyn.me)
 
 ## What is multi tenancy
 
