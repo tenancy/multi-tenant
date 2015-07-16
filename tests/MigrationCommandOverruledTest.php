@@ -11,6 +11,6 @@ class MigrationCommandOverruledTest extends TestCase
         $migrateCommand = $this->app->make('command.migrate');
 
         $this->assertEquals(MigrateCommand::class, get_class($migrateCommand));
-        $this->assertFalse(IlluminateMigrateCommand::class !== get_class($migrateCommand));
+        $this->assertFalse(IlluminateMigrateCommand::class === get_class($migrateCommand));
     }
 }
