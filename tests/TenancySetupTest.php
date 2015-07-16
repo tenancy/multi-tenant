@@ -26,12 +26,12 @@ class TenancySetupTest extends TestCase
     public function testCommand()
     {
         // create first tenant
-        $this->assertEquals($this->artisan('multi-tenant:setup', [
+        $this->assertEquals(0, $this->artisan('multi-tenant:setup', [
             '--tenant' => 'example',
             '--hostname' => 'example.org',
             '--email' => 'info@example.org',
             '--webserver' => 'no'
-        ]), 0);
+        ]));
 
 
     }
@@ -90,10 +90,10 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigrationRuns()
     {
-        $this->assertEquals($this->artisan('migrate', [
+        $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'true',
             '--path' => __DIR__ . '/database/migrations/'
-        ]), 0);
+        ]));
     }
 
     /**
