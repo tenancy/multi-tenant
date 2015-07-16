@@ -90,7 +90,7 @@ class TenancySetupTest extends TestCase
     {
         $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'all',
-            '--path' => __DIR__ . '/database/migrations/',
+            '--path' => 'vendor/hyn-me/multi-tenant/tests/database/migrations/',
             '--force'
         ]));
     }
