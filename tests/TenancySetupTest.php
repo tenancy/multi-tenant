@@ -7,19 +7,6 @@ use HynMe\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
 {
-    /**
-     * @beforeClass
-     */
-    public function setUpRepositories()
-    {
-        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
-        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
-        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract hostname */
-        $this->website = $this->app->make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
-    }
-
     public function testPackages()
     {
         $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
@@ -48,21 +35,16 @@ class TenancySetupTest extends TestCase
     }
 
     /**
-     * @after testCommand
-     */
-    public function setUpExampleTenant()
-    {
-        $this->exampleTenant = $this->tenant->findByName('example');
-        $this->exampleHostname = $this->hostname->findByHostname('example.org');
-        $this->exampleWebsite = $this->website->findByHostname('example.org');
-    }
-
-    /**
      * @depends testCommand
      */
     public function testTenantExistence()
     {
-        $this->assertNotNull($this->exampleTenant, 'Tenant from command has not been created');
+        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract tenant */
+        $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
+        /** @var \HynMe\MultiTenant\Models\Tenant|null $tenant */
+        $tenant = $this->tenant->findByName('example');
+
+        $this->assertNotNull($tenant, 'Tenant from command has not been created');
     }
 
     /**
@@ -70,7 +52,14 @@ class TenancySetupTest extends TestCase
      */
     public function testHostnameExistence()
     {
-        $this->assertNotNull($this->exampleHostname, 'Hostname from command has not been created');
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
+
+        /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        $this->assertNotNull($hostname, 'Hostname from command has not been created');
+
     }
 
     /**
@@ -111,8 +100,10 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigratedTableExists()
     {
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->exampleHostname;
+        $hostname = $this->hostname->findByHostname('example.org');
 
         $this->assertGreaterThan(0, $hostname
             ->website
@@ -128,8 +119,10 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigrationEntryExists()
     {
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->exampleHostname;
+        $hostname = $this->hostname->findByHostname('example.org');
 
         if(!$hostname)
             throw new \Exception("Unit test hostname not found");
