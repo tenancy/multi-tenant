@@ -1,14 +1,13 @@
-# Hyn multi tenancy
+# Multi tenancy
 
-[![Join the chat at https://gitter.im/hyn-me/multi-tenant](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/hyn-me/multi-tenant?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Latest Stable Version](https://poser.pugx.org/hyn-me/multi-tenant/v/stable)](https://packagist.org/packages/hyn-me/multi-tenant)
-[![License](https://poser.pugx.org/hyn-me/multi-tenant/license)](https://packagist.org/packages/hyn-me/multi-tenant)
-[![Build Status](https://travis-ci.org/hyn-me/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn-me/multi-tenant)
+[![Latest Stable Version](https://poser.pugx.org/lara-league/multi-tenant/v/stable)](https://packagist.org/packages/lara-league/multi-tenant)
+[![License](https://poser.pugx.org/lara-league/multi-tenant/license)](https://packagist.org/packages/lara-league/multi-tenant)
+[![Build Status](https://travis-ci.org/lara-league/multi-tenant.svg?branch=master)](https://travis-ci.org/lara-league/multi-tenant)
 
 
 > Please note this package is under development. A working version can be seen in production on [hyn.me](http://hyn.me).
 > This package is compatible only with Laravel __5.1 LTS__.
-> If you have questions or wish to participate reach out to me in any way.
+> If you have questions or wish to participate reach out to any LaraLeague developer.
 
 This package allows for multi tenancy websites on one installation of Laravel. 
 
@@ -26,9 +25,9 @@ Referring to [wikipedia](http://en.wikipedia.org/wiki/Multitenancy);
 
 > Multitenancy refers to a software architecture in which a single instance of a software runs on a server and serves multiple tenants.
 
-### How has hyn implemented multi tenancy
+### Multi tenancy how?
 
-In its most abstract sense you can use hyn to manage multiple websites with only one application installation.
+In its most abstract sense you can use this package to manage multiple websites with only one application installation.
 - Multiple websites running on one code base.
 - Multiple hostnames configured per website.
 
@@ -49,7 +48,7 @@ A demo showing the back-end will be available soon.
 
 ## Requirements
 
-All packages of hyn (including multi tenancy) require Laravel 5.1 LTS.
+All packages for multi tenancy require Laravel 5.1 LTS.
 
 ## Installation
 
@@ -58,7 +57,7 @@ All packages of hyn (including multi tenancy) require Laravel 5.1 LTS.
 Include the dependancy in your composer.json:
 
 ```
-composer require hyn-me/multi-tenant
+composer require lara-league/multi-tenant
 ```
 
 ### Service provider
@@ -169,10 +168,10 @@ Q: Will you make this package paid in the future?
 > A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
 
 Q: I have a bug, feature request or technical question.
-> A: Visit the [issues page](http://github.com/hyn-me/multi-tenant/issues) on github.
+> A: Visit the [issues page](http://github.com/lara-league/multi-tenant/issues) on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
-> A: Contact me or other experienced implementation developers on [gitter](https://gitter.im/hyn-me/multi-tenant).
+> A: Contact me or other experienced implementation developers on [gitter](https://gitter.im/lara-league/multi-tenant).
 
 Q: Why does the user for the `hyn` connection need `grant` rights?
 > A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
