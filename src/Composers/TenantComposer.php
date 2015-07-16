@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Composers;
+<?php namespace LaraLeague\MultiTenant\Composers;
 
 use Illuminate\Contracts\View\View;
 use App;

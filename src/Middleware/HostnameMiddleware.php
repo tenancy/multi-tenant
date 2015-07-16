@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Middleware;
+<?php namespace LaraLeague\MultiTenant\Middleware;
 
 use App;
 use Closure;
@@ -8,7 +8,7 @@ class HostnameMiddleware implements Middleware
 {
     public function handle($request, Closure $next)
     {
-        /* @var \HynMe\MultiTenant\Models\Hostname */
+        /* @var \LaraLeague\MultiTenant\Models\Hostname */
         $hostname = App::make('tenant.hostname');
         if($hostname && !is_null($redirect = $hostname->redirectActionRequired()))
             return $redirect;

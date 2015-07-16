@@ -1,8 +1,8 @@
-<?php namespace HynMe\MultiTenant\Tenant;
+<?php namespace LaraLeague\MultiTenant\Tenant;
 
 use Config, File;
-use HynMe\MultiTenant\Contracts\DirectoryContract;
-use HynMe\MultiTenant\Models\Website;
+use LaraLeague\MultiTenant\Contracts\DirectoryContract;
+use LaraLeague\MultiTenant\Models\Website;
 use Illuminate\Support\ClassLoader;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
@@ -18,7 +18,7 @@ use Illuminate\Translation\Translator;
  * - vendor
  * - lang
  *
- * @package HynMe\MultiTenant\Tenant
+ * @package LaraLeague\MultiTenant\Tenant
  */
 class Directory implements DirectoryContract
 {

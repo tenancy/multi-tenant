@@ -1,9 +1,9 @@
-<?php namespace HynMe\MultiTenant\Observers;
+<?php namespace LaraLeague\MultiTenant\Observers;
 
 class HostnameObserver
 {
     /**
-     * @param \HynMe\MultiTenant\Models\Hostname $model
+     * @param \LaraLeague\MultiTenant\Models\Hostname $model
      */
     public function saved($model)
     {

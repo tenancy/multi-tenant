@@ -1,7 +1,7 @@
 {
-    "name": "hyn-me/multi-tenant",
-    "description": "Making a laravel installation multi tenant",
-    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "hyn-me"],
+    "name": "lara-league/multi-tenant",
+    "description": "Multi tenant laravel lts with separation between tenant and system",
+    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "lara-league"],
     "license": "MIT",
     "authors": [
         {
@@ -10,8 +10,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/hyn-me/multi-tenant/issues",
-        "source": "https://github.com/hyn-me/multi-tenant",
+        "issues": "https://github.com/lara-league/multi-tenant/issues",
+        "source": "https://github.com/lara-league/multi-tenant",
         "docs": "http://hyn.me"
     },
     "require": {
@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "HynMe\\MultiTenant\\": "src/"
+            "LaraLeague\\MultiTenant\\": "src/"
         }
     },
     "minimum-stability": "stable"

@@ -1,8 +1,8 @@
-<?php namespace HynMe\MultiTenant\Models;
+<?php namespace LaraLeague\MultiTenant\Models;
 
-use HynMe\MultiTenant\Abstracts\Models\SystemModel;
-use HynMe\MultiTenant\Tenant\DatabaseConnection;
-use HynMe\MultiTenant\Tenant\Directory;
+use LaraLeague\MultiTenant\Abstracts\Models\SystemModel;
+use LaraLeague\MultiTenant\Tenant\DatabaseConnection;
+use LaraLeague\MultiTenant\Tenant\Directory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -11,14 +11,14 @@ use Laracasts\Presenter\PresentableTrait;
  *
  *
  * @property-read DatabaseConnection database
- * @package HynMe\MultiTenant\Models
+ * @package LaraLeague\MultiTenant\Models
  */
 class Website extends SystemModel
 {
     use PresentableTrait,
         SoftDeletes;
 
-    protected $presenter = 'HynMe\MultiTenant\Presenters\WebsitePresenter';
+    protected $presenter = 'LaraLeague\MultiTenant\Presenters\WebsitePresenter';
 
     protected $fillable = ['tenant_id', 'identifier'];
 

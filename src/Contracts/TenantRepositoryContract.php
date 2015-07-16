@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Contracts;
+<?php namespace LaraLeague\MultiTenant\Contracts;
 
 use HynMe\Framework\Contracts\BaseRepositoryContract;
 
@@ -20,7 +20,7 @@ interface TenantRepositoryContract extends BaseRepositoryContract
     /**
      * Find a tenant by name
      * @param $name
-     * @return \HynMe\MultiTenant\Models\Tenant
+     * @return \LaraLeague\MultiTenant\Models\Tenant
      */
     public function findByName($name);
 }

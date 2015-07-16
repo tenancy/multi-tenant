@@ -1,15 +1,15 @@
-<?php namespace HynMe\MultiTenant;
+<?php namespace LaraLeague\MultiTenant;
 
-use HynMe\MultiTenant\Helpers\TenancyRequestHelper;
-use HynMe\MultiTenant\Models\Hostname;
-use HynMe\MultiTenant\Models\Tenant;
-use HynMe\MultiTenant\Models\Website;
-use HynMe\MultiTenant\Repositories\HostnameRepository;
-use HynMe\MultiTenant\Repositories\TenantRepository;
-use HynMe\MultiTenant\Repositories\WebsiteRepository;
-use HynMe\MultiTenant\Tenant\DatabaseConnection;
-use HynMe\MultiTenant\Tenant\Directory;
-use HynMe\MultiTenant\Tenant\View as TenantView;
+use LaraLeague\MultiTenant\Helpers\TenancyRequestHelper;
+use LaraLeague\MultiTenant\Models\Hostname;
+use LaraLeague\MultiTenant\Models\Tenant;
+use LaraLeague\MultiTenant\Models\Website;
+use LaraLeague\MultiTenant\Repositories\HostnameRepository;
+use LaraLeague\MultiTenant\Repositories\TenantRepository;
+use LaraLeague\MultiTenant\Repositories\WebsiteRepository;
+use LaraLeague\MultiTenant\Tenant\DatabaseConnection;
+use LaraLeague\MultiTenant\Tenant\Directory;
+use LaraLeague\MultiTenant\Tenant\View as TenantView;
 use View;
 
 /**
@@ -17,7 +17,7 @@ use View;
  *
  * Sets the tenant environment; overrules laravel core and sets the database connection
  *
- * @package HynMe\MultiTenant
+ * @package LaraLeague\MultiTenant
  */
 class TenancyEnvironment
 {
@@ -28,12 +28,12 @@ class TenancyEnvironment
     protected $app;
 
     /**
-     * @var \HynMe\MultiTenant\Models\Hostname
+     * @var \LaraLeague\MultiTenant\Models\Hostname
      */
     protected $hostname;
 
     /**
-     * @var \HynMe\MultiTenant\Models\Website
+     * @var \LaraLeague\MultiTenant\Models\Website
      */
     protected $website;
 
@@ -49,7 +49,7 @@ class TenancyEnvironment
         $this->setupBinds();
 
         // load hostname object or default
-        $this->hostname = TenancyRequestHelper::hostname($this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract'));
+        $this->hostname = TenancyRequestHelper::hostname($this->app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract'));
 
         // set website
         $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
@@ -64,11 +64,11 @@ class TenancyEnvironment
 
         // register tenant paths for website
         if(!is_null($this->website)) {
-            $this->app->make('HynMe\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
+            $this->app->make('LaraLeague\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
 
         // register view shares
-        View::composer('*', 'HynMe\MultiTenant\Composers\TenantComposer');
+        View::composer('*', 'LaraLeague\MultiTenant\Composers\TenantComposer');
     }
 
     /**
@@ -79,25 +79,25 @@ class TenancyEnvironment
         /*
          * Tenant repository
          */
-        $this->app->bind('HynMe\MultiTenant\Contracts\TenantRepositoryContract', function()
+        $this->app->bind('LaraLeague\MultiTenant\Contracts\TenantRepositoryContract', function()
         {
             return new TenantRepository(new Tenant);
         });
         /*
          * Tenant hostname repository
          */
-        $this->app->bind('HynMe\MultiTenant\Contracts\HostnameRepositoryContract', function()
+        $this->app->bind('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract', function()
         {
             return new HostnameRepository(new Hostname);
         });
         /*
          * Tenant website repository
          */
-        $this->app->bind('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
+        $this->app->bind('LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
         {
             return new WebsiteRepository(
                 new Website,
-                $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract')
+                $this->app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract')
             );
         });
     }
@@ -112,7 +112,7 @@ class TenancyEnvironment
         /*
          * Tenant directory mapping and functionality
          */
-        $this->app->singleton('HynMe\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
+        $this->app->singleton('LaraLeague\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
         {
             return $hostname ? new Directory($hostname->website) : null;
         });

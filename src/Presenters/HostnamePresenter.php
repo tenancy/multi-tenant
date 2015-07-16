@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Presenters;
+<?php namespace LaraLeague\MultiTenant\Presenters;
 
 use HynMe\Framework\Presenters\AbstractModelPresenter;
 

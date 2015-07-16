@@ -1,25 +1,25 @@
-<?php namespace HynMe\MultiTenant\Repositories;
+<?php namespace LaraLeague\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
-use HynMe\MultiTenant\Contracts\WebsiteRepositoryContract;
-use HynMe\MultiTenant\Models\Hostname;
+use LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract;
+use LaraLeague\MultiTenant\Models\Hostname;
 
 class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContract
 {
 
     /**
-     * @var \HynMe\MultiTenant\Models\Website
+     * @var \LaraLeague\MultiTenant\Models\Website
      */
     protected $website;
 
     /**
-     * @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract
+     * @var \LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract
      */
     protected $hostname;
 
     /**
      * @param Hostname $hostname
-     * @return \HynMe\MultiTenant\Models\Website
+     * @return \LaraLeague\MultiTenant\Models\Website
      */
     public function findByHostname(Hostname $hostname)
     {
@@ -29,7 +29,7 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     /**
      * Return default website
      *
-     * @return \HynMe\MultiTenant\Models\Website
+     * @return \LaraLeague\MultiTenant\Models\Website
      */
     public function getDefault()
     {

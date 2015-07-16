@@ -1,18 +1,18 @@
-<?php namespace HynMe\MultiTenant\Repositories;
+<?php namespace LaraLeague\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
-use HynMe\MultiTenant\Contracts\HostnameRepositoryContract;
+use LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract;
 
 class HostnameRepository extends BaseRepository implements HostnameRepositoryContract
 {
     /**
-     * @var \HynMe\MultiTenant\Models\Hostname
+     * @var \LaraLeague\MultiTenant\Models\Hostname
      */
     protected $hostname;
 
     /**
      * @param $hostname
-     * @return \HynMe\MultiTenant\Models\Hostname
+     * @return \LaraLeague\MultiTenant\Models\Hostname
      */
     public function findByHostname($hostname)
     {
@@ -20,7 +20,7 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
-     * @return \HynMe\MultiTenant\Models\Hostname
+     * @return \LaraLeague\MultiTenant\Models\Hostname
      */
     public function getDefault()
     {

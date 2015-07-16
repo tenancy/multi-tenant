@@ -1,13 +1,13 @@
-<?php namespace HynMe\MultiTenant\Repositories;
+<?php namespace LaraLeague\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
-use HynMe\MultiTenant\Contracts\TenantRepositoryContract;
+use LaraLeague\MultiTenant\Contracts\TenantRepositoryContract;
 
 class TenantRepository extends BaseRepository implements TenantRepositoryContract
 {
 
     /**
-     * @var \HynMe\MultiTenant\Models\Tenant
+     * @var \LaraLeague\MultiTenant\Models\Tenant
      */
     protected $tenant;
 
@@ -15,7 +15,7 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
     /**
      * Find a tenant by name
      * @param $name
-     * @return \HynMe\MultiTenant\Models\Tenant
+     * @return \LaraLeague\MultiTenant\Models\Tenant
      */
     public function findByName($name)
     {

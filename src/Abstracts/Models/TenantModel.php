@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Abstracts\Models;
+<?php namespace LaraLeague\MultiTenant\Abstracts\Models;
 
 use HynMe\Framework\Models\AbstractModel;
 

@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Commands\Migrate;
+<?php namespace LaraLeague\MultiTenant\Commands\Migrate;
 
 use App;
 use PDOException;
@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
     /**
-     * @var \HynMe\MultiTenant\Contracts\WebsiteRepositoryContract
+     * @var \LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract
      */
     protected $website;
 
@@ -16,7 +16,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         parent::__construct($migrator);
 
-        $this->website = App::make('HynMe\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = App::make('LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
 

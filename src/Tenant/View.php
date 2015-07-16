@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Tenant;
+<?php namespace LaraLeague\MultiTenant\Tenant;
 
 use Illuminate\Support\Collection;
 

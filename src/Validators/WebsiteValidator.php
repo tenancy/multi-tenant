@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Validators;
+<?php namespace LaraLeague\MultiTenant\Validators;
 
 use HynMe\Framework\Validators\AbstractValidator;
 

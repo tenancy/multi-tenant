@@ -1,15 +1,15 @@
-<?php namespace HynMe\MultiTenant\Tenant;
+<?php namespace LaraLeague\MultiTenant\Tenant;
 
 use DB;
 use Config;
 use HynMe\Framework\Exceptions\TenantDatabaseException;
-use HynMe\MultiTenant\Models\Website;
+use LaraLeague\MultiTenant\Models\Website;
 
 /**
  * Class DatabaseConnection
  *
  * Helps with tenant database connections
- * @package HynMe\MultiTenant\Tenant
+ * @package LaraLeague\MultiTenant\Tenant
  */
 class DatabaseConnection
 {

@@ -1,6 +1,6 @@
-<?php namespace HynMe\MultiTenant\Models;
+<?php namespace LaraLeague\MultiTenant\Models;
 
-use HynMe\MultiTenant\Abstracts\Models\SystemModel;
+use LaraLeague\MultiTenant\Abstracts\Models\SystemModel;
 use Laracasts\Presenter\PresentableTrait;
 
 class Tenant extends SystemModel
@@ -10,7 +10,7 @@ class Tenant extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'HynMe\MultiTenant\Presenters\TenantPresenter';
+    protected $presenter = 'LaraLeague\MultiTenant\Presenters\TenantPresenter';
 
     public function hostnames()
     {

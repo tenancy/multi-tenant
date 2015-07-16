@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Contracts;
+<?php namespace LaraLeague\MultiTenant\Contracts;
 
 interface DirectoryContract
 {

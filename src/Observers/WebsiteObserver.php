@@ -1,7 +1,7 @@
-<?php namespace HynMe\MultiTenant\Observers;
+<?php namespace LaraLeague\MultiTenant\Observers;
 
 use App;
-use HynMe\MultiTenant\Helpers\TenantDirectoryHelper;
+use LaraLeague\MultiTenant\Helpers\TenantDirectoryHelper;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class WebsiteObserver

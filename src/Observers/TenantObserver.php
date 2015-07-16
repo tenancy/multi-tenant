@@ -1,4 +1,4 @@
-<?php namespace HynMe\MultiTenant\Observers;
+<?php namespace LaraLeague\MultiTenant\Observers;
 
 class TenantObserver
 {
