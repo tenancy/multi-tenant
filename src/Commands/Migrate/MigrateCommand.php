@@ -31,20 +31,13 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         if (!$this->confirmToProceed()) {
             return;
         }
-        switch($this->option('tenant'))
-        {
-            case 'true':
-            case 'all':
-                $websites = $this->website->all();
-                break;
-            default:
-
-                $websites = $this->website
-                    ->queryBuilder()
-                    ->whereIn('id', explode(',', $this->option('tenant')))
-                    ->get();
-                break;
-
+        if($this->option('tenant') == 'all') {
+            $websites = $this->website->all();
+        } else {
+            $websites = $this->website
+                ->queryBuilder()
+                ->whereIn('id', explode(',', $this->option('tenant')))
+                ->get();
         }
 
         // forces database to tenant
@@ -57,7 +50,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
             $website->database->setCurrent();
 
-            $this->prepareDatabase();
+            $this->prepareDatabase($website->database->name);
 
             // The pretend option can be used for "simulating" the migration and grabbing
             // the SQL queries that would fire if the migration were to be run against
@@ -106,12 +99,15 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      *
      * @return void
      */
-    protected function prepareDatabase()
+    protected function prepareDatabase($connection = null)
     {
-        $this->migrator->setConnection($this->input->getOption('database'));
+        if(!$connection)
+            $connection = $this->option('database');
+
+        $this->migrator->setConnection($connection);
 
         if (!$this->migrator->repositoryExists()) {
-            $options = ['--database' => $this->input->getOption('database')];
+            $options = ['--database' => $connection];
 
             $this->call('migrate:install', $options);
         }
@@ -121,7 +117,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         return array_merge(
             parent::getOptions(),
-            [['tenant', null, InputOption::VALUE_OPTIONAL, 'The tenant(s) to apply migrations on; use {true|5,8}']]
+            [['tenant', null, InputOption::VALUE_OPTIONAL, 'The tenant(s) to apply migrations on; use {all|5,8}']]
         );
     }
 

@@ -89,7 +89,7 @@ class TenancySetupTest extends TestCase
     public function testTenantMigrationRuns()
     {
         $this->assertEquals(0, $this->artisan('migrate', [
-            '--tenant' => 'true',
+            '--tenant' => 'all',
             '--path' => __DIR__ . '/database/migrations/',
             '-n',
             '--force'
