@@ -2,6 +2,11 @@
 
 All Notable changes to `lara-league/multi-tenant` will be documented in this file
 
+### 0.4.2
+
+- Preliminary release now available, let's call this a _Release Candidate 1_
+- Migration to LaraLeague complete, fixed [readme.md](readme.md) and unit test in travis
+
 ### 0.4.1
 
 - Namespace changed to LaraLeague
