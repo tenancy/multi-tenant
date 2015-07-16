@@ -96,6 +96,25 @@ class TenancySetupTest extends TestCase
         ]));
     }
 
+
+    /**
+     * @depends testTenantMigrationRuns
+     */
+    public function testTenantMigratedTableExists()
+    {
+        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        $this->assertGreaterThan(0, $hostname
+            ->website
+            ->database
+            ->get()
+            ->table('tenant_migration_test')
+            ->insertGetId(['some_field' => 'foo']));
+    }
+
     /**
      * @depends testTenantMigrationRuns
      */

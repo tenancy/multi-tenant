@@ -16,6 +16,8 @@ class TestTenantMigration extends Migration {
         {
             $table->bigIncrements('id');
 
+            $table->string('some_field')->nullable();
+
             $table->timestamps();
 
         });
