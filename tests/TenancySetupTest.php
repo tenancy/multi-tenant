@@ -65,7 +65,7 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testTenantExistence
      */
-    public function testDatabaseExists()
+    public function testTenantDatabaseExists()
     {
         $databases = DB::connection('hyn')->select('SHOW DATABASES');
 
@@ -84,14 +84,15 @@ class TenancySetupTest extends TestCase
     }
 
     /**
-     * @depends testDatabaseExists
+     * @depends testTenantDatabaseExists
      */
     public function testTenantMigrationRuns()
     {
         $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'true',
             '--path' => __DIR__ . '/database/migrations/',
-            '-n'
+            '-n',
+            '--force'
         ]));
     }
 
