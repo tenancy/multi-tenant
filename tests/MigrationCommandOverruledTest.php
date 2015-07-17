@@ -1,7 +1,7 @@
-<?php namespace HynMe\MultiTenant\Tests;
+<?php namespace LaraLeague\MultiTenant\Tests;
 
 use HynMe\Framework\Testing\TestCase;
-use HynMe\MultiTenant\Commands\Migrate\MigrateCommand;
+use LaraLeague\MultiTenant\Commands\Migrate\MigrateCommand;
 use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCommand;
 
 class MigrationCommandOverruledTest extends TestCase

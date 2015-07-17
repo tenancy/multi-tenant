@@ -1,9 +1,9 @@
-<?php namespace HynMe\MultiTenant\Tests;
+<?php namespace LaraLeague\MultiTenant\Tests;
 
 
 use File, DB;
 use HynMe\Framework\Testing\TestCase;
-use HynMe\MultiTenant\MultiTenantServiceProvider;
+use LaraLeague\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
 {
@@ -39,9 +39,9 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantExistence()
     {
-        /** @var \HynMe\MultiTenant\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make('HynMe\MultiTenant\Contracts\TenantRepositoryContract');
-        /** @var \HynMe\MultiTenant\Models\Tenant|null $tenant */
+        /** @var \LaraLeague\MultiTenant\Contracts\TenantRepositoryContract tenant */
+        $this->tenant = $this->app->make('LaraLeague\MultiTenant\Contracts\TenantRepositoryContract');
+        /** @var \LaraLeague\MultiTenant\Models\Tenant|null $tenant */
         $tenant = $this->tenant->findByName('example');
 
         $this->assertNotNull($tenant, 'Tenant from command has not been created');
@@ -52,10 +52,10 @@ class TenancySetupTest extends TestCase
      */
     public function testHostnameExistence()
     {
-        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract hostname */
-        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        $this->hostname = $this->app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract');
 
-        /** @var \HynMe\MultiTenant\Models\Hostname|null $hostname */
+        /** @var \LaraLeague\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('example.org');
 
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
@@ -101,9 +101,9 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigratedTableExists()
     {
-        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
+        /** @var \LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \LaraLeague\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('example.org');
 
         $this->assertGreaterThan(0, $hostname
@@ -120,9 +120,9 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigrationEntryExists()
     {
-        /** @var \HynMe\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('HynMe\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \HynMe\MultiTenant\Models\Hostname|null $website */
+        /** @var \LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \LaraLeague\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('example.org');
 
         if(!$hostname)
