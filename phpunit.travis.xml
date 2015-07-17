@@ -12,14 +12,14 @@
 >
     <testsuites>
         <testsuite name="hyn multi tenant">
-            <directory suffix=".php">./vendor/hyn-me/multi-tenant/tests/</directory>
+            <directory suffix=".php">./vendor/lara-league/multi-tenant/tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./vendor/hyn-me/</directory>
+            <directory suffix=".php">./vendor/lara-league/</directory>
             <exclude>
-                <directory suffix=".php">./vendor/hyn-me/multi-tenant/tests/</directory>
+                <directory suffix=".php">./vendor/lara-league/multi-tenant/tests/</directory>
             </exclude>
         </whitelist>
     </filter>
