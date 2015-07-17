@@ -28,18 +28,14 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
             return parent::fire();
         }
 
-        switch($this->option('tenant'))
-        {
-            case true:
-            case 'all':
-                $websites = $this->website->all();
-                break;
-            default:
-                $websites = $this->website
-                    ->queryBuilder()
-                    ->whereIn('id', explode(',', $this->option('tenant')))
-                    ->get();
-                break;
+
+        if($this->option('tenant') == 'all') {
+            $websites = $this->website->all();
+        } else {
+            $websites = $this->website
+                ->queryBuilder()
+                ->whereIn('id', explode(',', $this->option('tenant')))
+                ->get();
         }
 
         // forces database to tenant
@@ -52,7 +48,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
 
             $website->database->setCurrent();
 
-            $this->repository->setSource($this->input->getOption('database'));
+            $this->repository->setSource($website->database->name);
 
             try {
                 $this->repository->createRepository();
