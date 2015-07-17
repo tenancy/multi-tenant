@@ -4,7 +4,6 @@
 [![License](https://poser.pugx.org/lara-league/multi-tenant/license)](https://packagist.org/packages/lara-league/multi-tenant)
 [![Build Status](https://travis-ci.org/lara-league/multi-tenant.svg?branch=master)](https://travis-ci.org/lara-league/multi-tenant)
 
-
 > Please note this package is under development. A working version can be seen in production on [hyn.me](http://hyn.me).
 > This package is compatible only with Laravel __5.1 LTS__.
 > If you have questions or wish to participate reach out to any LaraLeague developer.
@@ -154,6 +153,10 @@ Either run this command as root or under sudo if you want to configure your webs
 
 Please note, if you decide to skip the configuration of the webserver you will have to configure it by yourself. Example files are generated in the `storage/webserver` directories.
 
+## Chat or critical bug
+
+If you'd like to hang out with the LaraLeague or would like to discuss a critical vulnerability; please find us on [hipchat](https://lara-league.hipchat.com/invite/213868/477799cc764141939682368d90cfd897).
+
 ## Q&A
 
 Q: How do you pronounce hyn?
@@ -175,7 +178,7 @@ Q: I have a bug, feature request or technical question.
 > A: Visit the [issues page](http://github.com/lara-league/multi-tenant/issues) on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
-> A: Contact me or other experienced implementation developers on [gitter](https://gitter.im/lara-league/multi-tenant).
+> A: Contact me or other experienced implementation developers on [hipchat](https://lara-league.hipchat.com/invite/213868/477799cc764141939682368d90cfd897).
 
 Q: Why does the user for the `hyn` connection need `grant` rights?
 > A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
