@@ -20,4 +20,21 @@ class Tenant extends SystemModel
     {
         return $this->hasMany(Website::class);
     }
+
+    public function reseller()
+    {
+        return $this->belongsTo(self::class);
+    }
+    public function referer()
+    {
+        return $this->belongsTo(self::class);
+    }
+    public function reselled()
+    {
+        return $this->hasMany(self::class, 'reseller_id');
+    }
+    public function refered()
+    {
+        return $this->hasMany(self::class, 'referer_id');
+    }
 }
