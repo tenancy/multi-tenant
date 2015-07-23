@@ -1,7 +1,7 @@
 {
-    "name": "lara-league/multi-tenant",
+    "name": "laraflock/multi-tenant",
     "description": "Multi tenant laravel lts with separation between tenant and system",
-    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "lara-league"],
+    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "laraflock", "hyn-me"],
     "license": "MIT",
     "authors": [
         {
