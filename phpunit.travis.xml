@@ -19,7 +19,8 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./vendor/laraflock/</directory>
             <exclude>
-                <directory suffix=".php">./vendor/llaraflock/multi-tenant/tests/</directory>
+                <directory suffix=".php">./vendor/laraflock/multi-tenant/tests/</directory>
+                <directory suffix=".php">./vendor/laraflock/multi-tenant/database/migrations/</directory>
             </exclude>
         </whitelist>
     </filter>
