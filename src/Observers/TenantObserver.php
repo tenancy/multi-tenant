@@ -1,4 +1,4 @@
-<?php namespace LaraLeague\MultiTenant\Observers;
+<?php namespace Laraflock\MultiTenant\Observers;
 
 class TenantObserver
 {

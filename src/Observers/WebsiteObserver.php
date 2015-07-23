@@ -1,7 +1,7 @@
-<?php namespace LaraLeague\MultiTenant\Observers;
+<?php namespace Laraflock\MultiTenant\Observers;
 
 use App;
-use LaraLeague\MultiTenant\Helpers\TenantDirectoryHelper;
+use Laraflock\MultiTenant\Helpers\TenantDirectoryHelper;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class WebsiteObserver

@@ -1,4 +1,4 @@
-<?php namespace LaraLeague\MultiTenant\Commands\Migrate;
+<?php namespace Laraflock\MultiTenant\Commands\Migrate;
 
 use App;
 use PDOException;
@@ -18,7 +18,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
     {
         parent::__construct($repository);
 
-        $this->website = App::make('LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = App::make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LaraLeague\\MultiTenant\\": "src/"
+            "Laraflock\\MultiTenant\\": "src/"
         }
     },
     "minimum-stability": "stable"

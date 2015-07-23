@@ -1,7 +1,7 @@
-<?php namespace LaraLeague\MultiTenant\Helpers;
+<?php namespace Laraflock\MultiTenant\Helpers;
 
 
-use LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract;
+use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
 use Illuminate\Database\QueryException;
 use Request, App;
 
@@ -10,14 +10,14 @@ use Request, App;
  *
  * Helper class to identify requested hostname and website
  *
- * @package LaraLeague\MultiTenant\Helpers
+ * @package Laraflock\MultiTenant\Helpers
  */
 abstract class TenancyRequestHelper
 {
     /**
      * Loads Hostname models based on request
      * @param HostnameRepositoryContract $hostname
-     * @return \LaraLeague\MultiTenant\Models\Hostname
+     * @return \Laraflock\MultiTenant\Models\Hostname
      */
     public static function hostname(HostnameRepositoryContract $hostname)
     {

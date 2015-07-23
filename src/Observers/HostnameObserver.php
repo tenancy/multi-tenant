@@ -1,9 +1,9 @@
-<?php namespace LaraLeague\MultiTenant\Observers;
+<?php namespace Laraflock\MultiTenant\Observers;
 
 class HostnameObserver
 {
     /**
-     * @param \LaraLeague\MultiTenant\Models\Hostname $model
+     * @param \Laraflock\MultiTenant\Models\Hostname $model
      */
     public function saved($model)
     {

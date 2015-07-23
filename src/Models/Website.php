@@ -1,8 +1,8 @@
-<?php namespace LaraLeague\MultiTenant\Models;
+<?php namespace Laraflock\MultiTenant\Models;
 
-use LaraLeague\MultiTenant\Abstracts\Models\SystemModel;
-use LaraLeague\MultiTenant\Tenant\DatabaseConnection;
-use LaraLeague\MultiTenant\Tenant\Directory;
+use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
+use Laraflock\MultiTenant\Tenant\Directory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
@@ -11,14 +11,14 @@ use Laracasts\Presenter\PresentableTrait;
  *
  *
  * @property-read DatabaseConnection database
- * @package LaraLeague\MultiTenant\Models
+ * @package Laraflock\MultiTenant\Models
  */
 class Website extends SystemModel
 {
     use PresentableTrait,
         SoftDeletes;
 
-    protected $presenter = 'LaraLeague\MultiTenant\Presenters\WebsitePresenter';
+    protected $presenter = 'Laraflock\MultiTenant\Presenters\WebsitePresenter';
 
     protected $fillable = ['tenant_id', 'identifier'];
 

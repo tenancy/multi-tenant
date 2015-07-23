@@ -1,11 +1,11 @@
-<?php namespace LaraLeague\MultiTenant\Commands;
+<?php namespace Laraflock\MultiTenant\Commands;
 
 use DB, File;
 use HynMe\Framework\Exceptions\TenantPropertyException;
-use LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract;
-use LaraLeague\MultiTenant\Contracts\TenantRepositoryContract;
-use LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract;
-use LaraLeague\MultiTenant\MultiTenantServiceProvider;
+use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
+use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
+use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Laraflock\MultiTenant\MultiTenantServiceProvider;
 use Illuminate\Console\Command;
 use HynMe\Webserver\Helpers\ServerConfigurationHelper;
 

@@ -1,4 +1,4 @@
-<?php namespace LaraLeague\MultiTenant\Contracts;
+<?php namespace Laraflock\MultiTenant\Contracts;
 
 interface DirectoryContract
 {

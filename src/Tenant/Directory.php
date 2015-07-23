@@ -1,8 +1,8 @@
-<?php namespace LaraLeague\MultiTenant\Tenant;
+<?php namespace Laraflock\MultiTenant\Tenant;
 
 use Config, File;
-use LaraLeague\MultiTenant\Contracts\DirectoryContract;
-use LaraLeague\MultiTenant\Models\Website;
+use Laraflock\MultiTenant\Contracts\DirectoryContract;
+use Laraflock\MultiTenant\Models\Website;
 use Illuminate\Support\ClassLoader;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
@@ -18,7 +18,7 @@ use Illuminate\Translation\Translator;
  * - vendor
  * - lang
  *
- * @package LaraLeague\MultiTenant\Tenant
+ * @package Laraflock\MultiTenant\Tenant
  */
 class Directory implements DirectoryContract
 {

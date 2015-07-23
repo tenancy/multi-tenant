@@ -1,4 +1,4 @@
-<?php namespace LaraLeague\MultiTenant\Composers;
+<?php namespace Laraflock\MultiTenant\Composers;
 
 use Illuminate\Contracts\View\View;
 use App;

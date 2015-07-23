@@ -1,4 +1,4 @@
-<?php namespace LaraLeague\MultiTenant\Contracts;
+<?php namespace Laraflock\MultiTenant\Contracts;
 
 use HynMe\Framework\Contracts\BaseRepositoryContract;
 
@@ -6,12 +6,12 @@ interface HostnameRepositoryContract extends BaseRepositoryContract
 {
     /**
      * @param $hostname
-     * @return \LaraLeague\MultiTenant\Models\Hostname
+     * @return \Laraflock\MultiTenant\Models\Hostname
      */
     public function findByHostname($hostname);
 
     /**
-     * @return \LaraLeague\MultiTenant\Models\Hostname
+     * @return \Laraflock\MultiTenant\Models\Hostname
      */
     public function getDefault();
 }

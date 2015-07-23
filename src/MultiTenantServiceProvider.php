@@ -1,15 +1,15 @@
-<?php namespace LaraLeague\MultiTenant;
+<?php namespace Laraflock\MultiTenant;
 
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use LaraLeague\MultiTenant\Commands\SetupCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\MigrateCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\RollbackCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\RefreshCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\ResetCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\StatusCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\MigrateMakeCommand;
-use LaraLeague\MultiTenant\Commands\Migrate\InstallCommand;
+use Laraflock\MultiTenant\Commands\SetupCommand;
+use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
+use Laraflock\MultiTenant\Commands\Migrate\RollbackCommand;
+use Laraflock\MultiTenant\Commands\Migrate\RefreshCommand;
+use Laraflock\MultiTenant\Commands\Migrate\ResetCommand;
+use Laraflock\MultiTenant\Commands\Migrate\StatusCommand;
+use Laraflock\MultiTenant\Commands\Migrate\MigrateMakeCommand;
+use Laraflock\MultiTenant\Commands\Migrate\InstallCommand;
 
 class MultiTenantServiceProvider extends ServiceProvider {
 
@@ -39,7 +39,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * Register middleware to detect hostname and redirect if required
          */
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('LaraLeague\MultiTenant\Middleware\HostnameMiddleware');
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Laraflock\MultiTenant\Middleware\HostnameMiddleware');
 
         /*
          * Model observers
@@ -78,9 +78,9 @@ class MultiTenantServiceProvider extends ServiceProvider {
         $this->app->bind(SetupCommand::class, function($app)
         {
             return new SetupCommand(
-                $app->make('LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract'),
-                $app->make('LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract'),
-                $app->make('LaraLeague\MultiTenant\Contracts\TenantRepositoryContract')
+                $app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract'),
+                $app->make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract'),
+                $app->make('Laraflock\MultiTenant\Contracts\TenantRepositoryContract')
             );
         });
 
@@ -102,9 +102,9 @@ class MultiTenantServiceProvider extends ServiceProvider {
 		return array_merge($this->commands, [
             'tenant.view',
             'tenant.hostname',
-            'LaraLeague\MultiTenant\Contracts\DirectoryContract',
-            'LaraLeague\MultiTenant\Contracts\WebsiteRepositoryContract',
-            'LaraLeague\MultiTenant\Contracts\HostnameRepositoryContract',
+            'Laraflock\MultiTenant\Contracts\DirectoryContract',
+            'Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract',
+            'Laraflock\MultiTenant\Contracts\HostnameRepositoryContract',
         ]);
 	}
 
