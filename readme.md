@@ -1,8 +1,8 @@
 # Multi tenancy
 
-[![Latest Stable Version](https://poser.pugx.org/lara-league/multi-tenant/v/stable)](https://packagist.org/packages/lara-league/multi-tenant)
-[![License](https://poser.pugx.org/lara-league/multi-tenant/license)](https://packagist.org/packages/lara-league/multi-tenant)
-[![Build Status](https://travis-ci.org/lara-league/multi-tenant.svg?branch=master)](https://travis-ci.org/lara-league/multi-tenant)
+[![Latest Stable Version](https://poser.pugx.org/laraflock/multi-tenant/v/stable)](https://packagist.org/packages/laraflock/multi-tenant)
+[![License](https://poser.pugx.org/laraflock/multi-tenant/license)](https://packagist.org/packages/laraflock/multi-tenant)
+[![Build Status](https://travis-ci.org/laraflock/multi-tenant.svg?branch=master)](https://travis-ci.org/laraflock/multi-tenant)
 
 > Please note this package is under development. A working version can be seen in production on [hyn.me](http://hyn.me).
 > This package is compatible only with Laravel __5.1 LTS__.
@@ -19,7 +19,7 @@ The goals for this and its related packages are:
 ### Reading material:
 
 - [changelog](CHANGELOG.md)
-- [todo](https://trello.com/b/vIROJOMC/lara-league-multi-tenant)
+- [todo, contribute](https://trello.com/b/vIROJOMC/multi-tenant)
 - [website](http://hyn.me)
 
 ## What is multi tenancy
@@ -60,7 +60,7 @@ All packages for multi tenancy require Laravel 5.1 LTS.
 Include the dependancy in your composer.json:
 
 ```
-composer require lara-league/multi-tenant
+composer require laraflock/multi-tenant
 ```
 
 ### Service provider
@@ -175,7 +175,7 @@ Q: Will you make this package paid in the future?
 > A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
 
 Q: I have a bug, feature request or technical question.
-> A: Visit the [issues page](http://github.com/lara-league/multi-tenant/issues) on github.
+> A: Visit the [issues page](http://github.com/laraflock/multi-tenant/issues) on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
 > A: Contact me or other experienced implementation developers of [LaraLeague](https://github.com/lara-league).
