@@ -14,12 +14,8 @@ if [[ ${TRAVIS_BRANCH} =~ $BRANCH_REGEX ]]; then
 else
     echo "composer require ${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}"
     # development package of framework could be required for the package
-    composer require hyn-me/framework "dev-master as 0.1.99"
     composer require "${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}#${TRAVIS_COMMIT}"
 fi
 
-# moves the unit test to the root laravel directory
-cp ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml ./phpunit.xml
-
 #phpunit
-phpunit --coverage-text --coverage-clover=${TRAVIS_BUILD_DIR}/coverage.clover
+phpunit --coverage-text --coverage-clover=${TRAVIS_BUILD_DIR}/coverage.clover --configuration ./vendor/${TRAVIS_REPO_SLUG}/phpunit.travis.xml

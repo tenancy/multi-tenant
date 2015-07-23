@@ -1,6 +1,10 @@
 # Changelog
 
-All Notable changes to `lara-league/multi-tenant` will be documented in this file
+All Notable changes to `laraflock/multi-tenant` will be documented in this file
+
+### 0.4.3
+
+- Moved to permanent namespace Laraflock.
 
 ### 0.4.2
 

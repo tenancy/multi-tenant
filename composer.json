@@ -10,8 +10,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/lara-league/multi-tenant/issues",
-        "source": "https://github.com/lara-league/multi-tenant",
+        "issues": "https://github.com/laraflock/multi-tenant/issues",
+        "source": "https://github.com/laraflock/multi-tenant",
         "docs": "http://hyn.me"
     },
     "require": {
