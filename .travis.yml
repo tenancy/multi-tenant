@@ -13,9 +13,6 @@ addons:
     - system.hyn.me
     - tenant.hyn.me
 
-before_install:
-  - pip install codecov
-
 install:
   # fix ipv6 issue that prevented composer requests and resulted in failing builds
   - sudo sh -c "echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf"
@@ -38,4 +35,4 @@ script:
   - ./scripts/travis.sh
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
