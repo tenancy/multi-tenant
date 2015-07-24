@@ -31,5 +31,10 @@
             "Laraflock\\MultiTenant\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Laraflock\\MultiTenant\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "stable"
 }

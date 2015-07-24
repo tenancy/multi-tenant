@@ -13,6 +13,9 @@ addons:
     - system.hyn.me
     - tenant.hyn.me
 
+before_install:
+  - pip install codecov
+
 install:
   # fix ipv6 issue that prevented composer requests and resulted in failing builds
   - sudo sh -c "echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf"
@@ -34,6 +37,5 @@ script:
   # run the script calling unit tests and so on
   - ./scripts/travis.sh
 
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ${TRAVIS_BUILD_DIR}/coverage.clover
+after_success:
+  - codecov
