@@ -7,12 +7,11 @@ use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCo
 /**
  * Class MigrationCommandOverruledTest
  * @package Laraflock\MultiTenant\Tests
- * @coversDefaultClass \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
  */
 class MigrationCommandOverruledTest extends TestCase
 {
     /**
-     * @covers
+     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testMigrateCommand()
     {
