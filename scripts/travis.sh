@@ -10,10 +10,10 @@ BRANCH_REGEX="^(([[:digit:]]+\.)+[[:digit:]]+)$"
 
 if [[ ${TRAVIS_BRANCH} =~ $BRANCH_REGEX ]]; then
     echo "composer require ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH}"
-    composer require ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH} --prefer-dist
+    composer require ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH}
 else
     echo "composer require ${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}"
-    composer require "${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}#${TRAVIS_COMMIT}" --prefer-dist
+    composer require "${TRAVIS_REPO_SLUG}:dev-${TRAVIS_BRANCH}#${TRAVIS_COMMIT}"
 fi
 
 # moves the unit test to the root laravel directory
