@@ -96,8 +96,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Laraflock\MultiTenant\Commands\InstallCommand
-     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
+     * @covers \Laraflock\MultiTenant\Commands\Migrate\InstallCommand
+     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testTenantMigrationRuns()
     {
@@ -111,7 +111,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
+     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testTenantMigratedTableExists()
     {
@@ -131,7 +131,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
+     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testTenantMigrationEntryExists()
     {
