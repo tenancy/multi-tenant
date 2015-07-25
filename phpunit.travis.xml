@@ -17,7 +17,6 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./vendor/laraflock/</directory>
             <exclude>
                 <directory suffix=".php">./vendor/laraflock/multi-tenant/database/migrations/</directory>
             </exclude>
