@@ -24,6 +24,9 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testPackages
      * @covers \Laraflock\MultiTenant\Commands\SetupCommand
+     * @covers \HmtTenantsTable
+     * @covers \HmtWebsites
+     * @covers \HmtHostnames
      */
     public function testCommand()
     {
