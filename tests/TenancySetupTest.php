@@ -7,6 +7,9 @@ use Laraflock\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
 {
+    /**
+     * @covers \Laraflock\MultiTenant\MultiTenantServiceProvider
+     */
     public function testPackages()
     {
         $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
@@ -20,6 +23,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testPackages
+     * @covers \Laraflock\MultiTenant\Commands\SetupCommand
      */
     public function testCommand()
     {
@@ -36,6 +40,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testCommand
+     * @covers \Laraflock\MultiTenant\Repositories\TenantRepository::findByName
+     * @covers \Laraflock\MultiTenant\Contracts\TenantRepositoryContract::findByName
      */
     public function testTenantExistence()
     {
@@ -49,6 +55,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantExistence
+     * @covers \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
+     * @covers \Laraflock\MultiTenant\Repositories\HostnameRepository::findByHostname
      */
     public function testHostnameExistence()
     {
@@ -85,6 +93,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
+     * @covers \Laraflock\MultiTenant\Commands\InstallCommand
+     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
      */
     public function testTenantMigrationRuns()
     {
@@ -98,6 +108,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
+     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
      */
     public function testTenantMigratedTableExists()
     {
@@ -117,6 +128,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
+     * @covers \Laraflock\MultiTenant\Commands\MigrateCommand
      */
     public function testTenantMigrationEntryExists()
     {
