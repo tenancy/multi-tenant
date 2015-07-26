@@ -45,6 +45,6 @@ class WebsiteModelTest extends TestCase
      */
     public function testDirectoryAttribute($website)
     {
-        $this->assertEquals(new Directory(), $website->directory);
+        $this->assertEquals(new Directory($website), $website->directory);
     }
 }
