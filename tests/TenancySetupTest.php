@@ -98,6 +98,7 @@ class TenancySetupTest extends TestCase
      * @depends testTenantDatabaseExists
      * @covers \Laraflock\MultiTenant\Commands\Migrate\InstallCommand
      * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \TestTenantMigration
      */
     public function testTenantMigrationRuns()
     {

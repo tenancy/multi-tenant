@@ -15,4 +15,9 @@
             <directory suffix=".php">./vendor/laraflock/multi-tenant/tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./vendor/laraflock/multi-tenant/</directory>
+        </whitelist>
+    </filter>
 </phpunit>
