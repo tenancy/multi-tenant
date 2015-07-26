@@ -34,7 +34,6 @@ class WebsiteModelTest extends TestCase
      */
     public function testHostnames($website)
     {
-        $this->assertEquals(0, $website->hostnames->count());
         $this->assertEquals(new Hostname, $website->hostnames()->getRelated()->newInstance());
     }
 

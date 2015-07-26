@@ -82,7 +82,6 @@ class HostnameModelTest extends TestCase
      */
     public function testSubDomains($hostname)
     {
-        $this->assertEquals(0, $hostname->subDomains->count());
         $this->assertEquals(new Hostname, $hostname->subDomains()->getRelated()->newInstance([]));
     }
 
