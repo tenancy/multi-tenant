@@ -57,6 +57,7 @@ class TenantModeltest extends TestCase
 
     /**
      * @param Tenant $tenant
+     * @depends testCreate
      * @covers ::reseller
      * @covers ::referer
      * @covers ::refered

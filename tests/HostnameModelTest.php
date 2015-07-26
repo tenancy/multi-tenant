@@ -42,8 +42,6 @@ class HostnameModelTest extends TestCase
      */
     public function testTenant($hostname)
     {
-        $this->assertNull($hostname->tenant);
-
         $this->assertEquals(new Tenant, $hostname->tenant()->getRelated()->newInstance([]));
     }
 
@@ -54,8 +52,6 @@ class HostnameModelTest extends TestCase
      */
     public function testWebsite($hostname)
     {
-        $this->assertNull($hostname->website);
-
         $this->assertEquals(new Website, $hostname->website()->getRelated()->newInstance([]));
     }
 
@@ -66,23 +62,22 @@ class HostnameModelTest extends TestCase
      */
     public function testRedirectTo($hostname)
     {
-        $this->assertNull($hostname->redirectToHostname);
-
         $this->assertEquals(new Hostname, $hostname->redirectToHostname()->getRelated()->newInstance([]));
     }
 
     /**
      * @param Hostname $hostname
+     * @depends testCreate
      * @covers ::certificate
      */
     public function testCertificate($hostname)
     {
-        $this->assertNull($hostname->certificate);
         $this->assertEquals(new SslCertificate, $hostname->certificate()->getRelated()->newInstance([]));
     }
 
     /**
      * @param Hostname $hostname
+     * @depends testCreate
      * @covers ::redirectActionRequired
      */
     public function testRedirectActionRequired($hostname)
