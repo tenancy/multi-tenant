@@ -4,6 +4,7 @@ namespace Laraflock\MultiTenant\Tests;
 
 use HynMe\Framework\Testing\TestCase;
 use HynMe\Webserver\Models\SslCertificate;
+use Illuminate\Http\RedirectResponse;
 use Laraflock\MultiTenant\Models\Hostname;
 use Laraflock\MultiTenant\Models\Tenant;
 use Laraflock\MultiTenant\Models\Website;
@@ -82,6 +83,6 @@ class HostnameModelTest extends TestCase
      */
     public function testRedirectActionRequired($hostname)
     {
-        $this->assertNull($hostname->redirectActionRequired());
+        $this->assertTrue($hostname->redirectActionRequired() instanceof RedirectResponse);
     }
 }
