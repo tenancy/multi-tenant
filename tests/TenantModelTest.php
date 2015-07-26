@@ -38,7 +38,7 @@ class TenantModeltest extends TestCase
     {
         $this->assertEquals(0, $tenant->hostnames->count());
 
-        $this->assertEquals(new Hostname, $tenant->hostnames()->create([]));
+        $this->assertEquals(new Hostname, $tenant->hostnames()->getRelated()->newInstance([]));
     }
 
     /**
@@ -52,6 +52,6 @@ class TenantModeltest extends TestCase
     {
         $this->assertEquals(0, $tenant->websites->count());
 
-        $this->assertEquals(new Website, $tenant->websites()->create([]));
+        $this->assertEquals(new Website, $tenant->websites()->getRelated()->newInstance([]));
     }
 }
