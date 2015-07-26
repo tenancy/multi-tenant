@@ -69,6 +69,26 @@ class HostnameModelTest extends TestCase
     /**
      * @param Hostname $hostname
      * @depends testCreate
+     * @covers ::subDomainOf
+     */
+    public function testSubDomainOf($hostname)
+    {
+        $this->assertEquals(new Hostname, $hostname->subDomainOf()->getRelated()->newInstance([]));
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @depends testCreate
+     */
+    public function testSubDomains($hostname)
+    {
+        $this->assertEquals(0, $hostname->subDomains->count());
+        $this->assertEquals(new Hostname, $hostname->subDomains()->getRelated()->newInstance([]));
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @depends testCreate
      * @covers ::certificate
      */
     public function testCertificate($hostname)

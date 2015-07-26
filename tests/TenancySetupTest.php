@@ -24,7 +24,11 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testPackages
+     *
      * @covers \Laraflock\MultiTenant\Commands\SetupCommand
+     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection::create
+     * @covers \Laraflock\MultiTenant\Tenant\Directory::create
+     *
      * @covers \HmtTenantsTable
      * @covers \HmtWebsitesTable
      * @covers \HmtHostnamesTable
