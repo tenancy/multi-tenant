@@ -22,6 +22,12 @@ use Illuminate\Translation\Translator;
  */
 class Directory implements DirectoryContract
 {
+
+    /**
+     * @var array
+     */
+    protected $paths_to_create = ['base', 'config', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'];
+
     /**
      * @var Website
      */
@@ -229,7 +235,7 @@ class Directory implements DirectoryContract
     public function create()
     {
         $done = 0;
-        foreach(['base', 'config', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'] as $i => $directory)
+        foreach($this->paths_to_create as $i => $directory)
         {
             if(File::isDirectory($this->{$directory}()) || File::makeDirectory($this->{$directory}(), 0755, true))
                 $done++;
@@ -270,5 +276,15 @@ class Directory implements DirectoryContract
     public function delete()
     {
         return File::deleteDirectory($this->base());
+    }
+
+    /**
+     * Paths that need to be created
+     *
+     * @return array
+     */
+    public function pathsToCreate()
+    {
+        return $this->paths_to_create;
     }
 }

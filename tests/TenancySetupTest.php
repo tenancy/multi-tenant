@@ -3,6 +3,7 @@
 
 use File, DB;
 use HynMe\Framework\Testing\TestCase;
+use Illuminate\Database\Connection;
 use Laraflock\MultiTenant\MultiTenantServiceProvider;
 
 class TenancySetupTest extends TestCase
@@ -96,6 +97,50 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
+     * @covers \Laraflock\MultiTenant\Tenant\Directory
+     */
+    public function testTenantFoldersExist()
+    {
+        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        /** @var \Laraflock\MultiTenant\Models\Website $website */
+        $website = $hostname->website;
+
+        foreach($website->directory->pathsToCreate() as $directory)
+        {
+            // let's check whether the directory has been succesfully created
+            $this->assertTrue(File::exists($website->directory->{$directory}()));
+            // directories are created with 0755; let's see whether that is sufficient
+            $this->assertTrue(File::isWritable($website->directory->{$directory}()));
+        }
+    }
+
+    /**
+     * @depends testTenantDatabaseExists
+     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection
+     */
+    public function testTenantConnection()
+    {
+        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        $hostname = $this->hostname->findByHostname('example.org');
+
+        /** @var \Laraflock\MultiTenant\Tenant\DatabaseConnection $connection */
+        $connection = $hostname->website->database;
+
+        $connection->setCurrent();
+        $this->assertTrue($connection->isCurrent());
+        $this->assertEquals($connection->name, $connection->getCurrent());
+        $this->assertTrue($connection->get() instanceof Connection);
+
+    }
+
+    /**
+     * @depends testTenantDatabaseExists
      * @covers \Laraflock\MultiTenant\Commands\Migrate\InstallCommand
      * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
      * @covers \TestTenantMigration
@@ -133,6 +178,7 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testTenantMigrationRuns
      * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection::setCurrent
      */
     public function testTenantMigrationEntryExists()
     {
