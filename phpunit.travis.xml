@@ -17,10 +17,7 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./vendor/laraflock/multi-tenant/</directory>
-            <exclude>
-                <directory suffix=".php">./vendor/laraflock/multi-tenant/database/migrations/</directory>
-            </exclude>
+            <directory suffix=".php">./vendor/laraflock/multi-tenant/src/</directory>
         </whitelist>
     </filter>
 </phpunit>
