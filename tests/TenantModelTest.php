@@ -54,4 +54,20 @@ class TenantModeltest extends TestCase
 
         $this->assertEquals(new Website, $tenant->websites()->getRelated()->newInstance([]));
     }
+
+    /**
+     * @param Tenant $tenant
+     * @covers ::reseller
+     * @covers ::referer
+     * @covers ::refered
+     * @covers ::reselled
+     */
+    public function testRelatedTenants($tenant)
+    {
+        $this->assertNull($tenant->reselled);
+        $this->assertNull($tenant->reseller);
+
+        $this->assertNull($tenant->refered);
+        $this->assertNull($tenant->referer);
+    }
 }
