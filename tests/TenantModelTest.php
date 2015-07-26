@@ -5,6 +5,7 @@ namespace Laraflock\MultiTenant\Tests;
 use HynMe\Framework\Testing\TestCase;
 use Laraflock\MultiTenant\Models\Hostname;
 use Laraflock\MultiTenant\Models\Tenant;
+use Laraflock\MultiTenant\Models\Website;
 
 /**
  * Class TenantModeltest
@@ -23,10 +24,6 @@ class TenantModeltest extends TestCase
         $tenant->name = 'example';
         $tenant->email = 'foo@baz.com';
 
-        $hostname = new Hostname;
-        $hostname->hostname = 'example.com';
-        $hostname->tenant()->associate($tenant);
-
         return $tenant;
     }
 
@@ -39,8 +36,22 @@ class TenantModeltest extends TestCase
      */
     public function testHostnames($tenant)
     {
-        $this->assertGreaterThan(0, $tenant->hostnames->count());
+        $this->assertEquals(0, $tenant->hostnames->count());
 
-        $this->assertEquals('example.com', $tenant->hostnames->first()->hostname);
+        $this->assertEquals(new Hostname, $tenant->hostnames()->create());
+    }
+
+    /**
+     * Tests websites
+     *
+     * @param Tenant $tenant
+     * @depends testCreate
+     * @covers ::websites
+     */
+    public function testWebsites($tenant)
+    {
+        $this->assertEquals(0, $tenant->websites->count());
+
+        $this->assertEquals(new Website, $tenant->websites()->create());
     }
 }
