@@ -82,6 +82,6 @@ class HostnameModelTest extends TestCase
      */
     public function testRedirectActionRequired($hostname)
     {
-        $this->assertNull($hostname->redirectActionRequired);
+        $this->assertNull($hostname->redirectActionRequired());
     }
 }

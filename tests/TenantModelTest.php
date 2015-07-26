@@ -65,10 +65,10 @@ class TenantModeltest extends TestCase
      */
     public function testRelatedTenants($tenant)
     {
-        $this->assertNull($tenant->reselled);
+        $this->assertEquals(0, $tenant->reselled->count());
         $this->assertNull($tenant->reseller);
 
-        $this->assertNull($tenant->refered);
+        $this->assertEquals(0, $tenant->refered->count());
         $this->assertNull($tenant->referer);
     }
 }
