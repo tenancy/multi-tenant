@@ -39,7 +39,7 @@ class TenantModeltest extends TestCase
      */
     public function testHostnames($tenant)
     {
-        $this->assertGreaterThan(0, $tenant->hostnames);
+        $this->assertGreaterThan(0, $tenant->hostnames->count());
 
         $this->assertEquals('example.com', $tenant->hostnames->first()->hostname);
     }
