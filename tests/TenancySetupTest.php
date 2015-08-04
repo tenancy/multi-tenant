@@ -212,7 +212,17 @@ class TenancySetupTest extends TestCase
      */
     public function testMiddleware()
     {
-        $this->visit('http://tenant.testing/')->seeStatusCode(200);
-        $this->visit('http://system.testing/')->seeStatusCode(200);
+
+        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
+        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        $hostname = $this->hostname->findByHostname('system.testing');
+
+        $this->visit('http://tenant.testing/')->seeStatusCode(200)->seeJson([
+            'hostname' => $hostname
+        ]);
+        $this->visit('http://system.testing/')->seeStatusCode(200)->seeJson([
+            'hostname' => $hostname
+        ]);
     }
 }
