@@ -46,4 +46,15 @@ class WebsiteModelTest extends TestCase
     {
         $this->assertEquals(new Directory($website), $website->directory);
     }
+
+    /**
+     * @param Website $website
+     * @depends testCreate
+     * @covers \Laraflock\MultiTenant\Presenters\WebsitePresenter
+     */
+    public function testPresenter($website)
+    {
+        $this->assertEquals($website->identifier, $website->present()->name);
+        $this->assertNotNull($website->present()->icon);
+    }
 }

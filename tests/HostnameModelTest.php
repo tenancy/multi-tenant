@@ -104,4 +104,15 @@ class HostnameModelTest extends TestCase
     {
         $this->assertTrue($hostname->redirectActionRequired() instanceof RedirectResponse);
     }
+
+    /**
+     * @param Hostname $hostname
+     * @depends testCreate
+     * @covers \Laraflock\MultiTenant\Presenters\HostnamePresenter
+     */
+    public function testHostnamePresenter($hostname)
+    {
+        $this->assertEquals($hostname->hostname, $hostname->present()->name);
+        $this->assertNotNull($hostname->present()->icon);
+    }
 }

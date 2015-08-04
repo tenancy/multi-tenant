@@ -71,4 +71,15 @@ class TenantModeltest extends TestCase
         $this->assertEquals(0, $tenant->refered->count());
         $this->assertNull($tenant->referer);
     }
+
+    /**
+     * @param Tenant $tenant
+     * @depends testCreate
+     * @covers \Laraflock\MultiTenant\Presenters\TenantPresenter
+     */
+    public function testPresenter($tenant)
+    {
+        $this->assertEquals($tenant->name, $tenant->present()->name);
+        $this->assertNotNull($tenant->present()->icon);
+    }
 }
