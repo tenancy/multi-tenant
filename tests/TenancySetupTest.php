@@ -212,7 +212,7 @@ class TenancySetupTest extends TestCase
      */
     public function testMiddleware()
     {
-        $this->visit('http://tenant.testing/')->seeStatusCode(404);
+        $this->visit('http://tenant.testing/')->seeStatusCode(200);
         $this->visit('http://system.testing/')->seeStatusCode(200);
     }
 }
