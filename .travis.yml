@@ -10,8 +10,8 @@ php:
 
 addons:
   hosts:
-    - system.hyn.me
-    - tenant.hyn.me
+    - system.testing
+    - tenant.testing
 
 install:
   # fix ipv6 issue that prevented composer requests and resulted in failing builds

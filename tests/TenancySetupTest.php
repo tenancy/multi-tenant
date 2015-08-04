@@ -41,7 +41,7 @@ class TenancySetupTest extends TestCase
         // create first tenant
         $this->assertEquals(0, $this->artisan('multi-tenant:setup', [
             '--tenant' => 'example',
-            '--hostname' => 'system.hyn.me',    // configured in travis as primary hostname
+            '--hostname' => 'system.testing',    // configured in travis as primary hostname
             '--email' => 'info@example.org',
             '--webserver' => 'no'
         ]));
@@ -75,7 +75,7 @@ class TenancySetupTest extends TestCase
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
 
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $hostname */
-        $hostname = $this->hostname->findByHostname('system.hyn.me');
+        $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
 
@@ -111,7 +111,7 @@ class TenancySetupTest extends TestCase
         /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->hostname->findByHostname('system.hyn.me');
+        $hostname = $this->hostname->findByHostname('system.testing');
 
         /** @var \Laraflock\MultiTenant\Models\Website $website */
         $website = $hostname->website;
@@ -134,7 +134,7 @@ class TenancySetupTest extends TestCase
         /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->hostname->findByHostname('system.hyn.me');
+        $hostname = $this->hostname->findByHostname('system.testing');
 
         /** @var \Laraflock\MultiTenant\Tenant\DatabaseConnection $connection */
         $connection = $hostname->website->database;
@@ -171,7 +171,7 @@ class TenancySetupTest extends TestCase
         /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->hostname->findByHostname('system.hyn.me');
+        $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertGreaterThan(0, $hostname
             ->website
@@ -192,7 +192,7 @@ class TenancySetupTest extends TestCase
         /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
-        $hostname = $this->hostname->findByHostname('system.hyn.me');
+        $hostname = $this->hostname->findByHostname('system.testing');
 
         if(!$hostname)
             throw new \Exception("Unit test hostname not found");
@@ -212,7 +212,7 @@ class TenancySetupTest extends TestCase
      */
     public function testMiddleware()
     {
-        $this->visit('http://tenant.hyn.me/')->seeStatusCode(404);
-        $this->visit('http://system.hyn.me/')->seeStatusCode(200);
+        $this->visit('http://tenant.testing/')->seeStatusCode(404);
+        $this->visit('http://system.testing/')->seeStatusCode(200);
     }
 }
