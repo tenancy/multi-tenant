@@ -27,7 +27,7 @@ class WebsitePresenter extends AbstractModelPresenter
      */
     public function icon()
     {
-        return 'website';
+        return 'management-interface::icon.website';
     }
 
     /**

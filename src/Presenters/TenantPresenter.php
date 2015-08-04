@@ -9,7 +9,7 @@ class TenantPresenter extends AbstractModelPresenter
      */
     public function icon()
     {
-        return 'tenant';
+        return 'management-interface::icon.tenant';
     }
 
     /**

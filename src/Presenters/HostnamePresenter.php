@@ -11,7 +11,7 @@ class HostnamePresenter extends AbstractModelPresenter
      */
     public function icon()
     {
-        return 'hostname';
+        return 'management-interface::icon.hostname';
     }
 
     /**
