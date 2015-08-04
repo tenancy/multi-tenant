@@ -28,6 +28,9 @@ class TenancySetupTest extends TestCase
      * @covers \Laraflock\MultiTenant\Commands\SetupCommand
      * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection::create
      * @covers \Laraflock\MultiTenant\Tenant\Directory::create
+     * @covers \Laraflock\MultiTenant\Observers\WebsiteObserver::created
+     * @covers \Laraflock\MultiTenant\Observers\WebsiteObserver::creating
+     * @covers \Laraflock\MultiTenant\Observers\HostnameObserver::saved
      *
      * @covers \HmtTenantsTable
      * @covers \HmtWebsitesTable
