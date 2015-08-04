@@ -205,4 +205,14 @@ class TenancySetupTest extends TestCase
             $this->seeInDatabase('migrations', ['migration' => $fileBaseName], $hostname->website->database->name);
         }
     }
+
+    /**
+     * @depends testTenantExistence
+     * @covers \Laraflock\MultiTenant\Middleware\HostnameMiddleware
+     */
+    public function testMiddleware()
+    {
+        $this->visit('http://example.com/')->seeStatusCode(404);
+        $this->visit('http://example.org/')->seeStatusCode(200);
+    }
 }
