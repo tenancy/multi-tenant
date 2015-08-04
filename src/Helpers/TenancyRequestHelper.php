@@ -24,7 +24,7 @@ abstract class TenancyRequestHelper
         $tenant_hostname = null;
 
         try {
-            if(!App::runningUnitTests() && !App::runningInConsole())
+            if(!App::runningInConsole())
                 $tenant_hostname = $hostname->findByHostname(Request::getHttpHost());
 
             if(!$tenant_hostname)
