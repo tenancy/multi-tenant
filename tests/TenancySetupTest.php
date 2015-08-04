@@ -222,7 +222,7 @@ class TenancySetupTest extends TestCase
             'hostname' => null
         ]);
         env('HYN_MULTI_TENANCY_HOSTNAME=system.testing');
-        $this->visit('/')->seeStatusCode(200)->seeJson([
+        $this->visit('http://system.testing/')->seeStatusCode(200)->seeJson([
             'hostname' => $hostname
         ]);
     }
