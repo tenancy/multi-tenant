@@ -219,7 +219,7 @@ class TenancySetupTest extends TestCase
         $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->visit('http://tenant.testing/')->seeStatusCode(200)->seeJson([
-            'hostname' => $hostname
+            'hostname' => null
         ]);
         $this->visit('http://system.testing/')->seeStatusCode(200)->seeJson([
             'hostname' => $hostname
