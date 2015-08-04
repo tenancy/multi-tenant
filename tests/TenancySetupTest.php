@@ -41,7 +41,7 @@ class TenancySetupTest extends TestCase
         // create first tenant
         $this->assertEquals(0, $this->artisan('multi-tenant:setup', [
             '--tenant' => 'example',
-            '--hostname' => 'example.org',
+            '--hostname' => 'system.hyn.me',    // configured in travis as primary hostname
             '--email' => 'info@example.org',
             '--webserver' => 'no'
         ]));
@@ -212,7 +212,7 @@ class TenancySetupTest extends TestCase
      */
     public function testMiddleware()
     {
-        $this->visit('http://example.com/')->seeStatusCode(404);
-        $this->visit('http://example.org/')->seeStatusCode(200);
+        $this->visit('http://tenant.hyn.me/')->seeStatusCode(404);
+        $this->visit('http://system.hyn.me/')->seeStatusCode(200);
     }
 }
