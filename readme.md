@@ -73,7 +73,7 @@ Register the service provider in your `config/app.php` within the `providers` ar
  * HynMe packages
  * @info FrameworkServiceProvider will load any available Service Provider from other hyn-me packages
  */
-'HynMe\Framework\FrameworkServiceProvider',
+HynMe\Framework\FrameworkServiceProvider::class,
 ```
 > Please note this says __FrameworkServiceProvider__ from the __Framework__ package, registering the __MultiTenantServiceProvider__ will break multi tenancy features!
 
@@ -82,7 +82,7 @@ Register the service provider in your `config/app.php` within the `providers` ar
 To support multi tenancy in other (3rd party) packages, __replace__ the class alias for Eloquent under `aliases` in your `config/app.php`:
 
 ```php
-'Eloquent'  => 'HynMe\Framework\Models\AbstractModel',
+'Eloquent'  => HynMe\Framework\Models\AbstractModel::class,
 ```
 
 This will ensure that all extended classes will by default connect with the tenant database instead of the system database.
