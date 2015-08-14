@@ -23,7 +23,7 @@ install:
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
-  - mysql -e 'create database hyn;' -uroot
+  - mysql -e "create database hyn;" -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
   - composer create-project laravel/laravel
