@@ -12,6 +12,8 @@ class Tenant extends SystemModel
      */
     protected $presenter = 'Laraflock\MultiTenant\Presenters\TenantPresenter';
 
+    protected $fillable = ['name', 'identifier'];
+
     public function hostnames()
     {
         return $this->hasMany(Hostname::class);
