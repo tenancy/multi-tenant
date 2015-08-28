@@ -1,5 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Abstracts\Models;
+<?php
 
+namespace Laraflock\MultiTenant\Abstracts\Models;
 
 use HynMe\Framework\Models\AbstractModel;
 

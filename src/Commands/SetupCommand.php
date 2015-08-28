@@ -1,13 +1,15 @@
-<?php namespace Laraflock\MultiTenant\Commands;
+<?php
 
-use DB, File;
+namespace Laraflock\MultiTenant\Commands;
+
+use DB;
+use File;
 use HynMe\Framework\Exceptions\TenantPropertyException;
+use HynMe\Webserver\Helpers\ServerConfigurationHelper;
+use Illuminate\Console\Command;
 use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
 use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
 use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Laraflock\MultiTenant\MultiTenantServiceProvider;
-use Illuminate\Console\Command;
-use HynMe\Webserver\Helpers\ServerConfigurationHelper;
 
 class SetupCommand extends Command
 {
@@ -69,31 +71,31 @@ class SetupCommand extends Command
         $this->website = $website;
         $this->tenant = $tenant;
 
-        $this->helper = new ServerConfigurationHelper;
+        $this->helper = new ServerConfigurationHelper();
     }
 
-
-
     /**
-     * Handles the set up
+     * Handles the set up.
      */
     public function handle()
     {
-
         $this->configuration = config('webserver');
 
         $name = $this->option('tenant');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
 
-        if(empty($name))
-            throw new TenantPropertyException("No tenant name given; use --tenant");
+        if (empty($name)) {
+            throw new TenantPropertyException('No tenant name given; use --tenant');
+        }
 
-        if(empty($email))
-            throw new TenantPropertyException("No tenant email given; use --email");
+        if (empty($email)) {
+            throw new TenantPropertyException('No tenant email given; use --email');
+        }
 
-        if(empty($hostname))
-            throw new TenantPropertyException("No tenant hostname given; use --hostname");
+        if (empty($hostname)) {
+            throw new TenantPropertyException('No tenant hostname given; use --hostname');
+        }
 
         $this->comment('Welcome to hyn multi tenancy.');
         $this->comment('First off, migrations for the packages will run.');
@@ -102,9 +104,7 @@ class SetupCommand extends Command
 
         $tenantDirectory = config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant');
 
-
-        if(!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true))
-        {
+        if (!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 
@@ -113,20 +113,18 @@ class SetupCommand extends Command
         /*
          * Setup webserver
          */
-        if($this->helper)
-        {
+        if ($this->helper) {
             // creates directories
             $this->helper->createDirectories();
 
             $webservice = $this->option('webserver') ?: 'no';
 
-            if($webservice != 'no')
-            {
+            if ($webservice != 'no') {
                 $webserviceConfiguration = array_get($this->configuration, $webservice);
                 $webserviceClass = array_get($webserviceConfiguration, 'class');
-            }
-            else
+            } else {
                 $webservice = null;
+            }
 
             /*
              * Create the first tenant configurations
@@ -145,32 +143,31 @@ class SetupCommand extends Command
             DB::commit();
 
             // hook into the webservice of choice once object creation succeeded
-            if(isset($webserviceClass))
+            if (isset($webserviceClass)) {
                 (new $webserviceClass($website))->register();
+            }
 
-
-            if($tenant->exists && $website->exists && $host->exists)
-                $this->info("Configuration succesful");
-        }
-        else
+            if ($tenant->exists && $website->exists && $host->exists) {
+                $this->info('Configuration succesful');
+            }
+        } else {
             $this->error('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
+        }
     }
 
     protected function runMigrations()
     {
-        foreach(config('hyn.packages', []) as $name => $package)
-        {
-
-            if(class_exists(array_get($package, 'service-provider'))) {
+        foreach (config('hyn.packages', []) as $name => $package) {
+            if (class_exists(array_get($package, 'service-provider'))) {
                 $this->call('vendor:publish', [
                     '--provider' => array_get($package, 'service-provider'),
-                    '-n'
+                    '-n',
                 ]);
             }
         }
         $this->call('migrate', [
             '--database' => 'hyn',
-            '-n'
+            '-n',
         ]);
     }
 }

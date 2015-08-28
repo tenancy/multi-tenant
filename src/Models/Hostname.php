@@ -1,7 +1,9 @@
-<?php namespace Laraflock\MultiTenant\Models;
+<?php
 
-use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
+namespace Laraflock\MultiTenant\Models;
+
 use Laracasts\Presenter\PresentableTrait;
+use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
 use Request;
 
 class Hostname extends SystemModel
@@ -37,7 +39,8 @@ class Hostname extends SystemModel
     }
 
     /**
-     * Host to redirect to
+     * Host to redirect to.
+     *
      * @return null|Hostname
      */
     public function redirectToHostname()
@@ -46,7 +49,8 @@ class Hostname extends SystemModel
     }
 
     /**
-     * Host this is a sub domain of
+     * Host this is a sub domain of.
+     *
      * @return null|Hostname
      */
     public function subDomainOf()
@@ -55,7 +59,8 @@ class Hostname extends SystemModel
     }
 
     /**
-     * Sub domains of this hostname
+     * Sub domains of this hostname.
+     *
      * @return \Illuminate\Eloquent\Collection
      */
     public function subDomains()
@@ -72,22 +77,26 @@ class Hostname extends SystemModel
     }
 
     /**
-     * Identifies whether a redirect is required for this hostname
+     * Identifies whether a redirect is required for this hostname.
+     *
      * @return \Illuminate\Http\RedirectResponse|null
      */
     public function redirectActionRequired()
     {
         // force to new hostname
-        if($this->redirect_to)
+        if ($this->redirect_to) {
             return $this->redirectToHostname->redirectActionRequired();
+        }
         // @todo also add ssl check once ssl certificates are support
-        if($this->prefer_https && !Request::secure())
+        if ($this->prefer_https && !Request::secure()) {
             return redirect()->secure(Request::path());
+        }
 
         // if default hostname is loaded and this is not the default hostname
-        if(Request::getHttpHost() != $this->hostname)
-            return redirect()->away("http://{$this->hostname}/" . (Request::path() == '/' ? null : Request::path()));
+        if (Request::getHttpHost() != $this->hostname) {
+            return redirect()->away("http://{$this->hostname}/".(Request::path() == '/' ? null : Request::path()));
+        }
 
-        return null;
+        return;
     }
 }

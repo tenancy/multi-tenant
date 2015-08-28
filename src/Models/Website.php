@@ -1,17 +1,18 @@
-<?php namespace Laraflock\MultiTenant\Models;
+<?php
 
+namespace Laraflock\MultiTenant\Models;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
 use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 use Laraflock\MultiTenant\Tenant\Directory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Website
+ * Class Website.
  *
  *
  * @property-read DatabaseConnection database
- * @package Laraflock\MultiTenant\Models
  */
 class Website extends SystemModel
 {
@@ -49,7 +50,8 @@ class Website extends SystemModel
     }
 
     /**
-     * Loads the unique id's from the certificates
+     * Loads the unique id's from the certificates.
+     *
      * @return array
      */
     public function getCertificateIdsAttribute()
@@ -58,7 +60,8 @@ class Website extends SystemModel
     }
 
     /**
-     * Directory class
+     * Directory class.
+     *
      * @return Directory
      */
     public function getDirectoryAttribute()
@@ -67,7 +70,8 @@ class Website extends SystemModel
     }
 
     /**
-     * The website tenant
+     * The website tenant.
+     *
      * @return Tenant
      */
     public function tenant()
@@ -76,7 +80,8 @@ class Website extends SystemModel
     }
 
     /**
-     * Database tenant connection handler
+     * Database tenant connection handler.
+     *
      * @return DatabaseConnection
      */
     public function getDatabaseAttribute()

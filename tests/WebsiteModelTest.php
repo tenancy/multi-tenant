@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Laraflock\MultiTenant\tests;
 
 use HynMe\Framework\Testing\TestCase;
 use Laraflock\MultiTenant\Models\Hostname;
@@ -8,8 +8,8 @@ use Laraflock\MultiTenant\Models\Website;
 use Laraflock\MultiTenant\Tenant\Directory;
 
 /**
- * Class WebsiteModelTest
- * @package Laraflock\MultiTenant\Tests
+ * Class WebsiteModelTest.
+ *
  * @coversDefaultClass \laraflock\MultiTenant\Models\Website
  */
 class WebsiteModelTest extends TestCase
@@ -19,7 +19,7 @@ class WebsiteModelTest extends TestCase
      */
     public function testCreate()
     {
-        $website = new Website;
+        $website = new Website();
         $website->identifier = 'example-com';
 
         return $website;
@@ -34,7 +34,7 @@ class WebsiteModelTest extends TestCase
      */
     public function testHostnames($website)
     {
-        $this->assertEquals(new Hostname, $website->hostnames()->getRelated()->newInstance());
+        $this->assertEquals(new Hostname(), $website->hostnames()->getRelated()->newInstance());
     }
 
     /**

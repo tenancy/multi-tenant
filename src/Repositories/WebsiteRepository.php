@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Repositories;
+<?php
+
+namespace Laraflock\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
 use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
@@ -6,7 +8,6 @@ use Laraflock\MultiTenant\Models\Hostname;
 
 class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContract
 {
-
     /**
      * @var \Laraflock\MultiTenant\Models\Website
      */
@@ -19,6 +20,7 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
 
     /**
      * @param Hostname $hostname
+     *
      * @return \Laraflock\MultiTenant\Models\Website
      */
     public function findByHostname(Hostname $hostname)
@@ -27,7 +29,7 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     }
 
     /**
-     * Return default website
+     * Return default website.
      *
      * @return \Laraflock\MultiTenant\Models\Website
      */
@@ -36,8 +38,10 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
         return $this->hostname->getDefault()->website;
     }
     /**
-     * Create a pagination object
+     * Create a pagination object.
+     *
      * @param int $per_page
+     *
      * @return mixed
      */
     public function paginated($per_page = 20)

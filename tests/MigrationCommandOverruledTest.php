@@ -1,12 +1,13 @@
-<?php namespace Laraflock\MultiTenant\Tests;
+<?php
+
+namespace Laraflock\MultiTenant\tests;
 
 use HynMe\Framework\Testing\TestCase;
-use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
 use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCommand;
+use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
 
 /**
- * Class MigrationCommandOverruledTest
- * @package Laraflock\MultiTenant\Tests
+ * Class MigrationCommandOverruledTest.
  */
 class MigrationCommandOverruledTest extends TestCase
 {

@@ -1,7 +1,7 @@
-<?php namespace Laraflock\MultiTenant\Observers;
+<?php
 
-use App;
-use Laraflock\MultiTenant\Helpers\TenantDirectoryHelper;
+namespace Laraflock\MultiTenant\Observers;
+
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class WebsiteObserver
@@ -10,19 +10,17 @@ class WebsiteObserver
 
     /**
      * @param $model
-     * @return boolean
+     *
+     * @return bool
      */
     public function updating($model)
     {
-        if($model->isDirty('identifier'))
-        {
+        if ($model->isDirty('identifier')) {
             /*
              * Move tenant directories once the identifier changes
              */
             return $model->directory->move();
         }
-
-
     }
 
     public function creating($model)

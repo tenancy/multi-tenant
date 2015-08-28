@@ -1,11 +1,11 @@
-<?php namespace Laraflock\MultiTenant\Presenters;
+<?php
+
+namespace Laraflock\MultiTenant\Presenters;
 
 use HynMe\Framework\Presenters\AbstractModelPresenter;
 
 class HostnamePresenter extends AbstractModelPresenter
 {
-
-
     /**
      * @return string
      */

@@ -1,17 +1,19 @@
-<?php namespace Laraflock\MultiTenant\Commands\Migrate;
+<?php
+
+namespace Laraflock\MultiTenant\Commands\Migrate;
 
 use App;
+use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use PDOException;
 use Symfony\Component\Console\Input\InputOption;
-use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 
 class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallCommand
 {
-
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Illuminate\Database\Migrations\MigrationRepositoryInterface  $repository
+     * @param \Illuminate\Database\Migrations\MigrationRepositoryInterface $repository
+     *
      * @return void
      */
     public function __construct(MigrationRepositoryInterface $repository)
@@ -23,13 +25,11 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
 
     public function fire()
     {
-
-        if(!$this->option('tenant')) {
+        if (!$this->option('tenant')) {
             return parent::fire();
         }
 
-
-        if($this->option('tenant') == 'all') {
+        if ($this->option('tenant') == 'all') {
             $websites = $this->website->all();
         } else {
             $websites = $this->website
@@ -39,11 +39,11 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
         }
 
         // forces database to tenant
-        if(!$this->option('database'))
+        if (!$this->option('database')) {
             $this->input->setOption('database', 'tenant');
+        }
 
-        foreach($websites as $website)
-        {
+        foreach ($websites as $website) {
             $this->info("Migrating for {$website->id}: {$website->present()->name}");
 
             $website->database->setCurrent();
@@ -52,10 +52,8 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
 
             try {
                 $this->repository->createRepository();
-            } catch(PDOException $e)
-            {
-                if(str_contains($e->getMessage(), ['Base table or view already exists']))
-                {
+            } catch (PDOException $e) {
+                if (str_contains($e->getMessage(), ['Base table or view already exists'])) {
                     $this->info("Migration table already exists: {$e->getMessage()}");
                     continue;
                 }

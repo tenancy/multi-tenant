@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Tenant;
+<?php
+
+namespace Laraflock\MultiTenant\Tenant;
 
 use Illuminate\Support\Collection;
 
