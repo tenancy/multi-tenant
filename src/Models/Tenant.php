@@ -1,7 +1,9 @@
-<?php namespace Laraflock\MultiTenant\Models;
+<?php
 
-use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
+namespace Laraflock\MultiTenant\Models;
+
 use Laracasts\Presenter\PresentableTrait;
+use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
 
 class Tenant extends SystemModel
 {

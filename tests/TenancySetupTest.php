@@ -1,7 +1,9 @@
-<?php namespace Laraflock\MultiTenant\Tests;
+<?php
 
+namespace Laraflock\MultiTenant\tests;
 
-use File, DB;
+use DB;
+use File;
 use HynMe\Framework\Testing\TestCase;
 use Illuminate\Database\Connection;
 use Laraflock\MultiTenant\MultiTenantServiceProvider;
@@ -40,13 +42,11 @@ class TenancySetupTest extends TestCase
     {
         // create first tenant
         $this->assertEquals(0, $this->artisan('multi-tenant:setup', [
-            '--tenant' => 'example',
-            '--hostname' => 'system.testing',    // configured in travis as primary hostname
-            '--email' => 'info@example.org',
-            '--webserver' => 'no'
+            '--tenant'    => 'example',
+            '--hostname'  => 'system.testing',    // configured in travis as primary hostname
+            '--email'     => 'info@example.org',
+            '--webserver' => 'no',
         ]));
-
-
     }
 
     /**
@@ -56,7 +56,7 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantExistence()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\TenantRepositoryContract tenant */
+        /* @var \Laraflock\MultiTenant\Contracts\TenantRepositoryContract tenant */
         $this->tenant = $this->app->make('Laraflock\MultiTenant\Contracts\TenantRepositoryContract');
         /** @var \Laraflock\MultiTenant\Models\Tenant|null $tenant */
         $tenant = $this->tenant->findByName('example');
@@ -71,14 +71,13 @@ class TenancySetupTest extends TestCase
      */
     public function testHostnameExistence()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract hostname */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
 
         /** @var \Laraflock\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
-
     }
 
     /**
@@ -91,15 +90,15 @@ class TenancySetupTest extends TestCase
         $found = false;
         $list = [];
 
-        foreach($databases as $database)
-        {
-            if(substr($database->Database,0,1) == 1)
+        foreach ($databases as $database) {
+            if (substr($database->Database, 0, 1) == 1) {
                 $found = true;
+            }
 
             $list[] = $database->Database;
         }
 
-        $this->assertTrue($found, "Databases found: " . implode(', ', $list));
+        $this->assertTrue($found, 'Databases found: '.implode(', ', $list));
     }
 
     /**
@@ -108,16 +107,15 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantFoldersExist()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         /** @var \Laraflock\MultiTenant\Models\Website $website */
         $website = $hostname->website;
 
-        foreach($website->directory->pathsToCreate() as $directory)
-        {
+        foreach ($website->directory->pathsToCreate() as $directory) {
             // let's check whether the directory has been succesfully created
             $this->assertTrue(File::exists($website->directory->{$directory}()));
             // directories are created with 0755; let's see whether that is sufficient
@@ -131,9 +129,9 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantConnection()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         /** @var \Laraflock\MultiTenant\Tenant\DatabaseConnection $connection */
@@ -143,7 +141,6 @@ class TenancySetupTest extends TestCase
         $this->assertTrue($connection->isCurrent());
         $this->assertEquals($connection->name, $connection->getCurrent());
         $this->assertTrue($connection->get() instanceof Connection);
-
     }
 
     /**
@@ -156,11 +153,10 @@ class TenancySetupTest extends TestCase
     {
         $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'all',
-            '--path' => 'vendor/laraflock/multi-tenant/tests/database/migrations/',
-            '--force'
+            '--path'   => 'vendor/laraflock/multi-tenant/tests/database/migrations/',
+            '--force',
         ]));
     }
-
 
     /**
      * @depends testTenantMigrationRuns
@@ -168,9 +164,9 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigratedTableExists()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertGreaterThan(0, $hostname
@@ -189,18 +185,18 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantMigrationEntryExists()
     {
-        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
+        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
         $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        if(!$hostname)
-            throw new \Exception("Unit test hostname not found");
+        if (!$hostname) {
+            throw new \Exception('Unit test hostname not found');
+        }
 
         $hostname->website->database->setCurrent();
 
-        foreach(File::allFiles(__DIR__ . '/database/migrations') as $file)
-        {
+        foreach (File::allFiles(__DIR__.'/database/migrations') as $file) {
             $fileBaseName = $file->getBaseName('.'.$file->getExtension());
             $this->seeInDatabase('migrations', ['migration' => $fileBaseName], $hostname->website->database->name);
         }
@@ -213,7 +209,7 @@ class TenancySetupTest extends TestCase
      */
     public function testMiddleware()
     {
-//
+        //
 //        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
 //        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
 //        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */

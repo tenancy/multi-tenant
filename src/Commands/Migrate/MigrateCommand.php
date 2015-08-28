@@ -1,8 +1,10 @@
-<?php namespace Laraflock\MultiTenant\Commands\Migrate;
+<?php
+
+namespace Laraflock\MultiTenant\Commands\Migrate;
 
 use App;
-use PDOException;
 use Illuminate\Database\Migrations\Migrator;
+use PDOException;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
@@ -19,19 +21,18 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         $this->website = App::make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
-
     public function fire()
     {
 
         // fallback to default behaviour if we're not talking about multi tenancy
-        if(!$this->option('tenant')) {
+        if (!$this->option('tenant')) {
             return parent::fire();
         }
 
         if (!$this->confirmToProceed()) {
             return;
         }
-        if($this->option('tenant') == 'all') {
+        if ($this->option('tenant') == 'all') {
             $websites = $this->website->all();
         } else {
             $websites = $this->website
@@ -41,11 +42,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         }
 
         // forces database to tenant
-        if(!$this->option('database'))
+        if (!$this->option('database')) {
             $this->input->setOption('database', 'tenant');
+        }
 
-        foreach($websites as $website)
-        {
+        foreach ($websites as $website) {
             $this->info("Migrating for {$website->id}: {$website->present()->name}");
 
             $website->database->setCurrent();
@@ -68,10 +69,8 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
             try {
                 $this->migrator->run($path, $pretend);
-            } catch(PDOException $e)
-            {
-                if(str_contains($e->getMessage(), ['Base table or view already exists']))
-                {
+            } catch (PDOException $e) {
+                if (str_contains($e->getMessage(), ['Base table or view already exists'])) {
                     $this->comment("Migration failed for existing table; probably a system migration: {$e->getMessage()}");
                     continue;
                 }
@@ -93,7 +92,6 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         }
     }
 
-
     /**
      * Prepare the migration database for running.
      *
@@ -101,8 +99,9 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     protected function prepareDatabase($connection = null)
     {
-        if(!$connection)
+        if (!$connection) {
             $connection = $this->option('database');
+        }
 
         $this->migrator->setConnection($connection);
 
@@ -120,6 +119,4 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             [['tenant', null, InputOption::VALUE_OPTIONAL, 'The tenant(s) to apply migrations on; use {all|5,8}']]
         );
     }
-
-
 }

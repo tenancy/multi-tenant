@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Middleware;
+<?php
+
+namespace Laraflock\MultiTenant\Middleware;
 
 use App;
 use Closure;
@@ -10,8 +12,9 @@ class HostnameMiddleware implements Middleware
     {
         /* @var \Laraflock\MultiTenant\Models\Hostname */
         $hostname = App::make('tenant.hostname');
-        if($hostname && !is_null($redirect = $hostname->redirectActionRequired()))
+        if ($hostname && !is_null($redirect = $hostname->redirectActionRequired())) {
             return $redirect;
+        }
 
         return $next($request);
     }

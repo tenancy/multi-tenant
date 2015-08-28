@@ -1,17 +1,21 @@
-<?php namespace Laraflock\MultiTenant\Presenters;
+<?php
+
+namespace Laraflock\MultiTenant\Presenters;
 
 use HynMe\Framework\Presenters\AbstractModelPresenter;
 
 class WebsitePresenter extends AbstractModelPresenter
 {
     /**
-     * Shows summary of hostnames
+     * Shows summary of hostnames.
+     *
      * @return string
      */
     public function hostnamesSummary()
     {
         $hostnames = $this->hostnames->lists('hostname')->all();
-        return implode(", ", array_splice($hostnames, 0, 5));
+
+        return implode(', ', array_splice($hostnames, 0, 5));
     }
 
     /**

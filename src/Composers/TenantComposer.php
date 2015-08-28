@@ -1,11 +1,12 @@
-<?php namespace Laraflock\MultiTenant\Composers;
+<?php
 
-use Illuminate\Contracts\View\View;
+namespace Laraflock\MultiTenant\Composers;
+
 use App;
+use Illuminate\Contracts\View\View;
 
-class TenantComposer {
-
-
+class TenantComposer
+{
     /**
      * @param View $view
      */

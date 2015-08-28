@@ -1,4 +1,5 @@
 <?php
+
 return [
     /*
      * Overrule the default tenant directory

@@ -1,79 +1,82 @@
-<?php namespace Laraflock\MultiTenant\Contracts;
+<?php
+
+namespace Laraflock\MultiTenant\Contracts;
 
 interface DirectoryContract
 {
     /**
-     * Tenant config directory
+     * Tenant config directory.
      *
      * @return string|null
      */
     public function config();
     /**
-     * Tenant views directory
+     * Tenant views directory.
      *
      * @return string|null
      */
     public function views();
 
     /**
-     * Tenant language/trans directory
+     * Tenant language/trans directory.
      *
      * @return string|null
      */
     public function lang();
 
     /**
-     * Tenant vendor directory
+     * Tenant vendor directory.
      *
      * @return string|null
      */
     public function vendor();
 
     /**
-     * Tenant cache directory
+     * Tenant cache directory.
      *
      * @return string|null
      */
     public function cache();
 
     /**
-     * Tenant image cache directory
+     * Tenant image cache directory.
      *
      * @return null|string
      */
     public function image_cache();
 
     /**
-     * Tenant media directory
+     * Tenant media directory.
      *
      * @return string|null
      */
     public function media();
 
     /**
-     * Register all available paths into the laravel system
+     * Register all available paths into the laravel system.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
+     *
      * @return object
      */
     public function registerPaths($app);
 
     /**
-     * Tenant base path
+     * Tenant base path.
      *
      * @return string|null
      */
     public function base();
 
     /**
-     * Creates tenant directories
+     * Creates tenant directories.
      *
-     * @return boolean
+     * @return bool
      */
     public function create();
 
     /**
-     * Path to tenant routes.php
+     * Path to tenant routes.php.
      *
      * @return string|null
      */

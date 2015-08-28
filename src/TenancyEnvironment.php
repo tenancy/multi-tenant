@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant;
+<?php
+
+namespace Laraflock\MultiTenant;
 
 use Laraflock\MultiTenant\Helpers\TenancyRequestHelper;
 use Laraflock\MultiTenant\Models\Hostname;
@@ -7,21 +9,17 @@ use Laraflock\MultiTenant\Models\Website;
 use Laraflock\MultiTenant\Repositories\HostnameRepository;
 use Laraflock\MultiTenant\Repositories\TenantRepository;
 use Laraflock\MultiTenant\Repositories\WebsiteRepository;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 use Laraflock\MultiTenant\Tenant\Directory;
 use Laraflock\MultiTenant\Tenant\View as TenantView;
 use View;
 
 /**
- * Class TenancyEnvironment
+ * Class TenancyEnvironment.
  *
  * Sets the tenant environment; overrules laravel core and sets the database connection
- *
- * @package Laraflock\MultiTenant
  */
 class TenancyEnvironment
 {
-
     /**
      * @var \Illuminate\Contracts\Foundation\Application
      */
@@ -55,7 +53,7 @@ class TenancyEnvironment
         $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
 
         // sets the database connection for the tenant website
-        if(!is_null($this->website)) {
+        if (!is_null($this->website)) {
             $this->website->database->setCurrent();
         }
 
@@ -63,7 +61,7 @@ class TenancyEnvironment
         $this->setupTenantBinds();
 
         // register tenant paths for website
-        if(!is_null($this->website)) {
+        if (!is_null($this->website)) {
             $this->app->make('Laraflock\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
 
@@ -72,38 +70,35 @@ class TenancyEnvironment
     }
 
     /**
-     * Binds all interfaces to the IOC container
+     * Binds all interfaces to the IOC container.
      */
     protected function setupBinds()
     {
         /*
          * Tenant repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\TenantRepositoryContract', function()
-        {
-            return new TenantRepository(new Tenant);
+        $this->app->bind('Laraflock\MultiTenant\Contracts\TenantRepositoryContract', function () {
+            return new TenantRepository(new Tenant());
         });
         /*
          * Tenant hostname repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract', function()
-        {
-            return new HostnameRepository(new Hostname);
+        $this->app->bind('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract', function () {
+            return new HostnameRepository(new Hostname());
         });
         /*
          * Tenant website repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract', function($app)
-        {
+        $this->app->bind('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract', function ($app) {
             return new WebsiteRepository(
-                new Website,
+                new Website(),
                 $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract')
             );
         });
     }
 
     /**
-     * Binds all tenant specific interfaces into the IOC container
+     * Binds all tenant specific interfaces into the IOC container.
      */
     protected function setupTenantBinds()
     {
@@ -112,24 +107,21 @@ class TenancyEnvironment
         /*
          * Tenant directory mapping and functionality
          */
-        $this->app->singleton('Laraflock\MultiTenant\Contracts\DirectoryContract', function() use ($hostname)
-        {
+        $this->app->singleton('Laraflock\MultiTenant\Contracts\DirectoryContract', function () use ($hostname) {
             return $hostname ? new Directory($hostname->website) : null;
         });
         /*
          * Tenant view shares
          */
-        $this->app->singleton('tenant.view', function() use ($hostname)
-        {
+        $this->app->singleton('tenant.view', function () use ($hostname) {
             return new TenantView([
-                'hostname' => $hostname
+                'hostname' => $hostname,
             ]);
         });
         /*
          * Tenant hostname
          */
-        $this->app->singleton('tenant.hostname', function() use ($hostname)
-        {
+        $this->app->singleton('tenant.hostname', function () use ($hostname) {
             return $hostname;
         });
     }
