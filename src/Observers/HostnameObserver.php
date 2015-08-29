@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Observers;
+<?php
+
+namespace Laraflock\MultiTenant\Observers;
 
 class HostnameObserver
 {
@@ -7,13 +9,15 @@ class HostnameObserver
      */
     public function saved($model)
     {
-        if($model->website)
+        if ($model->website) {
             $model->website->touch();
+        }
     }
 
     public function deleted($model)
     {
-        if($model->website)
+        if ($model->website) {
             $model->website->touch();
+        }
     }
 }

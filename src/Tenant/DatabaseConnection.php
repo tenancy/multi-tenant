@@ -1,15 +1,16 @@
-<?php namespace Laraflock\MultiTenant\Tenant;
+<?php
 
-use DB;
+namespace Laraflock\MultiTenant\Tenant;
+
 use Config;
+use DB;
 use HynMe\Framework\Exceptions\TenantDatabaseException;
 use Laraflock\MultiTenant\Models\Website;
 
 /**
- * Class DatabaseConnection
+ * Class DatabaseConnection.
  *
  * Helps with tenant database connections
- * @package Laraflock\MultiTenant\Tenant
  */
 class DatabaseConnection
 {
@@ -28,7 +29,8 @@ class DatabaseConnection
     public $name;
 
     /**
-     * Current active global tenant connection
+     * Current active global tenant connection.
+     *
      * @var string
      */
     protected static $current;
@@ -43,7 +45,8 @@ class DatabaseConnection
     }
 
     /**
-     * Checks whether current connection is set as global tenant connection
+     * Checks whether current connection is set as global tenant connection.
+     *
      * @return bool
      */
     public function isCurrent()
@@ -52,17 +55,18 @@ class DatabaseConnection
     }
 
     /**
-     * Sets current global tenant connection
+     * Sets current global tenant connection.
      */
     public function setCurrent()
     {
         static::$current = $this->name;
 
-        Config::set("database.connections.tenant", $this->config());
+        Config::set('database.connections.tenant', $this->config());
     }
 
     /**
-     * Loads the currently set global tenant connection name
+     * Loads the currently set global tenant connection name.
+     *
      * @return string
      */
     public static function getCurrent()
@@ -71,13 +75,13 @@ class DatabaseConnection
     }
 
     /**
-     * Loads connection for this database
+     * Loads connection for this database.
+     *
      * @return \Illuminate\Database\Connection
      */
     public function get()
     {
-        if(is_null($this->connection))
-        {
+        if (is_null($this->connection)) {
             $this->setup();
             $this->connection = DB::connection($this->name);
         }
@@ -86,19 +90,21 @@ class DatabaseConnection
     }
 
     /**
-     * Generic configuration for tenant
+     * Generic configuration for tenant.
+     *
      * @return array
      */
     protected function config()
     {
         $clone = Config::get('database.connections.hyn');
-        $clone['password'] = md5(Config::get('app.key') . $this->website->id);
-        $clone['username'] = $clone['database'] = sprintf("%d-%s", $this->website->id, $this->website->present()->identifier);
+        $clone['password'] = md5(Config::get('app.key').$this->website->id);
+        $clone['username'] = $clone['database'] = sprintf('%d-%s', $this->website->id, $this->website->present()->identifier);
+
         return $clone;
     }
 
     /**
-     * Sets the tenant database connection
+     * Sets the tenant database connection.
      */
     public function setup()
     {
@@ -112,32 +118,38 @@ class DatabaseConnection
     {
         $clone = $this->config();
 
-        return DB::connection('hyn')->transaction(function() use ($clone)
-        {
-            if (!DB::statement("create database if not exists `{$clone['database']}`"))
+        return DB::connection('hyn')->transaction(function () use ($clone) {
+            if (!DB::statement("create database if not exists `{$clone['database']}`")) {
                 throw new TenantDatabaseException("Could not create database {$clone['database']}");
-            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost' identified by '{$clone['password']}'"))
+            }
+            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost' identified by '{$clone['password']}'")) {
                 throw new TenantDatabaseException("Could not create or grant privileges to user {$clone['username']} for {$clone['database']}");
+            }
+
             return true;
         });
     }
 
     /**
-     * @return bool
      * @throws \Exception
+     *
+     * @return bool
      */
     public function delete()
     {
         $clone = $this->config();
 
-        return DB::connection('hyn')->transaction(function() use ($clone)
-        {
-            if (!DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'"))
+        return DB::connection('hyn')->transaction(function () use ($clone) {
+            if (!DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'")) {
                 throw new TenantDatabaseException("Could not revoke privileges to user {$clone['username']} for {$clone['database']}");
-            if (!DB::statement("drop database `{$clone['database']}`"))
+            }
+            if (!DB::statement("drop database `{$clone['database']}`")) {
                 throw new TenantDatabaseException("Could not drop database {$clone['database']}");
-            if (!DB::statement("drop user `{$clone['username']}`@'localhost'"))
+            }
+            if (!DB::statement("drop user `{$clone['username']}`@'localhost'")) {
                 throw new TenantDatabaseException("Could not drop user {$clone['username']}");
+            }
+
             return true;
         });
     }

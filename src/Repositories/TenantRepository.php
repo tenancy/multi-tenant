@@ -1,20 +1,22 @@
-<?php namespace Laraflock\MultiTenant\Repositories;
+<?php
+
+namespace Laraflock\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
 use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
 
 class TenantRepository extends BaseRepository implements TenantRepositoryContract
 {
-
     /**
      * @var \Laraflock\MultiTenant\Models\Tenant
      */
     protected $tenant;
 
-
     /**
-     * Find a tenant by name
+     * Find a tenant by name.
+     *
      * @param $name
+     *
      * @return \Laraflock\MultiTenant\Models\Tenant
      */
     public function findByName($name)
@@ -23,14 +25,16 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
     }
 
     /**
-     * Removes tenant and everything related
+     * Removes tenant and everything related.
      *
      * @param $name
+     *
      * @return bool|null
      */
     public function forceDeleteByName($name)
     {
         $tenant = $this->tenant->where('name', $name)->first();
+
         return $tenant ? $tenant->delete() : null;
     }
 }

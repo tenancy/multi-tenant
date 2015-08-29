@@ -1,12 +1,16 @@
-<?php namespace Laraflock\MultiTenant\Observers;
+<?php
+
+namespace Laraflock\MultiTenant\Observers;
 
 class TenantObserver
 {
     public function deleting($model)
     {
-        foreach($model->hostnames as $hostname)
+        foreach ($model->hostnames as $hostname) {
             $hostname->delete();
-        foreach($model->websites as $website)
+        }
+        foreach ($model->websites as $website) {
             $website->delete();
+        }
     }
 }

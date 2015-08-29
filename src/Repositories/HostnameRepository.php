@@ -1,4 +1,6 @@
-<?php namespace Laraflock\MultiTenant\Repositories;
+<?php
+
+namespace Laraflock\MultiTenant\Repositories;
 
 use HynMe\Framework\Repositories\BaseRepository;
 use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
@@ -12,6 +14,7 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
 
     /**
      * @param $hostname
+     *
      * @return \Laraflock\MultiTenant\Models\Hostname
      */
     public function findByHostname($hostname)
@@ -28,8 +31,10 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
-     * Create a pagination object
+     * Create a pagination object.
+     *
      * @param int $per_page
+     *
      * @return mixed
      */
     public function paginated($per_page = 20)

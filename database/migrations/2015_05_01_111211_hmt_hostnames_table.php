@@ -1,19 +1,18 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class HmtHostnamesTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::connection('hyn')->create('hostnames', function(Blueprint $table)
-        {
+class HmtHostnamesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::connection('hyn')->create('hostnames', function (Blueprint $table) {
             $table->bigIncrements('id');
             // tenant owner
             $table->bigInteger('tenant_id')->unsigned();
@@ -43,16 +42,15 @@ class HmtHostnamesTable extends Migration {
             // index
             $table->index('hostname');
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::connection('hyn')->dropIfExists('hostnames');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::connection('hyn')->dropIfExists('hostnames');
+    }
 }

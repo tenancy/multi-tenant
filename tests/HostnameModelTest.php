@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Laraflock\MultiTenant\tests;
 
 use HynMe\Framework\Testing\TestCase;
 use HynMe\Webserver\Models\SslCertificate;
@@ -10,8 +10,8 @@ use Laraflock\MultiTenant\Models\Tenant;
 use Laraflock\MultiTenant\Models\Website;
 
 /**
- * Class HostnameModelTest
- * @package Laraflock\MultiTenant\Tests
+ * Class HostnameModelTest.
+ *
  * @coversDefaultClass \Laraflock\MultiTenant\Models\Hostname
  */
 class HostnameModelTest extends TestCase
@@ -21,7 +21,7 @@ class HostnameModelTest extends TestCase
      */
     public function testCreate()
     {
-        $hostname = new Hostname;
+        $hostname = new Hostname();
         $hostname->hostname = 'example.org';
 
         return $hostname;
@@ -43,7 +43,7 @@ class HostnameModelTest extends TestCase
      */
     public function testTenant($hostname)
     {
-        $this->assertEquals(new Tenant, $hostname->tenant()->getRelated()->newInstance([]));
+        $this->assertEquals(new Tenant(), $hostname->tenant()->getRelated()->newInstance([]));
     }
 
     /**
@@ -53,7 +53,7 @@ class HostnameModelTest extends TestCase
      */
     public function testWebsite($hostname)
     {
-        $this->assertEquals(new Website, $hostname->website()->getRelated()->newInstance([]));
+        $this->assertEquals(new Website(), $hostname->website()->getRelated()->newInstance([]));
     }
 
     /**
@@ -63,7 +63,7 @@ class HostnameModelTest extends TestCase
      */
     public function testRedirectTo($hostname)
     {
-        $this->assertEquals(new Hostname, $hostname->redirectToHostname()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $hostname->redirectToHostname()->getRelated()->newInstance([]));
     }
 
     /**
@@ -73,7 +73,7 @@ class HostnameModelTest extends TestCase
      */
     public function testSubDomainOf($hostname)
     {
-        $this->assertEquals(new Hostname, $hostname->subDomainOf()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $hostname->subDomainOf()->getRelated()->newInstance([]));
     }
 
     /**
@@ -82,7 +82,7 @@ class HostnameModelTest extends TestCase
      */
     public function testSubDomains($hostname)
     {
-        $this->assertEquals(new Hostname, $hostname->subDomains()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $hostname->subDomains()->getRelated()->newInstance([]));
     }
 
     /**
@@ -92,7 +92,7 @@ class HostnameModelTest extends TestCase
      */
     public function testCertificate($hostname)
     {
-        $this->assertEquals(new SslCertificate, $hostname->certificate()->getRelated()->newInstance([]));
+        $this->assertEquals(new SslCertificate(), $hostname->certificate()->getRelated()->newInstance([]));
     }
 
     /**

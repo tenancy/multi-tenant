@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Laraflock\MultiTenant\tests;
 
 use HynMe\Framework\Testing\TestCase;
 use Laraflock\MultiTenant\Models\Hostname;
@@ -8,11 +8,11 @@ use Laraflock\MultiTenant\Models\Tenant;
 use Laraflock\MultiTenant\Models\Website;
 
 /**
- * Class TenantModeltest
- * @package Laraflock\MultiTenant\Tests
+ * Class TenantModeltest.
+ *
  * @coversDefaultClass \Laraflock\MultiTenant\Models\Tenant
  */
-class TenantModeltest extends TestCase
+class TenantModelTest extends TestCase
 {
     /**
      * @return Tenant
@@ -20,7 +20,7 @@ class TenantModeltest extends TestCase
      */
     public function testCreate()
     {
-        $tenant = new Tenant;
+        $tenant = new Tenant();
         $tenant->name = 'example';
         $tenant->email = 'foo@baz.com';
 
@@ -28,7 +28,7 @@ class TenantModeltest extends TestCase
     }
 
     /**
-     * Tests hostnames
+     * Tests hostnames.
      *
      * @param Tenant $tenant
      * @depends testCreate
@@ -38,11 +38,11 @@ class TenantModeltest extends TestCase
     {
         $this->assertEquals(0, $tenant->hostnames->count());
 
-        $this->assertEquals(new Hostname, $tenant->hostnames()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $tenant->hostnames()->getRelated()->newInstance([]));
     }
 
     /**
-     * Tests websites
+     * Tests websites.
      *
      * @param Tenant $tenant
      * @depends testCreate
@@ -52,7 +52,7 @@ class TenantModeltest extends TestCase
     {
         $this->assertEquals(0, $tenant->websites->count());
 
-        $this->assertEquals(new Website, $tenant->websites()->getRelated()->newInstance([]));
+        $this->assertEquals(new Website(), $tenant->websites()->getRelated()->newInstance([]));
     }
 
     /**

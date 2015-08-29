@@ -1,19 +1,18 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class HmtTenantsTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::connection('hyn')->create('tenants', function(Blueprint $table)
-        {
+class HmtTenantsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::connection('hyn')->create('tenants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('customer_no')->nullable();
             $table->string('name');
@@ -31,16 +30,15 @@ class HmtTenantsTable extends Migration {
             $table->foreign('reseller_id')->references('id')->on('tenants')->onDelete('set null');
             $table->foreign('referer_id')->references('id')->on('tenants')->onDelete('set null');
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::connection('hyn')->dropIfExists('tenants');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::connection('hyn')->dropIfExists('tenants');
+    }
 }

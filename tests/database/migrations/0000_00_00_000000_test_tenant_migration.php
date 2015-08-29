@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class TestTenantMigration extends Migration {
-
+class TestTenantMigration extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,8 +12,7 @@ class TestTenantMigration extends Migration {
      */
     public function up()
     {
-        Schema::create('tenant_migration_test', function(Blueprint $table)
-        {
+        Schema::create('tenant_migration_test', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('some_field')->nullable();
@@ -32,5 +31,4 @@ class TestTenantMigration extends Migration {
     {
         Schema::dropIfExists('tenant_migration_test');
     }
-
 }

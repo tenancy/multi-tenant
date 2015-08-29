@@ -1,24 +1,26 @@
-<?php namespace Laraflock\MultiTenant;
+<?php
+
+namespace Laraflock\MultiTenant;
 
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use Laraflock\MultiTenant\Commands\SetupCommand;
+use Laraflock\MultiTenant\Commands\Migrate\InstallCommand;
 use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
-use Laraflock\MultiTenant\Commands\Migrate\RollbackCommand;
+use Laraflock\MultiTenant\Commands\Migrate\MigrateMakeCommand;
 use Laraflock\MultiTenant\Commands\Migrate\RefreshCommand;
 use Laraflock\MultiTenant\Commands\Migrate\ResetCommand;
+use Laraflock\MultiTenant\Commands\Migrate\RollbackCommand;
 use Laraflock\MultiTenant\Commands\Migrate\StatusCommand;
-use Laraflock\MultiTenant\Commands\Migrate\MigrateMakeCommand;
-use Laraflock\MultiTenant\Commands\Migrate\InstallCommand;
+use Laraflock\MultiTenant\Commands\SetupCommand;
 
-class MultiTenantServiceProvider extends ServiceProvider {
-
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
+class MultiTenantServiceProvider extends ServiceProvider
+{
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
 
     public function boot()
     {
@@ -49,34 +51,32 @@ class MultiTenantServiceProvider extends ServiceProvider {
         /*
          * override the default migrate command
          */
-        $this->app->booted(function($app)
-        {
+        $this->app->booted(function ($app) {
             $this->registerCommands($app);
         });
     }
 
     /**
-     * Registers model observers
+     * Registers model observers.
      */
     protected function observers()
     {
-        Models\Website::observe(new Observers\WebsiteObserver);
-        Models\Hostname::observe(new Observers\HostnameObserver);
-        Models\Tenant::observe(new Observers\TenantObserver);
+        Models\Website::observe(new Observers\WebsiteObserver());
+        Models\Hostname::observe(new Observers\HostnameObserver());
+        Models\Tenant::observe(new Observers\TenantObserver());
     }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
         /*
          * Bind setup command into ioc
          */
-        $this->app->bind(SetupCommand::class, function($app)
-        {
+        $this->app->bind(SetupCommand::class, function ($app) {
             return new SetupCommand(
                 $app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract'),
                 $app->make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract'),
@@ -90,23 +90,23 @@ class MultiTenantServiceProvider extends ServiceProvider {
         $this->commands([
             SetupCommand::class,
         ]);
-	}
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array_merge($this->commands, [
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array_merge($this->commands, [
             'tenant.view',
             'tenant.hostname',
             'Laraflock\MultiTenant\Contracts\DirectoryContract',
             'Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract',
             'Laraflock\MultiTenant\Contracts\HostnameRepositoryContract',
         ]);
-	}
+    }
 
     /**
      * Register all of the migration commands.
@@ -115,7 +115,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerCommands($app)
     {
-
         $this->app = $app;
 
         $app->registerDeferredProvider(MigrationServiceProvider::class);
@@ -174,7 +173,7 @@ class MultiTenantServiceProvider extends ServiceProvider {
     protected function registerRefreshCommand()
     {
         $this->app->bind('command.migrate.refresh', function ($object, $app) {
-            return new RefreshCommand;
+            return new RefreshCommand();
         });
     }
 
@@ -204,7 +203,6 @@ class MultiTenantServiceProvider extends ServiceProvider {
      */
     protected function registerMakeCommand()
     {
-
         $this->app->bind('command.migrate.make', function ($object, $app) {
             // Once we have the migration creator registered, we will create the command
             // and inject the creator. The creator is responsible for the actual file
@@ -216,5 +214,4 @@ class MultiTenantServiceProvider extends ServiceProvider {
             return new MigrateMakeCommand($creator, $composer);
         });
     }
-
 }
