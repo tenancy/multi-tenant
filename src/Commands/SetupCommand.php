@@ -57,8 +57,8 @@ class SetupCommand extends Command
 
     /**
      * @param HostnameRepositoryContract $hostname
-     * @param WebsiteRepositoryContract $website
-     * @param TenantRepositoryContract $tenant
+     * @param WebsiteRepositoryContract  $website
+     * @param TenantRepositoryContract   $tenant
      */
     public function __construct(
         HostnameRepositoryContract $hostname,
@@ -125,7 +125,6 @@ class SetupCommand extends Command
                 $webserver = null;
             }
 
-
             // Create the first tenant configurations
 
             DB::beginTransaction();
@@ -137,9 +136,9 @@ class SetupCommand extends Command
             $website = $this->website->create(['tenant_id' => $tenant->id, 'identifier' => $identifier]);
 
             $host = $this->hostname->create([
-                'hostname' => $hostname,
+                'hostname'   => $hostname,
                 'website_id' => $website->id,
-                'tenant_id' => $tenant->id
+                'tenant_id'  => $tenant->id,
             ]);
 
             DB::commit();
@@ -148,7 +147,6 @@ class SetupCommand extends Command
             if ($webserver) {
                 (new $webserverClass($website))->register();
             }
-
 
             if ($tenant->exists && $website->exists && $host->exists) {
                 $this->info('Configuration succesful');
