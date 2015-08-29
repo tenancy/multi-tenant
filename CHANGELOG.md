@@ -2,6 +2,13 @@
 
 All Notable changes to `laraflock/multi-tenant` will be documented in this file
 
+### 0.5.3
+
+The changelog has been hardly updated since 0.4.3; my apologies for this. My goal has been to stabilize
+the package and to guarantee it can be deployed in working order. This goal will remain until the first
+stable release 1.0.0. At this time the tests all point out the package works, but not all code nor
+all integration testing has been completely written.
+
 ### 0.4.3
 
 - Moved to permanent namespace Laraflock.

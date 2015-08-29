@@ -42,11 +42,11 @@ Each website has its own folder on disk, allowing:
 Also each website has its own database, this ensures that in no way one website can access data from another website.
 The distinction also gives proper division of responsibilities to the system (global) and tenant (local) databases.
 
-For more information visit the [hyn.me website](http://hyn.me).
+For more information visit the [hyn package page][2].
 
 ### Example tenant website & demo
 
-One website running on the multi tenant installation of [hyn.me](http://hyn.me) is [dummy.hyn.me](http://dummy.hyn.me).
+One website running on the multi tenant installation of [hyn.me][1] is [dummy.hyn.me](http://dummy.hyn.me).
 
 A demo showing the back-end will be available soon.
 
@@ -156,7 +156,7 @@ Please note, if you decide to skip the configuration of the webserver you will h
 
 ## Chat or critical bug
 
-If you'd like to hang out with the LaraLeague or would like to discuss a critical vulnerability; please contact us on [LaraLeague](https://github.com/lara-league).
+If you'd like to hang out with the LaraLeague or would like to discuss a critical vulnerability; please contact us on [laraflock][4].
 
 ## Q&A
 
@@ -176,10 +176,10 @@ Q: Will you make this package paid in the future?
 > A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
 
 Q: I have a bug, feature request or technical question.
-> A: Visit the [issues page](http://github.com/laraflock/multi-tenant/issues) on github.
+> A: Visit the [issues page][3] on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
-> A: Contact me or other experienced implementation developers of [LaraLeague](https://github.com/lara-league).
+> A: Contact me or other experienced implementation developers of [Laraflock][4].
 
 Q: Why does the user for the `hyn` connection need `grant` rights?
 > A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
@@ -192,3 +192,9 @@ Q: Are these hyn packages a CMS?
 
 Q: Hooking apache config files to OSX apache webservice?
 > A: Edit `/etc/apache2/httpd.conf` and at the bottom at a line `Include /<laravel installation>/storage/webserver/apache/*.conf`. Now reload or restart apache.
+
+
+[1]: https://hyn.me
+[2]: https://hyn.me/packages/multi-tenant
+[3]: https://github.com/laraflock/multi-tenant
+[4]: https://github.com/laraflock
