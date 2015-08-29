@@ -108,29 +108,25 @@ class SetupCommand extends Command
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 
-        $webservice = null;
+        $webserver = null;
 
-        /*
-         * Setup webserver
-         */
+        // Setup webserver
         if($this->helper)
         {
             // creates directories
             $this->helper->createDirectories();
 
-            $webservice = $this->option('webserver') ?: 'no';
+            $webserver = $this->option('webserver') ?: 'no';
 
-            if($webservice != 'no')
+            if($webserver != 'no')
             {
-                $webserviceConfiguration = array_get($this->configuration, $webservice);
-                $webserviceClass = array_get($webserviceConfiguration, 'class');
+                $webserverConfiguration = array_get($this->configuration, $webserver);
+                $webserverClass = array_get($webserverConfiguration, 'class');
             }
             else
-                $webservice = null;
+                $webserver = null;
 
-            /*
-             * Create the first tenant configurations
-             */
+            // Create the first tenant configurations
 
             DB::beginTransaction();
 
@@ -145,8 +141,8 @@ class SetupCommand extends Command
             DB::commit();
 
             // hook into the webservice of choice once object creation succeeded
-            if(isset($webserviceClass))
-                (new $webserviceClass($website))->register();
+            if($webserver)
+                (new $webserverClass($website))->register();
 
 
             if($tenant->exists && $website->exists && $host->exists)
