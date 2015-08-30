@@ -4,6 +4,7 @@
 [![License](https://poser.pugx.org/laraflock/multi-tenant/license)](https://packagist.org/packages/laraflock/multi-tenant)
 [![Build Status](https://travis-ci.org/laraflock/multi-tenant.svg?branch=master)](https://travis-ci.org/laraflock/multi-tenant)
 [![Code Coverage](https://img.shields.io/codecov/c/github/laraflock/multi-tenant.svg)](https://codecov.io/github/laraflock/multi-tenant)
+[![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
 
 > Please note this package is under development. A working version can be seen in production on [hyn.me](http://hyn.me).
 > This package is compatible only with Laravel __5.1 LTS__.
