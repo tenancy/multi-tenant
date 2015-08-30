@@ -19,6 +19,9 @@
         "hyn-me/framework": "*",
         "hyn-me/webserver": "*"
     },
+    "suggest": {
+        "hyn-me/management-interface": "Providers a user interface for managing multi tenancy"
+    },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
         "scrutinizer/ocular": "~1.1"
