@@ -75,6 +75,7 @@ class Directory implements DirectoryContract
     {
         return $this->base() ? sprintf('%sconfig/', $this->base()) : null;
     }
+
     /**
      * Tenant views directory.
      *
