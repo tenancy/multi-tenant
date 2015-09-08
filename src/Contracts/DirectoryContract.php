@@ -10,6 +10,7 @@ interface DirectoryContract
      * @return string|null
      */
     public function config();
+
     /**
      * Tenant views directory.
      *

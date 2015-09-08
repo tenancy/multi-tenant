@@ -37,6 +37,7 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     {
         return $this->hostname->getDefault()->website;
     }
+
     /**
      * Create a pagination object.
      *
