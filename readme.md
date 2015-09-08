@@ -157,7 +157,7 @@ Please note, if you decide to skip the configuration of the webserver you will h
 
 ## Chat or critical bug
 
-If you'd like to hang out with the LaraLeague or would like to discuss a critical vulnerability; please contact us on [laraflock][4].
+If you'd like to hang out with us or would like to discuss a critical vulnerability; please contact us on [laraflock][4] or [the slack community of laravel](http://larachat.slack.com).
 
 ## Q&A
 
