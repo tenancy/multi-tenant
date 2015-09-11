@@ -194,6 +194,7 @@ Q: Are these hyn packages a CMS?
 Q: Hooking apache config files to OSX apache webservice?
 > A: Edit `/etc/apache2/httpd.conf` and at the bottom at a line `Include /<laravel installation>/storage/webserver/apache/*.conf`. Now reload or restart apache.
 
+[![Throughput Graph](https://graphs.waffle.io/laraflock/multi-tenant/throughput.svg)](https://waffle.io/laraflock/multi-tenant/metrics)
 
 [1]: https://hyn.me
 [2]: https://hyn.me/packages/multi-tenant
