@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/laraflock/multi-tenant.png?label=ready&title=Ready)](https://waffle.io/laraflock/multi-tenant)
 # Multi tenancy
 
 [![Latest Stable Version](https://poser.pugx.org/laraflock/multi-tenant/v/stable)](https://packagist.org/packages/laraflock/multi-tenant)
