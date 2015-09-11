@@ -7,6 +7,7 @@ use File;
 use HynMe\Framework\Testing\TestCase;
 use Illuminate\Database\Connection;
 use Laraflock\MultiTenant\MultiTenantServiceProvider;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class TenancySetupTest extends TestCase
 {
@@ -85,7 +86,7 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantDatabaseExists()
     {
-        $databases = DB::connection('hyn')->select('SHOW DATABASES');
+        $databases = DB::connection(DatabaseConnection::systemConnectionName())->select('SHOW DATABASES');
 
         $found = false;
         $list = [];
