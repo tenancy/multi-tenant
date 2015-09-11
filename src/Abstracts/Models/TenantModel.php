@@ -3,8 +3,12 @@
 namespace Laraflock\MultiTenant\Abstracts\Models;
 
 use HynMe\Framework\Models\AbstractModel;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class TenantModel extends AbstractModel
 {
-    protected $connection = 'tenant';
+    public function getConnectionName()
+    {
+        return DatabaseConnection::tenantConnectionName();
+    }
 }

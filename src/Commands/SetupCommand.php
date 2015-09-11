@@ -10,6 +10,7 @@ use Illuminate\Console\Command;
 use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
 use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
 use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class SetupCommand extends Command
 {
@@ -167,7 +168,7 @@ class SetupCommand extends Command
             }
         }
         $this->call('migrate', [
-            '--database' => 'hyn',
+            '--database' => DatabaseConnection::systemConnectionName(),
             '-n',
         ]);
     }

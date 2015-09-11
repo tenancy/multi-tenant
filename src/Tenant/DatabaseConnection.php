@@ -96,7 +96,7 @@ class DatabaseConnection
      */
     protected function config()
     {
-        $clone = Config::get('database.connections.hyn');
+        $clone = Config::get(sprintf('database.connections.%s', static::systemConnectionName()));
         $clone['password'] = md5(Config::get('app.key').$this->website->id);
         $clone['username'] = $clone['database'] = sprintf('%d-%s', $this->website->id, $this->website->present()->identifier);
 
@@ -118,7 +118,7 @@ class DatabaseConnection
     {
         $clone = $this->config();
 
-        return DB::connection('hyn')->transaction(function () use ($clone) {
+        return DB::connection(static::systemConnectionName())->transaction(function () use ($clone) {
             if (!DB::statement("create database if not exists `{$clone['database']}`")) {
                 throw new TenantDatabaseException("Could not create database {$clone['database']}");
             }
@@ -139,7 +139,7 @@ class DatabaseConnection
     {
         $clone = $this->config();
 
-        return DB::connection('hyn')->transaction(function () use ($clone) {
+        return DB::connection(static::systemConnectionName())->transaction(function () use ($clone) {
             if (!DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'")) {
                 throw new TenantDatabaseException("Could not revoke privileges to user {$clone['username']} for {$clone['database']}");
             }
@@ -152,5 +152,21 @@ class DatabaseConnection
 
             return true;
         });
+    }
+
+    /**
+     * Central getter for system connection name
+     * @return string
+     */
+    public static function systemConnectionName() {
+        return Config::get('multi-tenant.db.system-connection-name', 'hyn');
+    }
+
+    /**
+     * Central getter for tenant connection name
+     * @return string
+     */
+    public static function tenantConnectionName() {
+        return Config::get('multi-tenant.db.tenant-connection-name', 'tenant');
     }
 }
