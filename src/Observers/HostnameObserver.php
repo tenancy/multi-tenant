@@ -9,14 +9,16 @@ class HostnameObserver
      */
     public function saved($model)
     {
-        if ($model->website) {
+        if ($model->website_id) {
+            $model->load('website');
             $model->website->touch();
         }
     }
 
     public function deleted($model)
     {
-        if ($model->website) {
+        if ($model->website_id) {
+            $model->load('website');
             $model->website->touch();
         }
     }
