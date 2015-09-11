@@ -21,5 +21,5 @@ return [
          * even more, the connection will be overwritten with the tenancy code.
          */
         'tenant-connection-name' => 'tenant',
-    ]
+    ],
 ];

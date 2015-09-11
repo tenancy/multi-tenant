@@ -155,18 +155,22 @@ class DatabaseConnection
     }
 
     /**
-     * Central getter for system connection name
+     * Central getter for system connection name.
+     *
      * @return string
      */
-    public static function systemConnectionName() {
+    public static function systemConnectionName()
+    {
         return Config::get('multi-tenant.db.system-connection-name', 'hyn');
     }
 
     /**
-     * Central getter for tenant connection name
+     * Central getter for tenant connection name.
+     *
      * @return string
      */
-    public static function tenantConnectionName() {
+    public static function tenantConnectionName()
+    {
         return Config::get('multi-tenant.db.tenant-connection-name', 'tenant');
     }
 }
