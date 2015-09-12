@@ -99,6 +99,17 @@ class SetupCommand extends Command
         }
 
         $this->comment('Welcome to hyn multi tenancy.');
+
+        // If the dashboard is installed we need to prevent default laravel migrations
+        // so we run the dashboard setup command before running any migrations
+        if(class_exists('HynMe\ManagementInterface\ManagementInterfaceServiceProvider'))
+        {
+            $this->info('The management interface will be installed first.');
+            $this->call('dashboard:setup');
+        }
+
+
+        // now we will run all migrations
         $this->comment('First off, migrations for the packages will run.');
 
         $this->runMigrations();
