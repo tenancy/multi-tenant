@@ -69,8 +69,8 @@ class SetupCommand extends Command
         parent::__construct();
 
         $this->hostname = $hostname;
-        $this->website = $website;
-        $this->tenant = $tenant;
+        $this->website  = $website;
+        $this->tenant   = $tenant;
 
         $this->helper = new ServerConfigurationHelper();
     }
@@ -82,8 +82,8 @@ class SetupCommand extends Command
     {
         $this->configuration = config('webserver');
 
-        $name = $this->option('tenant');
-        $email = $this->option('email');
+        $name     = $this->option('tenant');
+        $email    = $this->option('email');
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
@@ -102,8 +102,7 @@ class SetupCommand extends Command
 
         // If the dashboard is installed we need to prevent default laravel migrations
         // so we run the dashboard setup command before running any migrations
-        if(class_exists('HynMe\ManagementInterface\ManagementInterfaceServiceProvider'))
-        {
+        if (class_exists('HynMe\ManagementInterface\ManagementInterfaceServiceProvider')) {
             $this->info('The management interface will be installed first.');
             $this->call('dashboard:setup');
         }
@@ -132,7 +131,7 @@ class SetupCommand extends Command
 
             if ($webserver != 'no') {
                 $webserverConfiguration = array_get($this->configuration, $webserver);
-                $webserverClass = array_get($webserverConfiguration, 'class');
+                $webserverClass         = array_get($webserverConfiguration, 'class');
             } else {
                 $webserver = null;
             }
