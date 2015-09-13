@@ -25,11 +25,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
 
         // fallback to default behaviour if we're not talking about multi tenancy
-        if (!$this->option('tenant')) {
+        if (! $this->option('tenant')) {
             return parent::fire();
         }
 
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
         if ($this->option('tenant') == 'all') {
@@ -42,7 +42,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         }
 
         // forces database to tenant
-        if (!$this->option('database')) {
+        if (! $this->option('database')) {
             $this->input->setOption('database', 'tenant');
         }
 
@@ -61,7 +61,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             // Next, we will check to see if a path option has been defined. If it has
             // we will use the path relative to the root of this installation folder
             // so that migrations may be run for any path within the applications.
-            if (!is_null($path = $this->input->getOption('path'))) {
+            if (! is_null($path = $this->input->getOption('path'))) {
                 $path = $this->laravel->basePath().'/'.$path;
             } else {
                 $path = $this->getMigrationPath();
@@ -99,13 +99,13 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     protected function prepareDatabase($connection = null)
     {
-        if (!$connection) {
+        if (! $connection) {
             $connection = $this->option('database');
         }
 
         $this->migrator->setConnection($connection);
 
-        if (!$this->migrator->repositoryExists()) {
+        if (! $this->migrator->repositoryExists()) {
             $options = ['--database' => $connection];
 
             $this->call('migrate:install', $options);

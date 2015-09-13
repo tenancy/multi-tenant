@@ -25,7 +25,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
 
     public function fire()
     {
-        if (!$this->option('tenant')) {
+        if (! $this->option('tenant')) {
             return parent::fire();
         }
 
@@ -39,7 +39,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
         }
 
         // forces database to tenant
-        if (!$this->option('database')) {
+        if (! $this->option('database')) {
             $this->input->setOption('database', 'tenant');
         }
 

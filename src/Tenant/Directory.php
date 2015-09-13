@@ -55,7 +55,7 @@ class Directory implements DirectoryContract
                 Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
                 $this->website->id,
                 $this->website->getOriginal('identifier'));
-            if (!File::isDirectory($this->old_path)) {
+            if (! File::isDirectory($this->old_path)) {
                 $this->old_path = null;
             }
         }

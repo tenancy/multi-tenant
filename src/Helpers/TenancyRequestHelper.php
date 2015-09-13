@@ -26,11 +26,11 @@ abstract class TenancyRequestHelper
         $tenant_hostname = null;
 
         try {
-            if (!App::runningInConsole()) {
+            if (! App::runningInConsole()) {
                 $tenant_hostname = $hostname->findByHostname(Request::getHttpHost());
             }
 
-            if (!$tenant_hostname) {
+            if (! $tenant_hostname) {
                 $tenant_hostname = $hostname->getDefault();
             }
         } catch (QueryException $e) {

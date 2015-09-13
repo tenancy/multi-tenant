@@ -89,10 +89,12 @@ class Website extends SystemModel
         return new DatabaseConnection($this);
     }
 
-    public function getWebsiteUserAttribute() {
-        if(config('webserver.default-user') === true) {
+    public function getWebsiteUserAttribute()
+    {
+        if (config('webserver.default-user') === true) {
             return $this->identifier;
         }
+
         return config('webserver.default-user');
     }
 }
