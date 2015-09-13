@@ -69,8 +69,8 @@ class SetupCommand extends Command
         parent::__construct();
 
         $this->hostname = $hostname;
-        $this->website  = $website;
-        $this->tenant   = $tenant;
+        $this->website = $website;
+        $this->tenant = $tenant;
 
         $this->helper = new ServerConfigurationHelper();
     }
@@ -82,8 +82,8 @@ class SetupCommand extends Command
     {
         $this->configuration = config('webserver');
 
-        $name     = $this->option('tenant');
-        $email    = $this->option('email');
+        $name = $this->option('tenant');
+        $email = $this->option('email');
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
@@ -106,7 +106,6 @@ class SetupCommand extends Command
             $this->info('The management interface will be installed first.');
             $this->call('dashboard:setup');
         }
-
 
         // now we will run all migrations
         $this->comment('First off, migrations for the packages will run.');
@@ -131,7 +130,7 @@ class SetupCommand extends Command
 
             if ($webserver != 'no') {
                 $webserverConfiguration = array_get($this->configuration, $webserver);
-                $webserverClass         = array_get($webserverConfiguration, 'class');
+                $webserverClass = array_get($webserverConfiguration, 'class');
             } else {
                 $webserver = null;
             }
