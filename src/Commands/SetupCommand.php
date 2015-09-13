@@ -114,7 +114,7 @@ class SetupCommand extends Command
 
         $tenantDirectory = config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant');
 
-        if (!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
+        if (! File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 

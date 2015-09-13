@@ -191,7 +191,7 @@ class TenancySetupTest extends TestCase
         /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        if (!$hostname) {
+        if (! $hostname) {
             throw new \Exception('Unit test hostname not found');
         }
 

@@ -50,10 +50,10 @@ class TenancyEnvironment
         $this->hostname = TenancyRequestHelper::hostname($this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract'));
 
         // set website
-        $this->website = !is_null($this->hostname) ? $this->hostname->website : null;
+        $this->website = ! is_null($this->hostname) ? $this->hostname->website : null;
 
         // sets the database connection for the tenant website
-        if (!is_null($this->website)) {
+        if (! is_null($this->website)) {
             $this->website->database->setCurrent();
         }
 
@@ -61,7 +61,7 @@ class TenancyEnvironment
         $this->setupTenantBinds();
 
         // register tenant paths for website
-        if (!is_null($this->website)) {
+        if (! is_null($this->website)) {
             $this->app->make('Laraflock\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
 

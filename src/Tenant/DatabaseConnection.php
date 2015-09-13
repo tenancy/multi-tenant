@@ -119,10 +119,10 @@ class DatabaseConnection
         $clone = $this->config();
 
         return DB::connection(static::systemConnectionName())->transaction(function () use ($clone) {
-            if (!DB::statement("create database if not exists `{$clone['database']}`")) {
+            if (! DB::statement("create database if not exists `{$clone['database']}`")) {
                 throw new TenantDatabaseException("Could not create database {$clone['database']}");
             }
-            if (!DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost' identified by '{$clone['password']}'")) {
+            if (! DB::statement("grant all on `{$clone['database']}`.* to `{$clone['username']}`@'localhost' identified by '{$clone['password']}'")) {
                 throw new TenantDatabaseException("Could not create or grant privileges to user {$clone['username']} for {$clone['database']}");
             }
 
@@ -140,13 +140,13 @@ class DatabaseConnection
         $clone = $this->config();
 
         return DB::connection(static::systemConnectionName())->transaction(function () use ($clone) {
-            if (!DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'")) {
+            if (! DB::statement("revoke all on `{$clone['database']}`.* from `{$clone['username']}`@'localhost'")) {
                 throw new TenantDatabaseException("Could not revoke privileges to user {$clone['username']} for {$clone['database']}");
             }
-            if (!DB::statement("drop database `{$clone['database']}`")) {
+            if (! DB::statement("drop database `{$clone['database']}`")) {
                 throw new TenantDatabaseException("Could not drop database {$clone['database']}");
             }
-            if (!DB::statement("drop user `{$clone['username']}`@'localhost'")) {
+            if (! DB::statement("drop user `{$clone['username']}`@'localhost'")) {
                 throw new TenantDatabaseException("Could not drop user {$clone['username']}");
             }
 

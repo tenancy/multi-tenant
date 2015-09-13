@@ -88,7 +88,7 @@ class Hostname extends SystemModel
             return $this->redirectToHostname->redirectActionRequired();
         }
         // @todo also add ssl check once ssl certificates are support
-        if ($this->prefer_https && !Request::secure()) {
+        if ($this->prefer_https && ! Request::secure()) {
             return redirect()->secure(Request::path());
         }
 
