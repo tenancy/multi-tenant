@@ -160,7 +160,7 @@ class SetupCommand extends Command
             }
 
             if ($tenant->exists && $website->exists && $host->exists) {
-                $this->info('Configuration succesful');
+                $this->info('Configuration successful');
             }
         } else {
             $this->error('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
