@@ -61,7 +61,7 @@ class DatabaseConnection
     {
         static::$current = $this->name;
 
-        Config::set('database.connections.tenant', $this->config());
+        Config::set(sprintf('database.connections.%s', static::tenantConnectionName()), $this->config());
     }
 
     /**
