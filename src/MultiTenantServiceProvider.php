@@ -54,6 +54,10 @@ class MultiTenantServiceProvider extends ServiceProvider
         $this->app->booted(function ($app) {
             $this->registerCommands($app);
         });
+        /*
+         * Add helper functions
+         */
+        require_once __DIR__ . '/Helpers/HelperFunctions.php';
     }
 
     /**
