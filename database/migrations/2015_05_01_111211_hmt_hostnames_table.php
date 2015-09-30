@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class HmtHostnamesTable extends Migration
 {
@@ -12,7 +13,7 @@ class HmtHostnamesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('hyn')->create('hostnames', function (Blueprint $table) {
+        Schema::connection(DatabaseConnection::systemConnectionName())->create('hostnames', function (Blueprint $table) {
             $table->bigIncrements('id');
             // tenant owner
             $table->bigInteger('tenant_id')->unsigned();
@@ -51,6 +52,6 @@ class HmtHostnamesTable extends Migration
      */
     public function down()
     {
-        Schema::connection('hyn')->dropIfExists('hostnames');
+        Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('hostnames');
     }
 }

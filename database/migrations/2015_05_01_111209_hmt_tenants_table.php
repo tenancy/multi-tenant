@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class HmtTenantsTable extends Migration
 {
@@ -12,7 +13,7 @@ class HmtTenantsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('hyn')->create('tenants', function (Blueprint $table) {
+        Schema::connection(DatabaseConnection::systemConnectionName())->create('tenants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('customer_no')->nullable();
             $table->string('name');
@@ -39,6 +40,6 @@ class HmtTenantsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('hyn')->dropIfExists('tenants');
+        Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('tenants');
     }
 }

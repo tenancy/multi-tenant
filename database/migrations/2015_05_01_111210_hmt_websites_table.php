@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class HmtWebsitesTable extends Migration
 {
@@ -12,7 +13,7 @@ class HmtWebsitesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('hyn')->create('websites', function (Blueprint $table) {
+        Schema::connection(DatabaseConnection::systemConnectionName())->create('websites', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('tenant_id')->unsigned();
             $table->string('identifier');
@@ -33,6 +34,6 @@ class HmtWebsitesTable extends Migration
      */
     public function down()
     {
-        Schema::connection('hyn')->dropIfExists('websites');
+        Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('websites');
     }
 }
