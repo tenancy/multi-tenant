@@ -55,7 +55,30 @@ A demo showing the back-end will be available soon.
 
 All packages for multi tenancy require Laravel 5.1 LTS.
 
-## Installation
+## Automatic installation
+
+> Only use this method on a new/bare ubuntu 15.04 server.
+
+- Log in as root, or any user that has sudo.
+- Run: `wget -O - http://hyn.me/media/installer.sh | bash`
+- Wait for the three questions for a tenant name, email address and first hostname.
+
+Your installation is now located in `/var/www/` and a clean multi tenancy installation is available with:
+
+- apache2
+- latest php 5.6 stable
+- beanstalkd for queue handling, supervisor is verifying the service is up
+- redis for cache and session
+- mariadb
+
+You still have to set up:
+
+- default fallback hostname (optional)
+- third party eloquent models (optional)
+
+See in the manual installation steps how to do so.
+
+## Manual installation
 
 ### Composer
 
@@ -157,7 +180,7 @@ Please note, if you decide to skip the configuration of the webserver you will h
 
 ## Chat or critical bug
 
-If you'd like to hang out with us or would like to discuss a critical vulnerability; please contact us on [laraflock][4] or [the slack community of laravel](http://larachat.slack.com).
+If you'd like to hang out with us or would like to discuss a critical vulnerability; please contact us on [laraflock][4] or on [gitter][6].
 
 ## Q&A
 
@@ -177,7 +200,7 @@ Q: Will you make this package paid in the future?
 > A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
 
 Q: I have a bug, feature request or technical question.
-> A: Visit the [issues page][3] on github.
+> A: Visit the [issues page][5] on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
 > A: Contact me or other experienced implementation developers of [Laraflock][4].
@@ -200,3 +223,5 @@ Q: Hooking apache config files to OSX apache webservice?
 [2]: https://hyn.me/packages/multi-tenant
 [3]: https://github.com/laraflock/multi-tenant
 [4]: https://github.com/laraflock
+[5]: https://github.com/laraflock/multi-tenant/issues
+[6]: https://gitter.im/laraflock/multi-tenant
