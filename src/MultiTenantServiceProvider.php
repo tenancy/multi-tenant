@@ -57,7 +57,7 @@ class MultiTenantServiceProvider extends ServiceProvider
         /*
          * Add helper functions
          */
-        require_once __DIR__ . '/Helpers/HelperFunctions.php';
+        require_once __DIR__.'/Helpers/HelperFunctions.php';
     }
 
     /**
