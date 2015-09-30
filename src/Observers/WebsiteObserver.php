@@ -2,11 +2,11 @@
 
 namespace Laraflock\MultiTenant\Observers;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class WebsiteObserver
 {
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * @param $model
