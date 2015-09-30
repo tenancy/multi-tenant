@@ -73,10 +73,8 @@ Your installation is now located in `/var/www/` and a clean multi tenancy instal
 
 You still have to set up:
 
-- default fallback hostname (optional)
-- third party eloquent models (optional)
-
-See in the manual installation steps how to do so.
+- [third party eloquent models (optional)](#third-party-eloquent-models-optional)
+- [default fallback hostname (optional)](#defaultfallback-hostname)
 
 ## Manual installation
 
