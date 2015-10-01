@@ -16,8 +16,8 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "hyn-me/framework": "^0.3.0",
-        "hyn-me/webserver": "^0.3.4"
+        "hyn/framework": "1.*",
+        "hyn/webserver": "1.*"
     },
     "suggest": {
         "hyn/management-interface": "Provides a user interface for managing multi tenancy"
