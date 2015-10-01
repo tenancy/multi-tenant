@@ -69,11 +69,11 @@ class Hostname extends SystemModel
     }
 
     /**
-     * @return \HynMe\Webserver\Models\SslCertificate|null
+     * @return \Hyn\Webserver\Models\SslCertificate|null
      */
     public function certificate()
     {
-        return $this->belongsTo('HynMe\Webserver\Models\SslCertificate', 'ssl_certificate_id');
+        return $this->belongsTo('Hyn\Webserver\Models\SslCertificate', 'ssl_certificate_id');
     }
 
     /**

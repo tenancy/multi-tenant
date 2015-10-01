@@ -3,7 +3,7 @@
 namespace Laraflock\MultiTenant\tests;
 
 use HynMe\Framework\Testing\TestCase;
-use HynMe\Webserver\Models\SslCertificate;
+use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Http\RedirectResponse;
 use Laraflock\MultiTenant\Models\Hostname;
 use Laraflock\MultiTenant\Models\Tenant;

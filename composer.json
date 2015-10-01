@@ -1,7 +1,7 @@
 {
     "name": "laraflock/multi-tenant",
     "description": "Multi tenant laravel lts with separation between tenant and system",
-    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "laraflock", "hyn-me"],
+    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "laraflock", "hyn"],
     "license": "MIT",
     "authors": [
         {
@@ -15,12 +15,12 @@
         "docs": "http://hyn.me"
     },
     "require": {
-        "php": ">=5.5.0",
-        "hyn-me/framework": "*",
-        "hyn-me/webserver": "*"
+        "php": ">=5.5.9",
+        "hyn/framework": "*",
+        "hyn/webserver": "*"
     },
     "suggest": {
-        "hyn-me/management-interface": "Provides a user interface for managing multi tenancy"
+        "hyn/management-interface": "Provides a user interface for managing multi tenancy"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
