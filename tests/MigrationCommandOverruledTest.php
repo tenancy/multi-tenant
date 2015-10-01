@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\tests;
+namespace Laraflock\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
 use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCommand;

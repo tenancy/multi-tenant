@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\tests;
+namespace Laraflock\MultiTenant\Tests;
 
 use DB;
 use File;
