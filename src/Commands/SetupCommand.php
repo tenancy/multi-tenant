@@ -5,7 +5,7 @@ namespace Laraflock\MultiTenant\Commands;
 use DB;
 use File;
 use HynMe\Framework\Exceptions\TenantPropertyException;
-use HynMe\Webserver\Helpers\ServerConfigurationHelper;
+use Hyn\Webserver\Helpers\ServerConfigurationHelper;
 use Illuminate\Console\Command;
 use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
 use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
