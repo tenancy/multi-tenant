@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\Abstracts\Models;
 
-use HynMe\Framework\Models\AbstractModel;
+use Hyn\Framework\Models\AbstractModel;
 use Laraflock\MultiTenant\Tenant\DatabaseConnection;
 
 class SystemModel extends AbstractModel

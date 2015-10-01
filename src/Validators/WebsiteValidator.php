@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\Validators;
 
-use HynMe\Framework\Validators\AbstractValidator;
+use Hyn\Framework\Validators\AbstractValidator;
 
 class WebsiteValidator extends AbstractValidator
 {

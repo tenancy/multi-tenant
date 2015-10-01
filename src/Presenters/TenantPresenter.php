@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\Presenters;
 
-use HynMe\Framework\Presenters\AbstractModelPresenter;
+use Hyn\Framework\Presenters\AbstractModelPresenter;
 
 class TenantPresenter extends AbstractModelPresenter
 {

@@ -4,7 +4,7 @@ namespace Laraflock\MultiTenant\Tenant;
 
 use Config;
 use DB;
-use HynMe\Framework\Exceptions\TenantDatabaseException;
+use Hyn\Framework\Exceptions\TenantDatabaseException;
 use Laraflock\MultiTenant\Models\Website;
 
 /**

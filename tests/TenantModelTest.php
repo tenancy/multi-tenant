@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\tests;
 
-use HynMe\Framework\Testing\TestCase;
+use Hyn\Framework\Testing\TestCase;
 use Laraflock\MultiTenant\Models\Hostname;
 use Laraflock\MultiTenant\Models\Tenant;
 use Laraflock\MultiTenant\Models\Website;

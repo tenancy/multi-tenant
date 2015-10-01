@@ -4,7 +4,7 @@ namespace Laraflock\MultiTenant\tests;
 
 use DB;
 use File;
-use HynMe\Framework\Testing\TestCase;
+use Hyn\Framework\Testing\TestCase;
 use Illuminate\Database\Connection;
 use Laraflock\MultiTenant\MultiTenantServiceProvider;
 use Laraflock\MultiTenant\Tenant\DatabaseConnection;
@@ -16,7 +16,7 @@ class TenancySetupTest extends TestCase
      */
     public function testPackages()
     {
-        $this->assertTrue(class_exists('HynMe\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
+        $this->assertTrue(class_exists('Hyn\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
         $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'), 'packages are not loaded through FrameworkServiceProvider');
 
         $this->assertTrue(in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()), 'MultiTenantService provider is not loaded in Laravel');

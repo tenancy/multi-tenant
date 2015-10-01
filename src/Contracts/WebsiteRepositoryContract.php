@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\Contracts;
 
-use HynMe\Framework\Contracts\BaseRepositoryContract;
+use Hyn\Framework\Contracts\BaseRepositoryContract;
 use Laraflock\MultiTenant\Models\Hostname;
 
 interface WebsiteRepositoryContract extends BaseRepositoryContract

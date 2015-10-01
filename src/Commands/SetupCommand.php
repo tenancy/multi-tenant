@@ -4,7 +4,7 @@ namespace Laraflock\MultiTenant\Commands;
 
 use DB;
 use File;
-use HynMe\Framework\Exceptions\TenantPropertyException;
+use Hyn\Framework\Exceptions\TenantPropertyException;
 use Hyn\Webserver\Helpers\ServerConfigurationHelper;
 use Illuminate\Console\Command;
 use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
@@ -102,7 +102,7 @@ class SetupCommand extends Command
 
         // If the dashboard is installed we need to prevent default laravel migrations
         // so we run the dashboard setup command before running any migrations
-        if (class_exists('HynMe\ManagementInterface\ManagementInterfaceServiceProvider')) {
+        if (class_exists('Hyn\ManagementInterface\ManagementInterfaceServiceProvider')) {
             $this->info('The management interface will be installed first.');
             $this->call('dashboard:setup');
         }

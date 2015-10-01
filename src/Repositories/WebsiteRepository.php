@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\Repositories;
 
-use HynMe\Framework\Repositories\BaseRepository;
+use Hyn\Framework\Repositories\BaseRepository;
 use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
 use Laraflock\MultiTenant\Models\Hostname;
 

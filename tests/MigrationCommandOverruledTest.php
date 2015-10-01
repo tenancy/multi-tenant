@@ -2,7 +2,7 @@
 
 namespace Laraflock\MultiTenant\tests;
 
-use HynMe\Framework\Testing\TestCase;
+use Hyn\Framework\Testing\TestCase;
 use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCommand;
 use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
 
