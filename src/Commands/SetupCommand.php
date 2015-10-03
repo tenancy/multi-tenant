@@ -162,7 +162,7 @@ class SetupCommand extends Command
                 $this->info('Configuration successful');
             }
         } else {
-            $this->error('The hyn-me/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
+            $this->error('The hyn/webserver package is not installed. Visit http://hyn.me/packages/webserver for more information.');
         }
     }
 
