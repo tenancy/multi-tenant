@@ -60,7 +60,7 @@ All packages for multi tenancy require Laravel 5.1 LTS.
 > Only use this method on a new/bare ubuntu 15.04 server.
 
 - Log in as root, or any user that has sudo.
-- Run: `wget -O - http://hyn.me/media/installer.sh | bash`
+- Run: `wget https://hyn.me/media/installer.sh && bash installer.sh`
 - Wait for the three questions for a tenant name, email address and first hostname.
 
 Your installation is now located in `/var/www/` and a clean multi tenancy installation is available with:
