@@ -2,6 +2,14 @@
 
 All Notable changes to `laraflock/multi-tenant` will be documented in this file
 
+### 0.7.3 (beta 3)
+
+Stabilization completed, the added installer script helps on proving this point.
+
+### 0.6.0 (beta 2)
+
+Testing completed, the webserver dependancy is not yet stable.
+
 ### 0.5.3
 
 The changelog has been hardly updated since 0.4.3; my apologies for this. My goal has been to stabilize
