@@ -8,6 +8,11 @@ if (! function_exists('tenant_path')) {
         /** @var Directory $directory */
         $directory = app('Laraflock\MultiTenant\Contracts\DirectoryContract');
 
-        return $directory ? $directory->base() : null;
+        if(! $directory)
+        {
+            return null;
+        }
+
+        return sprintf("%s%s", $directory->base(), $path);
     }
 }
