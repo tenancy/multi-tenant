@@ -2,6 +2,18 @@
 
 All Notable changes to `laraflock/multi-tenant` will be documented in this file
 
+### 0.7.5
+
+Updated to latest phpunit.
+Fixed helper function tenant_path to use the argument.
+
+### 0.7.4
+
+Fixed references to older namespaces.
+Updated readme to reflect namespace changes.
+First commit for database seeder.
+Several StyleCI fixes.
+
 ### 0.7.3 (beta 3)
 
 Stabilization completed, the added installer script helps on proving this point.
