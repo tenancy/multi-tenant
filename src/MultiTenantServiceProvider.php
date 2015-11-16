@@ -183,6 +183,11 @@ class MultiTenantServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register the "status" migration command.
+     *
+     * @return void
+     */
     protected function registerStatusCommand()
     {
         $this->app->bind('command.migrate.status', function ($object, $app) {
