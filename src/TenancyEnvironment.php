@@ -110,6 +110,7 @@ class TenancyEnvironment
         $this->app->singleton('Laraflock\MultiTenant\Contracts\DirectoryContract', function () use ($hostname) {
             return $hostname ? new Directory($hostname->website) : null;
         });
+
         /*
          * Tenant view shares
          */
@@ -118,6 +119,7 @@ class TenancyEnvironment
                 'hostname' => $hostname,
             ]);
         });
+        
         /*
          * Tenant hostname
          */
