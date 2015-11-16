@@ -41,7 +41,9 @@ class MultiTenantServiceProvider extends ServiceProvider
         /*
          * Register middleware to detect hostname and redirect if required
          */
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Laraflock\MultiTenant\Middleware\HostnameMiddleware');
+        if (config('multi-tenant.hostname-detection-middleware')) {
+            $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Laraflock\MultiTenant\Middleware\HostnameMiddleware');
+        }
 
         /*
          * Model observers
