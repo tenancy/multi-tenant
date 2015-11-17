@@ -57,7 +57,7 @@ All packages for multi tenancy require Laravel 5.1 LTS.
 
 ## Automatic installation
 
-> Only use this method on a new/bare ubuntu 15.04 server.
+> Only use this method on a new/bare ubuntu 15.04 server with at least 1GB memory.
 
 - Log in as root, or any user that has sudo.
 - Run: `bash -c "$(wget -O - https://hyn.me/media/installer.sh)"`
@@ -178,7 +178,7 @@ Please note, if you decide to skip the configuration of the webserver you will h
 
 ## Chat or critical bug
 
-If you'd like to hang out with us or would like to discuss a critical vulnerability; please contact us on [laraflock][4] or on [gitter][6].
+If you'd like to hang out with us or would like to discuss a critical vulnerability; please contact me on [gitter][6].
 
 ## Q&A
 
@@ -201,7 +201,7 @@ Q: I have a bug, feature request or technical question.
 > A: Visit the [issues page][5] on github.
 
 Q: I have need for more direct support, advice or consultation for implementation.
-> A: Contact me or other experienced implementation developers of [Laraflock][4].
+> A: Contact me for additional support.
 
 Q: Why does the user for the `hyn` connection need `grant` rights?
 > A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
@@ -219,7 +219,6 @@ Q: Hooking apache config files to OSX apache webservice?
 
 [1]: https://hyn.me
 [2]: https://hyn.me/packages/multi-tenant
-[3]: https://github.com/laraflock/multi-tenant
-[4]: https://github.com/laraflock
-[5]: https://github.com/laraflock/multi-tenant/issues
-[6]: https://gitter.im/laraflock/multi-tenant
+[3]: https://github.com/hyn/multi-tenant
+[5]: https://github.com/hyn/multi-tenant/issues
+[6]: https://gitter.im/hyn/multi-tenant
