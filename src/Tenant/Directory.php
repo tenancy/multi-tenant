@@ -1,13 +1,13 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tenant;
+namespace Hyn\MultiTenant\Tenant;
 
 use Config;
 use File;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
-use Laraflock\MultiTenant\Contracts\DirectoryContract;
-use Laraflock\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Contracts\DirectoryContract;
+use Hyn\MultiTenant\Models\Website;
 
 /**
  * Class Directory.

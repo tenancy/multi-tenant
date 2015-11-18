@@ -1,16 +1,16 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Hyn\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
-use Laraflock\MultiTenant\Models\Hostname;
-use Laraflock\MultiTenant\Models\Tenant;
-use Laraflock\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Models\Tenant;
+use Hyn\MultiTenant\Models\Website;
 
 /**
  * Class TenantModeltest.
  *
- * @coversDefaultClass \Laraflock\MultiTenant\Models\Tenant
+ * @coversDefaultClass \Hyn\MultiTenant\Models\Tenant
  */
 class TenantModelTest extends TestCase
 {
@@ -75,7 +75,7 @@ class TenantModelTest extends TestCase
     /**
      * @param Tenant $tenant
      * @depends testCreate
-     * @covers \Laraflock\MultiTenant\Presenters\TenantPresenter
+     * @covers \Hyn\MultiTenant\Presenters\TenantPresenter
      */
     public function testPresenter($tenant)
     {

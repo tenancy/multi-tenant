@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tenant;
+namespace Hyn\MultiTenant\Tenant;
 
 use Illuminate\Support\Collection;
 

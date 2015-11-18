@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Commands\Migrate;
+namespace Hyn\MultiTenant\Commands\Migrate;
 
 use App;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
@@ -20,7 +20,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
     {
         parent::__construct($repository);
 
-        $this->website = App::make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = App::make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

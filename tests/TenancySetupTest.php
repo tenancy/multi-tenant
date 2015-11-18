@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Hyn\MultiTenant\Tests;
 
 use DB;
 use File;
 use Hyn\Framework\Testing\TestCase;
 use Illuminate\Database\Connection;
-use Laraflock\MultiTenant\MultiTenantServiceProvider;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\MultiTenant\MultiTenantServiceProvider;
+use Hyn\MultiTenant\Tenant\DatabaseConnection;
 
 class TenancySetupTest extends TestCase
 {
     /**
-     * @covers \Laraflock\MultiTenant\MultiTenantServiceProvider
+     * @covers \Hyn\MultiTenant\MultiTenantServiceProvider
      */
     public function testPackages()
     {
@@ -28,12 +28,12 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testPackages
      *
-     * @covers \Laraflock\MultiTenant\Commands\SetupCommand
-     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection::create
-     * @covers \Laraflock\MultiTenant\Tenant\Directory::create
-     * @covers \Laraflock\MultiTenant\Observers\WebsiteObserver::created
-     * @covers \Laraflock\MultiTenant\Observers\WebsiteObserver::creating
-     * @covers \Laraflock\MultiTenant\Observers\HostnameObserver::saved
+     * @covers \Hyn\MultiTenant\Commands\SetupCommand
+     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection::create
+     * @covers \Hyn\MultiTenant\Tenant\Directory::create
+     * @covers \Hyn\MultiTenant\Observers\WebsiteObserver::created
+     * @covers \Hyn\MultiTenant\Observers\WebsiteObserver::creating
+     * @covers \Hyn\MultiTenant\Observers\HostnameObserver::saved
      *
      * @covers \HmtTenantsTable
      * @covers \HmtWebsitesTable
@@ -52,14 +52,14 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testCommand
-     * @covers \Laraflock\MultiTenant\Repositories\TenantRepository::findByName
-     * @covers \Laraflock\MultiTenant\Contracts\TenantRepositoryContract::findByName
+     * @covers \Hyn\MultiTenant\Repositories\TenantRepository::findByName
+     * @covers \Hyn\MultiTenant\Contracts\TenantRepositoryContract::findByName
      */
     public function testTenantExistence()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make('Laraflock\MultiTenant\Contracts\TenantRepositoryContract');
-        /** @var \Laraflock\MultiTenant\Models\Tenant|null $tenant */
+        /* @var \Hyn\MultiTenant\Contracts\TenantRepositoryContract tenant */
+        $this->tenant = $this->app->make('Hyn\MultiTenant\Contracts\TenantRepositoryContract');
+        /** @var \Hyn\MultiTenant\Models\Tenant|null $tenant */
         $tenant = $this->tenant->findByName('example');
 
         $this->assertNotNull($tenant, 'Tenant from command has not been created');
@@ -67,15 +67,15 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantExistence
-     * @covers \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
-     * @covers \Laraflock\MultiTenant\Repositories\HostnameRepository::findByHostname
+     * @covers \Hyn\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
+     * @covers \Hyn\MultiTenant\Repositories\HostnameRepository::findByHostname
      */
     public function testHostnameExistence()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract hostname */
-        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
+        /* @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract hostname */
+        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
 
-        /** @var \Laraflock\MultiTenant\Models\Hostname|null $hostname */
+        /** @var \Hyn\MultiTenant\Models\Hostname|null $hostname */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertNotNull($hostname, 'Hostname from command has not been created');
@@ -104,16 +104,16 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Laraflock\MultiTenant\Tenant\Directory
+     * @covers \Hyn\MultiTenant\Tenant\Directory
      */
     public function testTenantFoldersExist()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+        /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        /** @var \Laraflock\MultiTenant\Models\Website $website */
+        /** @var \Hyn\MultiTenant\Models\Website $website */
         $website = $hostname->website;
 
         foreach ($website->directory->pathsToCreate() as $directory) {
@@ -126,16 +126,16 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection
+     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection
      */
     public function testTenantConnection()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+        /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        /** @var \Laraflock\MultiTenant\Tenant\DatabaseConnection $connection */
+        /** @var \Hyn\MultiTenant\Tenant\DatabaseConnection $connection */
         $connection = $hostname->website->database;
 
         $connection->setCurrent();
@@ -146,8 +146,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Laraflock\MultiTenant\Commands\Migrate\InstallCommand
-     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \Hyn\MultiTenant\Commands\Migrate\InstallCommand
+     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
      * @covers \TestTenantMigration
      */
     public function testTenantMigrationRuns()
@@ -161,13 +161,13 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testTenantMigratedTableExists()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+        /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         $this->assertGreaterThan(0, $hostname
@@ -181,14 +181,14 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Laraflock\MultiTenant\Commands\Migrate\MigrateCommand
-     * @covers \Laraflock\MultiTenant\Tenant\DatabaseConnection::setCurrent
+     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection::setCurrent
      */
     public function testTenantMigrationEntryExists()
     {
-        /* @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
-        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-        /* @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+        /* @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract website */
+        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+        /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
         if (! $hostname) {
@@ -205,15 +205,15 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantExistence
-     * @covers \Laraflock\MultiTenant\Middleware\HostnameMiddleware
+     * @covers \Hyn\MultiTenant\Middleware\HostnameMiddleware
      * @note we need a webserver to handle this
      */
     public function testMiddleware()
     {
         //
-//        /** @var \Laraflock\MultiTenant\Contracts\HostnameRepositoryContract website */
-//        $this->hostname = $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract');
-//        /** @var \Laraflock\MultiTenant\Models\Hostname|null $website */
+//        /** @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract website */
+//        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+//        /** @var \Hyn\MultiTenant\Models\Hostname|null $website */
 //        $hostname = $this->hostname->findByHostname('system.testing');
 //
 //        // test for unregistered hostname

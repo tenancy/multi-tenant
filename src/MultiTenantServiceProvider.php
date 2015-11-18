@@ -1,17 +1,17 @@
 <?php
 
-namespace Laraflock\MultiTenant;
+namespace Hyn\MultiTenant;
 
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use Laraflock\MultiTenant\Commands\Migrate\InstallCommand;
-use Laraflock\MultiTenant\Commands\Migrate\MigrateCommand;
-use Laraflock\MultiTenant\Commands\Migrate\MigrateMakeCommand;
-use Laraflock\MultiTenant\Commands\Migrate\RefreshCommand;
-use Laraflock\MultiTenant\Commands\Migrate\ResetCommand;
-use Laraflock\MultiTenant\Commands\Migrate\RollbackCommand;
-use Laraflock\MultiTenant\Commands\Migrate\StatusCommand;
-use Laraflock\MultiTenant\Commands\SetupCommand;
+use Hyn\MultiTenant\Commands\Migrate\InstallCommand;
+use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
+use Hyn\MultiTenant\Commands\Migrate\MigrateMakeCommand;
+use Hyn\MultiTenant\Commands\Migrate\RefreshCommand;
+use Hyn\MultiTenant\Commands\Migrate\ResetCommand;
+use Hyn\MultiTenant\Commands\Migrate\RollbackCommand;
+use Hyn\MultiTenant\Commands\Migrate\StatusCommand;
+use Hyn\MultiTenant\Commands\SetupCommand;
 
 class MultiTenantServiceProvider extends ServiceProvider
 {
@@ -42,7 +42,7 @@ class MultiTenantServiceProvider extends ServiceProvider
          * Register middleware to detect hostname and redirect if required
          */
         if (config('multi-tenant.hostname-detection-middleware')) {
-            $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Laraflock\MultiTenant\Middleware\HostnameMiddleware');
+            $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Hyn\MultiTenant\Middleware\HostnameMiddleware');
         }
 
         /*
@@ -84,9 +84,9 @@ class MultiTenantServiceProvider extends ServiceProvider
          */
         $this->app->bind(SetupCommand::class, function ($app) {
             return new SetupCommand(
-                $app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract'),
-                $app->make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract'),
-                $app->make('Laraflock\MultiTenant\Contracts\TenantRepositoryContract')
+                $app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract'),
+                $app->make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract'),
+                $app->make('Hyn\MultiTenant\Contracts\TenantRepositoryContract')
             );
         });
 
@@ -108,9 +108,9 @@ class MultiTenantServiceProvider extends ServiceProvider
         return array_merge($this->commands, [
             'tenant.view',
             'tenant.hostname',
-            'Laraflock\MultiTenant\Contracts\DirectoryContract',
-            'Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract',
-            'Laraflock\MultiTenant\Contracts\HostnameRepositoryContract',
+            'Hyn\MultiTenant\Contracts\DirectoryContract',
+            'Hyn\MultiTenant\Contracts\WebsiteRepositoryContract',
+            'Hyn\MultiTenant\Contracts\HostnameRepositoryContract',
         ]);
     }
 

@@ -1,5 +1,5 @@
 {
-    "name": "laraflock/multi-tenant",
+    "name": "hyn/multi-tenant",
     "description": "Multi tenant laravel lts with separation between tenant and system",
     "keywords": ["laravel", "multi-tenant", "multi-tenancy", "hyn"],
     "license": "MIT",
@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Laraflock\\MultiTenant\\": "src/"
+            "Hyn\\MultiTenant\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Laraflock\\MultiTenant\\Tests\\": "tests/"
+            "Hyn\\MultiTenant\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable"

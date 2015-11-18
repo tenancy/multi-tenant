@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflock\MultiTenant\Models;
+namespace Hyn\MultiTenant\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\MultiTenant\Abstracts\Models\SystemModel;
 
 class Tenant extends SystemModel
 {
@@ -12,7 +12,7 @@ class Tenant extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'Laraflock\MultiTenant\Presenters\TenantPresenter';
+    protected $presenter = 'Hyn\MultiTenant\Presenters\TenantPresenter';
 
     protected $fillable = ['name', 'identifier'];
 

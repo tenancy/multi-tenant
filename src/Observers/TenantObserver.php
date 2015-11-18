@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Observers;
+namespace Hyn\MultiTenant\Observers;
 
 class TenantObserver
 {

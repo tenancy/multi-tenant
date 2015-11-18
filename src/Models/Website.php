@@ -1,12 +1,12 @@
 <?php
 
-namespace Laraflock\MultiTenant\Models;
+namespace Hyn\MultiTenant\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
-use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
-use Laraflock\MultiTenant\Tenant\Directory;
+use Hyn\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\MultiTenant\Tenant\Directory;
 
 /**
  * Class Website.
@@ -19,7 +19,7 @@ class Website extends SystemModel
     use PresentableTrait,
         SoftDeletes;
 
-    protected $presenter = 'Laraflock\MultiTenant\Presenters\WebsitePresenter';
+    protected $presenter = 'Hyn\MultiTenant\Presenters\WebsitePresenter';
 
     protected $fillable = ['tenant_id', 'identifier'];
 

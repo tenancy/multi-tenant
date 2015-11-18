@@ -1,16 +1,16 @@
 <?php
 
-namespace Laraflock\MultiTenant;
+namespace Hyn\MultiTenant;
 
-use Laraflock\MultiTenant\Helpers\TenancyRequestHelper;
-use Laraflock\MultiTenant\Models\Hostname;
-use Laraflock\MultiTenant\Models\Tenant;
-use Laraflock\MultiTenant\Models\Website;
-use Laraflock\MultiTenant\Repositories\HostnameRepository;
-use Laraflock\MultiTenant\Repositories\TenantRepository;
-use Laraflock\MultiTenant\Repositories\WebsiteRepository;
-use Laraflock\MultiTenant\Tenant\Directory;
-use Laraflock\MultiTenant\Tenant\View as TenantView;
+use Hyn\MultiTenant\Helpers\TenancyRequestHelper;
+use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Models\Tenant;
+use Hyn\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Repositories\HostnameRepository;
+use Hyn\MultiTenant\Repositories\TenantRepository;
+use Hyn\MultiTenant\Repositories\WebsiteRepository;
+use Hyn\MultiTenant\Tenant\Directory;
+use Hyn\MultiTenant\Tenant\View as TenantView;
 use View;
 
 /**
@@ -26,12 +26,12 @@ class TenancyEnvironment
     protected $app;
 
     /**
-     * @var \Laraflock\MultiTenant\Models\Hostname
+     * @var \Hyn\MultiTenant\Models\Hostname
      */
     protected $hostname;
 
     /**
-     * @var \Laraflock\MultiTenant\Models\Website
+     * @var \Hyn\MultiTenant\Models\Website
      */
     protected $website;
 
@@ -47,7 +47,7 @@ class TenancyEnvironment
         $this->setupBinds();
 
         // load hostname object or default
-        $this->hostname = TenancyRequestHelper::hostname($this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract'));
+        $this->hostname = TenancyRequestHelper::hostname($this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract'));
 
         // set website
         $this->website = ! is_null($this->hostname) ? $this->hostname->website : null;
@@ -62,11 +62,11 @@ class TenancyEnvironment
 
         // register tenant paths for website
         if (! is_null($this->website)) {
-            $this->app->make('Laraflock\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
+            $this->app->make('Hyn\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
         }
 
         // register view shares
-        View::composer('*', 'Laraflock\MultiTenant\Composers\TenantComposer');
+        View::composer('*', 'Hyn\MultiTenant\Composers\TenantComposer');
     }
 
     /**
@@ -77,22 +77,22 @@ class TenancyEnvironment
         /*
          * Tenant repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\TenantRepositoryContract', function () {
+        $this->app->bind('Hyn\MultiTenant\Contracts\TenantRepositoryContract', function () {
             return new TenantRepository(new Tenant());
         });
         /*
          * Tenant hostname repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract', function () {
+        $this->app->bind('Hyn\MultiTenant\Contracts\HostnameRepositoryContract', function () {
             return new HostnameRepository(new Hostname());
         });
         /*
          * Tenant website repository
          */
-        $this->app->bind('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract', function ($app) {
+        $this->app->bind('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract', function ($app) {
             return new WebsiteRepository(
                 new Website(),
-                $this->app->make('Laraflock\MultiTenant\Contracts\HostnameRepositoryContract')
+                $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract')
             );
         });
     }
@@ -107,7 +107,7 @@ class TenancyEnvironment
         /*
          * Tenant directory mapping and functionality
          */
-        $this->app->singleton('Laraflock\MultiTenant\Contracts\DirectoryContract', function () use ($hostname) {
+        $this->app->singleton('Hyn\MultiTenant\Contracts\DirectoryContract', function () use ($hostname) {
             return $hostname ? new Directory($hostname->website) : null;
         });
 

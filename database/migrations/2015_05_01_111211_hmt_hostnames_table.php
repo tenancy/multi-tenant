@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\MultiTenant\Tenant\DatabaseConnection;
 
 class HmtHostnamesTable extends Migration
 {

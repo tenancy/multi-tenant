@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflock\MultiTenant\Abstracts\Models;
+namespace Hyn\MultiTenant\Abstracts\Models;
 
 use Hyn\Framework\Models\AbstractModel;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\MultiTenant\Tenant\DatabaseConnection;
 
 class TenantModel extends AbstractModel
 {

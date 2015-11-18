@@ -1,18 +1,18 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Hyn\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
 use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Http\RedirectResponse;
-use Laraflock\MultiTenant\Models\Hostname;
-use Laraflock\MultiTenant\Models\Tenant;
-use Laraflock\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Models\Tenant;
+use Hyn\MultiTenant\Models\Website;
 
 /**
  * Class HostnameModelTest.
  *
- * @coversDefaultClass \Laraflock\MultiTenant\Models\Hostname
+ * @coversDefaultClass \Hyn\MultiTenant\Models\Hostname
  */
 class HostnameModelTest extends TestCase
 {
@@ -108,7 +108,7 @@ class HostnameModelTest extends TestCase
     /**
      * @param Hostname $hostname
      * @depends testCreate
-     * @covers \Laraflock\MultiTenant\Presenters\HostnamePresenter
+     * @covers \Hyn\MultiTenant\Presenters\HostnamePresenter
      */
     public function testHostnamePresenter($hostname)
     {

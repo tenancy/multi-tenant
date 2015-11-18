@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Composers;
+namespace Hyn\MultiTenant\Composers;
 
 use App;
 use Illuminate\Contracts\View\View;
