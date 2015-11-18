@@ -1,7 +1,7 @@
 {
     "name": "laraflock/multi-tenant",
     "description": "Multi tenant laravel lts with separation between tenant and system",
-    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "laraflock", "hyn"],
+    "keywords": ["laravel", "multi-tenant", "multi-tenancy", "hyn"],
     "license": "MIT",
     "authors": [
         {
@@ -10,8 +10,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/laraflock/multi-tenant/issues",
-        "source": "https://github.com/laraflock/multi-tenant",
+        "issues": "https://github.com/hyn/multi-tenant/issues",
+        "source": "https://github.com/hyn/multi-tenant",
         "docs": "http://hyn.me"
     },
     "require": {
