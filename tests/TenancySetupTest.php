@@ -92,7 +92,7 @@ class TenancySetupTest extends TestCase
         $databases = DB::connection(DatabaseConnection::systemConnectionName())->select('SHOW DATABASES');
 
         $found = false;
-        $list  = [];
+        $list = [];
 
         foreach ($databases as $database) {
             if (substr($database->Database, 0, 1) == 1) {
@@ -102,7 +102,7 @@ class TenancySetupTest extends TestCase
             $list[] = $database->Database;
         }
 
-        $this->assertTrue($found, 'Databases found: ' . implode(', ', $list));
+        $this->assertTrue($found, 'Databases found: '.implode(', ', $list));
     }
 
     /**
@@ -194,14 +194,14 @@ class TenancySetupTest extends TestCase
         /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        if (!$hostname) {
+        if (! $hostname) {
             throw new \Exception('Unit test hostname not found');
         }
 
         $hostname->website->database->setCurrent();
 
-        foreach (File::allFiles(__DIR__ . '/database/migrations') as $file) {
-            $fileBaseName = $file->getBaseName('.' . $file->getExtension());
+        foreach (File::allFiles(__DIR__.'/database/migrations') as $file) {
+            $fileBaseName = $file->getBaseName('.'.$file->getExtension());
             $this->seeInDatabase('migrations', ['migration' => $fileBaseName], $hostname->website->database->name);
         }
     }

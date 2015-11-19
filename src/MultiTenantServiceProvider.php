@@ -27,11 +27,11 @@ class MultiTenantServiceProvider extends ServiceProvider
         /*
          * Set configuration variables
          */
-        $this->mergeConfigFrom(__DIR__ . '/../config/multi-tenant.php', 'multi-tenant');
+        $this->mergeConfigFrom(__DIR__.'/../config/multi-tenant.php', 'multi-tenant');
         /*
          * Publish migrations
          */
-        $this->publishes([__DIR__ . '/../database/migrations/' => database_path('/migrations')], 'migrations');
+        $this->publishes([__DIR__.'/../database/migrations/' => database_path('/migrations')], 'migrations');
 
         /*
          * Bind tenancy into container
@@ -59,7 +59,7 @@ class MultiTenantServiceProvider extends ServiceProvider
         /*
          * Add helper functions
          */
-        require_once __DIR__ . '/Helpers/HelperFunctions.php';
+        require_once __DIR__.'/Helpers/HelperFunctions.php';
     }
 
     /**
@@ -131,7 +131,7 @@ class MultiTenantServiceProvider extends ServiceProvider
         // and register each one of them with an application container. They will
         // be resolved in the Artisan start file and registered on the console.
         foreach ($commands as $command) {
-            $this->{'register' . $command . 'Command'}();
+            $this->{'register'.$command.'Command'}();
         }
     }
 
