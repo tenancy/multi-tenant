@@ -154,7 +154,7 @@ class TenancySetupTest extends TestCase
     {
         $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'all',
-            '--path'   => 'vendor/laraflock/multi-tenant/tests/database/migrations/',
+            '--path'   => 'vendor/hyn/multi-tenant/tests/database/migrations/',
             '--force',
         ]));
     }
