@@ -1,16 +1,16 @@
 <?php
 
-namespace Laraflock\MultiTenant\Commands;
+namespace Hyn\MultiTenant\Commands;
 
 use DB;
 use File;
 use Hyn\Framework\Exceptions\TenantPropertyException;
 use Hyn\Webserver\Helpers\ServerConfigurationHelper;
 use Illuminate\Console\Command;
-use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
-use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
-use Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Laraflock\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
+use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
+use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Hyn\MultiTenant\Tenant\DatabaseConnection;
 
 class SetupCommand extends Command
 {

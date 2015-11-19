@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tenant;
+namespace Hyn\MultiTenant\Tenant;
 
 use Config;
 use DB;
 use Hyn\Framework\Exceptions\TenantDatabaseException;
-use Laraflock\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Models\Website;
 
 /**
  * Class DatabaseConnection.

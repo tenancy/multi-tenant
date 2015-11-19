@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Presenters;
+namespace Hyn\MultiTenant\Presenters;
 
 use Hyn\Framework\Presenters\AbstractModelPresenter;
 

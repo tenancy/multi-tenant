@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Validators;
+namespace Hyn\MultiTenant\Validators;
 
 use Hyn\Framework\Validators\AbstractValidator;
 

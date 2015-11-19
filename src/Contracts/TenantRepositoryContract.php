@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Contracts;
+namespace Hyn\MultiTenant\Contracts;
 
 use Hyn\Framework\Contracts\BaseRepositoryContract;
 
@@ -27,7 +27,7 @@ interface TenantRepositoryContract extends BaseRepositoryContract
      *
      * @param $name
      *
-     * @return \Laraflock\MultiTenant\Models\Tenant
+     * @return \Hyn\MultiTenant\Models\Tenant
      */
     public function findByName($name);
 }

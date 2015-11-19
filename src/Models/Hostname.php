@@ -1,9 +1,9 @@
 <?php
 
-namespace Laraflock\MultiTenant\Models;
+namespace Hyn\MultiTenant\Models;
 
 use Laracasts\Presenter\PresentableTrait;
-use Laraflock\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\MultiTenant\Abstracts\Models\SystemModel;
 use Request;
 
 class Hostname extends SystemModel
@@ -13,7 +13,7 @@ class Hostname extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'Laraflock\MultiTenant\Presenters\HostnamePresenter';
+    protected $presenter = 'Hyn\MultiTenant\Presenters\HostnamePresenter';
 
     /**
      * @var array

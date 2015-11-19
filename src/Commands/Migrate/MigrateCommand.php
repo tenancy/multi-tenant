@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Commands\Migrate;
+namespace Hyn\MultiTenant\Commands\Migrate;
 
 use App;
 use Illuminate\Database\Migrations\Migrator;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
     /**
-     * @var \Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract
+     * @var \Hyn\MultiTenant\Contracts\WebsiteRepositoryContract
      */
     protected $website;
 
@@ -18,7 +18,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         parent::__construct($migrator);
 
-        $this->website = App::make('Laraflock\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = App::make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

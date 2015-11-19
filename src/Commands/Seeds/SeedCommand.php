@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Commands\Seeds;
+namespace Hyn\MultiTenant\Commands\Seeds;
 
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {

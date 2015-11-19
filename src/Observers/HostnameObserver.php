@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraflock\MultiTenant\Observers;
+namespace Hyn\MultiTenant\Observers;
 
 class HostnameObserver
 {
     /**
-     * @param \Laraflock\MultiTenant\Models\Hostname $model
+     * @param \Hyn\MultiTenant\Models\Hostname $model
      */
     public function saved($model)
     {

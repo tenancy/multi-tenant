@@ -1,11 +1,11 @@
 <?php
 
-namespace Laraflock\MultiTenant\Tests;
+namespace Hyn\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
-use Laraflock\MultiTenant\Models\Hostname;
-use Laraflock\MultiTenant\Models\Website;
-use Laraflock\MultiTenant\Tenant\Directory;
+use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Models\Website;
+use Hyn\MultiTenant\Tenant\Directory;
 
 /**
  * Class WebsiteModelTest.
@@ -50,7 +50,7 @@ class WebsiteModelTest extends TestCase
     /**
      * @param Website $website
      * @depends testCreate
-     * @covers \Laraflock\MultiTenant\Presenters\WebsitePresenter
+     * @covers \Hyn\MultiTenant\Presenters\WebsitePresenter
      */
     public function testPresenter($website)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laraflock\MultiTenant\Contracts;
+namespace Hyn\MultiTenant\Contracts;
 
 interface DirectoryContract
 {

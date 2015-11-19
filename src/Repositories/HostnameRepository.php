@@ -1,21 +1,21 @@
 <?php
 
-namespace Laraflock\MultiTenant\Repositories;
+namespace Hyn\MultiTenant\Repositories;
 
 use Hyn\Framework\Repositories\BaseRepository;
-use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
+use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 
 class HostnameRepository extends BaseRepository implements HostnameRepositoryContract
 {
     /**
-     * @var \Laraflock\MultiTenant\Models\Hostname
+     * @var \Hyn\MultiTenant\Models\Hostname
      */
     protected $hostname;
 
     /**
      * @param $hostname
      *
-     * @return \Laraflock\MultiTenant\Models\Hostname
+     * @return \Hyn\MultiTenant\Models\Hostname
      */
     public function findByHostname($hostname)
     {
@@ -23,7 +23,7 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
-     * @return \Laraflock\MultiTenant\Models\Hostname
+     * @return \Hyn\MultiTenant\Models\Hostname
      */
     public function getDefault()
     {

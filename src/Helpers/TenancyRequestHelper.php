@@ -1,10 +1,10 @@
 <?php
 
-namespace Laraflock\MultiTenant\Helpers;
+namespace Hyn\MultiTenant\Helpers;
 
 use App;
 use Illuminate\Database\QueryException;
-use Laraflock\MultiTenant\Contracts\HostnameRepositoryContract;
+use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 use Request;
 
 /**
@@ -19,7 +19,7 @@ abstract class TenancyRequestHelper
      *
      * @param HostnameRepositoryContract $hostname
      *
-     * @return \Laraflock\MultiTenant\Models\Hostname
+     * @return \Hyn\MultiTenant\Models\Hostname
      */
     public static function hostname(HostnameRepositoryContract $hostname)
     {

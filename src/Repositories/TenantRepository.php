@@ -1,14 +1,14 @@
 <?php
 
-namespace Laraflock\MultiTenant\Repositories;
+namespace Hyn\MultiTenant\Repositories;
 
 use Hyn\Framework\Repositories\BaseRepository;
-use Laraflock\MultiTenant\Contracts\TenantRepositoryContract;
+use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
 
 class TenantRepository extends BaseRepository implements TenantRepositoryContract
 {
     /**
-     * @var \Laraflock\MultiTenant\Models\Tenant
+     * @var \Hyn\MultiTenant\Models\Tenant
      */
     protected $tenant;
 
@@ -17,7 +17,7 @@ class TenantRepository extends BaseRepository implements TenantRepositoryContrac
      *
      * @param $name
      *
-     * @return \Laraflock\MultiTenant\Models\Tenant
+     * @return \Hyn\MultiTenant\Models\Tenant
      */
     public function findByName($name)
     {
