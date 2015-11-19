@@ -10,7 +10,7 @@ use Hyn\MultiTenant\Tenant\Directory;
 /**
  * Class WebsiteModelTest.
  *
- * @coversDefaultClass \laraflock\MultiTenant\Models\Website
+ * @coversDefaultClass \Hyn\MultiTenant\Models\Website
  */
 class WebsiteModelTest extends TestCase
 {
