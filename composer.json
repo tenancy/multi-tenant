@@ -23,7 +23,7 @@
         "hyn/management-interface": "Provides a user interface for managing multi tenancy"
     },
     "require-dev": {
-        "phpunit/phpunit" : "5.*",
+        "phpunit/phpunit" : "4.*",
         "scrutinizer/ocular": "~1.1"
     },
     "autoload": {
