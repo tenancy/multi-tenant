@@ -2,10 +2,9 @@
 
 All Notable changes to `laraflock/multi-tenant` will be documented in this file
 
-### 1.0.0-rc.1
+### 0.8.0
 
 Moved from Laraflock to Hyn namespace for main multi-tenant package. Require dependency by using `hyn/multi-tenant`.
-.. todo
 
 ### 0.7.5
 
