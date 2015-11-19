@@ -1,9 +1,9 @@
 # Multi tenancy
 
-[![Latest Stable Version](https://poser.pugx.org/laraflock/multi-tenant/v/stable)](https://packagist.org/packages/laraflock/multi-tenant)
-[![License](https://poser.pugx.org/laraflock/multi-tenant/license)](https://packagist.org/packages/laraflock/multi-tenant)
+[![Latest Stable Version](https://poser.pugx.org/laraflock/multi-tenant/v/stable)](https://packagist.org/packages/hyn/multi-tenant)
+[![License](https://poser.pugx.org/laraflock/multi-tenant/license)](https://packagist.org/packages/hyn/multi-tenant)
 [![Build Status](https://travis-ci.org/hyn/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn/multi-tenant)
-[![Code Coverage](https://img.shields.io/codecov/c/github/laraflock/multi-tenant.svg)](https://codecov.io/github/laraflock/multi-tenant)
+[![Code Coverage](https://img.shields.io/codecov/c/github/laraflock/multi-tenant.svg)](https://codecov.io/github/hyn/multi-tenant)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
 
 > Please note this package is currently available as beta up until version 1.0.0. A working version can be seen in production on [hyn.me](http://hyn.me).
@@ -214,8 +214,6 @@ Q: Are these hyn packages a CMS?
 
 Q: Hooking apache config files to OSX apache webservice?
 > A: Edit `/etc/apache2/httpd.conf` and at the bottom at a line `Include /<laravel installation>/storage/webserver/apache/*.conf`. Now reload or restart apache.
-
-[![Throughput Graph](https://graphs.waffle.io/laraflock/multi-tenant/throughput.svg)](https://waffle.io/laraflock/multi-tenant/metrics)
 
 [1]: https://hyn.me
 [2]: https://hyn.me/packages/multi-tenant
