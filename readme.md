@@ -83,7 +83,7 @@ You still have to set up:
 Include the dependancy in your composer.json:
 
 ```
-composer require laraflock/multi-tenant
+composer require hyn/multi-tenant
 ```
 
 ### Service provider
