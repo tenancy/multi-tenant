@@ -16,10 +16,13 @@ class TenancySetupTest extends TestCase
      */
     public function testPackages()
     {
-        $this->assertTrue(class_exists('Hyn\Framework\FrameworkServiceProvider'), 'Class FrameworkServiceProvider does not exist');
-        $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'), 'packages are not loaded through FrameworkServiceProvider');
+        $this->assertTrue(class_exists('Hyn\Framework\FrameworkServiceProvider'),
+            'Class FrameworkServiceProvider does not exist');
+        $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'),
+            'packages are not loaded through FrameworkServiceProvider');
 
-        $this->assertTrue(in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()), 'MultiTenantService provider is not loaded in Laravel');
+        $this->assertTrue(in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()),
+            'MultiTenantService provider is not loaded in Laravel');
         $this->assertTrue($this->app->isBooted());
 
         $this->assertNotFalse($this->app->make('hyn.package.multi-tenant'));
@@ -28,16 +31,16 @@ class TenancySetupTest extends TestCase
     /**
      * @depends testPackages
      *
-     * @covers \Hyn\MultiTenant\Commands\SetupCommand
-     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection::create
-     * @covers \Hyn\MultiTenant\Tenant\Directory::create
-     * @covers \Hyn\MultiTenant\Observers\WebsiteObserver::created
-     * @covers \Hyn\MultiTenant\Observers\WebsiteObserver::creating
-     * @covers \Hyn\MultiTenant\Observers\HostnameObserver::saved
+     * @covers  \Hyn\MultiTenant\Commands\SetupCommand
+     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection::create
+     * @covers  \Hyn\MultiTenant\Tenant\Directory::create
+     * @covers  \Hyn\MultiTenant\Observers\WebsiteObserver::created
+     * @covers  \Hyn\MultiTenant\Observers\WebsiteObserver::creating
+     * @covers  \Hyn\MultiTenant\Observers\HostnameObserver::saved
      *
-     * @covers \HmtTenantsTable
-     * @covers \HmtWebsitesTable
-     * @covers \HmtHostnamesTable
+     * @covers  \HmtTenantsTable
+     * @covers  \HmtWebsitesTable
+     * @covers  \HmtHostnamesTable
      */
     public function testCommand()
     {
@@ -52,8 +55,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testCommand
-     * @covers \Hyn\MultiTenant\Repositories\TenantRepository::findByName
-     * @covers \Hyn\MultiTenant\Contracts\TenantRepositoryContract::findByName
+     * @covers  \Hyn\MultiTenant\Repositories\TenantRepository::findByName
+     * @covers  \Hyn\MultiTenant\Contracts\TenantRepositoryContract::findByName
      */
     public function testTenantExistence()
     {
@@ -67,8 +70,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantExistence
-     * @covers \Hyn\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
-     * @covers \Hyn\MultiTenant\Repositories\HostnameRepository::findByHostname
+     * @covers  \Hyn\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
+     * @covers  \Hyn\MultiTenant\Repositories\HostnameRepository::findByHostname
      */
     public function testHostnameExistence()
     {
@@ -89,7 +92,7 @@ class TenancySetupTest extends TestCase
         $databases = DB::connection(DatabaseConnection::systemConnectionName())->select('SHOW DATABASES');
 
         $found = false;
-        $list = [];
+        $list  = [];
 
         foreach ($databases as $database) {
             if (substr($database->Database, 0, 1) == 1) {
@@ -99,12 +102,12 @@ class TenancySetupTest extends TestCase
             $list[] = $database->Database;
         }
 
-        $this->assertTrue($found, 'Databases found: '.implode(', ', $list));
+        $this->assertTrue($found, 'Databases found: ' . implode(', ', $list));
     }
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Hyn\MultiTenant\Tenant\Directory
+     * @covers  \Hyn\MultiTenant\Tenant\Directory
      */
     public function testTenantFoldersExist()
     {
@@ -126,7 +129,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection
+     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection
      */
     public function testTenantConnection()
     {
@@ -146,22 +149,22 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantDatabaseExists
-     * @covers \Hyn\MultiTenant\Commands\Migrate\InstallCommand
-     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
-     * @covers \TestTenantMigration
+     * @covers  \Hyn\MultiTenant\Commands\Migrate\InstallCommand
+     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers  \TestTenantMigration
      */
     public function testTenantMigrationRuns()
     {
         $this->assertEquals(0, $this->artisan('migrate', [
             '--tenant' => 'all',
             '--path'   => 'vendor/hyn/multi-tenant/tests/database/migrations/',
-            '--force',
+            '--force'  => true,
         ]));
     }
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
      */
     public function testTenantMigratedTableExists()
     {
@@ -181,8 +184,8 @@ class TenancySetupTest extends TestCase
 
     /**
      * @depends testTenantMigrationRuns
-     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
-     * @covers \Hyn\MultiTenant\Tenant\DatabaseConnection::setCurrent
+     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection::setCurrent
      */
     public function testTenantMigrationEntryExists()
     {
@@ -191,22 +194,22 @@ class TenancySetupTest extends TestCase
         /* @var \Hyn\MultiTenant\Models\Hostname|null $website */
         $hostname = $this->hostname->findByHostname('system.testing');
 
-        if (! $hostname) {
+        if (!$hostname) {
             throw new \Exception('Unit test hostname not found');
         }
 
         $hostname->website->database->setCurrent();
 
-        foreach (File::allFiles(__DIR__.'/database/migrations') as $file) {
-            $fileBaseName = $file->getBaseName('.'.$file->getExtension());
+        foreach (File::allFiles(__DIR__ . '/database/migrations') as $file) {
+            $fileBaseName = $file->getBaseName('.' . $file->getExtension());
             $this->seeInDatabase('migrations', ['migration' => $fileBaseName], $hostname->website->database->name);
         }
     }
 
     /**
      * @depends testTenantExistence
-     * @covers \Hyn\MultiTenant\Middleware\HostnameMiddleware
-     * @note we need a webserver to handle this
+     * @covers  \Hyn\MultiTenant\Middleware\HostnameMiddleware
+     * @note    we need a webserver to handle this
      */
     public function testMiddleware()
     {
