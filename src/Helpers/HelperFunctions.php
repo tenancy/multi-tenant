@@ -8,11 +8,10 @@ if (! function_exists('tenant_path')) {
         /** @var Directory $directory */
         $directory = app('Hyn\MultiTenant\Contracts\DirectoryContract');
 
-        if(! $directory)
-        {
-            return null;
+        if (! $directory) {
+            return;
         }
 
-        return sprintf("%s%s", $directory->base(), $path);
+        return sprintf('%s%s', $directory->base(), $path);
     }
 }

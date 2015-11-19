@@ -119,7 +119,7 @@ class TenancyEnvironment
                 'hostname' => $hostname,
             ]);
         });
-        
+
         /*
          * Tenant hostname
          */
