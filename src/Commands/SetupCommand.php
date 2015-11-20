@@ -137,8 +137,6 @@ class SetupCommand extends Command
 
             // Create the first tenant configurations
 
-            DB::beginTransaction();
-
             $tenant = $this->tenant->create(compact('name', 'email'));
 
             $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
@@ -150,8 +148,6 @@ class SetupCommand extends Command
                 'website_id' => $website->id,
                 'tenant_id'  => $tenant->id,
             ]);
-
-            DB::commit();
 
             // hook into the webservice of choice once object creation succeeded
             if ($webserver) {
