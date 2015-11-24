@@ -9,8 +9,8 @@ class HostnameObserver
      */
     public function saved($model)
     {
-        if ($model->website_id) {
-            $model->load('website');
+        // only trigger if the website already exists
+        if ($model->website_id && $model->website && $model->website->exists) {
             $model->website->touch();
         }
     }

@@ -12,12 +12,15 @@
 >
     <testsuites>
         <testsuite name="hyn multi tenant">
-            <directory suffix=".php">./vendor/hyn/multi-tenant/tests/</directory>
+            <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./vendor/hyn/multi-tenant/src/</directory>
+            <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee" />
+    </php>
 </phpunit>
