@@ -20,4 +20,7 @@
             <directory suffix=".php">./src/</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee" />
+    </php>
 </phpunit>
