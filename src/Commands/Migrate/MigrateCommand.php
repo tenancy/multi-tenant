@@ -29,7 +29,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             return parent::fire();
         }
 
-        if (! $this->confirmToProceed()) {
+        if (! $this->option('force') && ! $this->confirmToProceed()) {
             return;
         }
         if ($this->option('tenant') == 'all') {
