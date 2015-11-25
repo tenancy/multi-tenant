@@ -21,6 +21,13 @@ return [
          * even more, the connection will be overwritten with the tenancy code.
          */
         'tenant-connection-name' => 'tenant',
+        /*
+         * Specify how you wish to separate the tenant databases from each other. By default
+         * we divide them with separate databases. Alternately you can specify `prefix`,
+         * which will create tenancy within the same database where tenants are having
+         * their own tables with a unique prefix.
+         */
+        'tenant-division-mode' => 'database',
     ],
 
     /*
