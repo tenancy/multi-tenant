@@ -2,7 +2,6 @@
 
 namespace Hyn\MultiTenant\Commands;
 
-use DB;
 use File;
 use Hyn\Framework\Exceptions\TenantPropertyException;
 use Hyn\Webserver\Helpers\ServerConfigurationHelper;

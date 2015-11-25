@@ -27,11 +27,13 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         // fallback to default behaviour if we're not talking about multi tenancy
         if (! $this->option('tenant')) {
             $this->info('No running tenancy migration, falling back on native laravel migrate command due to missing tenant option.');
+
             return parent::fire();
         }
 
         if (! $this->option('force') && ! $this->confirmToProceed()) {
             $this->error('Stopped no confirmation and not forced.');
+
             return;
         }
         if ($this->option('tenant') == 'all') {
