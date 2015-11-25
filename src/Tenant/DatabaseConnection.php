@@ -166,7 +166,7 @@ class DatabaseConnection
         if (Config::get('multi-tenant.db.tenant-division-mode') != static::TENANT_MODE_SEPARATE_DATABASE) {
             return null;
         }
-        
+
         $clone = $this->config();
 
         return DB::connection(static::systemConnectionName())->transaction(function () use ($clone) {
