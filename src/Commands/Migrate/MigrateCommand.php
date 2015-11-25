@@ -3,17 +3,20 @@
 namespace Hyn\MultiTenant\Commands\Migrate;
 
 use App;
+use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\Migrations\Migrator;
 use PDOException;
 use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
-    /**
-     * @var \Hyn\MultiTenant\Contracts\WebsiteRepositoryContract
-     */
-    protected $website;
+    use TenantDatabaseCommandTrait;
 
+    /**
+     * MigrateCommand constructor.
+     *
+     * @param Migrator $migrator
+     */
     public function __construct(Migrator $migrator)
     {
         parent::__construct($migrator);
@@ -36,14 +39,8 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
             return;
         }
-        if ($this->option('tenant') == 'all') {
-            $websites = $this->website->all();
-        } else {
-            $websites = $this->website
-                ->queryBuilder()
-                ->whereIn('id', explode(',', $this->option('tenant')))
-                ->get();
-        }
+
+        $websites = $this->getWebsitesFromOption();
 
         // forces database to tenant
         if (! $this->option('database')) {
@@ -116,11 +113,14 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getOptions()
     {
         return array_merge(
             parent::getOptions(),
-            [['tenant', null, InputOption::VALUE_OPTIONAL, 'The tenant(s) to apply migrations on; use {all|5,8}']]
+            $this->getTenantOption()
         );
     }
 }
