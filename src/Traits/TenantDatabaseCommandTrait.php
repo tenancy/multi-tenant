@@ -1,6 +1,8 @@
 <?php namespace Hyn\MultiTenant\Traits;
 
+use App;
 use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Symfony\Component\Console\Input\InputOption;
 
 trait TenantDatabaseCommandTrait
 {
