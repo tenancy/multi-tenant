@@ -1,4 +1,6 @@
-<?php namespace Hyn\MultiTenant\Traits;
+<?php
+
+namespace Hyn\MultiTenant\Traits;
 
 use App;
 use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
@@ -6,13 +8,11 @@ use Symfony\Component\Console\Input\InputOption;
 
 trait TenantDatabaseCommandTrait
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     protected function getWebsitesFromOption()
     {
-
         $repository = App::make(WebsiteRepositoryContract::class);
 
         if ($this->option('tenant') == 'all') {

@@ -18,7 +18,7 @@ class Hostname extends SystemModel
     /**
      * @var array
      */
-    protected $fillable = ['website_id','hostname','redirect_to','prefer_https','sub_of', 'tenant_id'];
+    protected $fillable = ['website_id', 'hostname', 'redirect_to', 'prefer_https', 'sub_of', 'tenant_id'];
 
     protected $appends = [];
 
