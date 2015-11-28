@@ -25,7 +25,7 @@ class Directory implements DirectoryContract
     /**
      * @var array
      */
-    protected $paths_to_create = ['base', 'config', 'views', 'lang', 'cache', 'image_cache' ,'media', 'vendor'];
+    protected $paths_to_create = ['base', 'config', 'views', 'lang', 'cache', 'image_cache', 'media', 'vendor'];
 
     /**
      * @var Website
