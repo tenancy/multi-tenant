@@ -4,6 +4,12 @@ All notable changes to `hyn/multi-tenant` will be documented in this file.
 
 ---
 
+### 0.9.1
+
+- Added support for tenants in one database using table prefixes.
+- Seeder now working with tenants.
+- Abstracted code used in migrations and seeds to separate trait.
+
 ### 0.9.0
 
 - Dropped support for PHP 5.5 in automated tests by travis-ci.
