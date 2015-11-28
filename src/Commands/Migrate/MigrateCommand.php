@@ -6,7 +6,6 @@ use App;
 use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\Migrations\Migrator;
 use PDOException;
-use Symfony\Component\Console\Input\InputOption;
 
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {

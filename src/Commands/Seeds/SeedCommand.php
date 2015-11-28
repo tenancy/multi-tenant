@@ -4,7 +4,6 @@ namespace Hyn\MultiTenant\Commands\Seeds;
 
 use App;
 use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
-use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
@@ -23,12 +22,12 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
     }
 
     /**
-     * Fires the command
+     * Fires the command.
      */
     public function fire()
     {
         // if no tenant option is set, simply run the native laravel seeder
-        if (!$this->option('tenant')) {
+        if (! $this->option('tenant')) {
             return parent::fire();
         }
 
@@ -41,7 +40,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $websites = $this->getWebsitesFromOption();
 
         // forces database to tenant
-        if (!$this->option('database')) {
+        if (! $this->option('database')) {
             $this->input->setOption('database', 'tenant');
         }
 
