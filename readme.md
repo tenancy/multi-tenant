@@ -6,11 +6,9 @@
 [![Code Coverage](https://img.shields.io/codecov/c/github/hyn/multi-tenant.svg)](https://codecov.io/github/hyn/multi-tenant)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
 
-> Please note this package is currently available as beta up until version 1.0.0. A working version can be seen in production on [hyn.me](http://hyn.me).
-> This package is compatible only with Laravel __5.1 LTS__.
-> If you have questions or wish to participate reach out to any laraflock developer.
+This package allows for multi tenancy websites on one installation of Laravel.
 
-This package allows for multi tenancy websites on one installation of Laravel. 
+---
 
 The goals for this and its related packages are:
 
