@@ -2,6 +2,7 @@
 
 namespace Hyn\MultiTenant;
 
+use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Hyn\MultiTenant\Commands\Migrate\InstallCommand;
@@ -125,7 +126,7 @@ class MultiTenantServiceProvider extends ServiceProvider
 
         $app->registerDeferredProvider(MigrationServiceProvider::class);
 
-        $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status'];
+        $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status', 'Seed'];
 
         // We'll simply spin through the list of commands that are migration related
         // and register each one of them with an application container. They will
@@ -144,6 +145,19 @@ class MultiTenantServiceProvider extends ServiceProvider
     {
         $this->app->bind('command.migrate', function ($object, $app) {
             return new MigrateCommand($this->app->make('migrator'));
+        });
+    }
+
+    /**
+     * Register the "seed" command.
+     *
+     * @return void
+     */
+    protected function registerSeedCommand()
+    {
+        $this->app->bind('command.seed', function($object, $app)
+        {
+            return new SeedCommand($app['db']);
         });
     }
 
