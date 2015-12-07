@@ -155,8 +155,7 @@ class MultiTenantServiceProvider extends ServiceProvider
      */
     protected function registerSeedCommand()
     {
-        $this->app->bind('command.seed', function($object, $app)
-        {
+        $this->app->bind('command.seed', function ($object, $app) {
             return new SeedCommand($app['db']);
         });
     }
