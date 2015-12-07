@@ -14,10 +14,14 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
      */
     protected $website;
 
+    /**
+     * SeedCommand constructor.
+     *
+     * @param Resolver $resolver
+     */
     public function __construct(Resolver $resolver)
     {
         parent::__construct($resolver);
-
         $this->website = App::make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
@@ -27,11 +31,11 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
     public function fire()
     {
         // if no tenant option is set, simply run the native laravel seeder
-        if (! $this->option('tenant')) {
+        if (!$this->option('tenant')) {
             return parent::fire();
         }
 
-        if (! $this->option('force') && ! $this->confirmToProceed()) {
+        if (!$this->option('force') && !$this->confirmToProceed()) {
             $this->error('Stopped no confirmation and not forced.');
 
             return;
@@ -40,7 +44,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $websites = $this->getWebsitesFromOption();
 
         // forces database to tenant
-        if (! $this->option('database')) {
+        if (!$this->option('database')) {
             $this->input->setOption('database', 'tenant');
         }
 

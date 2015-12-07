@@ -4,6 +4,7 @@ namespace Hyn\MultiTenant;
 
 use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
 use Illuminate\Database\MigrationServiceProvider;
+use Illuminate\Database\SeedServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Hyn\MultiTenant\Commands\Migrate\InstallCommand;
 use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
@@ -126,6 +127,7 @@ class MultiTenantServiceProvider extends ServiceProvider
         $this->app = $app;
 
         $app->registerDeferredProvider(MigrationServiceProvider::class);
+        $app->registerDeferredProvider(SeedServiceProvider::class);
 
         $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status', 'Seed'];
 
@@ -157,7 +159,7 @@ class MultiTenantServiceProvider extends ServiceProvider
     protected function registerSeedCommand()
     {
         $this->app->bind('command.seed', function ($object, $app) {
-            return new SeedCommand($app['db']);
+            return new SeedCommand($this->app->make('db'));
         });
     }
 
