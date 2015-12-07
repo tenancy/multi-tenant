@@ -37,4 +37,11 @@ return [
      * the current hostname or tenant by yourself.
      */
     'hostname-detection-middleware' => true,
+
+    /*
+     * The queue to run webserver tasks on
+     * The specified queue name must have root privileges. If no value specified the default queue is
+     * used.
+     */
+    'queue' => null,
 ];
