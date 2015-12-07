@@ -1,7 +1,7 @@
 # Multi tenancy
 
-[![Latest Stable Version](https://poser.pugx.org/laraflock/multi-tenant/v/stable)](https://packagist.org/packages/hyn/multi-tenant)
-[![License](https://poser.pugx.org/laraflock/multi-tenant/license)](https://packagist.org/packages/hyn/multi-tenant)
+[![Latest Stable Version](https://poser.pugx.org/hyn/multi-tenant/v/stable)](https://packagist.org/packages/hyn/multi-tenant)
+[![License](https://poser.pugx.org/hyn/multi-tenant/license)](https://packagist.org/packages/hyn/multi-tenant)
 [![Build Status](https://travis-ci.org/hyn/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn/multi-tenant)
 [![Code Coverage](https://img.shields.io/codecov/c/github/hyn/multi-tenant.svg)](https://codecov.io/github/hyn/multi-tenant)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
