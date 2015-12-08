@@ -4,6 +4,17 @@ All notable changes to `hyn/multi-tenant` will be documented in this file.
 
 ---
 
+### 1.0.0
+
+- Cleaned up readme by moving information to the documentation page.
+
+### 0.9.2
+
+- Documentation link updated to refer to https://hyn.readme.io.
+- Made multi tenant configuration file publishable.
+- Supplied seeder command now works, wasn't registered in the service provider.
+- Removed beta warning from readme.
+
 ### 0.9.1
 
 - Added support for tenants in one database using table prefixes.
