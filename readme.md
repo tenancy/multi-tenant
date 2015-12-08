@@ -22,7 +22,7 @@ The goals for this and its related packages are:
 
 - [documentation][7]
 - [changelog](CHANGELOG.md)
-- [website](http://hyn.me)
+- [website][1]
 
 ## What is multi tenancy
 
@@ -65,42 +65,12 @@ If you'd like to hang out with us or would like to discuss a critical vulnerabil
 
 ## Q&A
 
-Q: How do you pronounce hyn?
-> A: You would pronounce it just like `hine` with the same sound as `dine`.
- 
-Q: Why not use/help/extend [AuraEQ](https://github.com/AuraEQ/laravel-multi-tenant)?
-> A: AuraEQ is different in comparison to hyn in the sense that it uses the same database with specific columns per table to identify different tenants. Hyn aims to keep tenants seperated by giving a tenant website it's own database, disk folder, routes, vendor packages etc.
+> Please visit the [FAQ](https://hyn.readme.io/docs/frequently-asked-questions) in the [documentation][7].
 
-Q: Why not use/help/extends [tenanti](https://github.com/orchestral/tenanti)?
-> A: One primary goal of hyn is to remain unobtrusive, meaning you should use the package the way you want, without the need to completely change how you code/work/play. Also I think auto selecting the tenant website based on the configured hostnames is easier for website development companies to work with.
-
-Q: Why do you need root or sudo to run the setup or the queue?
-> A: Sudo or root is only required to register the webserver configuration files into the webserver services. Running the queue under root allows the tasks to immediately update the webserver once new configuration files are written.
-
-Q: Will you make this package paid in the future?
-> A: No. If any commercial move takes place, it will be at least a [freemium](https://en.wikipedia.org/wiki/Freemium) pricing model where additional, __optional__ packages will be made available for a fee. The core packages will always remain available under the MIT license.
-
-Q: I have a bug, feature request or technical question.
-> A: Visit the [issues page][5] on github.
-
-Q: I have need for more direct support, advice or consultation for implementation.
-> A: Contact me for additional support.
-
-Q: Why does the user for the `hyn` connection need `grant` rights?
-> A: In order for hyn to create databases and give each tenant website its own database user, it needs to be allowed to grant those rights to dynamically generated users?
-
-Q: Is hyn multi tenancy more vulnerable to hacking?
-> A: Using this package will not make your application more open to attacks. For instance the laravel application generates a random hash after installation, hyn uses this unique hash for generating tenant database passwords.
-
-Q: Are these hyn packages a CMS?
-> A: No. The packages are meant for developers or development companies who want to run identical code on several websites, without the need to duplicate the code. This while also allowing for per-website different settings, vendor packages etc.
-
-Q: Hooking apache config files to OSX apache webservice?
-> A: Edit `/etc/apache2/httpd.conf` and at the bottom at a line `Include /<laravel installation>/storage/webserver/apache/*.conf`. Now reload or restart apache.
 
 [1]: https://hyn.me
 [2]: https://hyn.me/packages/multi-tenant
 [3]: https://github.com/hyn/multi-tenant
 [5]: https://github.com/hyn/multi-tenant/issues
-[6]: https://gitter.im/hyn/multi-tenant
+[6]: https://gitter.im/luceos
 [7]: https://hyn.readme.io
