@@ -2,7 +2,6 @@
 
 namespace Hyn\MultiTenant\Composers;
 
-use App;
 use Illuminate\Contracts\View\View;
 
 class TenantComposer
@@ -12,6 +11,6 @@ class TenantComposer
      */
     public function compose(View $view)
     {
-        $view->with('_tenant', App::make('tenant.view'));
+        $view->with('_tenant', app('tenant.view'));
     }
 }
