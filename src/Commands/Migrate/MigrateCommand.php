@@ -2,7 +2,6 @@
 
 namespace Hyn\MultiTenant\Commands\Migrate;
 
-use App;
 use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\Migrations\Migrator;
 use PDOException;
@@ -20,7 +19,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         parent::__construct($migrator);
 
-        $this->website = App::make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

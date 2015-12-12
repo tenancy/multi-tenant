@@ -2,7 +2,6 @@
 
 namespace Hyn\MultiTenant\Commands\Seeds;
 
-use App;
 use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
@@ -22,7 +21,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
     public function __construct(Resolver $resolver)
     {
         parent::__construct($resolver);
-        $this->website = App::make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
     }
 
     /**
