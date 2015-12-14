@@ -4,6 +4,12 @@ All notable changes to `hyn/multi-tenant` will be documented in this file.
 
 ---
 
+### 1.0.1 (tba)
+
+- Updated gitattributes to ignore more files when using checkouts for production.
+- Clean up of calls to `\App`, now using `app()` helper function.
+- Cleaned up readme more to reflect current state and move information to hyn.readme.io.
+
 ### 1.0.0
 
 - Cleaned up readme by moving information to the documentation page.
