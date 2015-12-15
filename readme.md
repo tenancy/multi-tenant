@@ -21,7 +21,7 @@ The goals for this and its related packages are:
 ### Reading material:
 
 - [documentation][7]
-- [changelog](CHANGELOG.md)
+- [changelog](changelog.md)
 - [website][1]
 
 ## What is multi tenancy
