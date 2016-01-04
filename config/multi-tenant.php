@@ -43,5 +43,8 @@ return [
      * The specified queue name must have root privileges. If no value specified the default queue is
      * used.
      */
-    'queue' => null,
+    'queue' => [
+        'root' => null,
+        'other' => null,
+    ],
 ];
