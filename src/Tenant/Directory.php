@@ -55,7 +55,7 @@ class Directory implements DirectoryContract
                 Config::get('multi-tenant.tenant-directory') ? Config::get('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
                 $this->website->id,
                 $this->website->getOriginal('identifier'));
-            if (! File::isDirectory($this->old_path)) {
+            if (!File::isDirectory($this->old_path)) {
                 $this->old_path = null;
             }
         }
@@ -153,7 +153,7 @@ class Directory implements DirectoryContract
      */
     public function providers()
     {
-        return $this->base() && File::exists($this->base().'providers.php') ? $this->base().'providers.php' : null;
+        return $this->base() && File::exists($this->base() . 'providers.php') ? $this->base() . 'providers.php' : null;
     }
 
     /**
@@ -180,8 +180,8 @@ class Directory implements DirectoryContract
             /*
              * critical priority, load vendors
              */
-            if ($this->vendor() && File::exists($this->vendor().'autoload.php')) {
-                File::requireOnce($this->vendor().'autoload.php');
+            if ($this->vendor() && File::exists($this->vendor() . 'autoload.php')) {
+                File::requireOnce($this->vendor() . 'autoload.php');
             }
             /*
              * highest priority, load service providers; or possible custom code before any other include from tenant
@@ -227,7 +227,7 @@ class Directory implements DirectoryContract
                 });
             }
             // identify a possible routes.php file
-            if ($this->routes() && File::exists($this->routes())) {
+            if ($this->routes()) {
                 File::requireOnce($this->routes());
             }
         }
