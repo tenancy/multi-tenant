@@ -195,7 +195,7 @@ class Directory implements DirectoryContract
             if ($this->config() && File::isDirectory($this->config())) {
                 foreach (File::allFiles($this->config()) as $path) {
                     $key = File::name($path);
-                    $app['config']->set($key, array_merge(require $path, $app['config']->get($key, [])));
+                    $app['config']->set($key, array_merge($app['config']->get($key, []), File::getRequire($path)));
                 }
             }
             /*
