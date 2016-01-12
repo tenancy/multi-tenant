@@ -3,7 +3,7 @@
 return [
     /*
      * Overrule the default tenant directory, where files for tenant websites are stored
-     * @default app_storage('/multi-tenant') which resolves to /resources/multi-tenant
+     * @default app_storage('/multi-tenant') which resolves to /storage/multi-tenant
      */
     'tenant-directory' => null,
 
