@@ -179,19 +179,19 @@ class Directory implements DirectoryContract
             /*
              * critical priority, load vendors
              */
-            if (!$this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor().'autoload.php')) {
+            if (! $this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor().'autoload.php')) {
                 File::requireOnce($this->vendor().'autoload.php');
             }
             /*
              * highest priority, load service providers; or possible custom code before any other include from tenant
              */
-            if (!$this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
+            if (! $this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
                 File::requireOnce($this->providers());
             }
             /*
              * mediocre priority, load additional config files
              */
-            if (!$this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
+            if (! $this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
                 foreach (File::allFiles($this->config()) as $path) {
                     $key = File::name($path);
                     $app['config']->set($key, array_merge($app['config']->get($key, []), File::getRequire($path)));
@@ -200,7 +200,7 @@ class Directory implements DirectoryContract
             /*
              * lowest priority load view directory
              */
-            if (!$this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
+            if (! $this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
                 $app['view']->addLocation($this->views());
             }
 
@@ -212,7 +212,7 @@ class Directory implements DirectoryContract
             // @TODO we really can't use cache yet for application cache
 
             // replaces lang directory
-            if (!$this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
+            if (! $this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
                 $path = $this->lang();
 
                 $app->bindShared('translation.loader', function ($app) use ($path) {
@@ -226,7 +226,7 @@ class Directory implements DirectoryContract
                 });
             }
             // identify a possible routes.php file
-            if (!$this->disallowed('routes') && $this->routes()) {
+            if (! $this->disallowed('routes') && $this->routes()) {
                 File::requireOnce($this->routes());
             }
         }
@@ -303,10 +303,10 @@ class Directory implements DirectoryContract
      * Check whether a specific functionality is disabled globally.
      *
      * @param $type
-     * @return boolean
+     * @return bool
      */
     protected function disallowed($type)
     {
-        return config('multi-tenant.disallow-for-tenant.' . $type, false);
+        return config('multi-tenant.disallow-for-tenant.'.$type, false);
     }
 }

@@ -56,7 +56,7 @@ return [
         'lang' => false,
         'media' => false,
         'providers' => false,
-        'routes'=> false,
+        'routes' => false,
         'vendor' => false,
         'views' => false,
     ],
