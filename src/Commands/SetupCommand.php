@@ -68,8 +68,8 @@ class SetupCommand extends Command
         parent::__construct();
 
         $this->hostname = $hostname;
-        $this->website = $website;
-        $this->tenant = $tenant;
+        $this->website  = $website;
+        $this->tenant   = $tenant;
 
         $this->helper = new ServerConfigurationHelper();
     }
@@ -81,39 +81,42 @@ class SetupCommand extends Command
     {
         $this->configuration = config('webserver');
 
-        $name = $this->option('tenant');
-        $email = $this->option('email');
+        $name     = $this->option('tenant');
+        $email    = $this->option('email');
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
-            throw new TenantPropertyException('No tenant name given; use --tenant');
+            $name = $this->ask('Please provide a tenant name or restart command with --tenant');
         }
 
         if (empty($email)) {
-            throw new TenantPropertyException('No tenant email given; use --email');
+            $email = $this->ask('Please provide a tenant email address or restart command with --email');
         }
 
         if (empty($hostname)) {
-            throw new TenantPropertyException('No tenant hostname given; use --hostname');
+            $hostname = $this->ask('Please provide a tenant hostname or restart command with --hostname');
         }
 
         $this->comment('Welcome to hyn multi tenancy.');
+
+        $this->publishFiles();
 
         // If the dashboard is installed we need to prevent default laravel migrations
         // so we run the dashboard setup command before running any migrations
         if (class_exists('Hyn\ManagementInterface\ManagementInterfaceServiceProvider')) {
             $this->info('The management interface will be installed first.');
             $this->call('dashboard:setup');
+        } else {
+
+            $this->comment('First off, migrations for the packages will run.');
+
+            // Migrations are run during dashboard setup or here.
+            $this->runMigrations();
         }
-
-        // now we will run all migrations
-        $this->comment('First off, migrations for the packages will run.');
-
-        $this->runMigrations();
 
         $tenantDirectory = config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant');
 
-        if (! File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
+        if (!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 
@@ -122,20 +125,18 @@ class SetupCommand extends Command
         // Setup webserver
         if ($this->helper) {
 
-            // creates directories
             $this->helper->createDirectories();
 
             $webserver = $this->option('webserver') ?: 'no';
 
             if ($webserver != 'no') {
                 $webserverConfiguration = array_get($this->configuration, $webserver);
-                $webserverClass = array_get($webserverConfiguration, 'class');
+                $webserverClass         = array_get($webserverConfiguration, 'class');
             } else {
                 $webserver = null;
             }
 
             // Create the first tenant configurations
-
             $tenant = $this->tenant->create(compact('name', 'email'));
 
             $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
@@ -161,7 +162,10 @@ class SetupCommand extends Command
         }
     }
 
-    protected function runMigrations()
+    /**
+     * Publish files for all Hyn packages.
+     */
+    protected function publishFiles()
     {
         foreach (config('hyn.packages', []) as $name => $package) {
             if (class_exists(array_get($package, 'service-provider'))) {
@@ -171,6 +175,13 @@ class SetupCommand extends Command
                 ]);
             }
         }
+    }
+
+    /**
+     * Run migrations for all depending service providers.
+     */
+    protected function runMigrations()
+    {
         $this->call('migrate', [
             '--database' => DatabaseConnection::systemConnectionName(),
             '-n',

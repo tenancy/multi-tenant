@@ -11,6 +11,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     use TenantDatabaseCommandTrait;
 
     /**
+     * @var \Hyn\MultiTenant\Contracts\WebsiteRepositoryContract
+     */
+    protected $website;
+
+    /**
      * MigrateCommand constructor.
      *
      * @param Migrator $migrator
@@ -27,7 +32,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
         // fallback to default behaviour if we're not talking about multi tenancy
         if (! $this->option('tenant')) {
-            $this->info('No running tenancy migration, falling back on native laravel migrate command due to missing tenant option.');
+            $this->info('Not running tenancy migration, falling back on native laravel migrate command due to missing tenant option.');
 
             return parent::fire();
         }
