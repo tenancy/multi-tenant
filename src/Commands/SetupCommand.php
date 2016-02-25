@@ -127,7 +127,11 @@ class SetupCommand extends Command
 
             $this->helper->createDirectories();
 
-            $webserver = $this->option('webserver') ?: 'no';
+            $webserver = $this->option('webserver');
+
+            if (empty($webserver)) {
+                $webserver = $this->anticipate('Integrate into a webserver?', ['no', 'apache', 'nginx'], 'no');
+            }
 
             if ($webserver != 'no') {
                 $webserverConfiguration = array_get($this->configuration, $webserver);
