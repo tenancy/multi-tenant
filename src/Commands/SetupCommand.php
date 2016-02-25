@@ -3,7 +3,6 @@
 namespace Hyn\MultiTenant\Commands;
 
 use File;
-use Hyn\Framework\Exceptions\TenantPropertyException;
 use Hyn\Webserver\Helpers\ServerConfigurationHelper;
 use Illuminate\Console\Command;
 use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
@@ -68,8 +67,8 @@ class SetupCommand extends Command
         parent::__construct();
 
         $this->hostname = $hostname;
-        $this->website  = $website;
-        $this->tenant   = $tenant;
+        $this->website = $website;
+        $this->tenant = $tenant;
 
         $this->helper = new ServerConfigurationHelper();
     }
@@ -81,8 +80,8 @@ class SetupCommand extends Command
     {
         $this->configuration = config('webserver');
 
-        $name     = $this->option('tenant');
-        $email    = $this->option('email');
+        $name = $this->option('tenant');
+        $email = $this->option('email');
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
@@ -107,7 +106,6 @@ class SetupCommand extends Command
             $this->info('The management interface will be installed first.');
             $this->call('dashboard:setup');
         } else {
-
             $this->comment('First off, migrations for the packages will run.');
 
             // Migrations are run during dashboard setup or here.
@@ -116,7 +114,7 @@ class SetupCommand extends Command
 
         $tenantDirectory = config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant');
 
-        if (!File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
+        if (! File::isDirectory($tenantDirectory) && File::makeDirectory($tenantDirectory, 0755, true)) {
             $this->comment("The directory to hold your tenant websites has been created under {$tenantDirectory}.");
         }
 
@@ -124,7 +122,6 @@ class SetupCommand extends Command
 
         // Setup webserver
         if ($this->helper) {
-
             $this->helper->createDirectories();
 
             $webserver = $this->option('webserver');
@@ -135,7 +132,7 @@ class SetupCommand extends Command
 
             if ($webserver != 'no') {
                 $webserverConfiguration = array_get($this->configuration, $webserver);
-                $webserverClass         = array_get($webserverConfiguration, 'class');
+                $webserverClass = array_get($webserverConfiguration, 'class');
             } else {
                 $webserver = null;
             }
