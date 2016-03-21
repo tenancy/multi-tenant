@@ -96,7 +96,5 @@ class Hostname extends SystemModel
         if (Request::getHttpHost() != $this->hostname) {
             return redirect()->away("http://{$this->hostname}/".(Request::path() == '/' ? null : Request::path()));
         }
-
-        return;
     }
 }
