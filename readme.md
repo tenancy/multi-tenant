@@ -24,6 +24,7 @@ The goals for this and its related packages are:
 - [documentation][7]
 - [changelog](changelog.md)
 - [website][1]
+- [contributor information](contributing.md)
 
 ## What is multi tenancy
 
