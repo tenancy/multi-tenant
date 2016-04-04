@@ -44,7 +44,7 @@ Each website has its own folder on disk, allowing:
 Also each website has its own database, this ensures that in no way one website can access data from another website.
 The distinction also gives proper division of responsibilities to the system (global) and tenant (local) databases.
 
-For more information visit the [documentation][https://hyn.readme.io/docs/hyn-approach-to-tenancy].
+For more information visit the [documentation](https://hyn.readme.io/docs/hyn-approach-to-tenancy).
 
 ### Example tenant website & demo
 
