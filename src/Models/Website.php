@@ -12,7 +12,7 @@ use Laracasts\Presenter\PresentableTrait;
 
 /**
  * @property string             $identifier
- * @property integer            $tenant_id
+ * @property int            $tenant_id
  * @property DatabaseConnection $database
  * @property Collection         $hostnames
  * @property Tenant             $tenant

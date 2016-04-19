@@ -12,12 +12,12 @@ use Laracasts\Presenter\PresentableTrait;
 
 /**
  * @property string         $hostname
- * @property boolean        $prefer_https
- * @property integer        $redirect_to
- * @property integer        $sub_of
- * @property integer        $website_id
- * @property integer        $tenant_id
- * @property integer        $ssl_certificate_id
+ * @property bool        $prefer_https
+ * @property int        $redirect_to
+ * @property int        $sub_of
+ * @property int        $website_id
+ * @property int        $tenant_id
+ * @property int        $ssl_certificate_id
  * @property Tenant         $tenant
  * @property Website        $website
  * @property Hostname       $redirectToHostname
@@ -116,13 +116,13 @@ class Hostname extends SystemModel
             return $this->redirectToHostname->redirectActionRequired();
         }
         // @todo also add ssl check once ssl certificates are support
-        if ($this->prefer_https && !Request::secure()) {
+        if ($this->prefer_https && ! Request::secure()) {
             return redirect()->secure(Request::path());
         }
 
         // if default hostname is loaded and this is not the default hostname
         if (Request::getHttpHost() != $this->hostname) {
-            return redirect()->away("http://{$this->hostname}/" . (Request::path() == '/' ? null : Request::path()));
+            return redirect()->away("http://{$this->hostname}/".(Request::path() == '/' ? null : Request::path()));
         }
     }
 }
