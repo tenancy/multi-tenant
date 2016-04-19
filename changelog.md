@@ -4,8 +4,20 @@ All notable changes to `hyn/multi-tenant` will be documented in this file.
 
 ---
 
-### 1.0.1 (tba)
+### 1.0.1-beta.2
 
+- Added technical changelogs in subdirectory.
+- Using remote database hosts for logic instead of forcing localhost.
+- Now always resolving to system database connection when acting as system.
+- Asking for input now during setup command.
+- Allowing global overriding what tenant features can be used.
+
+### 1.0.1-beta
+
+- Publishing of configuration files fixed.
+- Remove port from hostname tenancy checks.
+- Added a conduct file.
+- Removal of several root facades.
 - Updated gitattributes to ignore more files when using checkouts for production.
 - Clean up of calls to `\App`, now using `app()` helper function.
 - Cleaned up readme more to reflect current state and move information to hyn.readme.io.
