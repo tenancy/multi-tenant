@@ -2,17 +2,24 @@
 
 namespace Hyn\MultiTenant\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Presenter\PresentableTrait;
+use Carbon\Carbon;
 use Hyn\MultiTenant\Abstracts\Models\SystemModel;
 use Hyn\MultiTenant\Tenant\DatabaseConnection;
 use Hyn\MultiTenant\Tenant\Directory;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laracasts\Presenter\PresentableTrait;
 
 /**
- * Class Website.
- *
- *
- * @property-read DatabaseConnection database
+ * @property string             $identifier
+ * @property integer            $tenant_id
+ * @property DatabaseConnection $database
+ * @property Collection         $hostnames
+ * @property Tenant             $tenant
+ * @property string             $websiteUser
+ * @property Carbon             $created_at
+ * @property Carbon             $updated_at
+ * @property Carbon             $deleted_at
  */
 class Website extends SystemModel
 {
@@ -28,17 +35,17 @@ class Website extends SystemModel
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function hostnames()
+    public function getHostnamesWithCertificateAttribute()
     {
-        return $this->hasMany(Hostname::class)->with('certificate');
+        return $this->hostnames()->whereNotNull('ssl_certificate_id')->get();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getHostnamesWithCertificateAttribute()
+    public function hostnames()
     {
-        return $this->hostnames()->whereNotNull('ssl_certificate_id')->get();
+        return $this->hasMany(Hostname::class)->with('certificate');
     }
 
     /**

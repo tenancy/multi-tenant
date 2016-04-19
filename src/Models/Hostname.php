@@ -2,13 +2,35 @@
 
 namespace Hyn\MultiTenant\Models;
 
-use Laracasts\Presenter\PresentableTrait;
+use Carbon\Carbon;
 use Hyn\MultiTenant\Abstracts\Models\SystemModel;
-use Request;
+use Hyn\Webserver\Models\SslCertificate;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Request;
+use Laracasts\Presenter\PresentableTrait;
 
+/**
+ * @property string         $hostname
+ * @property boolean        $prefer_https
+ * @property integer        $redirect_to
+ * @property integer        $sub_of
+ * @property integer        $website_id
+ * @property integer        $tenant_id
+ * @property integer        $ssl_certificate_id
+ * @property Tenant         $tenant
+ * @property Website        $website
+ * @property Hostname       $redirectToHostname
+ * @property Hostname       $subDomainOf
+ * @property Collection     $subDomains
+ * @property SslCertificate $certificate
+ * @property Carbon         $created_at
+ * @property Carbon         $updated_at
+ * @property Carbon         $deleted_at
+ */
 class Hostname extends SystemModel
 {
-    use PresentableTrait;
+    use PresentableTrait, SoftDeletes;
 
     /**
      * @var string
@@ -61,7 +83,7 @@ class Hostname extends SystemModel
     /**
      * Sub domains of this hostname.
      *
-     * @return \Illuminate\Eloquent\Collection
+     * @return Collection
      */
     public function subDomains()
     {
@@ -69,11 +91,11 @@ class Hostname extends SystemModel
     }
 
     /**
-     * @return \Hyn\Webserver\Models\SslCertificate|null
+     * @return SslCertificate|null
      */
     public function certificate()
     {
-        return $this->belongsTo('Hyn\Webserver\Models\SslCertificate', 'ssl_certificate_id');
+        return $this->belongsTo(SslCertificate::class, 'ssl_certificate_id');
     }
 
     /**
@@ -88,13 +110,13 @@ class Hostname extends SystemModel
             return $this->redirectToHostname->redirectActionRequired();
         }
         // @todo also add ssl check once ssl certificates are support
-        if ($this->prefer_https && ! Request::secure()) {
+        if ($this->prefer_https && !Request::secure()) {
             return redirect()->secure(Request::path());
         }
 
         // if default hostname is loaded and this is not the default hostname
         if (Request::getHttpHost() != $this->hostname) {
-            return redirect()->away("http://{$this->hostname}/".(Request::path() == '/' ? null : Request::path()));
+            return redirect()->away("http://{$this->hostname}/" . (Request::path() == '/' ? null : Request::path()));
         }
     }
 }
