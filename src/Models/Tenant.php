@@ -12,9 +12,9 @@ use Laracasts\Presenter\PresentableTrait;
  * @property string     $name
  * @property string     $email
  * @property string     $customer_no
- * @property boolean    $administrator
- * @property integer    $reseller_id
- * @property integer    $referer_id
+ * @property bool    $administrator
+ * @property int    $reseller_id
+ * @property int    $referer_id
  * @property Tenant     $referer
  * @property Tenant     $reseller
  * @property Collection $refered
