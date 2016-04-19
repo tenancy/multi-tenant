@@ -45,7 +45,9 @@ class Hostname extends SystemModel
     protected $appends = [];
 
     /**
-     * @return null|Teanant
+     * The tenant who owns this hostname.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function tenant()
     {
@@ -53,7 +55,9 @@ class Hostname extends SystemModel
     }
 
     /**
-     * @return null|Website
+     * The website this hostname is connected to.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function website()
     {
@@ -63,7 +67,7 @@ class Hostname extends SystemModel
     /**
      * Host to redirect to.
      *
-     * @return null|Hostname
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function redirectToHostname()
     {
@@ -73,7 +77,7 @@ class Hostname extends SystemModel
     /**
      * Host this is a sub domain of.
      *
-     * @return null|Hostname
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function subDomainOf()
     {
@@ -83,7 +87,7 @@ class Hostname extends SystemModel
     /**
      * Sub domains of this hostname.
      *
-     * @return Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subDomains()
     {
@@ -91,7 +95,9 @@ class Hostname extends SystemModel
     }
 
     /**
-     * @return SslCertificate|null
+     * Certificate this hostname uses.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function certificate()
     {

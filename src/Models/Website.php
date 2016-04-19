@@ -17,6 +17,9 @@ use Laracasts\Presenter\PresentableTrait;
  * @property Collection         $hostnames
  * @property Tenant             $tenant
  * @property string             $websiteUser
+ * @property Collection         $hostnamesWithCertificate
+ * @property Collection         $hostnamesWithoutCertificate
+ * @property array              $certificateIds
  * @property Carbon             $created_at
  * @property Carbon             $updated_at
  * @property Carbon             $deleted_at
@@ -33,6 +36,8 @@ class Website extends SystemModel
     protected $appends = ['directory'];
 
     /**
+     * Load all hostnames that have a certificate.
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getHostnamesWithCertificateAttribute()
@@ -41,6 +46,8 @@ class Website extends SystemModel
     }
 
     /**
+     * Loads all hostnames of this website.
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function hostnames()
@@ -49,6 +56,8 @@ class Website extends SystemModel
     }
 
     /**
+     * Loads all hostnames that have no certificate.
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getHostnamesWithoutCertificateAttribute()
@@ -96,6 +105,11 @@ class Website extends SystemModel
         return new DatabaseConnection($this);
     }
 
+    /**
+     * Loads the user the website should be run as.
+     *
+     * @return string
+     */
     public function getWebsiteUserAttribute()
     {
         if (config('webserver.default-user') === true) {

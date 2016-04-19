@@ -36,31 +36,61 @@ class Tenant extends SystemModel
 
     protected $fillable = ['name', 'email', 'customer_no'];
 
+    /**
+     * All hostnames of this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function hostnames()
     {
         return $this->hasMany(Hostname::class);
     }
 
+    /**
+     * All websites of this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function websites()
     {
         return $this->hasMany(Website::class);
     }
 
+    /**
+     * The reseller of this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function reseller()
     {
         return $this->belongsTo(self::class);
     }
 
+    /**
+     * The referer of this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function referer()
     {
         return $this->belongsTo(self::class);
     }
 
+    /**
+     * Those who have been reselled by this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function reselled()
     {
         return $this->hasMany(self::class, 'reseller_id');
     }
 
+    /**
+     * Those that have been refered by this tenant.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function refered()
     {
         return $this->hasMany(self::class, 'referer_id');
