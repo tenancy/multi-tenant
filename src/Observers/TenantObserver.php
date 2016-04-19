@@ -2,9 +2,11 @@
 
 namespace Hyn\MultiTenant\Observers;
 
+use Hyn\MultiTenant\Models\Tenant;
+
 class TenantObserver
 {
-    public function deleting($model)
+    public function deleting(Tenant $model)
     {
         foreach ($model->hostnames as $hostname) {
             $hostname->delete();

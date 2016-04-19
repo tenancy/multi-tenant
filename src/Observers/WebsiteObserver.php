@@ -2,6 +2,7 @@
 
 namespace Hyn\MultiTenant\Observers;
 
+use Hyn\MultiTenant\Models\Website;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class WebsiteObserver
@@ -13,7 +14,7 @@ class WebsiteObserver
      *
      * @return bool
      */
-    public function updating($model)
+    public function updating(Website $model)
     {
         if ($model->isDirty('identifier')) {
             /*
@@ -23,19 +24,15 @@ class WebsiteObserver
         }
     }
 
-    public function creating($model)
-    {
-    }
-
     /**
      * @param $model
      */
-    public function created($model)
+    public function created(Website $model)
     {
         $model->directory->create();
     }
 
-    public function deleted($model)
+    public function deleted(Website $model)
     {
         $model->directory->delete();
     }
