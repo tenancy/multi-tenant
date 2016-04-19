@@ -1,0 +1,35 @@
+* 33c1fe4 lock is not required for packages
+* de9fb67 lock is required; also remove user specific files fixes #52
+*   1af5238 Merge branch 'master' of github.com:hyn/multi-tenant
+|\
+| * b2b62aa Update readme.md
+* | 0a2884b fixed incorrectly documented default path for tenants, fixed publishing tenant configuration
+|/
+*   d94614b Merge branch 'master' of github.com:hyn/multi-tenant
+|\
+| *   a20bf2c Merge pull request #51 from hyn/analysis-86yalz
+| |\
+| | * 7d4fc76 Applied fixes from StyleCI
+| |/
+* | b71c8d9 configuration from tenant should overrule the system-wide one
+|/
+* 631db6e formatting and removed double exists check
+* 09b3a9c currently supporting only laravel 5.1 LTS
+*   b9c085f Merge branch 'master' of github.com:hyn/multi-tenant
+|\
+| * 1dfe503 getHttpHost gives port too
+| * 0fa86c8 Update license.md
+* | 900234d config changes required to allow custom queues for root and other commands in queue
+|/
+* ed2152a Update readme.md
+* 721ffaa Create conduct.md
+* 778adad Rename LICENSE.md to license.md
+* 7f57b21 Rename CHANGELOG.md to changelog.md
+* 3eb9b4e Update CHANGELOG.md
+*   6d14d74 Merge pull request #46 from vinkla/ignore
+|\
+| * a4cda6f Add items to gitattributes
+|/
+* 6480c4b another root facade removed
+* fc90e5f removed some root facades by using helper function
+* 2bf7b4c Update readme.md

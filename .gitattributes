@@ -2,7 +2,7 @@
 # https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html
 
 # Ignore all test and documentation with "export-ignore".
-/docs               export-ignore
+/changelogs         export-ignore
 /scripts            export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore

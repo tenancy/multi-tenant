@@ -1,0 +1,15 @@
+*   2d061bc Merge pull request #22 from hyn/testing
+|\
+| * ce4f2af relative path needed to succesfully migrate anything
+| * a19d185 clarified migrate command
+| * 78a76ed if forced dont ask for confirmation
+| * fb629df wrong function for getting env var
+| * fa99172 path is incorrect since changing methods
+| * c36bdf3 added app key to env
+| * e11294a only trigger website if it exists
+| * d967157 renamed build dir env variable
+| * ab3ae58 attempt to fix #19
+| * 20b491f forgot about paths in travis test file
+| * 07df4b9 attempt to clean up testing
+* 01bd10a Merge pull request #21 from hyn/analysis-zdZVZX
+* b4a22e8 Applied fixes from StyleCI

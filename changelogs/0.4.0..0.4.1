@@ -1,0 +1,59 @@
+* 8d39b2f now submitting clover
+* bfae7a0 migration path changed
+* 5b5342d remove useless -n
+* 6317db1 fixed issue with not migrating using all
+* 6c63750 also force otherwise is cancelled
+* 5c6b7b9 no interaction
+* 5e89ee2 debug info
+* 9644002 fixed
+* 12d4af9 split up responsibility
+* 29ca77e incorrect comparison
+* 2a3effe asserting it's not the illuminate migration command
+* fbd6d7d adde new test and format improvement
+* 54f4750 added test for insert
+* fab32ae expected, received switched
+* 08f9288 reset to previous, have to debug the migration table
+* c508811 checking for tenant migrations table
+* 0a7a316 still a class so also for reporting
+* cfed1fa seems Database name is a property of the resultset
+* 4230772 incorrectly changed connection to query, added changelog
+* d6de2a2 incorrect sql to load databases
+* 20fe946 need to add value
+* 683f94f added debug
+* 6a67aeb test for database existance
+* b3fabc8 connection for tenant is never set up
+* 0cd1ad9 dynamically selecting correct connection name
+* 5da2591 selecting current tenant database on purpose
+* ec06d0b forgot to set connection
+* 4614049 check if only one tenant is enough
+* ccf49c2 showing connection name
+* 7aebe72 removed check for connected queue
+* 884ec39 should work beter with sync driver which should execute commands directly
+* 3be6966 seems like queue didnt process all tasks
+* e76c419 starting redis
+* cc19812 requiring predis
+* 1dd9c5a using queue driver
+* 235c17e disabled scrutinizer for now.. attempt to debug migration test
+* 9f73b96 enabled ocular in phpunit and fixed path for running migration
+* 9ff0c7b clarification of unit test and enabled ocular
+* 58c14a7 modified database connection, didnt load connection properly
+* 219cc6b fixed path
+* 82608b8 incorrect loading of hostname
+* 6b33f8f fixed typo in unit test
+* 50154fa all arrayed objects rewritten
+* 0d5d0ab $app in local scope was array, needed application
+* 9c89d4f migrator is a singleton
+* 8e00661 attempt to force a deferred sp
+* 350d326 preventing non called deferred sp
+* b4b7e7e now assigning app on booted callback
+* ede3002 now running migrate overrule after booted event
+* 4f975fc using afterloadingenvironment
+* 6f4247b removed bootstrapping listener
+* 8562e1d bind seems to rebound if already bound
+* ae686a8 added test to verify running of migration on tenant
+* 4381078 keep it working for now
+* 06a8d7e moved clover upload to bash
+* 27593a3 logging now
+* 405d0e3 added travis changes for ocular etc
+* 3826296 more files to adhere to skeleton
+* b0492ea moved to psr-4 and adhere to lara-league/skeleton

@@ -1,0 +1,18 @@
+* 5be7667 improved dependancies to current ones
+* bfd9203 moving to first stable release
+* a8cbc2b version constraint added
+*   2e7770f fixed merge for hyn namespace move
+|\
+| *   cbee907 Merge branch 'master' of git://github.com/laraflock/multi-tenant
+| |\
+| * | ff30b8f moving to hyn namespace for all depending packages
+* | | ffade46 moved dependancies in composer to hyn as well
+| |/
+|/|
+* |   3252914 Merge pull request #14 from laraflock/analysis-zOgoJz
+|\ \
+| |/
+|/|
+| * 26abb9d Applied fixes from StyleCI
+|/
+* 87e6a81 linked to respective headers for optional steps after automatic installation

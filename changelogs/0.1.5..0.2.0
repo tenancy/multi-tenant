@@ -1,0 +1,15 @@
+*   c607414 Merge pull request #6 from hyn-me/unit-test
+|\
+| * 24f5b44 final commit in order to merge, removes commented code
+| * 29d85fb password secret for homestead default, not for travis
+| * 310a5f1 now using travis for connection but adding grant privileges
+| * 1f7095a now using mysql connection for unit test
+| * 1cdc13c fix for loading correct framework package
+| * 3418bde command was moved to test
+| * b0d5076 now checking out current branch
+| * 981853a copying failed
+| * 3ada317 added observer and unit test fixes
+| * 943a2b3 support for unit testing
+| * a7d6a0b rewritting to make non-interactive
+| * aeafd45 running travis
+* 59eb015 fixed connection to system instead of hyn, also grepped to find other occurrences, none found

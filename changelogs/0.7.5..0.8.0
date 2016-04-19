@@ -1,0 +1,18 @@
+* 2ae9d83 updated installation through composer after vendor name change
+* 94a6117 directory path changed after namespace change
+*   822e303 Merge pull request #20 from hyn/namespace
+|\
+| * 903dc84 namespace in unit testing config missed
+| * bfa8385 added namespace move to changelog
+| * 9b2a86f moving namespace to Hyn
+|/
+* bacd29f Update composer.json
+* d6c3d39 Update readme.md
+* 717535f Update readme.md
+* 42d20d7 fixed spacing
+* 6fe30b3 updated phpdoc
+* 7dff9ea fixed formatting
+*   e11e92d Merge branch 'master' of github.com:laraflock/multi-tenant
+|\
+| * c1c64d3 Update CHANGELOG.md
+* 9f11191 middleware now configurable
