@@ -12,6 +12,6 @@ if (! function_exists('tenant_path')) {
             return;
         }
 
-        return sprintf('%s%s', $directory->base(), $path);
+        return sprintf('%s%s', $directory->base(), ltrime($path, '/'));
     }
 }
