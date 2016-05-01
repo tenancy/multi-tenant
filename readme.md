@@ -8,6 +8,7 @@ t)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
 [![Reference Status](https://www.versioneye.com/php/hyn:multi-tenant/reference_badge.svg?style=flat)](https://www.versioneye.com/php/hyn:multi-tenant/references)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/f8241f3b-ab7b-4a58-9123-488c13560887/mini.png)](https://insight.sensiolabs.com/projects/f8241f3b-ab7b-4a58-9123-488c13560887)
+[![Awesome Laravel](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/chiraggude/awesome-laravel)
 
 This package allows for multi tenancy websites on one installation of Laravel.
 
