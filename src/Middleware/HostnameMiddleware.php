@@ -3,9 +3,8 @@
 namespace Hyn\MultiTenant\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Routing\Middleware;
 
-class HostnameMiddleware implements Middleware
+class HostnameMiddleware
 {
     public function handle($request, Closure $next)
     {
