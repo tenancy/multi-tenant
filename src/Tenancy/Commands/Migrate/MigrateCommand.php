@@ -72,7 +72,10 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
             }
 
             try {
-                $this->migrator->run($path, $pretend);
+                $this->migrator->run($path, [
+                    'pretend' => $pretend,
+                    'step' => $this->input->getOption('step'),
+                ]);
             } catch (PDOException $e) {
                 if (str_contains($e->getMessage(), ['Base table or view already exists'])) {
                     $this->comment("Migration failed for existing table; probably a system migration: {$e->getMessage()}");

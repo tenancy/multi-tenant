@@ -35,7 +35,6 @@ class TenancySetupTest extends TestCase
      * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection::create
      * @covers  \Hyn\MultiTenant\Tenant\Directory::create
      * @covers  \Hyn\MultiTenant\Observers\WebsiteObserver::created
-     * @covers  \Hyn\MultiTenant\Observers\WebsiteObserver::creating
      * @covers  \Hyn\MultiTenant\Observers\HostnameObserver::saved
      *
      * @covers  \HmtTenantsTable
