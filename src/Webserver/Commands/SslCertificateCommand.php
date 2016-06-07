@@ -6,8 +6,9 @@ use Hyn\Framework\Commands\AbstractRootCommand;
 use Hyn\Webserver\Generators\Webserver\Ssl;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldBeQueued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SslCertificateCommand extends AbstractRootCommand implements SelfHandling, ShouldBeQueued
+class SslCertificateCommand extends AbstractRootCommand implements ShouldQueue
 {
 
     /**
