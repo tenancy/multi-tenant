@@ -36,7 +36,6 @@ class HwsSslHostnamesTable extends Migration
             // the set null constraint does not work on mariadb; let's just ignore that for now
             // @TODO but fix support for set null in the future somehow
 //            $table->foreign('hostname_id')->references('id')->on('hostnames')->onDelete('set null');
-
         });
     }
 

@@ -50,12 +50,10 @@ abstract class AbstractSolver implements ChallengeSolverContract
 
     abstract protected function handle();
 
-    final function __destruct()
+    final public function __destruct()
     {
         if ($this->request->isDirty()) {
             $this->request->save();
         }
     }
-
-
 }
