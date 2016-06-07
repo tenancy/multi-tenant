@@ -137,7 +137,6 @@ class TenancySetupTest extends TestCase
      */
     public function testTenantEnvFileOverrules()
     {
-
     }
 
     /**
