@@ -18,7 +18,6 @@ class TestTenantMigration extends Migration
             $table->string('some_field')->nullable();
 
             $table->timestamps();
-
         });
     }
 

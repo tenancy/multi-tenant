@@ -25,7 +25,7 @@ install:
   - mysql -e "create database hyn;" -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-  - composer require laravel/laravel 5.1
+  - composer require laravel/laravel 5.2
   # set global variables
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=sync BUILD_DIR=$TRAVIS_BUILD_DIR
 
