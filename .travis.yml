@@ -17,6 +17,8 @@ install:
   - travis_retry composer self-update
   # clear composer cache, might speed up finding new tags
   - travis_retry composer clear-cache
+  # include prestissimo which speeds up package download
+  - composer global require hirak/prestissimo
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
