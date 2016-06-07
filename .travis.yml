@@ -3,9 +3,7 @@ language: php
 sudo: true
 
 php:
-  - 5.6
   - 7.0
-  - hhvm
 
 addons:
   hosts:
@@ -25,12 +23,11 @@ install:
   - mysql -e "create database hyn;" -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-  - composer require laravel/laravel 5.1
+  - composer require laravel/laravel 5.2
   # set global variables
   - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=sync BUILD_DIR=$TRAVIS_BUILD_DIR
 
 script:
-  - composer require "hyn/framework dev-master"
   # run the script calling unit tests and so on
   - ./scripts/travis.sh
 
