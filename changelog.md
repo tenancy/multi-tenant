@@ -4,6 +4,16 @@ All notable changes to `hyn/multi-tenant` will be documented in this file.
 
 ---
 
+### 2.0.0-dev.1
+
+- Moved to a monolythic approach to improve speed of development.
+- Made PHP 7.0 the only support PHP version.
+- Requiring Laravel 5.2 at this point, will support future versions more easily.
+
+### 1.0.1
+
+- Minor improvements, found it stable enough to tag full minor.
+
 ### 1.0.1-beta.2
 
 - Added technical changelogs in subdirectory.
