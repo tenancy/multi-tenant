@@ -156,6 +156,16 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Loads tenant .env file path.
+     *
+     * @return null|string
+     */
+    public function env()
+    {
+        return $this->base() && File::exists($this->base().'.env') ? $this->base() : null;
+    }
+
+    /**
      * Old base path for tenant.
      *
      * @return null|string
@@ -181,6 +191,12 @@ class Directory implements DirectoryContract
              */
             if (! $this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor().'autoload.php')) {
                 File::requireOnce($this->vendor().'autoload.php');
+            }
+            /**
+             * critical priority, load .env
+             */
+            if (! $this->disallowed('env') && $this->env()) {
+                $app->useEnvironmentPath($this->env());
             }
             /*
              * highest priority, load service providers; or possible custom code before any other include from tenant
