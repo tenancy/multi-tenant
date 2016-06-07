@@ -5,6 +5,7 @@ namespace Hyn\MultiTenant\Tests;
 use DB;
 use File;
 use Hyn\Framework\Testing\TestCase;
+use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
 use Illuminate\Database\Connection;
 use Hyn\MultiTenant\MultiTenantServiceProvider;
@@ -16,6 +17,11 @@ class TenancySetupTest extends TestCase
      * @var TenantRepositoryContract
      */
     protected $tenant;
+
+    /**
+     * @var HostnameRepositoryContract
+     */
+    protected $hostname;
 
     /**
      * @covers \Hyn\MultiTenant\MultiTenantServiceProvider
@@ -129,15 +135,6 @@ class TenancySetupTest extends TestCase
             // directories are created with 0755; let's see whether that is sufficient
             $this->assertTrue(File::isWritable($website->directory->{$directory}()));
         }
-    }
-
-    /**
-     * @depends testTenantDatabaseExists
-     * @covers \Hyn\MultiTenant\Tenant\Directory::env
-     */
-    public function testTenantEnvFileOverrules()
-    {
-
     }
 
     /**
