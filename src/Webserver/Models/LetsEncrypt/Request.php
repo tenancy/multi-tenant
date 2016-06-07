@@ -25,7 +25,8 @@ class Request extends SystemModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function hostname() {
+    public function hostname()
+    {
         return $this->belongsTo('Hyn\MultiTenant\Models\Hostname');
     }
 }
