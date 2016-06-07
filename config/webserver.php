@@ -29,27 +29,6 @@ return [
      */
     'ssl'   => [
         'path' => storage_path('webserver/ssl'),
-
-        /*
-         * If let's encrypt functionality is available, will install certificates
-         * on all connected domains. Disable by setting to false.
-         */
-        'lets-encrypt' => true,
-
-        /*
-         * Specifies who the contact will be of the certificate. Enter this information
-         * for the Let's Encrypt functionality to work.
-         */
-        'lets-encrypt-contact' => [
-            'username' => null,
-            'email-address' => null,
-        ],
-
-        /*
-         * Directory to store let's encrypt specific files in, amongst others
-         * the key pairs per customer.
-         */
-        'lets-encrypt-storage-path' => storage_path('webserver/ssl/lets-encrypt'),
     ],
     /*
      * Logging specific settings

@@ -32,7 +32,6 @@ class WebserverServiceProvider extends ServiceProvider
 
         Website::observe(new Observers\WebsiteObserver());
         SslCertificate::observe(new Observers\SslCertificateObserver());
-        Hostname::observe(new Observers\HostnameObserver());
 
         /*
          * Ssl repository

@@ -12,6 +12,7 @@ use Hyn\Webserver\Generators\Webserver\Ssl;
 
 class WebserverCommand extends AbstractRootCommand
 {
+    protected $name = 'webserver';
     /**
      * @var Website
      */
