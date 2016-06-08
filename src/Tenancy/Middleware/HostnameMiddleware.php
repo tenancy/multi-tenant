@@ -3,7 +3,6 @@
 namespace Hyn\MultiTenant\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Routing\Middleware;
 
 class HostnameMiddleware
 {
