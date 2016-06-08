@@ -2,13 +2,12 @@
 
 namespace Hyn\Webserver;
 
-use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Hyn\MultiTenant\Models\Website;
 use Hyn\Webserver\Models\SslCertificate;
 use Hyn\Webserver\Models\SslHostname;
 use Hyn\Webserver\Repositories\SslRepository;
 use Illuminate\Support\ServiceProvider;
-use Hyn\MultiTenant\Models\Website;
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
 
 class WebserverServiceProvider extends ServiceProvider
 {
@@ -26,7 +25,7 @@ class WebserverServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/webserver.php', 'webserver');
         $this->publishes([__DIR__.'/../../config/webserver.php' => config_path('webserver.php')], 'webserver-config');
         // adds views
-        $this->loadViewsFrom(__DIR__.'/../../views/webserver', 'webserver');
+        $this->loadViewsFrom(__DIR__ . '/../../views', 'webserver');
         // migrations
         $this->publishes([__DIR__.'/../../database/migrations/' => database_path('/migrations')], 'migrations');
 
