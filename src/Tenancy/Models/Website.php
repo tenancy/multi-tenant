@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
+ * @property int                $id
  * @property string             $identifier
  * @property int                $tenant_id
  * @property Directory          $directory

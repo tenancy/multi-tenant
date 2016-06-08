@@ -65,22 +65,6 @@ abstract class BaseRepository
     }
 
     /**
-     * Starts a querybuilder.
-     *
-     * @param $type
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function queryBuilder($type = null)
-    {
-        if (is_null($type)) {
-            return $this->model->query();
-        }
-
-        return $this->{$type}->query();
-    }
-
-    /**
      * Query results for ajax.
      *
      * @param              $name
@@ -109,14 +93,22 @@ abstract class BaseRepository
         }
 
         return $results;
-        array_walk($items, function (&$item, $key) {
-            $item = [
-                'id'   => $key,
-                'text' => $item,
-            ];
-        });
+    }
 
-        return $items;
+    /**
+     * Starts a querybuilder.
+     *
+     * @param $type
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function queryBuilder($type = null)
+    {
+        if (is_null($type)) {
+            return $this->model->query();
+        }
+
+        return $this->{$type}->query();
     }
 
     /**

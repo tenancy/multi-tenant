@@ -3,10 +3,10 @@
 namespace Hyn\MultiTenant\Tenant;
 
 use File;
-use Illuminate\Translation\FileLoader;
-use Illuminate\Translation\Translator;
 use Hyn\MultiTenant\Contracts\DirectoryContract;
 use Hyn\MultiTenant\Models\Website;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
 
 /**
  * Class Directory.
@@ -66,43 +66,13 @@ class Directory implements DirectoryContract
     }
 
     /**
-     * Tenant config directory.
+     * Tenant image cache directory.
      *
-     * @return string|null
+     * @return null|string
      */
-    public function config()
+    public function image_cache()
     {
-        return $this->base() ? sprintf('%sconfig/', $this->base()) : null;
-    }
-
-    /**
-     * Tenant views directory.
-     *
-     * @return string|null
-     */
-    public function views()
-    {
-        return $this->base() ? sprintf('%sviews/', $this->base()) : null;
-    }
-
-    /**
-     * Tenant language/trans directory.
-     *
-     * @return string|null
-     */
-    public function lang()
-    {
-        return $this->base() ? sprintf('%slang/', $this->base()) : null;
-    }
-
-    /**
-     * Tenant vendor directory.
-     *
-     * @return string|null
-     */
-    public function vendor()
-    {
-        return $this->base() ? sprintf('%svendor/', $this->base()) : null;
+        return $this->cache() ? sprintf('%simage/', $this->cache()) : null;
     }
 
     /**
@@ -116,26 +86,6 @@ class Directory implements DirectoryContract
     }
 
     /**
-     * Tenant image cache directory.
-     *
-     * @return null|string
-     */
-    public function image_cache()
-    {
-        return $this->cache() ? sprintf('%simage/', $this->cache()) : null;
-    }
-
-    /**
-     * Tenant media directory.
-     *
-     * @return string|null
-     */
-    public function media()
-    {
-        return $this->base() ? sprintf('%smedia/', $this->base()) : null;
-    }
-
-    /**
      * Tenant base path.
      *
      * @return string|null
@@ -146,33 +96,13 @@ class Directory implements DirectoryContract
     }
 
     /**
-     * Loads tenant providers.
+     * Tenant media directory.
      *
-     * @return string
+     * @return string|null
      */
-    public function providers()
+    public function media()
     {
-        return $this->base() && File::exists($this->base().'providers.php') ? $this->base().'providers.php' : null;
-    }
-
-    /**
-     * Loads tenant .env file path.
-     *
-     * @return null|string
-     */
-    public function env()
-    {
-        return $this->base() && File::exists($this->base().'.env') ? $this->base() : null;
-    }
-
-    /**
-     * Old base path for tenant.
-     *
-     * @return null|string
-     */
-    public function old_base()
-    {
-        return $this->old_path;
+        return $this->base() ? sprintf('%smedia/', $this->base()) : null;
     }
 
     /**
@@ -225,8 +155,6 @@ class Directory implements DirectoryContract
                 $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
             }
 
-            // @TODO we really can't use cache yet for application cache
-
             // replaces lang directory
             if (! $this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
                 $path = $this->lang();
@@ -251,6 +179,92 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Check whether a specific functionality is disabled globally.
+     *
+     * @param $type
+     * 
+*@return bool
+     */
+    protected function disallowed($type)
+    {
+        return config('multi-tenant.disallow-for-tenant.' . $type, false);
+    }
+
+    /**
+     * Tenant vendor directory.
+     *
+     * @return string|null
+     */
+    public function vendor()
+    {
+        return $this->base() ? sprintf('%svendor/', $this->base()) : null;
+    }
+
+    /**
+     * Loads tenant .env file path.
+     *
+     * @return null|string
+     */
+    public function env()
+    {
+        return $this->base() && File::exists($this->base() . '.env') ? $this->base() : null;
+    }
+
+    /**
+     * Loads tenant providers.
+     *
+     * @return string
+     */
+    public function providers()
+    {
+        return $this->base() && File::exists($this->base() . 'providers.php') ? $this->base() . 'providers.php' : null;
+    }
+
+    /**
+     * Tenant config directory.
+     *
+     * @return string|null
+     */
+    public function config()
+    {
+        return $this->base() ? sprintf('%sconfig/', $this->base()) : null;
+    }
+
+    /**
+     * Tenant views directory.
+     *
+     * @return string|null
+     */
+    public function views()
+    {
+        return $this->base() ? sprintf('%sviews/', $this->base()) : null;
+    }
+
+    /**
+     * Tenant language/trans directory.
+     *
+     * @return string|null
+     */
+    public function lang()
+    {
+        return $this->base() ? sprintf('%slang/', $this->base()) : null;
+    }
+
+    /**
+     * Path to tenant routes.php.
+     *
+     * @return string|null
+     */
+    public function routes()
+    {
+        if ($this->base()) {
+            $routes = sprintf('%sroutes.php', $this->base());
+        }
+
+        return $this->base() && File::exists($routes) ? $routes : null;
+    }
+
+    /**
      * Creates tenant directories.
      *
      * Creates all required tenant directories
@@ -270,20 +284,6 @@ class Directory implements DirectoryContract
     }
 
     /**
-     * Path to tenant routes.php.
-     *
-     * @return string|null
-     */
-    public function routes()
-    {
-        if ($this->base()) {
-            $routes = sprintf('%sroutes.php', $this->base());
-        }
-
-        return $this->base() && File::exists($routes) ? $routes : null;
-    }
-
-    /**
      * Move from old to new path.
      *
      * @return bool
@@ -293,6 +293,16 @@ class Directory implements DirectoryContract
         if ($this->old_base()) {
             return File::move($this->old_base(), $this->base());
         }
+    }
+
+    /**
+     * Old base path for tenant.
+     *
+     * @return null|string
+     */
+    public function old_base()
+    {
+        return $this->old_path;
     }
 
     /**
@@ -313,16 +323,5 @@ class Directory implements DirectoryContract
     public function pathsToCreate()
     {
         return $this->paths_to_create;
-    }
-
-    /**
-     * Check whether a specific functionality is disabled globally.
-     *
-     * @param $type
-     * @return bool
-     */
-    protected function disallowed($type)
-    {
-        return config('multi-tenant.disallow-for-tenant.'.$type, false);
     }
 }
