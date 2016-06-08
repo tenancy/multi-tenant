@@ -15,46 +15,48 @@ use Hyn\MultiTenant\Tenant\Directory;
 class WebsiteModelTest extends TestCase
 {
     /**
-     * @coversNothing
+     * @var Website
      */
-    public function testCreate()
+    protected $website;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $website = new Website();
         $website->identifier = 'example-com';
 
-        return $website;
+        $this->website = $website;
     }
 
     /**
-     * @param Website $website
+     * @test
      * @covers ::hostnames
      * @covers ::getHostnamesWithCertificateAttribute
      * @covers ::getHostnamesWithoutCertificateAttribute
-     * @depends testCreate
      */
-    public function testHostnames($website)
+    public function hostnames_relation_is_correct()
     {
-        $this->assertEquals(new Hostname(), $website->hostnames()->getRelated()->newInstance());
+        $this->assertEquals(new Hostname(), $this->website->hostnames()->getRelated()->newInstance());
     }
 
     /**
-     * @param Website $website
+     * @test
      * @covers ::getDirectoryAttribute
-     * @depends testCreate
      */
-    public function testDirectoryAttribute($website)
+    public function directory_property_is_correct()
     {
-        $this->assertEquals(new Directory($website), $website->directory);
+        $this->assertEquals(new Directory($this->website), $this->website->directory);
     }
 
     /**
-     * @param Website $website
-     * @depends testCreate
+     * @test
      * @covers \Hyn\MultiTenant\Presenters\WebsitePresenter
+     * @covers ::present
      */
-    public function testPresenter($website)
+    public function has_a_working_presenter()
     {
-        $this->assertEquals($website->identifier, $website->present()->name);
-        $this->assertNotNull($website->present()->icon);
+        $this->assertEquals($this->website->identifier, $this->website->present()->name);
+        $this->assertNotNull($this->website->present()->icon);
     }
 }

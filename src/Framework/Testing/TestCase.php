@@ -31,17 +31,20 @@ class TestCase extends IlluminateTestCase
 
         Config::set('database.connections.hyn', Config::get('database.connections.mysql'));
 
-        // register framework service provider and all dependancies
+        // register framework service provider and all dependencies
         $provider = $app->register(FrameworkServiceProvider::class);
-
-        // register testing routes
-        $app['router']->any('/tenant/view', function () {
-            return \Response::json($app->make('tenant.view'));
-        });
 
         if (! $provider) {
             throw new \Exception('Required framework service provider not registered/booted for use during unit testing');
         }
+
+        // register testing routes
+        $app['router']->get(
+            '/tenant/view',
+            function () use ($app) {
+                return \Response::json($app->make('tenant.view'));
+            }
+        );
 
         return $app;
     }
