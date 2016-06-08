@@ -4,6 +4,7 @@ namespace Hyn\Framework;
 
 use Config;
 use Hyn\Framework\Validation\ExtendedValidation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class FrameworkServiceProvider extends ServiceProvider
@@ -33,11 +34,11 @@ class FrameworkServiceProvider extends ServiceProvider
         foreach ($packages as $name => $package) {
             // register service provider for package
             if (class_exists(array_get($package, 'service-provider'))) {
-                $this->app->register(array_get($package, 'service-provider'));
+                $this->app->register(Arr::get($package, 'service-provider'));
             }
             // set global state
             $this->app->bind("hyn.package.{$name}", function () use ($package) {
-                return class_exists(array_get($package, 'service-provider')) ? $package : false;
+                return class_exists(Arr::get($package, 'service-provider')) ? $package : false;
             });
         }
 
