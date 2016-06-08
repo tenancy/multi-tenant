@@ -2,8 +2,8 @@
 
 namespace Hyn\Webserver\Generators\Database;
 
-use Hyn\Webserver\Abstracts\AbstractGenerator;
 use Hyn\MultiTenant\Models\Website;
+use Hyn\Webserver\Abstracts\AbstractGenerator;
 
 class Database extends AbstractGenerator
 {
@@ -36,7 +36,7 @@ class Database extends AbstractGenerator
      */
     public function onRename($from, $to)
     {
-        // TODO: Implement onRename() method.
+        // .. not used?
     }
 
     /**
@@ -52,7 +52,7 @@ class Database extends AbstractGenerator
      */
     public function onUpdate()
     {
-        // TODO: Implement onUpdate() method.
+        // .. not used?
     }
 
     /**
