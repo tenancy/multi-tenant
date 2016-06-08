@@ -22,7 +22,7 @@ class TenancySetupTest extends TestCase
      * @var HostnameRepositoryContract
      */
     protected $hostname;
-    
+
     /**
      * @test
      * @covers \Hyn\MultiTenant\MultiTenantServiceProvider
@@ -243,7 +243,7 @@ class TenancySetupTest extends TestCase
         $hostname = $this->hostname->findByHostname('system.testing');
 
         // test for unregistered hostname
-        $this->visit('http://tenant.testing/')
+        $this->visit('http://tenant.testing/tenant/view')
             ->seeStatusCode(200)
             ->seeJson(
                 [
@@ -252,7 +252,7 @@ class TenancySetupTest extends TestCase
             );
 
         // test for registered hostname
-        $this->visit('http://system.testing/')
+        $this->visit('http://system.testing/tenant/view')
             ->seeStatusCode(200)
             ->seeJson(
                 [
