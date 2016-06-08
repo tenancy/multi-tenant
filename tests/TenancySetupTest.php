@@ -223,7 +223,7 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_migrated_table_should_exist
-     * @covers \Hyn\MultiTenant\Commands\Seeds\SeedCommand
+     * @covers  \Hyn\MultiTenant\Commands\Seeds\SeedCommand
      */
     public function tenant_seeder_should_work()
     {
@@ -234,7 +234,8 @@ class TenancySetupTest extends TestCase
             $this->artisan(
                 'db:seed',
                 [
-                    '--class' => TestTenantSeeder::class
+                    '--tenant' => 'all',
+                    '--class'  => TestTenantSeeder::class
                 ]
             )
         );
