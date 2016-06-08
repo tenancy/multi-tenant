@@ -5,8 +5,8 @@
 #       @website: {{ $website->id }} "{{ $website->present()->name }}"
 #
 
-@if($website->directory->image_cache())
-    proxy_cache_path {{ $website->directory->image_cache() }} levels=1:2 keys_zone=img_cache_hyn_mt_{{ $website->id }}:10m max_size=1G;
+@if($website->directory->imageCache())
+    proxy_cache_path {{ $website->directory->imageCache() }} levels=1:2 keys_zone=img_cache_hyn_mt_{{ $website->id }}:10m max_size=1G;
 @endif
 
 #

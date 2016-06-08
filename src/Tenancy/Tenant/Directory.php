@@ -24,7 +24,7 @@ class Directory implements DirectoryContract
     /**
      * @var array
      */
-    protected $paths_to_create = ['base', 'config', 'views', 'lang', 'cache', 'image_cache', 'media', 'vendor'];
+    protected $paths_to_create = ['base', 'config', 'views', 'lang', 'cache', 'imageCache', 'media', 'vendor'];
 
     /**
      * @var Website
@@ -120,7 +120,7 @@ class Directory implements DirectoryContract
      *
      * @return null|string
      */
-    public function image_cache()
+    public function imageCache()
     {
         return $this->cache() ? sprintf('%simage/', $this->cache()) : null;
     }
@@ -170,7 +170,7 @@ class Directory implements DirectoryContract
      *
      * @return null|string
      */
-    public function old_base()
+    public function oldBase()
     {
         return $this->old_path;
     }
@@ -290,8 +290,8 @@ class Directory implements DirectoryContract
      */
     public function move()
     {
-        if ($this->old_base()) {
-            return File::move($this->old_base(), $this->base());
+        if ($this->oldBase()) {
+            return File::move($this->oldBase(), $this->base());
         }
     }
 

@@ -3,6 +3,7 @@
 namespace Hyn\MultiTenant;
 
 use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Database\SeedServiceProvider;
 use Illuminate\Support\ServiceProvider;
@@ -56,7 +57,7 @@ class MultiTenantServiceProvider extends ServiceProvider
         /*
          * override the default migrate command
          */
-        $this->app->booted(function ($app) {
+        $this->app->booted(function (Application $app) {
             $this->registerCommands($app);
         });
         /*

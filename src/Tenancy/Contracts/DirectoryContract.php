@@ -44,7 +44,7 @@ interface DirectoryContract
      *
      * @return null|string
      */
-    public function image_cache();
+    public function imageCache();
 
     /**
      * Tenant media directory.
