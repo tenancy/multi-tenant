@@ -35,5 +35,10 @@
             "Hyn\\Webserver\\": "src/Webserver/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Hyn\\Tests\\Seeds\\": "tests/database/seeds/"
+        }
+    },
     "minimum-stability": "stable"
 }
