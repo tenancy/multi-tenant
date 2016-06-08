@@ -35,7 +35,9 @@ class TestCase extends IlluminateTestCase
         $provider = $app->register(FrameworkServiceProvider::class);
 
         // register testing routes
-        $app['router']->any('/tenant/view', function () {
+        $app['router']->any(
+            '/tenant/view',
+            function () use ($app) {
             return \Response::json($app->make('tenant.view'));
         });
 

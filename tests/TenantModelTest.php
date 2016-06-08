@@ -15,71 +15,67 @@ use Hyn\MultiTenant\Models\Website;
 class TenantModelTest extends TestCase
 {
     /**
-     * @return Tenant
-     * @coversNothing
+     * @var Tenant
      */
-    public function testCreate()
+    protected $tenant;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $tenant = new Tenant();
         $tenant->name = 'example';
         $tenant->email = 'foo@baz.com';
 
-        return $tenant;
+        $this->tenant = $tenant;
     }
 
     /**
-     * Tests hostnames.
-     *
-     * @param Tenant $tenant
-     * @depends testCreate
+     * @test
      * @covers ::hostnames
      */
-    public function testHostnames($tenant)
+    public function hostnames_relation_is_correct()
     {
-        $this->assertEquals(0, $tenant->hostnames->count());
+        $this->assertEquals(0, $this->tenant->hostnames->count());
 
-        $this->assertEquals(new Hostname(), $tenant->hostnames()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $this->tenant->hostnames()->getRelated()->newInstance([]));
     }
 
     /**
-     * Tests websites.
-     *
-     * @param Tenant $tenant
-     * @depends testCreate
+     * @test
      * @covers ::websites
      */
-    public function testWebsites($tenant)
+    public function websites_relation_is_correct()
     {
-        $this->assertEquals(0, $tenant->websites->count());
+        $this->assertEquals(0, $this->tenant->websites->count());
 
-        $this->assertEquals(new Website(), $tenant->websites()->getRelated()->newInstance([]));
+        $this->assertEquals(new Website(), $this->tenant->websites()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Tenant $tenant
-     * @depends testCreate
+     * @test
      * @covers ::reseller
      * @covers ::referer
      * @covers ::refered
      * @covers ::reselled
      */
-    public function testRelatedTenants($tenant)
+    public function validates_initial_state_of_customer_relations()
     {
-        $this->assertEquals(0, $tenant->reselled->count());
-        $this->assertNull($tenant->reseller);
+        $this->assertEquals(0, $this->tenant->reselled->count());
+        $this->assertNull($this->tenant->reseller);
 
-        $this->assertEquals(0, $tenant->refered->count());
-        $this->assertNull($tenant->referer);
+        $this->assertEquals(0, $this->tenant->refered->count());
+        $this->assertNull($this->tenant->referer);
     }
 
     /**
-     * @param Tenant $tenant
-     * @depends testCreate
+     * @test
      * @covers \Hyn\MultiTenant\Presenters\TenantPresenter
+     * @covers ::present
      */
-    public function testPresenter($tenant)
+    public function has_a_working_presenter()
     {
-        $this->assertEquals($tenant->name, $tenant->present()->name);
-        $this->assertNotNull($tenant->present()->icon);
+        $this->assertEquals($this->tenant->name, $this->tenant->present()->name);
+        $this->assertNotNull($this->tenant->present()->icon);
     }
 }

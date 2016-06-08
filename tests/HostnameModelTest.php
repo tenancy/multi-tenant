@@ -3,11 +3,11 @@
 namespace Hyn\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
-use Hyn\Webserver\Models\SslCertificate;
-use Illuminate\Http\RedirectResponse;
 use Hyn\MultiTenant\Models\Hostname;
 use Hyn\MultiTenant\Models\Tenant;
 use Hyn\MultiTenant\Models\Website;
+use Hyn\Webserver\Models\SslCertificate;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * Class HostnameModelTest.
@@ -17,102 +17,99 @@ use Hyn\MultiTenant\Models\Website;
 class HostnameModelTest extends TestCase
 {
     /**
-     * @coversNothing
+     * @var Hostname
      */
-    public function testCreate()
+    protected $hostname;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $hostname = new Hostname();
         $hostname->hostname = 'example.org';
 
-        return $hostname;
+        $this->hostname = $hostname;
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      */
-    public function testHostname($hostname)
+    public function can_remember_hostname()
     {
-        $this->assertEquals('example.org', $hostname->hostname);
+        $this->assertEquals('example.org', $this->hostname->hostname);
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::tenant
      */
-    public function testTenant($hostname)
+    public function tenant_relation_is_correct()
     {
-        $this->assertEquals(new Tenant(), $hostname->tenant()->getRelated()->newInstance([]));
+        $this->assertEquals(new Tenant(), $this->hostname->tenant()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::website
      */
-    public function testWebsite($hostname)
+    public function website_relation_is_correct()
     {
-        $this->assertEquals(new Website(), $hostname->website()->getRelated()->newInstance([]));
+        $this->assertEquals(new Website(), $this->hostname->website()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::redirectToHostname
      */
-    public function testRedirectTo($hostname)
+    public function redirect_to_hostname_relation_is_correct()
     {
-        $this->assertEquals(new Hostname(), $hostname->redirectToHostname()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $this->hostname->redirectToHostname()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::subDomainOf
      */
-    public function testSubDomainOf($hostname)
+    public function sub_domain_of_relation_is_correct()
     {
-        $this->assertEquals(new Hostname(), $hostname->subDomainOf()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $this->hostname->subDomainOf()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
+     * @covers ::subDomains
      */
-    public function testSubDomains($hostname)
+    public function sub_domains_relation_is_correct()
     {
-        $this->assertEquals(new Hostname(), $hostname->subDomains()->getRelated()->newInstance([]));
+        $this->assertEquals(new Hostname(), $this->hostname->subDomains()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::certificate
      */
-    public function testCertificate($hostname)
+    public function ssl_relation_is_correct()
     {
-        $this->assertEquals(new SslCertificate(), $hostname->certificate()->getRelated()->newInstance([]));
+        $this->assertEquals(new SslCertificate(), $this->hostname->certificate()->getRelated()->newInstance([]));
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers ::redirectActionRequired
      */
-    public function testRedirectActionRequired($hostname)
+    public function has_to_redirect()
     {
-        $this->assertTrue($hostname->redirectActionRequired() instanceof RedirectResponse);
+        $this->assertTrue($this->hostname->redirectActionRequired() instanceof RedirectResponse);
     }
 
     /**
-     * @param Hostname $hostname
-     * @depends testCreate
+     * @test
      * @covers \Hyn\MultiTenant\Presenters\HostnamePresenter
+     * @covers ::present
      */
-    public function testHostnamePresenter($hostname)
+    public function has_a_working_presenter()
     {
-        $this->assertEquals($hostname->hostname, $hostname->present()->name);
-        $this->assertNotNull($hostname->present()->icon);
+        $this->assertEquals($this->hostname->hostname, $this->hostname->present()->name);
+        $this->assertNotNull($this->hostname->present()->icon);
     }
 }
