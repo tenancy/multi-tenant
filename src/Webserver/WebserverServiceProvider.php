@@ -25,7 +25,7 @@ class WebserverServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../config/webserver.php', 'webserver');
         $this->publishes([__DIR__.'/../../config/webserver.php' => config_path('webserver.php')], 'webserver-config');
         // adds views
-        $this->loadViewsFrom(__DIR__ . '/../../views', 'webserver');
+        $this->loadViewsFrom(__DIR__ . '/../../views/webserver', 'webserver');
         // migrations
         $this->publishes([__DIR__.'/../../database/migrations/' => database_path('/migrations')], 'migrations');
 
