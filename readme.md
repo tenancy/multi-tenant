@@ -2,9 +2,8 @@
 
 [![Latest Stable Version](https://poser.pugx.org/hyn/multi-tenant/v/stable)](https://packagist.org/packages/hyn/multi-tenant)
 [![License](https://poser.pugx.org/hyn/multi-tenant/license)](https://packagist.org/packages/hyn/multi-tenant)
-[![Build Status](https://travis-ci.org/hyn/multi-tenant.svg?branch=master)](https://travis-ci.org/hyn/multi-tenant)
-[![Code Coverage](https://img.shields.io/codecov/c/github/hyn/multi-tenant.svg)](https://codecov.io/github/hyn/multi-tenan
-t)
+[![Build Status](https://travis-ci.org/hyn/multi-tenant.svg?branch=2.x)](https://travis-ci.org/hyn/multi-tenant)
+[![Code Coverage](https://img.shields.io/codecov/c/github/hyn/multi-tenant.svg)](https://codecov.io/github/hyn/multi-tenant)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
 [![Reference Status](https://www.versioneye.com/php/hyn:multi-tenant/reference_badge.svg?style=flat)](https://www.versioneye.com/php/hyn:multi-tenant/references)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/f8241f3b-ab7b-4a58-9123-488c13560887/mini.png)](https://insight.sensiolabs.com/projects/f8241f3b-ab7b-4a58-9123-488c13560887)
@@ -16,7 +15,7 @@ This package allows for multi tenancy websites on one installation of Laravel.
 
 The goals for this and its related packages are:
 
-- Unobtrusive multi tenancy for Laravel 5.1 LTS.
+- Unobtrusive multi tenancy for Laravel 5.1 LTS and 5.2+.
 - Provide proper insight into tenants and webserver.
 - Powerful, but flexible for developers, use it the way you want.
 
