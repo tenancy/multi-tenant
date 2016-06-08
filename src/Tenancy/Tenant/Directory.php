@@ -231,10 +231,10 @@ class Directory implements DirectoryContract
             if (! $this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
                 $path = $this->lang();
 
-                $app->bindShared('translation.loader', function ($app) use ($path) {
+                $app->singleton('translation.loader', function ($app) use ($path) {
                     return new FileLoader($app['files'], $path);
                 });
-                $app->bindShared('translator', function ($app) {
+                $app->singleton('translator', function ($app) {
                     $translator = new Translator($app['translation.loader'], $app['config']['app.locale']);
                     $translator->setFallback($app['config']['app.fallback_locale']);
 
