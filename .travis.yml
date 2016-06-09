@@ -41,3 +41,6 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+after_failure:
+  - cat /var/log/travis-queue.log

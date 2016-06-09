@@ -19,7 +19,7 @@ autostart=1
 autorestart=1
 user=root
 directory=$TRAVIS_BUILD_DIR/vendor/laravel/laravel
-stdout_logfile=/var/log/queue.log
+stdout_logfile=/var/log/travis-queue.log
 redirect_stderr=true
 EOF
 sudo mv -f /tmp/supervisor /etc/supervisor/conf.d/laravel-queue.conf
