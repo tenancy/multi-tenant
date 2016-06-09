@@ -10,7 +10,7 @@ addons:
     - system.testing
     - tenant.testing
 
-install:
+before_install:
   # fix ipv6 issue that prevented composer requests and resulted in failing builds
   - sudo sh -c "echo 'precedence ::ffff:0:0/96  100' >> /etc/gai.conf"
   # updates composer on travis
@@ -19,6 +19,11 @@ install:
   - travis_retry composer clear-cache
   # include prestissimo which speeds up package download
   - composer global require hirak/prestissimo
+  # install beanstalk
+  - brew update
+  - brew install beanstalk
+
+install:
   # set the global github token, so connections won't be cancelled
   - composer config -g github-oauth.github.com $GITHUB_TOKEN
   # create a new database for the hyn connection
