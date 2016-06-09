@@ -10,7 +10,7 @@ set -ev
 cat /etc/default/beanstalkd | sed -e "s/#START=yes/START=yes/" > /tmp/beanstalkd
 sudo mv -f /tmp/beanstalkd /etc/default/beanstalkd
 
-sudo cat <<EOF > /etc/supervisor/conf.d/laravel-queue.conf
+cat <<EOF > /tmp/supervisor
 [program:travis-queue]
 command=php artisan queue:work default --env=testing --daemon
 process_name=travis_queue
@@ -22,6 +22,7 @@ directory=$TRAVIS_BUILD_DIR/vendor/laravel/laravel
 stdout_logfile=/var/log/queue.log
 redirect_stderr=true
 EOF
+sudo mv -f /tmp/supervisor /etc/supervisor/conf.d/laravel-queue.conf
 
 sudo service beanstalkd start
 sudo supervisorctl reread
