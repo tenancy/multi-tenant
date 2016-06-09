@@ -4,9 +4,9 @@
 # v prints every line before executing
 set -ev
 
-#
+
 # Set up supervisor and the beanstalk queue
-#
+sudo mkdir /etc/supervisor/conf.d
 sudo cat <<EOF > /etc/supervisor/conf.d/laravel-queue.conf
 [program:travis-queue]
 command=php artisan queue:work default --env=testing --daemon
