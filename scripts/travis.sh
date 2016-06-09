@@ -6,7 +6,12 @@ set -ev
 
 
 # Set up supervisor and the beanstalk queue
-sudo mkdir /etc/supervisor/conf.d
+
+#Create temporary file with new line in place
+cat /etc/default/beanstalk | sed -e "s/#START=yes/START=yes/" > /tmp/beanstalk
+#Copy the new file over the original file
+mv /tmp/beanstalk /etc/default/beanstalk
+
 sudo cat <<EOF > /etc/supervisor/conf.d/laravel-queue.conf
 [program:travis-queue]
 command=php artisan queue:work default --env=testing --daemon
@@ -20,6 +25,7 @@ stdout_logfile=/var/log/queue.log
 redirect_stderr=true
 EOF
 
+sudo service beanstalkd start
 sudo supervisorctl reread
 sudo supervisorctl update
 
