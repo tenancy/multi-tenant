@@ -143,7 +143,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @test
-     * @depends tenant_database_should_exist
+     * @depends tenant_should_exist
      * @covers  \Hyn\MultiTenant\Tenant\Directory
      */
     public function tenant_folder_should_exist()
