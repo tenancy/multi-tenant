@@ -7,10 +7,8 @@ set -ev
 
 # Set up supervisor and the beanstalk queue
 
-#Create temporary file with new line in place
-cat /etc/default/beanstalk | sed -e "s/#START=yes/START=yes/" > /tmp/beanstalk
-#Copy the new file over the original file
-mv /tmp/beanstalk /etc/default/beanstalk
+cat /etc/default/beanstalkd | sed -e "s/#START=yes/START=yes/" > /tmp/beanstalkd
+mv /tmp/beanstalkd /etc/default/beanstalkd
 
 sudo cat <<EOF > /etc/supervisor/conf.d/laravel-queue.conf
 [program:travis-queue]
