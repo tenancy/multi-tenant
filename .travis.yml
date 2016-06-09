@@ -27,7 +27,7 @@ install:
   # create a new laravel project in the subfolder laravel (default composer behaviour)
   - composer require laravel/laravel 5.2
   # set global variables
-  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=sync BUILD_DIR=$TRAVIS_BUILD_DIR
+  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=beanstalkd BUILD_DIR=$TRAVIS_BUILD_DIR
 
 script:
   # run the script calling unit tests and so on
