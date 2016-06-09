@@ -20,8 +20,7 @@ before_install:
   # include prestissimo which speeds up package download
   - composer global require hirak/prestissimo
   # install beanstalk
-  - brew update
-  - brew install beanstalk
+  - sudo apt-get install -qq --force-yes beanstalkd
 
 install:
   # set the global github token, so connections won't be cancelled
