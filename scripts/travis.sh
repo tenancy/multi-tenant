@@ -5,7 +5,7 @@
 set -ev
 
 # set symlink so it seems as if this is a factual laravel installation
-ln -s vendor vendor/laravel/laravel/vendor
+ln -s $TRAVIS_BUILD_DIR/vendor/ $TRAVIS_BUILD_DIR/vendor/laravel/laravel/vendor
 
 # Set up supervisor and the beanstalk queue
 
