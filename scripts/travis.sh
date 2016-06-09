@@ -4,6 +4,8 @@
 # v prints every line before executing
 set -ev
 
+# set symlink so it seems as if this is a factual laravel installation
+ln -s vendor/laravel/laravel/bootstrap ./bootstrap
 
 # Set up supervisor and the beanstalk queue
 
