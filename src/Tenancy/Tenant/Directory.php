@@ -182,7 +182,7 @@ class Directory implements DirectoryContract
      * Check whether a specific functionality is disabled globally.
      *
      * @param $type
-     * 
+     *
 *@return bool
      */
     protected function disallowed($type)
