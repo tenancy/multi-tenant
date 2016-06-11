@@ -13,27 +13,30 @@ class HwsSslHostnamesTable extends Migration
      */
     public function up()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_hostnames', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            // certificate id
-            $table->bigInteger('ssl_certificate_id')->unsigned();
-            // domain relation
-            $table->bigInteger('hostname_id')->unsigned();
+        if (!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_hostnames')) {
+            Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_hostnames',
+                function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    // certificate id
+                    $table->bigInteger('ssl_certificate_id')->unsigned();
+                    // domain relation
+                    $table->bigInteger('hostname_id')->unsigned();
 
-            // certificate
-            $table->string('hostname');
+                    // certificate
+                    $table->string('hostname');
 
-            // timestaps
-            $table->timestamps();
-            $table->softDeletes();
+                    // timestaps
+                    $table->timestamps();
+                    $table->softDeletes();
 
-            // index
-            $table->index('hostname');
-            $table->index('hostname_id');
-            $table->index('ssl_certificate_id');
-            // relations
-            $table->foreign('ssl_certificate_id')->references('id')->on('ssl_certificates')->onDelete('cascade');
-        });
+                    // index
+                    $table->index('hostname');
+                    $table->index('hostname_id');
+                    $table->index('ssl_certificate_id');
+                    // relations
+                    $table->foreign('ssl_certificate_id')->references('id')->on('ssl_certificates')->onDelete('cascade');
+                });
+        }
     }
 
     /**
@@ -43,6 +46,8 @@ class HwsSslHostnamesTable extends Migration
      */
     public function down()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('ssl_hostnames');
+        if (!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_hostnames')) {
+            Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('ssl_hostnames');
+        }
     }
 }
