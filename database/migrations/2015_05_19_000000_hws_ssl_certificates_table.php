@@ -13,34 +13,37 @@ class HwsSslCertificatesTable extends Migration
      */
     public function up()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_certificates', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            // tenant owner
-            $table->bigInteger('tenant_id')->unsigned();
+        if (!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_certificates')) {
+            Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_certificates',
+                function (Blueprint $table) {
+                    $table->bigIncrements('id');
+                    // tenant owner
+                    $table->bigInteger('tenant_id')->unsigned();
 
-            // certificate
-            $table->text('certificate');
-            // bundles
-            $table->text('authority_bundle');
-            // key
-            $table->text('key');
+                    // certificate
+                    $table->text('certificate');
+                    // bundles
+                    $table->text('authority_bundle');
+                    // key
+                    $table->text('key');
 
-            $table->boolean('wildcard')->default(false);
+                    $table->boolean('wildcard')->default(false);
 
-            // date when certificate becomes usable as read from certificate
-            $table->timestamp('validates_at')->nullable();
-            // date of expiry as read from certificate
-            $table->timestamp('invalidates_at')->nullable();
+                    // date when certificate becomes usable as read from certificate
+                    $table->timestamp('validates_at')->nullable();
+                    // date of expiry as read from certificate
+                    $table->timestamp('invalidates_at')->nullable();
 
-            // timestaps
-            $table->timestamps();
-            $table->softDeletes();
+                    // timestaps
+                    $table->timestamps();
+                    $table->softDeletes();
 
-            // relations
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
+                    // relations
+                    $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
 
-            // index
-        });
+                    // index
+                });
+        }
     }
 
     /**
@@ -50,6 +53,8 @@ class HwsSslCertificatesTable extends Migration
      */
     public function down()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('ssl_certificates');
+        if (Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_certificates')) {
+            Schema::connection(DatabaseConnection::systemConnectionName())->dropIfExists('ssl_certificates');
+        }
     }
 }
