@@ -4,17 +4,17 @@ namespace Hyn\MultiTenant\Contracts;
 
 use Hyn\Framework\Contracts\BaseRepositoryContract;
 
-interface TenantRepositoryContract extends BaseRepositoryContract
+interface CustomerRepositoryContract extends BaseRepositoryContract
 {
     /**
-     * Load all tenants.
+     * Load all customers.
      *
      * @return mixed
      */
     public function all();
 
     /**
-     * Removes tenant and everything related.
+     * Removes customer and everything related.
      *
      * @param $name
      *
@@ -23,11 +23,11 @@ interface TenantRepositoryContract extends BaseRepositoryContract
     public function forceDeleteByName($name);
 
     /**
-     * Find a tenant by name.
+     * Find a customer by name.
      *
      * @param $name
      *
-     * @return \Hyn\MultiTenant\Models\Tenant
+     * @return \Hyn\MultiTenant\Models\Customer
      */
     public function findByName($name);
 }

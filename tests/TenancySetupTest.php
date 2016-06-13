@@ -5,6 +5,7 @@ namespace Hyn\MultiTenant\Tests;
 use DB;
 use File;
 use Hyn\Framework\Testing\TestCase;
+use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
 use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
 use Hyn\MultiTenant\MultiTenantServiceProvider;
@@ -90,7 +91,7 @@ class TenancySetupTest extends TestCase
     public function tenant_should_exist()
     {
         /* @var \Hyn\MultiTenant\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make('Hyn\MultiTenant\Contracts\TenantRepositoryContract');
+        $this->tenant = $this->app->make(CustomerRepositoryContract::class);
         /** @var \Hyn\MultiTenant\Models\Tenant|null $tenant */
         $tenant = $this->tenant->findByName('example');
 

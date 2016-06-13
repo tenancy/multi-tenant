@@ -17,7 +17,7 @@ use Laracasts\Presenter\PresentableTrait;
  * @property Directory          $directory
  * @property DatabaseConnection $database
  * @property Collection         $hostnames
- * @property Tenant             $tenant
+ * @property Customer           $customer
  * @property string             $websiteUser
  * @property Collection         $hostnamesWithCertificate
  * @property Collection         $hostnamesWithoutCertificate
@@ -88,13 +88,13 @@ class Website extends SystemModel
     }
 
     /**
-     * The website tenant.
+     * The customer who owns this website.
      *
-     * @return Tenant
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tenant()
+    public function customer()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Customer::class);
     }
 
     /**

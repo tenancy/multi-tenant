@@ -3,13 +3,6 @@
 namespace Hyn\MultiTenant;
 
 use Hyn\MultiTenant\Helpers\TenancyRequestHelper;
-use Hyn\MultiTenant\Models\Hostname;
-use Hyn\MultiTenant\Models\Tenant;
-use Hyn\MultiTenant\Models\Website;
-use Hyn\MultiTenant\Repositories\HostnameRepository;
-use Hyn\MultiTenant\Repositories\TenantRepository;
-use Hyn\MultiTenant\Repositories\WebsiteRepository;
-use Hyn\MultiTenant\Tenant\Directory;
 use Hyn\MultiTenant\Tenant\View as TenantView;
 use View;
 
@@ -47,7 +40,9 @@ class TenancyEnvironment
         $this->setupBinds();
 
         // load hostname object or default
-        $this->hostname = TenancyRequestHelper::hostname($this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract'));
+        $this->hostname = TenancyRequestHelper::hostname(
+            $this->app->make(Contracts\HostnameRepositoryContract::class)
+        );
 
         // set website
         $this->website = ! is_null($this->hostname) ? $this->hostname->website : null;
@@ -62,11 +57,11 @@ class TenancyEnvironment
 
         // register tenant paths for website
         if (! is_null($this->website)) {
-            $this->app->make('Hyn\MultiTenant\Contracts\DirectoryContract')->registerPaths($app);
+            $this->app->make(Contracts\DirectoryContract::class)->registerPaths($app);
         }
 
         // register view shares
-        View::composer('*', 'Hyn\MultiTenant\Composers\TenantComposer');
+        View::composer('*', Composers\TenantComposer::class);
     }
 
     /**
@@ -77,22 +72,22 @@ class TenancyEnvironment
         /*
          * Tenant repository
          */
-        $this->app->bind('Hyn\MultiTenant\Contracts\TenantRepositoryContract', function () {
-            return new TenantRepository(new Tenant());
+        $this->app->bind(Contracts\CustomerRepositoryContract::class, function () {
+            return new Repositories\CustomerRepository(new Models\Customer());
         });
         /*
          * Tenant hostname repository
          */
-        $this->app->bind('Hyn\MultiTenant\Contracts\HostnameRepositoryContract', function () {
-            return new HostnameRepository(new Hostname());
+        $this->app->bind(Contracts\HostnameRepositoryContract::class, function () {
+            return new Repositories\HostnameRepository(new Models\Hostname());
         });
         /*
          * Tenant website repository
          */
-        $this->app->bind('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract', function ($app) {
-            return new WebsiteRepository(
-                new Website(),
-                $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract')
+        $this->app->bind(Contracts\WebsiteRepositoryContract::class, function ($app) {
+            return new Repositories\WebsiteRepository(
+                new Models\Website(),
+                $this->app->make(Contracts\HostnameRepositoryContract::class)
             );
         });
     }
@@ -107,8 +102,8 @@ class TenancyEnvironment
         /*
          * Tenant directory mapping and functionality
          */
-        $this->app->singleton('Hyn\MultiTenant\Contracts\DirectoryContract', function () use ($hostname) {
-            return $hostname ? new Directory($hostname->website) : null;
+        $this->app->singleton(Contracts\DirectoryContract::class, function () use ($hostname) {
+            return $hostname ? new Tenant\Directory($hostname->website) : null;
         });
 
         /*

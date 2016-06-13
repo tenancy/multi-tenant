@@ -2,11 +2,6 @@
 
 namespace Hyn\MultiTenant;
 
-use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\MigrationServiceProvider;
-use Illuminate\Database\SeedServiceProvider;
-use Illuminate\Support\ServiceProvider;
 use Hyn\MultiTenant\Commands\Migrate\InstallCommand;
 use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
 use Hyn\MultiTenant\Commands\Migrate\MigrateMakeCommand;
@@ -14,7 +9,18 @@ use Hyn\MultiTenant\Commands\Migrate\RefreshCommand;
 use Hyn\MultiTenant\Commands\Migrate\ResetCommand;
 use Hyn\MultiTenant\Commands\Migrate\RollbackCommand;
 use Hyn\MultiTenant\Commands\Migrate\StatusCommand;
+use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
 use Hyn\MultiTenant\Commands\SetupCommand;
+use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
+use Hyn\MultiTenant\Contracts\DirectoryContract;
+use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
+use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Hyn\MultiTenant\Middleware\HostnameMiddleware;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Database\MigrationServiceProvider;
+use Illuminate\Database\SeedServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
 class MultiTenantServiceProvider extends ServiceProvider
 {
@@ -46,7 +52,8 @@ class MultiTenantServiceProvider extends ServiceProvider
          * Register middleware to detect hostname and redirect if required
          */
         if (config('multi-tenant.hostname-detection-middleware')) {
-            $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware('Hyn\MultiTenant\Middleware\HostnameMiddleware');
+            $this->app->make(Kernel::class)
+                ->prependMiddleware(HostnameMiddleware::class);
         }
 
         /*
@@ -73,7 +80,29 @@ class MultiTenantServiceProvider extends ServiceProvider
     {
         Models\Website::observe(new Observers\WebsiteObserver());
         Models\Hostname::observe(new Observers\HostnameObserver());
-        Models\Tenant::observe(new Observers\TenantObserver());
+        Models\Customer::observe(new Observers\CustomerObserver());
+    }
+
+    /**
+     * Register all of the migration commands.
+     *
+     * @param $app
+     */
+    protected function registerCommands($app)
+    {
+        $this->app = $app;
+
+        $app->registerDeferredProvider(MigrationServiceProvider::class);
+        $app->registerDeferredProvider(SeedServiceProvider::class);
+
+        $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status', 'Seed'];
+
+        // We'll simply spin through the list of commands that are migration related
+        // and register each one of them with an application container. They will
+        // be resolved in the Artisan start file and registered on the console.
+        foreach ($commands as $command) {
+            $this->{'register' . $command . 'Command'}();
+        }
     }
 
     /**
@@ -88,9 +117,9 @@ class MultiTenantServiceProvider extends ServiceProvider
          */
         $this->app->bind(SetupCommand::class, function ($app) {
             return new SetupCommand(
-                $app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract'),
-                $app->make('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract'),
-                $app->make('Hyn\MultiTenant\Contracts\TenantRepositoryContract')
+                $app->make(HostnameRepositoryContract::class),
+                $app->make(WebsiteRepositoryContract::class),
+                $app->make(CustomerRepositoryContract::class)
             );
         });
 
@@ -112,32 +141,10 @@ class MultiTenantServiceProvider extends ServiceProvider
         return array_merge($this->commands, [
             'tenant.view',
             'tenant.hostname',
-            'Hyn\MultiTenant\Contracts\DirectoryContract',
-            'Hyn\MultiTenant\Contracts\WebsiteRepositoryContract',
-            'Hyn\MultiTenant\Contracts\HostnameRepositoryContract',
+            DirectoryContract::class,
+            WebsiteRepositoryContract::class,
+            HostnameRepositoryContract::class,
         ]);
-    }
-
-    /**
-     * Register all of the migration commands.
-     *
-     * @return void
-     */
-    protected function registerCommands($app)
-    {
-        $this->app = $app;
-
-        $app->registerDeferredProvider(MigrationServiceProvider::class);
-        $app->registerDeferredProvider(SeedServiceProvider::class);
-
-        $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status', 'Seed'];
-
-        // We'll simply spin through the list of commands that are migration related
-        // and register each one of them with an application container. They will
-        // be resolved in the Artisan start file and registered on the console.
-        foreach ($commands as $command) {
-            $this->{'register'.$command.'Command'}();
-        }
     }
 
     /**

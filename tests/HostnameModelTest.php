@@ -3,8 +3,8 @@
 namespace Hyn\MultiTenant\Tests;
 
 use Hyn\Framework\Testing\TestCase;
+use Hyn\MultiTenant\Models\Customer;
 use Hyn\MultiTenant\Models\Hostname;
-use Hyn\MultiTenant\Models\Tenant;
 use Hyn\MultiTenant\Models\Website;
 use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Http\RedirectResponse;
@@ -45,7 +45,7 @@ class HostnameModelTest extends TestCase
      */
     public function tenant_relation_is_correct()
     {
-        $this->assertEquals(new Tenant(), $this->hostname->tenant()->getRelated()->newInstance([]));
+        $this->assertEquals(new Customer(), $this->hostname->customer()->getRelated()->newInstance([]));
     }
 
     /**

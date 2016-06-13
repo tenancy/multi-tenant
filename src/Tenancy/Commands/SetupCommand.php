@@ -3,12 +3,16 @@
 namespace Hyn\MultiTenant\Commands;
 
 use File;
-use Hyn\Webserver\Helpers\ServerConfigurationHelper;
-use Illuminate\Console\Command;
+use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
 use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
 use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
+use Hyn\MultiTenant\Models\Customer;
+use Hyn\MultiTenant\Models\Hostname;
+use Hyn\MultiTenant\Models\Website;
 use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\Webserver\Helpers\ServerConfigurationHelper;
+use Illuminate\Console\Command;
 
 class SetupCommand extends Command
 {
@@ -16,9 +20,9 @@ class SetupCommand extends Command
      * @var string
      */
     protected $signature = 'multi-tenant:setup
-        {--tenant= : Name of the first tenant}
-        {--email= : Email address of the first tenant}
-        {--hostname= : Domain- or hostname for the first tenant website}
+        {--customer= : Name of the first customer}
+        {--email= : Email address of the first customer}
+        {--hostname= : Domain- or hostname for the first customer website}
         {--webserver= : Hook into webserver (nginx|apache|no)}';
 
     /**
@@ -40,9 +44,9 @@ class SetupCommand extends Command
      */
     protected $website;
     /**
-     * @var TenantRepositoryContract
+     * @var CustomerRepositoryContract
      */
-    protected $tenant;
+    protected $customer;
 
     /**
      * @var array
@@ -57,18 +61,18 @@ class SetupCommand extends Command
     /**
      * @param HostnameRepositoryContract $hostname
      * @param WebsiteRepositoryContract  $website
-     * @param TenantRepositoryContract   $tenant
+     * @param CustomerRepositoryContract $customer
      */
     public function __construct(
         HostnameRepositoryContract $hostname,
         WebsiteRepositoryContract $website,
-        TenantRepositoryContract $tenant
+        CustomerRepositoryContract $customer
     ) {
         parent::__construct();
 
         $this->hostname = $hostname;
         $this->website = $website;
-        $this->tenant = $tenant;
+        $this->customer = $customer;
 
         $this->helper = new ServerConfigurationHelper();
     }
@@ -80,20 +84,20 @@ class SetupCommand extends Command
     {
         $this->configuration = config('webserver');
 
-        $name = $this->option('tenant');
+        $name = $this->option('customer');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
-            $name = $this->ask('Please provide a tenant name or restart command with --tenant');
+            $name = $this->ask('Please provide a customer name or restart command with --tenant');
         }
 
         if (empty($email)) {
-            $email = $this->ask('Please provide a tenant email address or restart command with --email');
+            $email = $this->ask('Please provide a customer email address or restart command with --email');
         }
 
         if (empty($hostname)) {
-            $hostname = $this->ask('Please provide a tenant hostname or restart command with --hostname');
+            $hostname = $this->ask('Please provide a customer hostname or restart command with --hostname');
         }
 
         $this->comment('Welcome to hyn multi tenancy.');
@@ -138,16 +142,19 @@ class SetupCommand extends Command
             }
 
             // Create the first tenant configurations
-            $tenant = $this->tenant->create(compact('name', 'email'));
+            /** @var Customer $customer */
+            $customer = $this->customer->create(compact('name', 'email'));
 
             $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
 
-            $website = $this->website->create(['tenant_id' => $tenant->id, 'identifier' => $identifier]);
+            /** @var Website $website */
+            $website = $this->website->create(['tenant_id' => $customer->id, 'identifier' => $identifier]);
 
+            /** @var Hostname $host */
             $host = $this->hostname->create([
                 'hostname'   => $hostname,
                 'website_id' => $website->id,
-                'tenant_id'  => $tenant->id,
+                'tenant_id'  => $customer->id,
             ]);
 
             // hook into the webservice of choice once object creation succeeded
@@ -155,7 +162,7 @@ class SetupCommand extends Command
                 (new $webserverClass($website))->register();
             }
 
-            if ($tenant->exists && $website->exists && $host->exists) {
+            if ($customer->exists && $website->exists && $host->exists) {
                 $this->info('Configuration successful');
             }
         } else {

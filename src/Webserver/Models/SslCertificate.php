@@ -2,12 +2,12 @@
 
 namespace Hyn\Webserver\Models;
 
-use Config;
 use Cache;
+use Config;
+use Hyn\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\MultiTenant\Models\Customer;
 use Hyn\Webserver\Tools\CertificateParser;
 use Laracasts\Presenter\PresentableTrait;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
-use Hyn\MultiTenant\Models\Tenant;
 
 /**
  * Class SslCertificate.
@@ -59,9 +59,9 @@ class SslCertificate extends SystemModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tenant()
+    public function customer()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Customer::class);
     }
 
     /**
@@ -73,20 +73,21 @@ class SslCertificate extends SystemModel
     }
 
     /**
-     * @param string $postfix
-     * @return string
-     */
-    public function publishPath($postfix = 'key')
-    {
-        return sprintf('%s/%s/certificate.%s', Config::get('webserver.ssl.path'), $this->id, $postfix);
-    }
-
-    /**
      * @return string
      */
     public function getPathKeyAttribute()
     {
         return $this->publishPath('key');
+    }
+
+    /**
+     * @param string $postfix
+     * 
+*@return string
+     */
+    public function publishPath($postfix = 'key')
+    {
+        return sprintf('%s/%s/certificate.%s', Config::get('webserver.ssl.path'), $this->id, $postfix);
     }
 
     /**
