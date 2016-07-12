@@ -30,7 +30,8 @@ class FrameworkServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $packages = require __DIR__ . '/../../config/packages.php';
+        $config = require __DIR__ . '/../../config/hyn.php';
+        $packages = Arr::get($config, 'packages', []);
         if (empty($packages)) {
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
         }
