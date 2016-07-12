@@ -54,7 +54,7 @@ class Directory implements DirectoryContract
                 config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
                 $this->website->id,
                 $this->website->getOriginal('identifier'));
-            if (! File::isDirectory($this->old_path)) {
+            if (!File::isDirectory($this->old_path)) {
                 $this->old_path = null;
             }
         }
@@ -115,23 +115,23 @@ class Directory implements DirectoryContract
     public function registerPaths($app)
     {
         // only register if tenant directory exists
-        if ($this->base()) {
+        if ($this->base() && !$this->disallowed('base')) {
             /*
              * critical priority, load vendors
              */
-            if (! $this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor().'autoload.php')) {
-                File::requireOnce($this->vendor().'autoload.php');
+            if (!$this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor() . 'autoload.php')) {
+                File::requireOnce($this->vendor() . 'autoload.php');
             }
             /*
              * highest priority, load service providers; or possible custom code before any other include from tenant
              */
-            if (! $this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
+            if (!$this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
                 File::requireOnce($this->providers());
             }
             /*
              * mediocre priority, load additional config files
              */
-            if (! $this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
+            if (!$this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
                 foreach (File::allFiles($this->config()) as $path) {
                     $key = File::name($path);
                     $app['config']->set($key, array_merge($app['config']->get($key, []), File::getRequire($path)));
@@ -140,7 +140,7 @@ class Directory implements DirectoryContract
             /*
              * lowest priority load view directory
              */
-            if (! $this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
+            if (!$this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
                 $app['view']->addLocation($this->views());
             }
 
@@ -150,7 +150,7 @@ class Directory implements DirectoryContract
             }
 
             // replaces lang directory
-            if (! $this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
+            if (!$this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
                 $path = $this->lang();
 
                 $app->singleton('translation.loader', function ($app) use ($path) {
@@ -164,7 +164,7 @@ class Directory implements DirectoryContract
                 });
             }
             // identify a possible routes.php file
-            if (! $this->disallowed('routes') && $this->routes()) {
+            if (!$this->disallowed('routes') && $this->routes()) {
                 File::requireOnce($this->routes());
             }
         }
@@ -177,7 +177,7 @@ class Directory implements DirectoryContract
      *
      * @param $type
      *
-*@return bool
+     * @return bool
      */
     protected function disallowed($type)
     {
@@ -258,6 +258,11 @@ class Directory implements DirectoryContract
     public function create()
     {
         $done = 0;
+
+        if ($this->disallowed('base')) {
+            return false;
+        }
+
         foreach ($this->paths_to_create as $i => $directory) {
             if (File::isDirectory($this->{$directory}()) || File::makeDirectory($this->{$directory}(), 0755, true)) {
                 $done++;
