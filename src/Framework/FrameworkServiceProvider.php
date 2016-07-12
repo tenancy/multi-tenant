@@ -30,11 +30,10 @@ class FrameworkServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $packages = require_once __DIR__ . '/../../config/packages.php';
+        $packages = require __DIR__ . '/../../config/packages.php';
         if (empty($packages)) {
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
         }
-
         foreach ($packages as $name => $package) {
             // register service provider for package
             if (class_exists(array_get($package, 'service-provider'))) {

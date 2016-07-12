@@ -12,5 +12,5 @@ return [
     'webserver'            => [
         'description'      => 'Integration into and generation of configs for webservices',
         'service-provider' => 'Hyn\Webserver\WebserverServiceProvider',
-    ],
+    ]
 ];
