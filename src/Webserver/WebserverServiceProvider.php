@@ -4,6 +4,7 @@ namespace Hyn\Webserver;
 
 use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
 use Hyn\MultiTenant\Models\Website;
+use Hyn\Webserver\Contracts\SslRepositoryContract;
 use Hyn\Webserver\Models\SslCertificate;
 use Hyn\Webserver\Models\SslHostname;
 use Hyn\Webserver\Repositories\SslRepository;
@@ -31,11 +32,19 @@ class WebserverServiceProvider extends ServiceProvider
 
         Website::observe(new Observers\WebsiteObserver());
         SslCertificate::observe(new Observers\SslCertificateObserver());
+    }
 
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
         /*
          * Ssl repository
          */
-        $this->app->bind('Hyn\Webserver\Contracts\SslRepositoryContract', function ($app) {
+        $this->app->bind(SslRepositoryContract::class, function ($app) {
             return new SslRepository(new SslCertificate(), new SslHostname());
         });
 
@@ -50,15 +59,6 @@ class WebserverServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    }
-
-    /**
      * Get the services provided by the provider.
      *
      * @return array
@@ -67,7 +67,7 @@ class WebserverServiceProvider extends ServiceProvider
     {
         return [
             'hyn.webserver.command.toolbox',
-            'Hyn\Webserver\Contracts\SslRepositoryContract',
+            SslRepositoryContract::class,
         ];
     }
 }

@@ -18,15 +18,19 @@ class FrameworkServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /*
-         * Set configuration variables
-         */
-        $this->mergeConfigFrom(__DIR__.'/../../config/hyn.php', 'hyn');
+        $this->app->validator->resolver(function ($translator, $data, $rules, $messages) {
+            return new ExtendedValidation($translator, $data, $rules, $messages);
+        });
+    }
 
-        /*
-         * register additional service providers if they exist
-         */
-        $packages = Config::get('hyn.packages', []);
+    /**
+     * Register the service provider.
+     *
+     * @throws \Exception
+     */
+    public function register()
+    {
+        $packages = require_once __DIR__ . '/../../config/packages.php';
         if (empty($packages)) {
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
         }
@@ -37,23 +41,10 @@ class FrameworkServiceProvider extends ServiceProvider
                 $this->app->register(Arr::get($package, 'service-provider'));
             }
             // set global state
-            $this->app->bind("hyn.package.{$name}", function () use ($package) {
+            $this->app->bind("hyn.package.$name", function () use ($package) {
                 return class_exists(Arr::get($package, 'service-provider')) ? $package : false;
             });
         }
-
-        $this->app->validator->resolver(function ($translator, $data, $rules, $messages) {
-            return new ExtendedValidation($translator, $data, $rules, $messages);
-        });
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
     }
 
     /**
