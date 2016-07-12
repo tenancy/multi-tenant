@@ -14,7 +14,7 @@ class Fpm extends AbstractFileGenerator
      */
     public function generate()
     {
-        return view('webserver::webserver.fpm.configuration', [
+        return view('webserver::fpm.configuration', [
             'website'   => $this->website,
             'base_path' => base_path(),
             'user'      => $this->website->identifier,

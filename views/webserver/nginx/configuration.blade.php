@@ -13,7 +13,7 @@
 #   Hostnames with certificate
 #
 @foreach($website->hostnamesWithCertificate as $hostname)
-    @include('webserver::webserver.nginx.includes.server-block', [
+    @include('webserver::nginx.includes.server-block', [
         'hostname' => $hostname,
         'ssl' => $hostname->certificate
     ])
@@ -23,7 +23,7 @@
 #   Hostnames without certificate
 #
 @if($website->hostnamesWithoutCertificate->count() > 0)
-    @include('webserver::webserver.nginx.includes.server-block', [
+    @include('webserver::nginx.includes.server-block', [
         'hostnames' => $website->hostnamesWithoutCertificate
     ])
 @endif
