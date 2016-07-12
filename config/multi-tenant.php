@@ -50,14 +50,17 @@ return [
 
     /*
      * Specify the tenant specific functionality which should be globally disabled.
+     *
+     * If base is set to true, no tenant directories are created at all.
      */
     'disallow-for-tenant' => [
-        'config' => false,
-        'lang' => false,
-        'media' => false,
+        'base'      => false,
+        'config'    => false,
+        'lang'      => false,
+        'media'     => false,
         'providers' => false,
-        'routes' => false,
-        'vendor' => false,
-        'views' => false,
+        'routes'    => false,
+        'vendor'    => false,
+        'views'     => false,
     ],
 ];
