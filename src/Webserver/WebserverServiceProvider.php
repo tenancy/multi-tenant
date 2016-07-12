@@ -24,11 +24,13 @@ class WebserverServiceProvider extends ServiceProvider
 
         // configuration
         $this->mergeConfigFrom(__DIR__.'/../../config/webserver.php', 'webserver');
-        $this->publishes([__DIR__.'/../../config/webserver.php' => config_path('webserver.php')], 'webserver-config');
+        $this->publishes([__DIR__ . '/../../config/webserver.php' => config_path('webserver.php')],
+            'hyn-webserver-config');
         // adds views
         $this->loadViewsFrom(__DIR__ . '/../../views/webserver', 'webserver');
         // migrations
-        $this->publishes([__DIR__.'/../../database/migrations/' => database_path('/migrations')], 'migrations');
+        $this->publishes([__DIR__ . '/../../database/migrations/' => database_path('/migrations')],
+            'hyn-webserver-migrations');
 
         Website::observe(new Observers\WebsiteObserver());
         SslCertificate::observe(new Observers\SslCertificateObserver());
