@@ -18,6 +18,8 @@ class FrameworkServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->mergeConfigFrom(__DIR__ . '/../../config/hyn.php', 'hyn');
+
         $this->app->validator->resolver(function ($translator, $data, $rules, $messages) {
             return new ExtendedValidation($translator, $data, $rules, $messages);
         });
@@ -32,12 +34,14 @@ class FrameworkServiceProvider extends ServiceProvider
     {
         $config = require __DIR__ . '/../../config/hyn.php';
         $packages = Arr::get($config, 'packages', []);
+
         if (empty($packages)) {
             throw new \Exception("It seems config files are not available, hyn won't work without the configuration file");
         }
+
         foreach ($packages as $name => $package) {
             // register service provider for package
-            if (class_exists(array_get($package, 'service-provider'))) {
+            if (class_exists(Arr::get($package, 'service-provider'))) {
                 $this->app->register(Arr::get($package, 'service-provider'));
             }
             // set global state
