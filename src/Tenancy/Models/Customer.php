@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\MultiTenant\Models;
+namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -32,7 +32,7 @@ class Customer extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'Hyn\MultiTenant\Presenters\TenantPresenter';
+    protected $presenter = 'Hyn\Tenancy\Presenters\TenantPresenter';
 
     protected $fillable = ['name', 'email', 'customer_no'];
 

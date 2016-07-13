@@ -2,27 +2,27 @@
 
 namespace Hyn\MultiTenant;
 
-use Hyn\MultiTenant\Commands\Migrate\InstallCommand;
-use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
-use Hyn\MultiTenant\Commands\Migrate\MigrateMakeCommand;
-use Hyn\MultiTenant\Commands\Migrate\RefreshCommand;
-use Hyn\MultiTenant\Commands\Migrate\ResetCommand;
-use Hyn\MultiTenant\Commands\Migrate\RollbackCommand;
-use Hyn\MultiTenant\Commands\Migrate\StatusCommand;
-use Hyn\MultiTenant\Commands\Seeds\SeedCommand;
-use Hyn\MultiTenant\Commands\SetupCommand;
-use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
-use Hyn\MultiTenant\Contracts\DirectoryContract;
-use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Hyn\MultiTenant\Middleware\HostnameMiddleware;
+use Hyn\Tenancy\Commands\Migrate\InstallCommand;
+use Hyn\Tenancy\Commands\Migrate\MigrateCommand;
+use Hyn\Tenancy\Commands\Migrate\MigrateMakeCommand;
+use Hyn\Tenancy\Commands\Migrate\RefreshCommand;
+use Hyn\Tenancy\Commands\Migrate\ResetCommand;
+use Hyn\Tenancy\Commands\Migrate\RollbackCommand;
+use Hyn\Tenancy\Commands\Migrate\StatusCommand;
+use Hyn\Tenancy\Commands\Seeds\SeedCommand;
+use Hyn\Tenancy\Commands\SetupCommand;
+use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
+use Hyn\Tenancy\Contracts\DirectoryContract;
+use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
+use Hyn\Tenancy\Contracts\WebsiteRepositoryContract;
+use Hyn\Tenancy\Middleware\HostnameMiddleware;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Database\SeedServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
-class MultiTenantServiceProvider extends ServiceProvider
+class TenancyServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.

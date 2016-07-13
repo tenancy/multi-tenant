@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Contracts;
+namespace Hyn\Tenancy\Contracts;
 
 interface DirectoryContract
 {

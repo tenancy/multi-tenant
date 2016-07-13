@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Commands\Migrate;
+namespace Hyn\Tenancy\Commands\Migrate;
 
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 use PDOException;
@@ -19,7 +19,7 @@ class InstallCommand extends \Illuminate\Database\Console\Migrations\InstallComm
     {
         parent::__construct($repository);
 
-        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = app('Hyn\Tenancy\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Commands\Migrate;
+namespace Hyn\Tenancy\Commands\Migrate;
 
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {

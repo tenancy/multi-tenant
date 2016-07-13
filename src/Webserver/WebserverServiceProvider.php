@@ -2,8 +2,8 @@
 
 namespace Hyn\Webserver;
 
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Contracts\WebsiteRepositoryContract;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Webserver\Contracts\SslRepositoryContract;
 use Hyn\Webserver\Models\SslCertificate;
 use Hyn\Webserver\Models\SslHostname;

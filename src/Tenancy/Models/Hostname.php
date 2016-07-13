@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\MultiTenant\Models;
+namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
 use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -35,7 +35,7 @@ class Hostname extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'Hyn\MultiTenant\Presenters\HostnamePresenter';
+    protected $presenter = 'Hyn\Tenancy\Presenters\HostnamePresenter';
 
     /**
      * @var array

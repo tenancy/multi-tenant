@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Contracts;
+namespace Hyn\Tenancy\Contracts;
 
 use Hyn\Framework\Contracts\BaseRepositoryContract;
 
@@ -27,7 +27,7 @@ interface CustomerRepositoryContract extends BaseRepositoryContract
      *
      * @param $name
      *
-     * @return \Hyn\MultiTenant\Models\Customer
+     * @return \Hyn\Tenancy\Models\Customer
      */
     public function findByName($name);
 }

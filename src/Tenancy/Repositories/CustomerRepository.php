@@ -1,14 +1,14 @@
 <?php
 
-namespace Hyn\MultiTenant\Repositories;
+namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Framework\Repositories\BaseRepository;
-use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
+use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
 
 class CustomerRepository extends BaseRepository implements CustomerRepositoryContract
 {
     /**
-     * @var \Hyn\MultiTenant\Models\Customer
+     * @var \Hyn\Tenancy\Models\Customer
      */
     protected $customer;
 
@@ -17,7 +17,7 @@ class CustomerRepository extends BaseRepository implements CustomerRepositoryCon
      *
      * @param $name
      *
-     * @return \Hyn\MultiTenant\Models\Costumer
+     * @return \Hyn\Tenancy\Models\Costumer
      */
     public function findByName($name)
     {

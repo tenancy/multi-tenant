@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Models;
+namespace Hyn\Tenancy\Models;
 
 /**
  * @deprecated Use Customer

@@ -1,18 +1,18 @@
 <?php
 
-namespace Hyn\MultiTenant\Tests;
+namespace Hyn\Tenancy\Tests;
 
 use Hyn\Framework\Testing\TestCase;
-use Hyn\MultiTenant\Models\Customer;
-use Hyn\MultiTenant\Models\Hostname;
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Http\RedirectResponse;
 
 /**
  * Class HostnameModelTest.
  *
- * @coversDefaultClass \Hyn\MultiTenant\Models\Hostname
+ * @coversDefaultClass \Hyn\Tenancy\Models\Hostname
  */
 class HostnameModelTest extends TestCase
 {
@@ -104,7 +104,7 @@ class HostnameModelTest extends TestCase
 
     /**
      * @test
-     * @covers \Hyn\MultiTenant\Presenters\HostnamePresenter
+     * @covers \Hyn\Tenancy\Presenters\HostnamePresenter
      * @covers ::present
      */
     public function has_a_working_presenter()

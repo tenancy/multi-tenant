@@ -1,10 +1,10 @@
 <?php
 
-namespace Hyn\MultiTenant\Tenant;
+namespace Hyn\Tenancy\Tenant;
 
 use File;
-use Hyn\MultiTenant\Contracts\DirectoryContract;
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Contracts\DirectoryContract;
+use Hyn\Tenancy\Models\Website;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 

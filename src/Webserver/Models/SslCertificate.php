@@ -4,8 +4,8 @@ namespace Hyn\Webserver\Models;
 
 use Cache;
 use Config;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
-use Hyn\MultiTenant\Models\Customer;
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
+use Hyn\Tenancy\Models\Customer;
 use Hyn\Webserver\Tools\CertificateParser;
 use Laracasts\Presenter\PresentableTrait;
 

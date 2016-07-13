@@ -33,7 +33,7 @@ class WebserverCommand extends AbstractRootCommand
     {
         parent::__construct();
 
-        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract')->findById($website_id);
+        $this->website = app('Hyn\Tenancy\Contracts\WebsiteRepositoryContract')->findById($website_id);
         $this->action = $action;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Tenant;
+namespace Hyn\Tenancy\Tenant;
 
 use Illuminate\Support\Collection;
 

@@ -2,7 +2,7 @@
 
 namespace Hyn\Webserver\Generators\Database;
 
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Webserver\Abstracts\AbstractGenerator;
 
 class Database extends AbstractGenerator

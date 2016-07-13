@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\MultiTenant\Abstracts\Models;
+namespace Hyn\Tenancy\Abstracts\Models;
 
 use Hyn\Framework\Models\AbstractModel;
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
 
 class TenantModel extends AbstractModel
 {

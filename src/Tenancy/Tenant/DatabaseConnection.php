@@ -1,11 +1,11 @@
 <?php
 
-namespace Hyn\MultiTenant\Tenant;
+namespace Hyn\Tenancy\Tenant;
 
 use Config;
 use DB;
 use Hyn\Framework\Exceptions\TenantDatabaseException;
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Models\Website;
 
 /**
  * Class DatabaseConnection.
@@ -25,7 +25,16 @@ class DatabaseConnection
      * to use prefixed table in same database.
      */
     const TENANT_MODE_TABLE_PREFIX = 'prefix';
-
+    /**
+     * Current active global tenant connection.
+     *
+     * @var string
+     */
+    protected static $current;
+    /**
+     * @var string
+     */
+    public $name;
     /**
      * @var Website
      */
@@ -35,18 +44,6 @@ class DatabaseConnection
      */
     protected $connection;
 
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * Current active global tenant connection.
-     *
-     * @var string
-     */
-    protected static $current;
-
     public function __construct(Website $website)
     {
         $this->website = $website;
@@ -54,6 +51,48 @@ class DatabaseConnection
         $this->name = "tenant.{$this->website->id}";
 
         $this->setup();
+    }
+
+    /**
+     * Sets the tenant database connection.
+     */
+    public function setup()
+    {
+        Config::set("database.connections.{$this->name}", $this->config());
+    }
+
+    /**
+     * Generic configuration for tenant.
+     *
+     * @return array
+     * @throws TenantDatabaseException
+     * @throws \Laracasts\Presenter\Exceptions\PresenterException
+     */
+    protected function config()
+    {
+        $clone = Config::get(sprintf('database.connections.%s', static::systemConnectionName()));
+
+        if (Config::get('multi-tenant.db.tenant-division-mode') == static::TENANT_MODE_SEPARATE_DATABASE) {
+            $clone['password'] = md5(Config::get('app.key') . $this->website->id);
+            $clone['username'] = $clone['database'] = sprintf('%d-%s', $this->website->id,
+                $this->website->present()->identifier);
+        } elseif (Config::get('multi-tenant.db.tenant-division-mode') == static::TENANT_MODE_TABLE_PREFIX) {
+            $clone['prefix'] = sprintf('t%d_', $this->website->id);
+        } else {
+            throw new TenantDatabaseException('Unknown database division mode configured in the multi-tenant configuration file.');
+        }
+
+        return $clone;
+    }
+
+    /**
+     * Central getter for system connection name.
+     *
+     * @return string
+     */
+    public static function systemConnectionName()
+    {
+        return Config::get('multi-tenant.db.system-connection-name', 'hyn');
     }
 
     /**
@@ -67,6 +106,16 @@ class DatabaseConnection
     }
 
     /**
+     * Loads the currently set global tenant connection name.
+     *
+     * @return string
+     */
+    public static function getCurrent()
+    {
+        return static::$current;
+    }
+
+    /**
      * Sets current global tenant connection.
      */
     public function setCurrent()
@@ -77,13 +126,13 @@ class DatabaseConnection
     }
 
     /**
-     * Loads the currently set global tenant connection name.
+     * Central getter for tenant connection name.
      *
      * @return string
      */
-    public static function getCurrent()
+    public static function tenantConnectionName()
     {
-        return static::$current;
+        return Config::get('multi-tenant.db.tenant-connection-name', 'tenant');
     }
 
     /**
@@ -99,38 +148,6 @@ class DatabaseConnection
         }
 
         return $this->connection;
-    }
-
-    /**
-     * Generic configuration for tenant.
-     *
-     * @return array
-     * @throws TenantDatabaseException
-     * @throws \Laracasts\Presenter\Exceptions\PresenterException
-     */
-    protected function config()
-    {
-        $clone = Config::get(sprintf('database.connections.%s', static::systemConnectionName()));
-
-        if (Config::get('multi-tenant.db.tenant-division-mode') == static::TENANT_MODE_SEPARATE_DATABASE) {
-            $clone['password'] = md5(Config::get('app.key').$this->website->id);
-            $clone['username'] = $clone['database'] = sprintf('%d-%s', $this->website->id,
-                $this->website->present()->identifier);
-        } elseif (Config::get('multi-tenant.db.tenant-division-mode') == static::TENANT_MODE_TABLE_PREFIX) {
-            $clone['prefix'] = sprintf('t%d_', $this->website->id);
-        } else {
-            throw new TenantDatabaseException('Unknown database division mode configured in the multi-tenant configuration file.');
-        }
-
-        return $clone;
-    }
-
-    /**
-     * Sets the tenant database connection.
-     */
-    public function setup()
-    {
-        Config::set("database.connections.{$this->name}", $this->config());
     }
 
     /**
@@ -182,25 +199,5 @@ class DatabaseConnection
 
             return true;
         });
-    }
-
-    /**
-     * Central getter for system connection name.
-     *
-     * @return string
-     */
-    public static function systemConnectionName()
-    {
-        return Config::get('multi-tenant.db.system-connection-name', 'hyn');
-    }
-
-    /**
-     * Central getter for tenant connection name.
-     *
-     * @return string
-     */
-    public static function tenantConnectionName()
-    {
-        return Config::get('multi-tenant.db.tenant-connection-name', 'tenant');
     }
 }

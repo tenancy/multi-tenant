@@ -2,8 +2,8 @@
 
 namespace Hyn\MultiTenant;
 
-use Hyn\MultiTenant\Helpers\TenancyRequestHelper;
-use Hyn\MultiTenant\Tenant\View as TenantView;
+use Hyn\Tenancy\Helpers\TenancyRequestHelper;
+use Hyn\Tenancy\Tenant\View as TenantView;
 use View;
 
 /**
@@ -19,12 +19,12 @@ class TenancyEnvironment
     protected $app;
 
     /**
-     * @var \Hyn\MultiTenant\Models\Hostname
+     * @var \Hyn\Tenancy\Models\Hostname
      */
     protected $hostname;
 
     /**
-     * @var \Hyn\MultiTenant\Models\Website
+     * @var \Hyn\Tenancy\Models\Website
      */
     protected $website;
 

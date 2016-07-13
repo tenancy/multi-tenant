@@ -1,15 +1,15 @@
 <?php
 
-namespace Hyn\MultiTenant\Commands\Seeds;
+namespace Hyn\Tenancy\Commands\Seeds;
 
-use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
+use Hyn\Tenancy\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
     use TenantDatabaseCommandTrait;
     /**
-     * @var \Hyn\MultiTenant\Contracts\WebsiteRepositoryContract
+     * @var \Hyn\Tenancy\Contracts\WebsiteRepositoryContract
      */
     protected $website;
 
@@ -21,7 +21,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
     public function __construct(Resolver $resolver)
     {
         parent::__construct($resolver);
-        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = app('Hyn\Tenancy\Contracts\WebsiteRepositoryContract');
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Hyn\MultiTenant\Observers;
+namespace Hyn\Tenancy\Observers;
 
-use Hyn\MultiTenant\Models\Customer;
+use Hyn\Tenancy\Models\Customer;
 
 class CustomerObserver
 {

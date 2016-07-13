@@ -1,8 +1,8 @@
 <?php
 
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
-use Illuminate\Database\Schema\Blueprint;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class RenameTenantsToCustomers extends Migration

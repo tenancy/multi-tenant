@@ -2,8 +2,8 @@
 
 namespace Hyn\Webserver\Generators\Unix;
 
+use Hyn\Tenancy\Models\Website;
 use Hyn\Webserver\Generators\AbstractUserGenerator;
-use Hyn\MultiTenant\Models\Website;
 
 class WebsiteUser extends AbstractUserGenerator
 {
@@ -21,21 +21,6 @@ class WebsiteUser extends AbstractUserGenerator
     }
 
     /**
-     * Creates the user on the service.
-     *
-     * @return bool
-     */
-    public function onCreate()
-    {
-        if (! $this->exists() && $this->name()) {
-            return exec(sprintf('adduser %s --home %s --ingroup %s --no-create-home --disabled-password --disabled-login --gecos "" --shell /bin/false',
-                $this->name(),
-                base_path(),
-                config('webserver.group')));
-        }
-    }
-
-    /**
      * @return bool
      */
     public function onUpdate()
@@ -48,14 +33,16 @@ class WebsiteUser extends AbstractUserGenerator
     }
 
     /**
-     * Removes the user from the service.
+     * Tests whether a user exists.
      *
      * @return bool
      */
-    public function onDelete()
+    public function exists()
     {
-        if ($this->exists() && $this->name()) {
-            return exec(sprintf('deluser %s', $this->name()));
+        if ($this->name()) {
+            exec(sprintf('getent passwd %s', $this->name()), $out);
+
+            return count($out) > 0;
         }
     }
 
@@ -67,6 +54,21 @@ class WebsiteUser extends AbstractUserGenerator
     public function name()
     {
         return $this->website->websiteUser;
+    }
+
+    /**
+     * Creates the user on the service.
+     *
+     * @return bool
+     */
+    public function onCreate()
+    {
+        if (!$this->exists() && $this->name()) {
+            return exec(sprintf('adduser %s --home %s --ingroup %s --no-create-home --disabled-password --disabled-login --gecos "" --shell /bin/false',
+                $this->name(),
+                base_path(),
+                config('webserver.group')));
+        }
     }
 
     /**
@@ -82,16 +84,14 @@ class WebsiteUser extends AbstractUserGenerator
     }
 
     /**
-     * Tests whether a user exists.
+     * Removes the user from the service.
      *
      * @return bool
      */
-    public function exists()
+    public function onDelete()
     {
-        if ($this->name()) {
-            exec(sprintf('getent passwd %s', $this->name()), $out);
-
-            return count($out) > 0;
+        if ($this->exists() && $this->name()) {
+            return exec(sprintf('deluser %s', $this->name()));
         }
     }
 }

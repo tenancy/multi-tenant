@@ -1,10 +1,10 @@
 <?php
 
-namespace Hyn\MultiTenant\Tests;
+namespace Hyn\Tenancy\Tests;
 
 use Hyn\Framework\Testing\TestCase;
+use Hyn\Tenancy\Commands\Migrate\MigrateCommand;
 use Illuminate\Database\Console\Migrations\MigrateCommand as IlluminateMigrateCommand;
-use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
 
 /**
  * Class MigrationCommandOverruledTest.
@@ -12,7 +12,7 @@ use Hyn\MultiTenant\Commands\Migrate\MigrateCommand;
 class MigrationCommandOverruledTest extends TestCase
 {
     /**
-     * @covers \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers \Hyn\Tenancy\Commands\Migrate\MigrateCommand
      */
     public function testMigrateCommand()
     {

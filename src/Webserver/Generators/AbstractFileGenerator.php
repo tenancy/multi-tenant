@@ -3,8 +3,8 @@
 namespace Hyn\Webserver\Generators;
 
 use File;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Webserver\Abstracts\AbstractGenerator;
-use Hyn\MultiTenant\Models\Website;
 use ReflectionClass;
 
 abstract class AbstractFileGenerator extends AbstractGenerator
@@ -20,25 +20,6 @@ abstract class AbstractFileGenerator extends AbstractGenerator
     public function __construct(Website $website)
     {
         $this->website = $website;
-    }
-
-    /**
-     * Writes the contents to disk on Creation.
-     *
-     * @return int
-     */
-    public function onCreate()
-    {
-        // take no action with no hostnames
-        if ($this->website->hostnames->count() == 0) {
-            return;
-        }
-
-        return File::put(
-            $this->publishPath(),
-            $this->generate()->render(),
-            true
-        ) && $this->serviceReload();
     }
 
     /**
@@ -62,17 +43,6 @@ abstract class AbstractFileGenerator extends AbstractGenerator
     }
 
     /**
-     * @param string $from
-     * @param string $to
-     *
-     * @return void
-     */
-    public function onRename($from, $to)
-    {
-        // .. no implementation
-    }
-
-    /**
      * Action when deleting the Website.
      *
      * @return bool
@@ -81,23 +51,6 @@ abstract class AbstractFileGenerator extends AbstractGenerator
     {
         return File::delete($this->publishPath()) && $this->serviceReload();
     }
-
-    /**
-     * The filename.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return sprintf('%d-%s', $this->website->id, $this->website->identifier);
-    }
-
-    /**
-     * Generates the content.
-     *
-     * @return \Illuminate\View\View
-     */
-    abstract public function generate();
 
     /**
      * Provides the complete path to publish the generated content to.
@@ -129,13 +82,15 @@ abstract class AbstractFileGenerator extends AbstractGenerator
     }
 
     /**
-     * @return string
+     * tests whether a certain service is installed.
+     *
+     * @return bool
      */
-    protected function baseName()
+    public function isInstalled()
     {
-        $reflect = new ReflectionClass($this);
+        $service = array_get($this->configuration(), 'service');
 
-        return strtolower($reflect->getShortName());
+        return $service && File::exists($service);
     }
 
     /**
@@ -156,15 +111,60 @@ abstract class AbstractFileGenerator extends AbstractGenerator
     }
 
     /**
-     * tests whether a certain service is installed.
-     *
-     * @return bool
+     * @return string
      */
-    public function isInstalled()
+    protected function baseName()
     {
-        $service = array_get($this->configuration(), 'service');
+        $reflect = new ReflectionClass($this);
 
-        return $service && File::exists($service);
+        return strtolower($reflect->getShortName());
+    }
+
+    /**
+     * Writes the contents to disk on Creation.
+     *
+     * @return int
+     */
+    public function onCreate()
+    {
+        // take no action with no hostnames
+        if ($this->website->hostnames->count() == 0) {
+            return;
+        }
+
+        return File::put(
+            $this->publishPath(),
+            $this->generate()->render(),
+            true
+        ) && $this->serviceReload();
+    }
+
+    /**
+     * Generates the content.
+     *
+     * @return \Illuminate\View\View
+     */
+    abstract public function generate();
+
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return void
+     */
+    public function onRename($from, $to)
+    {
+        // .. no implementation
+    }
+
+    /**
+     * The filename.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return sprintf('%d-%s', $this->website->id, $this->website->identifier);
     }
 
     /**

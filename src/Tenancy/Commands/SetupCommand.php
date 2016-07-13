@@ -1,16 +1,16 @@
 <?php
 
-namespace Hyn\MultiTenant\Commands;
+namespace Hyn\Tenancy\Commands;
 
 use File;
-use Hyn\MultiTenant\Contracts\CustomerRepositoryContract;
-use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
-use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Hyn\MultiTenant\Models\Customer;
-use Hyn\MultiTenant\Models\Hostname;
-use Hyn\MultiTenant\Models\Website;
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
+use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
+use Hyn\Tenancy\Contracts\TenantRepositoryContract;
+use Hyn\Tenancy\Contracts\WebsiteRepositoryContract;
+use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
 use Hyn\Webserver\Helpers\ServerConfigurationHelper;
 use Illuminate\Console\Command;
 

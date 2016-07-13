@@ -1,8 +1,8 @@
 <?php
 
-namespace Hyn\MultiTenant\Observers;
+namespace Hyn\Tenancy\Observers;
 
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Models\Website;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class WebsiteObserver

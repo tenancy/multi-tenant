@@ -1,11 +1,11 @@
 <?php
 
-namespace Hyn\MultiTenant\Models;
+namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
-use Hyn\MultiTenant\Tenant\Directory;
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
+use Hyn\Tenancy\Tenant\Directory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
@@ -31,7 +31,7 @@ class Website extends SystemModel
     use PresentableTrait,
         SoftDeletes;
 
-    protected $presenter = 'Hyn\MultiTenant\Presenters\WebsitePresenter';
+    protected $presenter = 'Hyn\Tenancy\Presenters\WebsitePresenter';
 
     protected $fillable = ['tenant_id', 'identifier'];
 

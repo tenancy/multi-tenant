@@ -1,16 +1,16 @@
 <?php
 
-namespace Hyn\MultiTenant\Tests;
+namespace Hyn\Tenancy\Tests;
 
 use Hyn\Framework\Testing\TestCase;
-use Hyn\MultiTenant\Models\Customer;
-use Hyn\MultiTenant\Models\Hostname;
-use Hyn\MultiTenant\Models\Website;
+use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 
 /**
  * Class TenantModeltest.
  *
- * @coversDefaultClass \Hyn\MultiTenant\Models\Tenant
+ * @coversDefaultClass \Hyn\Tenancy\Models\Tenant
  */
 class TenantModelTest extends TestCase
 {
@@ -70,7 +70,7 @@ class TenantModelTest extends TestCase
 
     /**
      * @test
-     * @covers \Hyn\MultiTenant\Presenters\TenantPresenter
+     * @covers \Hyn\Tenancy\Presenters\TenantPresenter
      * @covers ::present
      */
     public function has_a_working_presenter()

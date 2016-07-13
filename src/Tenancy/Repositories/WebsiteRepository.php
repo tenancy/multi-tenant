@@ -1,27 +1,27 @@
 <?php
 
-namespace Hyn\MultiTenant\Repositories;
+namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Framework\Repositories\BaseRepository;
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
-use Hyn\MultiTenant\Models\Hostname;
+use Hyn\Tenancy\Contracts\WebsiteRepositoryContract;
+use Hyn\Tenancy\Models\Hostname;
 
 class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContract
 {
     /**
-     * @var \Hyn\MultiTenant\Models\Website
+     * @var \Hyn\Tenancy\Models\Website
      */
     protected $website;
 
     /**
-     * @var \Hyn\MultiTenant\Contracts\HostnameRepositoryContract
+     * @var \Hyn\Tenancy\Contracts\HostnameRepositoryContract
      */
     protected $hostname;
 
     /**
      * @param Hostname $hostname
      *
-     * @return \Hyn\MultiTenant\Models\Website
+     * @return \Hyn\Tenancy\Models\Website
      */
     public function findByHostname(Hostname $hostname)
     {
@@ -31,7 +31,7 @@ class WebsiteRepository extends BaseRepository implements WebsiteRepositoryContr
     /**
      * Return default website.
      *
-     * @return \Hyn\MultiTenant\Models\Website
+     * @return \Hyn\Tenancy\Models\Website
      */
     public function getDefault()
     {
