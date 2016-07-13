@@ -30,9 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hyn\\Framework\\": "src/Framework/",
-          "Hyn\\Tenancy\\": "src/Tenancy/",
-            "Hyn\\Webserver\\": "src/Webserver/"
+          "Hyn\\": "src/"
         }
     },
     "autoload-dev": {

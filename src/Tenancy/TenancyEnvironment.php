@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant;
+namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Helpers\TenancyRequestHelper;
 use Hyn\Tenancy\Tenant\View as TenantView;

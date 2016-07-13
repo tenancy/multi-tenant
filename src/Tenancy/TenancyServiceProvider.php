@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant;
+namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Commands\Migrate\InstallCommand;
 use Hyn\Tenancy\Commands\Migrate\MigrateCommand;
