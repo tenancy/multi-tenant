@@ -11,31 +11,45 @@ use Validator;
 abstract class AbstractValidator
 {
     /**
-     * @param AbstractModel $model
+     * Parses requests to the controller for interactions with models.
      *
-     * @return bool
+     * @param AbstractModel $model
+     * @param null|string   $redirect
+     *
+     * @return $this|bool|AbstractModel|null
      */
-    public function create(AbstractModel $model)
+    public function catchFormRequest(AbstractModel $model, string $redirect = null)
     {
-        if (is_null($this->rules)) {
+        // use abstract validator
+        if (Request::method() != 'GET') {
+            switch (Request::method()) {
+
+                case 'POST':
+                case 'UPDATE':
+                    $model = $model->exists ? $this->updating($model) : $this->create($model);
+                    $action = 'save';
+                    break;
+                case 'DELETE':
+                    $model = $this->deleting($model);
+                    $action = 'delete';
+                    break;
+                case 'HEAD':
+                    $action = 'touch';
+                    break;
+                default:
+                    return false;
+            }
+
+            if ($model instanceof \Illuminate\Validation\Validator) {
+                return redirect()->back()->withErrors($model->errors())->withInput();
+            }
+
+            $model->{$action}();
+
+            return $redirect ? $redirect : true;
+        } else {
             return false;
         }
-        // replicate the model if it exists
-        if ($model->exists) {
-            $model = $model->replicate(['id']);
-        }
-
-        $values = $this->parseRequestValues($model);
-
-        $validator = $this->make($values, $this->rules, $model);
-
-        if ($validator->fails()) {
-            return $validator;
-        }
-
-        $model->fill($values);
-
-        return $model;
     }
 
     /**
@@ -78,37 +92,54 @@ abstract class AbstractValidator
     /**
      * @param AbstractModel $model
      *
-     * @return AbstractModel|\Illuminate\Validation\Validator
+     * @return bool
      */
-    public function deleting(AbstractModel $model)
+    public function create(AbstractModel $model)
     {
+        if (is_null($this->rules)) {
+            return false;
+        }
+        // replicate the model if it exists
+        if ($model->exists) {
+            $model = $model->replicate(['id']);
+        }
+
         $values = $this->parseRequestValues($model);
 
-        $values = array_merge($values, ['id' => $model->id]);
-
-        $validator = $this->make($values, [
-            'id'      => ["exists:{$model->getTable()},id", 'required', 'numeric', 'min:1'],
-            'confirm' => ['required', 'boolean', 'accepted'],
-        ], $model);
+        $validator = $this->make($values, $this->rules, $model);
 
         if ($validator->fails()) {
             return $validator;
         }
 
-        $model->delete();
+        $model->fill($values);
 
         return $model;
     }
 
     /**
+     * Parses request values, without the token.
+     *
+     * @param AbstractModel $model
+     * @return array
+     */
+    protected function parseRequestValues(AbstractModel $model)
+    {
+        $values = array_merge($model->getAttributes(), Input::all());
+
+        return array_except($values, ['_token']);
+    }
+
+    /**
      * Loads a validator object.
      *
-     * @param $values
-     * @param $rules
-     * @param $model
-     * @return \Illuminate\Validation\Validator
+     * @param array         $values
+     * @param array         $rules
+     * @param AbstractModel $model
+     * 
+*@return \Illuminate\Validation\Validator
      */
-    protected function make($values, $rules, $model)
+    protected function make(array $values = [], array $rules = [], AbstractModel $model)
     {
         foreach ($rules as $attribute => &$ruleset) {
             foreach ($ruleset as &$rule) {
@@ -129,57 +160,27 @@ abstract class AbstractValidator
     }
 
     /**
-     * Parses request values, without the token.
-     *
-     * @param AbstractModel $model
-     * @return array
-     */
-    protected function parseRequestValues(AbstractModel $model)
-    {
-        $values = array_merge($model->getAttributes(), Input::all());
-
-        return array_except($values, ['_token']);
-    }
-
-    /**
-     * Parses requests to the controller for interactions with models.
-     *
      * @param AbstractModel $model
      *
-     * @param null          $redirect
-     * @return $this|bool|AbstractModel|null
+     * @return AbstractModel|\Illuminate\Validation\Validator
      */
-    public function catchFormRequest(AbstractModel $model, $redirect = null)
+    public function deleting(AbstractModel $model)
     {
-        // use abstract validator
-        if (Request::method() != 'GET') {
-            switch (Request::method()) {
+        $values = $this->parseRequestValues($model);
 
-                case 'POST':
-                case 'UPDATE':
-                    $model = $model->exists ? $this->updating($model) : $this->create($model);
-                    $action = 'save';
-                    break;
-                case 'DELETE':
-                    $model = $this->deleting($model);
-                    $action = 'delete';
-                    break;
-                case 'HEAD':
-                    $action = 'touch';
-                    break;
-                default:
-                    return false;
-            }
+        $values = array_merge($values, ['id' => $model->id]);
 
-            if ($model instanceof \Illuminate\Validation\Validator) {
-                return redirect()->back()->withErrors($model->errors())->withInput();
-            }
+        $validator = $this->make($values, [
+            'id'      => ["exists:{$model->getTable()},id", 'required', 'numeric', 'min:1'],
+            'confirm' => ['required', 'boolean', 'accepted'],
+        ], $model);
 
-            $model->{$action}();
-
-            return $redirect ? $redirect : true;
-        } else {
-            return false;
+        if ($validator->fails()) {
+            return $validator;
         }
+
+        $model->delete();
+
+        return $model;
     }
 }
