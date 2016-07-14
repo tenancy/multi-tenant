@@ -64,7 +64,7 @@ abstract class AbstractValidator
         }
 
         // if not yet existing, forward to create method
-        if (! $model->exists) {
+        if (!$model->exists) {
             return $this->create($model);
         }
 
@@ -121,6 +121,7 @@ abstract class AbstractValidator
      * Parses request values, without the token.
      *
      * @param AbstractModel $model
+     *
      * @return array
      */
     protected function parseRequestValues(AbstractModel $model)
@@ -136,8 +137,8 @@ abstract class AbstractValidator
      * @param array         $values
      * @param array         $rules
      * @param AbstractModel $model
-     * 
-*@return \Illuminate\Validation\Validator
+     *
+     * @return \Illuminate\Validation\Validator
      */
     protected function make(array $values = [], array $rules = [], AbstractModel $model)
     {
