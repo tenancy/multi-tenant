@@ -136,7 +136,7 @@ abstract class AbstractValidator
      * @param array         $values
      * @param array         $rules
      * @param AbstractModel $model
-     * 
+     *
 *@return \Illuminate\Validation\Validator
      */
     protected function make(array $values = [], array $rules = [], AbstractModel $model)
