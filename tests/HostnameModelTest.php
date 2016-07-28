@@ -41,7 +41,7 @@ class HostnameModelTest extends TestCase
 
     /**
      * @test
-     * @covers ::tenant
+     * @covers ::customer
      */
     public function tenant_relation_is_correct()
     {

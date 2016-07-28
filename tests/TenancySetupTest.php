@@ -9,6 +9,7 @@ use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
 use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
 use Hyn\Tenancy\Contracts\TenantRepositoryContract;
 use Hyn\Tenancy\MultiTenantServiceProvider;
+use Hyn\Tenancy\TenancyServiceProvider;
 use Hyn\Tenancy\Tenant\DatabaseConnection;
 use Hyn\Tests\Seeds\TestTenantSeeder;
 use Illuminate\Database\Connection;
@@ -27,7 +28,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\MultiTenantServiceProvider
+     * @covers \Hyn\Tenancy\TenancyServiceProvider
      * @covers \Hyn\Framework\FrameworkServiceProvider
      * @covers \Hyn\Webserver\WebserverServiceProvider
      */
@@ -43,7 +44,7 @@ class TenancySetupTest extends TestCase
         );
 
         $this->assertTrue(
-            in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()),
+            in_array(TenancyServiceProvider::class, $this->app->getLoadedProviders()),
             'MultiTenantService provider is not loaded in Laravel'
         );
         $this->assertTrue($this->app->isBooted());
@@ -85,7 +86,7 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends can_succesfully_run_tenant_setup_command
-     * @covers  \Hyn\Tenancy\Repositories\TenantRepository::findByName
+     * @covers  \Hyn\Tenancy\Repositories\CustomerRepository::findByName
      * @covers  \Hyn\Tenancy\Contracts\TenantRepositoryContract::findByName
      */
     public function tenant_should_exist()
