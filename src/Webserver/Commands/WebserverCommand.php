@@ -33,7 +33,7 @@ class WebserverCommand extends AbstractRootCommand
     {
         parent::__construct();
 
-        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract')->findById($website_id);
+        $this->website = app('Hyn\Tenancy\Contracts\WebsiteRepositoryContract')->findById($website_id);
         $this->action = $action;
     }
 
@@ -55,9 +55,13 @@ class WebserverCommand extends AbstractRootCommand
         }
 
         (new WebsiteUser($this->website))->{$action}();
+
+        // Php fpm
+        (new Fpm($this->website))->{$action}();
+
+        // Webservers
         (new Apache($this->website))->{$action}();
         (new Nginx($this->website))->{$action}();
-        (new Fpm($this->website))->{$action}();
 
         (new Database($this->website))->{$action}();
     }

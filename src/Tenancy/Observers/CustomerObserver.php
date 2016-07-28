@@ -1,12 +1,12 @@
 <?php
 
-namespace Hyn\MultiTenant\Observers;
+namespace Hyn\Tenancy\Observers;
 
-use Hyn\MultiTenant\Models\Tenant;
+use Hyn\Tenancy\Models\Customer;
 
-class TenantObserver
+class CustomerObserver
 {
-    public function deleting(Tenant $model)
+    public function deleting(Customer $model)
     {
         foreach ($model->hostnames as $hostname) {
             $hostname->delete();

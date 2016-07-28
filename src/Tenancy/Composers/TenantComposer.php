@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Composers;
+namespace Hyn\Tenancy\Composers;
 
 use Illuminate\Contracts\View\View;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Presenters;
+namespace Hyn\Tenancy\Presenters;
 
 use Hyn\Framework\Presenters\AbstractModelPresenter;
 

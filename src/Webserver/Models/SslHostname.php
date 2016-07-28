@@ -2,8 +2,8 @@
 
 namespace Hyn\Webserver\Models;
 
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
 use Laracasts\Presenter\PresentableTrait;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
 
 class SslHostname extends SystemModel
 {

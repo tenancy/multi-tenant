@@ -1,13 +1,13 @@
 <?php
 
-namespace Hyn\MultiTenant\Observers;
+namespace Hyn\Tenancy\Observers;
 
-use Hyn\MultiTenant\Models\Hostname;
+use Hyn\Tenancy\Models\Hostname;
 
 class HostnameObserver
 {
     /**
-     * @param \Hyn\MultiTenant\Models\Hostname $model
+     * @param \Hyn\Tenancy\Models\Hostname $model
      */
     public function saved(Hostname $model)
     {

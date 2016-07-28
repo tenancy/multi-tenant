@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Contracts;
+namespace Hyn\Tenancy\Contracts;
 
 use Hyn\Framework\Contracts\BaseRepositoryContract;
 
@@ -9,12 +9,12 @@ interface HostnameRepositoryContract extends BaseRepositoryContract
     /**
      * @param $hostname
      *
-     * @return \Hyn\MultiTenant\Models\Hostname
+     * @return \Hyn\Tenancy\Models\Hostname
      */
     public function findByHostname($hostname);
 
     /**
-     * @return \Hyn\MultiTenant\Models\Hostname
+     * @return \Hyn\Tenancy\Models\Hostname
      */
     public function getDefault();
 }

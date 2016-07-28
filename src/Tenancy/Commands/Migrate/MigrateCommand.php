@@ -1,8 +1,8 @@
 <?php
 
-namespace Hyn\MultiTenant\Commands\Migrate;
+namespace Hyn\Tenancy\Commands\Migrate;
 
-use Hyn\MultiTenant\Traits\TenantDatabaseCommandTrait;
+use Hyn\Tenancy\Traits\TenantDatabaseCommandTrait;
 use Illuminate\Database\Migrations\Migrator;
 use PDOException;
 
@@ -11,7 +11,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     use TenantDatabaseCommandTrait;
 
     /**
-     * @var \Hyn\MultiTenant\Contracts\WebsiteRepositoryContract
+     * @var \Hyn\Tenancy\Contracts\WebsiteRepositoryContract
      */
     protected $website;
 
@@ -24,7 +24,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         parent::__construct($migrator);
 
-        $this->website = app('Hyn\MultiTenant\Contracts\WebsiteRepositoryContract');
+        $this->website = app('Hyn\Tenancy\Contracts\WebsiteRepositoryContract');
     }
 
     public function fire()

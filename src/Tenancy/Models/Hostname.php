@@ -1,9 +1,9 @@
 <?php
 
-namespace Hyn\MultiTenant\Models;
+namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
-use Hyn\MultiTenant\Abstracts\Models\SystemModel;
+use Hyn\Tenancy\Abstracts\Models\SystemModel;
 use Hyn\Webserver\Models\SslCertificate;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,14 +11,15 @@ use Illuminate\Support\Facades\Request;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
+ * @property int            $id
  * @property string         $hostname
- * @property bool        $prefer_https
- * @property int        $redirect_to
- * @property int        $sub_of
- * @property int        $website_id
- * @property int        $tenant_id
- * @property int        $ssl_certificate_id
- * @property Tenant         $tenant
+ * @property bool           $prefer_https
+ * @property int            $redirect_to
+ * @property int            $sub_of
+ * @property int            $website_id
+ * @property int            $tenant_id
+ * @property int            $ssl_certificate_id
+ * @property Customer       $customer
  * @property Website        $website
  * @property Hostname       $redirectToHostname
  * @property Hostname       $subDomainOf
@@ -35,7 +36,7 @@ class Hostname extends SystemModel
     /**
      * @var string
      */
-    protected $presenter = 'Hyn\MultiTenant\Presenters\HostnamePresenter';
+    protected $presenter = 'Hyn\Tenancy\Presenters\HostnamePresenter';
 
     /**
      * @var array
@@ -49,9 +50,9 @@ class Hostname extends SystemModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tenant()
+    public function customer()
     {
-        return $this->belongsTo(Tenant::class);
+        return $this->belongsTo(Customer::class);
     }
 
     /**

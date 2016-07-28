@@ -1,6 +1,6 @@
 <?php
 
-namespace Hyn\MultiTenant\Validators;
+namespace Hyn\Tenancy\Validators;
 
 use Hyn\Framework\Validators\AbstractValidator;
 

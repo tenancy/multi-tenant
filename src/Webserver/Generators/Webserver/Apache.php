@@ -20,6 +20,7 @@ class Apache extends AbstractFileGenerator
             'log_path'    => Config::get('webserver.log.path')."/apache-{$this->website->id}-{$this->website->identifier}",
             'base_path'   => base_path(),
             'config'      => Config::get('webserver.apache'),
+            'fpm_port'    => Config::get('webserver.fpm.port'),
         ]);
     }
 

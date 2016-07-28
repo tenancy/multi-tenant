@@ -3,8 +3,8 @@
 namespace Hyn\Webserver\Commands;
 
 use Hyn\Framework\Commands\AbstractCommand;
+use Hyn\Tenancy\Contracts\WebsiteRepositoryContract;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Hyn\MultiTenant\Contracts\WebsiteRepositoryContract;
 
 class ToolboxCommand extends AbstractCommand
 {

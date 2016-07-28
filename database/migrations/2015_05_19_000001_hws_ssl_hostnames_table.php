@@ -1,6 +1,6 @@
 <?php
 
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 

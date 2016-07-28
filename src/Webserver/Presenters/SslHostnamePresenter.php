@@ -2,7 +2,7 @@
 
 namespace Hyn\Webserver\Presenters;
 
-use Hyn\MultiTenant\Presenters\HostnamePresenter;
+use Hyn\Tenancy\Presenters\HostnamePresenter;
 
 class SslHostnamePresenter extends HostnamePresenter
 {

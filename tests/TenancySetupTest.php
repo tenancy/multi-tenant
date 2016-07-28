@@ -1,14 +1,16 @@
 <?php
 
-namespace Hyn\MultiTenant\Tests;
+namespace Hyn\Tenancy\Tests;
 
 use DB;
 use File;
 use Hyn\Framework\Testing\TestCase;
-use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
-use Hyn\MultiTenant\Contracts\TenantRepositoryContract;
-use Hyn\MultiTenant\MultiTenantServiceProvider;
-use Hyn\MultiTenant\Tenant\DatabaseConnection;
+use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
+use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
+use Hyn\Tenancy\Contracts\TenantRepositoryContract;
+use Hyn\Tenancy\MultiTenantServiceProvider;
+use Hyn\Tenancy\TenancyServiceProvider;
+use Hyn\Tenancy\Tenant\DatabaseConnection;
 use Hyn\Tests\Seeds\TestTenantSeeder;
 use Illuminate\Database\Connection;
 
@@ -26,7 +28,7 @@ class TenancySetupTest extends TestCase
 
     /**
      * @test
-     * @covers \Hyn\MultiTenant\MultiTenantServiceProvider
+     * @covers \Hyn\Tenancy\TenancyServiceProvider
      * @covers \Hyn\Framework\FrameworkServiceProvider
      * @covers \Hyn\Webserver\WebserverServiceProvider
      */
@@ -42,7 +44,7 @@ class TenancySetupTest extends TestCase
         );
 
         $this->assertTrue(
-            in_array(MultiTenantServiceProvider::class, $this->app->getLoadedProviders()),
+            in_array(TenancyServiceProvider::class, $this->app->getLoadedProviders()),
             'MultiTenantService provider is not loaded in Laravel'
         );
         $this->assertTrue($this->app->isBooted());
@@ -54,11 +56,11 @@ class TenancySetupTest extends TestCase
      * @test
      * @depends verify_package_integrity
      *
-     * @covers  \Hyn\MultiTenant\Commands\SetupCommand
-     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection::create
-     * @covers  \Hyn\MultiTenant\Tenant\Directory::create
-     * @covers  \Hyn\MultiTenant\Observers\WebsiteObserver::created
-     * @covers  \Hyn\MultiTenant\Observers\HostnameObserver::saved
+     * @covers  \Hyn\Tenancy\Commands\SetupCommand
+     * @covers  \Hyn\Tenancy\Tenant\DatabaseConnection::create
+     * @covers  \Hyn\Tenancy\Tenant\Directory::create
+     * @covers  \Hyn\Tenancy\Observers\WebsiteObserver::created
+     * @covers  \Hyn\Tenancy\Observers\HostnameObserver::saved
      *
      * @covers  \HmtTenantsTable
      * @covers  \HmtWebsitesTable
@@ -72,7 +74,7 @@ class TenancySetupTest extends TestCase
             $this->artisan(
                 'multi-tenant:setup',
                 [
-                    '--tenant'    => 'example',
+                    '--customer'  => 'example',
                     '--hostname'  => 'system.testing',    // configured in travis as primary hostname
                     '--email'     => 'info@example.org',
                     '--webserver' => 'no',
@@ -84,24 +86,24 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends can_succesfully_run_tenant_setup_command
-     * @covers  \Hyn\MultiTenant\Repositories\TenantRepository::findByName
-     * @covers  \Hyn\MultiTenant\Contracts\TenantRepositoryContract::findByName
+     * @covers  \Hyn\Tenancy\Repositories\CustomerRepository::findByName
+     * @covers  \Hyn\Tenancy\Contracts\CustomerRepositoryContract::findByName
      */
     public function tenant_should_exist()
     {
-        /* @var \Hyn\MultiTenant\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make('Hyn\MultiTenant\Contracts\TenantRepositoryContract');
-        /** @var \Hyn\MultiTenant\Models\Tenant|null $tenant */
-        $tenant = $this->tenant->findByName('example');
+        /* @var \Hyn\Tenancy\Contracts\CustomerRepositoryContract $customers */
+        $customers = $this->app->make(CustomerRepositoryContract::class);
+        /** @var \Hyn\Tenancy\Models\Customer|null $customer */
+        $customer = $customers->findByName('example');
 
-        $this->assertNotNull($tenant, 'Tenant from command has not been created');
+        $this->assertNotNull($customer, 'Tenant from command has not been created');
     }
 
     /**
      * @test
      * @depends tenant_should_exist
-     * @covers  \Hyn\MultiTenant\Contracts\HostnameRepositoryContract::findByHostname
-     * @covers  \Hyn\MultiTenant\Repositories\HostnameRepository::findByHostname
+     * @covers  \Hyn\Tenancy\Contracts\HostnameRepositoryContract::findByHostname
+     * @covers  \Hyn\Tenancy\Repositories\HostnameRepository::findByHostname
      */
     public function hostname_should_exist()
     {
@@ -111,11 +113,11 @@ class TenancySetupTest extends TestCase
     }
 
     /**
-     * @return \Hyn\MultiTenant\Models\Hostname
+     * @return \Hyn\Tenancy\Models\Hostname
      */
     protected function loadSystemTesting()
     {
-        $this->hostname = $this->app->make('Hyn\MultiTenant\Contracts\HostnameRepositoryContract');
+        $this->hostname = $this->app->make('Hyn\Tenancy\Contracts\HostnameRepositoryContract');
         return $this->hostname->findByHostname('system.testing');
     }
 
@@ -144,12 +146,12 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_should_exist
-     * @covers  \Hyn\MultiTenant\Tenant\Directory
+     * @covers  \Hyn\Tenancy\Tenant\Directory
      */
     public function tenant_folder_should_exist()
     {
         $hostname = $this->loadSystemTesting();
-        /** @var \Hyn\MultiTenant\Models\Website $website */
+        /** @var \Hyn\Tenancy\Models\Website $website */
         $website = $hostname->website;
 
         foreach ($website->directory->pathsToCreate() as $directory) {
@@ -163,13 +165,13 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_database_should_exist
-     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection
+     * @covers  \Hyn\Tenancy\Tenant\DatabaseConnection
      */
     public function tenant_database_connection_should_work()
     {
         $hostname = $this->loadSystemTesting();
 
-        /** @var \Hyn\MultiTenant\Tenant\DatabaseConnection $connection */
+        /** @var \Hyn\Tenancy\Tenant\DatabaseConnection $connection */
         $connection = $hostname->website->database;
 
         $connection->setCurrent();
@@ -181,8 +183,8 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_database_should_exist
-     * @covers  \Hyn\MultiTenant\Commands\Migrate\InstallCommand
-     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers  \Hyn\Tenancy\Commands\Migrate\InstallCommand
+     * @covers  \Hyn\Tenancy\Commands\Migrate\MigrateCommand
      * @covers  \TestTenantMigration
      */
     public function tenant_migrations_should_run()
@@ -203,7 +205,7 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_migrations_should_run
-     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
+     * @covers  \Hyn\Tenancy\Commands\Migrate\MigrateCommand
      */
     public function tenant_migrated_table_should_exist()
     {
@@ -223,7 +225,7 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_migrated_table_should_exist
-     * @covers  \Hyn\MultiTenant\Commands\Seeds\SeedCommand
+     * @covers  \Hyn\Tenancy\Commands\Seeds\SeedCommand
      */
     public function tenant_seeder_should_work()
     {
@@ -254,8 +256,8 @@ class TenancySetupTest extends TestCase
     /**
      * @test
      * @depends tenant_migrated_table_should_exist
-     * @covers  \Hyn\MultiTenant\Commands\Migrate\MigrateCommand
-     * @covers  \Hyn\MultiTenant\Tenant\DatabaseConnection::setCurrent
+     * @covers  \Hyn\Tenancy\Commands\Migrate\MigrateCommand
+     * @covers  \Hyn\Tenancy\Tenant\DatabaseConnection::setCurrent
      */
     public function tenant_migration_entry_should_exist()
     {
@@ -276,7 +278,7 @@ class TenancySetupTest extends TestCase
     /**
      * @no-test
      * @depends tenant_should_exist
-     * @covers  \Hyn\MultiTenant\Middleware\HostnameMiddleware
+     * @covers  \Hyn\Tenancy\Middleware\HostnameMiddleware
      * @todo    this actually works, but json return does not hold the hostname.
      */
     public function middleware_must_resolve_hostname()

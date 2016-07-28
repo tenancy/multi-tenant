@@ -1,10 +1,10 @@
 <?php
 
-namespace Hyn\MultiTenant\Helpers;
+namespace Hyn\Tenancy\Helpers;
 
 use App;
+use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
 use Illuminate\Database\QueryException;
-use Hyn\MultiTenant\Contracts\HostnameRepositoryContract;
 use Request;
 
 /**
@@ -19,7 +19,7 @@ abstract class TenancyRequestHelper
      *
      * @param HostnameRepositoryContract $hostname
      *
-     * @return \Hyn\MultiTenant\Models\Hostname
+     * @return \Hyn\Tenancy\Models\Hostname
      */
     public static function hostname(HostnameRepositoryContract $hostname)
     {
