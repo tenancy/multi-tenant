@@ -8,11 +8,11 @@ use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 
 /**
- * Class TenantModeltest.
+ * Class CustomerModelTest.
  *
  * @coversDefaultClass \Hyn\Tenancy\Models\Tenant
  */
-class TenantModelTest extends TestCase
+class CustomerModelTest extends TestCase
 {
     /**
      * @var Customer
