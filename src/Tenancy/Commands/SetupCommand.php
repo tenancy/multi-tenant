@@ -148,13 +148,16 @@ class SetupCommand extends Command
             $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
 
             /** @var Website $website */
-            $website = $this->website->create(['tenant_id' => $customer->id, 'identifier' => $identifier]);
+            $website = $this->website->create([
+                'customer_id' => $customer->id,
+                'identifier'  => $identifier
+            ]);
 
             /** @var Hostname $host */
             $host = $this->hostname->create([
-                'hostname'   => $hostname,
-                'website_id' => $website->id,
-                'tenant_id'  => $customer->id,
+                'hostname'    => $hostname,
+                'website_id'  => $website->id,
+                'customer_id' => $customer->id,
             ]);
 
             // hook into the webservice of choice once object creation succeeded

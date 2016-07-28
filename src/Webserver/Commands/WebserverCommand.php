@@ -55,9 +55,13 @@ class WebserverCommand extends AbstractRootCommand
         }
 
         (new WebsiteUser($this->website))->{$action}();
+
+        // Php fpm
+        (new Fpm($this->website))->{$action}();
+
+        // Webservers
         (new Apache($this->website))->{$action}();
         (new Nginx($this->website))->{$action}();
-        (new Fpm($this->website))->{$action}();
 
         (new Database($this->website))->{$action}();
     }

@@ -73,7 +73,7 @@ class TenancySetupTest extends TestCase
             $this->artisan(
                 'multi-tenant:setup',
                 [
-                    '--tenant'    => 'example',
+                    '--customer'  => 'example',
                     '--hostname'  => 'system.testing',    // configured in travis as primary hostname
                     '--email'     => 'info@example.org',
                     '--webserver' => 'no',

@@ -64,15 +64,20 @@ class WebsiteUser extends AbstractUserGenerator
     public function onCreate()
     {
         if (!$this->exists() && $this->name()) {
-            return exec(sprintf('adduser %s --home %s --ingroup %s --no-create-home --disabled-password --disabled-login --gecos "" --shell /bin/false',
+            return exec(sprintf(
+                'adduser %s --home %s --ingroup %s --no-create-home --disabled-password --disabled-login --gecos "" --shell /bin/false',
                 $this->name(),
                 base_path(),
-                config('webserver.group')));
+                config('webserver.group')
+            ));
         }
     }
 
     /**
      * Renames a user.
+     *
+     * @param string $from
+     * @param string $to
      *
      * @return bool
      */

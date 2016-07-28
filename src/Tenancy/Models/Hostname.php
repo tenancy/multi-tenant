@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Request;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
+ * @property int            $id
  * @property string         $hostname
  * @property bool           $prefer_https
  * @property int            $redirect_to

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
+ * @property int        $id
  * @property string     $name
  * @property string     $email
  * @property string     $customer_no
