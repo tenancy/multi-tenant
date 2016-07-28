@@ -14,7 +14,6 @@ class RenameTenantsToCustomers2 extends Migration
      */
     public function up()
     {
-
         Schema::connection(DatabaseConnection::systemConnectionName())
             ->table('websites', function (Blueprint $table) {
                 $table->renameColumn('tenant_id', 'customer_id');
