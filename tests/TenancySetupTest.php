@@ -87,16 +87,16 @@ class TenancySetupTest extends TestCase
      * @test
      * @depends can_succesfully_run_tenant_setup_command
      * @covers  \Hyn\Tenancy\Repositories\CustomerRepository::findByName
-     * @covers  \Hyn\Tenancy\Contracts\TenantRepositoryContract::findByName
+     * @covers  \Hyn\Tenancy\Contracts\CustomerRepositoryContract::findByName
      */
     public function tenant_should_exist()
     {
-        /* @var \Hyn\Tenancy\Contracts\TenantRepositoryContract tenant */
-        $this->tenant = $this->app->make(CustomerRepositoryContract::class);
-        /** @var \Hyn\Tenancy\Models\Tenant|null $tenant */
-        $tenant = $this->tenant->findByName('example');
+        /* @var \Hyn\Tenancy\Contracts\CustomerRepositoryContract $customers */
+        $customers = $this->app->make(CustomerRepositoryContract::class);
+        /** @var \Hyn\Tenancy\Models\Customer|null $customer */
+        $customer = $customers->findByName('example');
 
-        $this->assertNotNull($tenant, 'Tenant from command has not been created');
+        $this->assertNotNull($customer, 'Tenant from command has not been created');
     }
 
     /**
