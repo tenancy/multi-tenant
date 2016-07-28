@@ -2,7 +2,6 @@
 
 namespace Hyn\Framework;
 
-use Config;
 use Hyn\Framework\Validation\ExtendedValidation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
