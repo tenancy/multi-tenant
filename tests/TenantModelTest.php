@@ -12,7 +12,7 @@ use Hyn\Tenancy\Models\Website;
  *
  * @coversDefaultClass \Hyn\Tenancy\Models\Tenant
  */
-class CustomerModelTest extends TestCase
+class TenantModelTest extends TestCase
 {
     /**
      * @var Customer

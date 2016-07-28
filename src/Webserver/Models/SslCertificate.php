@@ -82,7 +82,7 @@ class SslCertificate extends SystemModel
 
     /**
      * @param string $postfix
-     * 
+     *
 *@return string
      */
     public function publishPath($postfix = 'key')
