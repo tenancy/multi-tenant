@@ -89,7 +89,7 @@ class SetupCommand extends Command
         $hostname = $this->option('hostname');
 
         if (empty($name)) {
-            $name = $this->ask('Please provide a customer name or restart command with --tenant');
+            $name = $this->ask('Please provide a customer name or restart command with --customer');
         }
 
         if (empty($email)) {
