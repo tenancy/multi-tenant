@@ -75,9 +75,12 @@ class TenancySetupTest extends TestCase
                 'multi-tenant:setup',
                 [
                     '--customer'  => 'example',
-                    '--hostname'  => 'system.testing',    // configured in travis as primary hostname
+                    // configured in travis as primary hostname
+                    '--hostname'  => 'system.testing',
                     '--email'     => 'info@example.org',
                     '--webserver' => 'no',
+                    // no interaction
+                    '-n'
                 ]
             )
         );
