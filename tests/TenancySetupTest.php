@@ -80,7 +80,7 @@ class TenancySetupTest extends TestCase
                     '--email'     => 'info@example.org',
                     '--webserver' => 'no',
                     // no interaction
-                    '-n'
+                    '-n'          => 1
                 ]
             )
         );
