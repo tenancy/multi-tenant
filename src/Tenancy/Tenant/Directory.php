@@ -165,7 +165,6 @@ class Directory implements DirectoryContract
      */
     protected function loadProviders()
     {
-
         if (!$this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
             File::requireOnce($this->providers());
         }
