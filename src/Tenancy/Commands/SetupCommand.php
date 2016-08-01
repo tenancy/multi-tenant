@@ -23,7 +23,8 @@ class SetupCommand extends Command
         {--customer= : Name of the first customer}
         {--email= : Email address of the first customer}
         {--hostname= : Domain- or hostname for the first customer website}
-        {--webserver= : Hook into webserver (nginx|apache|no)}';
+        {--webserver= : Hook into webserver (nginx|apache|no)}
+        {--tenant-config= : Location of a preset of configuration items to use for multi-tenant.php}';
 
     /**
      * @var string
@@ -87,6 +88,7 @@ class SetupCommand extends Command
         $name = $this->option('customer');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
+        $tenantConfig = $this->option('tenant-config');
 
         if (empty($name)) {
             $name = $this->ask('Please provide a customer name or restart command with --customer');
@@ -103,6 +105,16 @@ class SetupCommand extends Command
         $this->comment('Welcome to hyn multi tenancy.');
 
         $this->publishFiles();
+
+        // Give the user a chance to change the config or check whether it's been provided as option.
+        if (null !== $tenantConfig && File::exists($tenantConfig)) {
+            File::copy($tenantConfig, config_path('multi-tenant.php'));
+        } elseif (null !== $tenantConfig) {
+            $this->error("Ignored $tenantConfig, it does not exist");
+        } else {
+            $this->confirm("You are now able to edit the published multi-tenant.php configuration file before continuing. Ready?",
+                true);
+        }
 
         // If the dashboard is installed we need to prevent default laravel migrations
         // so we run the dashboard setup command before running any migrations
