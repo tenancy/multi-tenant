@@ -116,57 +116,13 @@ class Directory implements DirectoryContract
     {
         // only register if tenant directory exists
         if ($this->base() && !$this->disallowed('base')) {
-            /*
-             * critical priority, load vendors
-             */
-            if (!$this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor() . 'autoload.php')) {
-                File::requireOnce($this->vendor() . 'autoload.php');
-            }
-            /*
-             * highest priority, load service providers; or possible custom code before any other include from tenant
-             */
-            if (!$this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
-                File::requireOnce($this->providers());
-            }
-            /*
-             * mediocre priority, load additional config files
-             */
-            if (!$this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
-                foreach (File::allFiles($this->config()) as $path) {
-                    $key = File::name($path);
-                    $app['config']->set($key, array_merge($app['config']->get($key, []), File::getRequire($path)));
-                }
-            }
-            /*
-             * lowest priority load view directory
-             */
-            if (!$this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
-                $app['view']->addLocation($this->views());
-            }
-
-            // set cache
-            if (File::isDirectory($this->cache())) {
-                $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
-            }
-
-            // replaces lang directory
-            if (!$this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
-                $path = $this->lang();
-
-                $app->singleton('translation.loader', function ($app) use ($path) {
-                    return new FileLoader($app['files'], $path);
-                });
-                $app->singleton('translator', function ($app) {
-                    $translator = new Translator($app['translation.loader'], $app['config']['app.locale']);
-                    $translator->setFallback($app['config']['app.fallback_locale']);
-
-                    return $translator;
-                });
-            }
-            // identify a possible routes.php file
-            if (!$this->disallowed('routes') && $this->routes()) {
-                File::requireOnce($this->routes());
-            }
+            $this->loadVendor();
+            $this->loadProviders();
+            $this->loadConfigs($app);
+            $this->loadViews($app);
+            $this->loadCache($app);
+            $this->loadTranslations($app);
+            $this->loadRoutes();
         }
 
         return $this;
@@ -185,6 +141,16 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * critical priority, load vendors
+     */
+    protected function loadVendor()
+    {
+        if (!$this->disallowed('vendor') && $this->vendor() && File::exists($this->vendor() . 'autoload.php')) {
+            File::requireOnce($this->vendor() . 'autoload.php');
+        }
+    }
+
+    /**
      * Tenant vendor directory.
      *
      * @return string|null
@@ -192,6 +158,16 @@ class Directory implements DirectoryContract
     public function vendor()
     {
         return $this->base() ? sprintf('%svendor/', $this->base()) : null;
+    }
+
+    /**
+     * highest priority, load service providers; or possible custom code before any other include from tenant
+     */
+    protected function loadProviders()
+    {
+        if (!$this->disallowed('providers') && $this->providers() && File::exists($this->providers())) {
+            File::requireOnce($this->providers());
+        }
     }
 
     /**
@@ -205,6 +181,21 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * mediocre priority, load additional config files
+     *
+     * @param $app
+     */
+    protected function loadConfigs($app)
+    {
+        if (!$this->disallowed('config') && $this->config() && File::isDirectory($this->config())) {
+            foreach (File::allFiles($this->config()) as $path) {
+                $key = File::name($path);
+                $app['config']->set($key, array_merge($app['config']->get($key, []), File::getRequire($path)));
+            }
+        }
+    }
+
+    /**
      * Tenant config directory.
      *
      * @return string|null
@@ -212,6 +203,18 @@ class Directory implements DirectoryContract
     public function config()
     {
         return $this->base() ? sprintf('%sconfig/', $this->base()) : null;
+    }
+
+    /**
+     * Lowest priority load view directory.
+     *
+     * @param $app
+     */
+    protected function loadViews($app)
+    {
+        if (!$this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
+            $app['view']->addLocation($this->views());
+        }
     }
 
     /**
@@ -225,6 +228,40 @@ class Directory implements DirectoryContract
     }
 
     /**
+     * Set tenant cache.
+     *
+     * @param $app
+     */
+    protected function loadCache($app)
+    {
+        if (File::isDirectory($this->cache())) {
+            $app['config']->set('cache.prefix', "{$app['config']->get('cache.prefix')}-{$this->website->id}");
+        }
+    }
+
+    /**
+     * Replaces lang directory.
+     *
+     * @param $app
+     */
+    protected function loadTranslations($app)
+    {
+        if (!$this->disallowed('lang') && $this->lang() && File::isDirectory($this->lang())) {
+            $path = $this->lang();
+
+            $app->singleton('translation.loader', function ($app) use ($path) {
+                return new FileLoader($app['files'], $path);
+            });
+            $app->singleton('translator', function ($app) {
+                $translator = new Translator($app['translation.loader'], $app['config']['app.locale']);
+                $translator->setFallback($app['config']['app.fallback_locale']);
+
+                return $translator;
+            });
+        }
+    }
+
+    /**
      * Tenant language/trans directory.
      *
      * @return string|null
@@ -232,6 +269,16 @@ class Directory implements DirectoryContract
     public function lang()
     {
         return $this->base() ? sprintf('%slang/', $this->base()) : null;
+    }
+
+    /**
+     * identify a possible routes.php file
+     */
+    protected function loadRoutes()
+    {
+        if (!$this->disallowed('routes') && $this->routes()) {
+            File::requireOnce($this->routes());
+        }
     }
 
     /**
