@@ -36,12 +36,12 @@ class RenameTenantsToCustomers2 extends Migration
         Schema::connection(DatabaseConnection::systemConnectionName())
             ->table('websites', function (Blueprint $table) {
                 $table->dropForeign('websites_customer_id_foreign');
-                $table->renameColumn('tenant_id', 'customer_id');
+                $table->renameColumn('customer_id', 'tenant_id');
             });
         Schema::connection(DatabaseConnection::systemConnectionName())
             ->table('hostnames', function (Blueprint $table) {
                 $table->dropForeign('hostnames_customer_id_foreign');
-                $table->renameColumn('tenant_id', 'customer_id');
+                $table->renameColumn('customer_id', 'tenant_id');
             });
     }
 }
