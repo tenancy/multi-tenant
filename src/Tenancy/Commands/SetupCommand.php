@@ -104,6 +104,10 @@ class SetupCommand extends Command
             $hostname = $this->ask('Please provide a customer hostname or restart command with --hostname');
         }
 
+        if (!empty($identifier) && strlen($identifier) > 10) {
+            $identifier = $this->ask('Please provide an identifier with a max length of 10 or restart command with --identifier');
+        }
+
         $this->comment('Welcome to hyn multi tenancy.');
 
         $this->publishFiles();
