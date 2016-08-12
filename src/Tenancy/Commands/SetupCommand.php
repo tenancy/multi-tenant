@@ -24,8 +24,7 @@ class SetupCommand extends Command
         {--email= : Email address of the first customer}
         {--hostname= : Domain- or hostname for the first customer website}
         {--webserver= : Hook into webserver (nginx|apache|no)}
-        {--identifier= : Website identifier}';
-        {--webserver= : Hook into webserver (nginx|apache|no)}
+        {--identifier= : Website identifier}
         {--tenant-config= : Location of a preset of configuration items to use for multi-tenant.php}';
 
     /**
@@ -115,8 +114,10 @@ class SetupCommand extends Command
         } elseif (null !== $tenantConfig) {
             $this->error("Ignored $tenantConfig, it does not exist");
         } else {
-            $this->confirm("You are now able to edit the published multi-tenant.php configuration file before continuing. Ready?",
-                true);
+            $this->confirm(
+                "You are now able to edit the published multi-tenant.php configuration file before continuing. Ready?",
+                true
+            );
         }
 
         // If the dashboard is installed we need to prevent default laravel migrations
