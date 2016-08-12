@@ -24,6 +24,7 @@ class SetupCommand extends Command
         {--email= : Email address of the first customer}
         {--hostname= : Domain- or hostname for the first customer website}
         {--webserver= : Hook into webserver (nginx|apache|no)}
+        {--identifier= : Website identifier}
         {--tenant-config= : Location of a preset of configuration items to use for multi-tenant.php}';
 
     /**
@@ -88,6 +89,7 @@ class SetupCommand extends Command
         $name = $this->option('customer');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
+        $identifier = $this->option('identifier');
         $tenantConfig = $this->option('tenant-config');
 
         if (empty($name)) {
@@ -102,6 +104,10 @@ class SetupCommand extends Command
             $hostname = $this->ask('Please provide a customer hostname or restart command with --hostname');
         }
 
+        if (!empty($identifier) && strlen($identifier) > 10) {
+            $identifier = $this->ask('Please provide an identifier with a max length of 10 or restart command with --identifier');
+        }
+
         $this->comment('Welcome to hyn multi tenancy.');
 
         $this->publishFiles();
@@ -112,8 +118,10 @@ class SetupCommand extends Command
         } elseif (null !== $tenantConfig) {
             $this->error("Ignored $tenantConfig, it does not exist");
         } else {
-            $this->confirm("You are now able to edit the published multi-tenant.php configuration file before continuing. Ready?",
-                true);
+            $this->confirm(
+                "You are now able to edit the published multi-tenant.php configuration file before continuing. Ready?",
+                true
+            );
         }
 
         // If the dashboard is installed we need to prevent default laravel migrations
@@ -157,7 +165,9 @@ class SetupCommand extends Command
             /** @var Customer $customer */
             $customer = $this->customer->create(compact('name', 'email'));
 
-            $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
+            if (empty($identifier)) {
+                $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
+            }
 
             /** @var Website $website */
             $website = $this->website->create([
