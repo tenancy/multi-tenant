@@ -23,7 +23,8 @@ class SetupCommand extends Command
         {--customer= : Name of the first customer}
         {--email= : Email address of the first customer}
         {--hostname= : Domain- or hostname for the first customer website}
-        {--webserver= : Hook into webserver (nginx|apache|no)}';
+        {--webserver= : Hook into webserver (nginx|apache|no)}
+        {--identifier= : Website identifier}';
 
     /**
      * @var string
@@ -87,6 +88,7 @@ class SetupCommand extends Command
         $name = $this->option('customer');
         $email = $this->option('email');
         $hostname = $this->option('hostname');
+        $identifier = $this->option('identifier');
 
         if (empty($name)) {
             $name = $this->ask('Please provide a customer name or restart command with --customer');
@@ -145,7 +147,9 @@ class SetupCommand extends Command
             /** @var Customer $customer */
             $customer = $this->customer->create(compact('name', 'email'));
 
-            $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
+            if (empty($identifier)) {
+                $identifier = substr(str_replace(['.'], '-', $hostname), 0, 10);
+            }
 
             /** @var Website $website */
             $website = $this->website->create([
