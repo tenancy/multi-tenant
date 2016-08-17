@@ -29,7 +29,7 @@ install:
   - mysql -e "create database hyn;" -uroot
   - mysql -e "grant all privileges on *.* to 'travis'@'localhost' with grant option;" -uroot
   # create a new laravel project in the subfolder laravel (default composer behaviour)
-  - composer require laravel/laravel 5.2
+  - composer require laravel/laravel 5.3
   # load pheanstalk package to talk with beanstalkd queue
   - composer require pda/pheanstalk
   # set global variables
