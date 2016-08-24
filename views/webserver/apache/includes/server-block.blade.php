@@ -10,7 +10,7 @@
     @if(isset($hostname))
         ServerName {{ $hostname->hostname }}
     @else
-        @foreach($hostnames->lists('hostname') as $i => $hostname)
+        @foreach($hostnames->pluck('hostname') as $i => $hostname)
             @if($i == 0)
                 ServerName {{ $hostname }}
             @else
@@ -60,7 +60,7 @@
     @if(isset($hostname))
         ServerName {{ $hostname->hostname }}
     @else
-        @foreach($hostnames->lists('hostname') as $i => $hostname)
+        @foreach($hostnames->pluck('hostname') as $i => $hostname)
             @if($i == 0)
                 ServerName {{ $hostname }}
             @else

@@ -25,7 +25,7 @@ class SslCertificatePresenter extends AbstractModelPresenter
      */
     public function hostnamesSummary()
     {
-        $hostnames = $this->hostnames->lists('hostname')->all();
+        $hostnames = $this->hostnames->pluck('hostname');
 
         return implode(', ', array_splice($hostnames, 0, 5));
     }
