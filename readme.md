@@ -15,7 +15,7 @@ This package allows for multi tenancy websites on one installation of Laravel.
 
 The goals for this and its related packages are:
 
-- Unobtrusive multi tenancy for Laravel 5.1 LTS and 5.2.
+- Unobtrusive multi tenancy for Laravel.
 - Provide proper insight into tenants and webserver.
 - Powerful, but flexible for developers, use it the way you want.
 
