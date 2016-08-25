@@ -84,7 +84,7 @@ abstract class BaseRepository
             $query = $additionalWhere($query, $search);
         }
 
-        $items = $query->where($name, 'like', "%{$search}%")->orderBy($name)->take(10)->lists($name, 'id');
+        $items = $query->where($name, 'like', "%{$search}%")->orderBy($name)->take(10)->pluck($name, 'id');
 
         $results = [];
 

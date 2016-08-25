@@ -74,7 +74,7 @@ class Website extends SystemModel
      */
     public function getCertificateIdsAttribute()
     {
-        return array_unique($this->hostnames()->whereNotNull('ssl_certificate_id')->lists('ssl_certificate_id'));
+        return array_unique($this->hostnames()->whereNotNull('ssl_certificate_id')->pluck('ssl_certificate_id'));
     }
 
     /**

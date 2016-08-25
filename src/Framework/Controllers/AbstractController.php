@@ -43,7 +43,7 @@ abstract class AbstractController extends Controller
      * @param AbstractModel $model
      * @param null|string   $view
      *
-     * @return View
+     * @return bool|AbstractController|AbstractModel|null
      */
     protected function showConfirmMessage(AbstractModel $model, Generator $form, $view = null)
     {

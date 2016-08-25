@@ -4,11 +4,10 @@ namespace Hyn\Framework\Commands;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-abstract class AbstractCommand extends Command implements SelfHandling, ShouldQueue
+abstract class AbstractCommand extends Command implements ShouldQueue
 {
     use InteractsWithQueue, Queueable;
 
