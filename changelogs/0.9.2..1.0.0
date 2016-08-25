@@ -1,7 +1,0 @@
-*   104d351 Merge branch 'master' of github.com:hyn/multi-tenant
-|\
-| * 8cd3be6 Update readme.md
-| * 3a4e7cb Update readme.md
-| * ac2cd02 Merge pull request #32 from hyn/analysis-z3rJLq
-| * 7626786 Applied fixes from StyleCI
-* ebe51a4 fixed readme and issue #34 not only for 0.9.* versions but started on 1.0.0 changelog as well
