@@ -102,13 +102,15 @@ return [
         'path'    => storage_path('webserver/fpm/'),
         'class'   => 'Hyn\Webserver\Generators\Webserver\Fpm',
         'enabled' => true,
-        'conf'    => ['/etc/php5/fpm/pool.d/'],
+        'conf'    => [
+            '/etc/php7/fpm/pool.d/'
+        ],
         // path to service daemon, used to verify service exists
-        'service' => '/etc/init.d/php5-fpm',
+        'service' => '/etc/init.d/php7-fpm',
         // how to run actions for this service
         'actions' => [
-            'configtest' => '/etc/init.d/php5-fpm -t',
-            'reload'     => '/etc/init.d/php5-fpm reload',
+            'configtest' => '/etc/init.d/php7-fpm -t',
+            'reload'     => '/etc/init.d/php7-fpm reload',
         ],
         'mask'    => '%s.conf',
         'include' => 'include=%s*;',
