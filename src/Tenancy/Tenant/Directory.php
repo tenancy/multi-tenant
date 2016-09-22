@@ -123,6 +123,7 @@ class Directory implements DirectoryContract
             $this->loadCache($app);
             $this->loadTranslations($app);
             $this->loadRoutes();
+            $this->addTenantDisk($app);
         }
 
         return $this;
@@ -359,5 +360,16 @@ class Directory implements DirectoryContract
     public function pathsToCreate()
     {
         return $this->paths_to_create;
+    }
+
+    /**
+     * Setup local disk for tenant media
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     */
+    public function addTenantDisk($app)
+    {
+        // Set up local disk
+        $app['config']->set('filesystems.disks.tenant', ['driver' => 'local', 'root' => $this->media()]);
     }
 }
