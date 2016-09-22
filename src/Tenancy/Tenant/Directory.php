@@ -2,6 +2,7 @@
 
 namespace Hyn\Tenancy\Tenant;
 
+use Config;
 use File;
 use Hyn\Tenancy\Contracts\DirectoryContract;
 use Hyn\Tenancy\Models\Website;
@@ -51,18 +52,18 @@ class Directory implements DirectoryContract
 
         if ($this->website->isDirty('identifier')) {
             $this->old_path = sprintf('%s/%d-%s/',
-                config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
-                $this->website->id,
-                $this->website->getOriginal('identifier'));
+              config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
+              $this->website->id,
+              $this->website->getOriginal('identifier'));
             if (!File::isDirectory($this->old_path)) {
                 $this->old_path = null;
             }
         }
 
         $this->base_path = sprintf('%s/%d-%s/',
-            config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
-            $this->website->id,
-            $this->website->identifier);
+          config('multi-tenant.tenant-directory') ? config('multi-tenant.tenant-directory') : storage_path('multi-tenant'),
+          $this->website->id,
+          $this->website->identifier);
     }
 
     /**
@@ -123,6 +124,7 @@ class Directory implements DirectoryContract
             $this->loadCache($app);
             $this->loadTranslations($app);
             $this->loadRoutes();
+            $this->addTenantDisk($app);
         }
 
         return $this;
@@ -359,5 +361,15 @@ class Directory implements DirectoryContract
     public function pathsToCreate()
     {
         return $this->paths_to_create;
+    }
+
+    /**
+     * Setup local disk for tenant media
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     */
+    public function addTenantDisk($app) {
+        // Set up local disk
+        $app['config']->set('filesystems.disks.tenant', ['driver' => 'local', 'root' => $this->media()]);
     }
 }
