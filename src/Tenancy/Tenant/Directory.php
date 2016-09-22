@@ -367,7 +367,8 @@ class Directory implements DirectoryContract
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
      */
-    public function addTenantDisk($app) {
+    public function addTenantDisk($app)
+    {
         // Set up local disk
         $app['config']->set('filesystems.disks.tenant', ['driver' => 'local', 'root' => $this->media()]);
     }
