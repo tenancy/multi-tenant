@@ -214,7 +214,7 @@ class Directory implements DirectoryContract
     protected function loadViews($app)
     {
         if (!$this->disallowed('views') && $this->views() && File::isDirectory($this->views())) {
-            $app['view']->addLocation($this->views());
+            $app['view']->getFinder()->prependLocation($this->views());
         }
     }
 
