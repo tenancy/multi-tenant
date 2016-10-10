@@ -5,7 +5,6 @@
 [![Build Status](https://img.shields.io/travis/hyn/multi-tenant/2.x.svg?maxAge=2592000&style=flat-square)](https://travis-ci.org/hyn/multi-tenant)
 [![Code Coverage](https://img.shields.io/codecov/c/github/hyn/multi-tenant/2.x.svg?maxAge=2592000&style=flat-square)](https://codecov.io/github/hyn/multi-tenant)
 [![StyleCI](https://styleci.io/repos/39585488/shield)](https://styleci.io/repos/39585488)
-[![Reference Status](https://www.versioneye.com/php/hyn:multi-tenant/reference_badge.svg?style=flat)](https://www.versioneye.com/php/hyn:multi-tenant/references)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/f8241f3b-ab7b-4a58-9123-488c13560887.svg?maxAge=2592000&style=flat-square)](https://insight.sensiolabs.com/projects/f8241f3b-ab7b-4a58-9123-488c13560887)
 [![Awesome Laravel](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/chiraggude/awesome-laravel)
 
