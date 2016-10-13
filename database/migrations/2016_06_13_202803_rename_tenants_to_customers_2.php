@@ -14,16 +14,18 @@ class RenameTenantsToCustomers2 extends Migration
      */
     public function up()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())
-            ->table('websites', function (Blueprint $table) {
-                $table->renameColumn('tenant_id', 'customer_id');
-                $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            });
-        Schema::connection(DatabaseConnection::systemConnectionName())
-            ->table('hostnames', function (Blueprint $table) {
-                $table->renameColumn('tenant_id', 'customer_id');
-                $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            });
+        if(Schema::connection(DatabaseConnection::systemConnectionName())->hasColumn('websites','tenant_id')){
+            Schema::connection(DatabaseConnection::systemConnectionName())
+                ->table('websites', function (Blueprint $table) {
+                    $table->renameColumn('tenant_id', 'customer_id');
+                    $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+                });
+            Schema::connection(DatabaseConnection::systemConnectionName())
+                ->table('hostnames', function (Blueprint $table) {
+                    $table->renameColumn('tenant_id', 'customer_id');
+                    $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
+                });
+        }
     }
 
     /**

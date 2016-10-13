@@ -13,28 +13,30 @@ class HwsSslLetsEncryptRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_lets_encrypt_requests', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            // domain relation
-            $table->bigInteger('hostname_id')->unsigned();
+        if(!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_lets_encrypt_requests')) {
+            Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_lets_encrypt_requests', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                // domain relation
+                $table->bigInteger('hostname_id')->unsigned();
 
-            // let's encrypt token
-            $table->string('token');
+                // let's encrypt token
+                $table->string('token');
 
-            // the solver of the challenge
-            $table->string('solved_by')->nullable();
+                // the solver of the challenge
+                $table->string('solved_by')->nullable();
 
-            // timestaps
-            $table->timestamps();
-            $table->timestamp('solved_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
-            $table->softDeletes();
+                // timestaps
+                $table->timestamps();
+                $table->timestamp('solved_at')->nullable();
+                $table->timestamp('expires_at')->nullable();
+                $table->softDeletes();
 
-            // index
-            $table->index('hostname_id');
-            // relations
-            $table->foreign('hostname_id')->references('id')->on('hostnames')->onDelete('cascade');
-        });
+                // index
+                $table->index('hostname_id');
+                // relations
+                $table->foreign('hostname_id')->references('id')->on('hostnames')->onDelete('cascade');
+            });
+        }
     }
 
     /**

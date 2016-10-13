@@ -14,7 +14,9 @@ class RenameTenantsToCustomers extends Migration
      */
     public function up()
     {
-        if (Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('tenants')) {
+        if (Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('tenants')
+                && !Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('customers')
+            ) {
             Schema::connection(DatabaseConnection::systemConnectionName())
                 ->rename('tenants', 'customers');
             Schema::connection(DatabaseConnection::systemConnectionName())
