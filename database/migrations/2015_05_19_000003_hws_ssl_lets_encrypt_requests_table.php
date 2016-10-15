@@ -13,7 +13,7 @@ class HwsSslLetsEncryptRequestsTable extends Migration
      */
     public function up()
     {
-        if(!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_lets_encrypt_requests')) {
+        if (!Schema::connection(DatabaseConnection::systemConnectionName())->hasTable('ssl_lets_encrypt_requests')) {
             Schema::connection(DatabaseConnection::systemConnectionName())->create('ssl_lets_encrypt_requests', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 // domain relation
