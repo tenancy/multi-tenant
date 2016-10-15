@@ -13,10 +13,12 @@ class HwsSslHostnamesDropHostnameId extends Migration
      */
     public function up()
     {
-        Schema::connection(DatabaseConnection::systemConnectionName())->table('ssl_hostnames', function (Blueprint $table) {
-            // domain relation
-            $table->dropColumn('hostname_id');
-        });
+        if(Schema::connection(DatabaseConnection::systemConnectionName())->hasColumn('ssl_hostnames','hostname_id')){
+            Schema::connection(DatabaseConnection::systemConnectionName())->table('ssl_hostnames', function (Blueprint $table) {
+                // domain relation
+                $table->dropColumn('hostname_id');
+            });
+        }
     }
 
     /**
