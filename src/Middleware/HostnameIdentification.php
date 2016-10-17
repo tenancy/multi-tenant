@@ -6,7 +6,7 @@ use Closure;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Models\Hostname;
 
-class HostnameMiddleware
+class HostnameIdentification
 {
     /**
      * @var CurrentHostname|Hostname
@@ -20,7 +20,6 @@ class HostnameMiddleware
 
     public function handle($request, Closure $next)
     {
-
         if ($this->hostname) {
             // todo
         }

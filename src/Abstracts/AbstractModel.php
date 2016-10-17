@@ -6,5 +6,4 @@ use Eloquent;
 
 abstract class AbstractModel extends Eloquent
 {
-
 }

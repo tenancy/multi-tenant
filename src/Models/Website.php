@@ -6,5 +6,4 @@ use Hyn\Tenancy\Abstracts\SystemModel;
 
 class Website extends SystemModel
 {
-
 }

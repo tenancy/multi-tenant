@@ -6,5 +6,4 @@ use Hyn\Tenancy\Abstracts\CustomerEvent;
 
 class Deleted extends CustomerEvent
 {
-
 }
