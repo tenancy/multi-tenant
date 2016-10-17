@@ -1,0 +1,47 @@
+{
+  "name": "hyn/multi-tenant",
+  "description": "Multi tenant laravel lts with separation between tenant and system",
+  "keywords": [
+    "laravel",
+    "multi-tenant",
+    "multi-tenancy",
+    "tenancy",
+    "saas",
+    "hyn"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniël `Luceos` Klabbers",
+      "email": "daniel+hyn@klabbers.email"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/hyn/multi-tenant/issues",
+    "source": "https://github.com/hyn/multi-tenant",
+    "docs": "https://hyn.readme.io"
+  },
+  "require": {
+    "php": ">=7.0.0",
+    "illuminate/contracts": "~5.3.0",
+    "phpseclib/phpseclib": "~2.0",
+    "laracasts/presenter": "~0.2.0",
+    "doctrine/dbal": "~2.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.*",
+    "scrutinizer/ocular": "~1.1",
+    "symfony/dom-crawler": "~3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hyn\\Tenancy\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Hyn\\Tenancy\\Tests\\": "tests/unit-tests/",
+      "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/database/seeds/"
+    }
+  }
+}
