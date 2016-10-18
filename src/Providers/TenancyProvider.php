@@ -60,7 +60,7 @@ class TenancyProvider extends ServiceProvider
 
     protected function registerBinds()
     {
-        $this->app->bind(UuidGenerator::class, function($app) {
+        $this->app->bind(UuidGenerator::class, function ($app) {
             $randomized = $app['config']->get('tenancy.website.disable-random-id', true);
 
             if ($randomized) {
@@ -76,7 +76,7 @@ class TenancyProvider extends ServiceProvider
             throw new GeneratorInvalidException($generator);
         });
 
-        $this->app->bind(PasswordGenerator::class, function($app) {
+        $this->app->bind(PasswordGenerator::class, function ($app) {
             $generator = $app['config']->get('tenancy.website.password-generator');
 
             if (class_exists($generator)) {
