@@ -10,27 +10,20 @@ use Hyn\Tenancy\Exceptions\UuidGeneratorInvalidException;
 use Hyn\Tenancy\Generators\Uuid\SimpleStringGenerator;
 use Hyn\Tenancy\Listeners\AffectServicesListener;
 use Hyn\Tenancy\Providers\Tenants\BusProvider;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
 {
+    protected $subscribe = [
+        AffectServicesListener::class
+    ];
+
     public function register()
     {
         $this->registerSupportingProviders();
         $this->registerConfiguration();
         $this->registerListeners();
         $this->registerBinds();
-    }
-
-    public function boot()
-    {
-        // Immediately instantiate the object to work the magic.
-        $environment = $this->app->make(Environment::class);
-        // Now register it into ioc to make it globally available.
-        $this->app->singleton(Environment::class, function() use ($environment) {
-            return $environment;
-        });
     }
 
     protected function registerSupportingProviders()
@@ -53,10 +46,6 @@ class TenancyProvider extends ServiceProvider
     {
         $this->app->singleton(Connection::class);
         AffectServicesListener::registerService($this->app->make(Connection::class));
-
-        // ..
-
-        $this->app->make(Dispatcher::class)->subscribe(AffectServicesListener::class);
     }
 
     protected function registerBinds()
@@ -85,6 +74,16 @@ class TenancyProvider extends ServiceProvider
             }
 
             throw new GeneratorInvalidException($generator);
+        });
+    }
+
+    public function boot()
+    {
+        // Immediately instantiate the object to work the magic.
+        $environment = $this->app->make(Environment::class);
+        // Now register it into ioc to make it globally available.
+        $this->app->singleton(Environment::class, function () use ($environment) {
+            return $environment;
         });
     }
 }
