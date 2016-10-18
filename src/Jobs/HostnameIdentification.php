@@ -3,11 +3,15 @@
 namespace Hyn\Tenancy\Jobs;
 
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
+use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Http\Request;
 
 class HostnameIdentification
 {
+    use DispatchesEvents;
+
     /**
      * @var Request
      */
@@ -39,6 +43,10 @@ class HostnameIdentification
             $hostname = $this->request->getHost();
         }
 
-        return $this->hostnameRepository->findByHostname($hostname);
+        $hostname = $this->hostnameRepository->findByHostname($hostname);
+
+        $this->emitEvent(new Identified($hostname));
+
+        return $hostname;
     }
 }

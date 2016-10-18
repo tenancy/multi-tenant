@@ -9,6 +9,12 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Exceptions\UuidGeneratorInvalidException;
 use Hyn\Tenancy\Generators\Uuid\SimpleStringGenerator;
 use Hyn\Tenancy\Listeners\AffectServicesListener;
+use Hyn\Tenancy\Listeners\Models\CustomerObserver;
+use Hyn\Tenancy\Listeners\Models\HostnameObserver;
+use Hyn\Tenancy\Listeners\Models\WebsiteObserver;
+use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\Tenants\BusProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +52,10 @@ class TenancyProvider extends ServiceProvider
     {
         $this->app->singleton(Connection::class);
         AffectServicesListener::registerService($this->app->make(Connection::class));
+
+        Hostname::observe(HostnameObserver::class);
+        Customer::observe(CustomerObserver::class);
+        Website::observe(WebsiteObserver::class);
     }
 
     protected function registerBinds()
