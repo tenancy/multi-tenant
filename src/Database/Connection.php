@@ -43,8 +43,7 @@ class Connection implements ServiceMutation
         Config $config,
         UuidGenerator $uuidGenerator,
         PasswordGenerator $passwordGenerator
-    )
-    {
+    ) {
         $this->config = $config;
         $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
@@ -115,7 +114,7 @@ class Connection implements ServiceMutation
      * @param Hostname $to
      * @return bool
      */
-    public function switch (Hostname $from, Hostname $to) : bool
+    public function switch(Hostname $from, Hostname $to) : bool
     {
         // TODO: Implement switch() method.
     }
