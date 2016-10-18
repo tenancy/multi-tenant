@@ -4,10 +4,10 @@ namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Database\Connection;
 
-abstract class SystemModel extends AbstractModel
+abstract class TenantModel extends AbstractModel
 {
     public function getConnectionName()
     {
-        return app(Connection::class)->systemName();
+        return app(Connection::class)->tenantName();
     }
 }

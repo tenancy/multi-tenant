@@ -15,5 +15,5 @@ interface HostnameRepository
     /**
      * @return Hostname|null
      */
-    public function getDefault();
+    public function getDefault() : ?Hostname;
 }

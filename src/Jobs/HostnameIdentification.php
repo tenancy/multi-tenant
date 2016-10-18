@@ -3,6 +3,7 @@
 namespace Hyn\Tenancy\Jobs;
 
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
+use Hyn\Tenancy\Models\Hostname;
 use Illuminate\Http\Request;
 
 class HostnameIdentification
@@ -24,9 +25,9 @@ class HostnameIdentification
     }
 
     /**
-     * @return \Hyn\Tenancy\Models\Hostname|null
+     * @return Hostname|null
      */
-    public function handle()
+    public function handle() : ?Hostname
     {
         $hostname = env('TENANCY_CURRENT_HOSTNAME');
 

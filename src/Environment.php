@@ -3,7 +3,6 @@
 namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Contracts\ServiceMutation;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -53,20 +52,19 @@ class Environment
     }
 
     /**
-     * @return Models\Customer|bool
+     * @return Models\Customer|null
      */
-    public function customer()
+    public function customer() : ?Models\Customer
     {
-        /** @var Models\Hostname $hostname */
-        $hostname = $this->app->make(CurrentHostname::class);
+        $hostname = $this->hostname();
 
-        return $hostname ? $hostname->customer : false;
+        return $hostname ? $hostname->customer : null;
     }
 
     /**
      * @return Models\Hostname|null
      */
-    public function hostname()
+    public function hostname() : ?Models\Hostname
     {
         return $this->app->make(CurrentHostname::class);
     }
@@ -74,10 +72,9 @@ class Environment
     /**
      * @return Models\Website|bool
      */
-    public function website()
+    public function website() : ?Models\Website
     {
-        /** @var Models\Hostname $hostname */
-        $hostname = $this->app->make(CurrentHostname::class);
+        $hostname = $this->hostname();
 
         return $hostname ? $hostname->website : false;
     }

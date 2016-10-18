@@ -33,7 +33,7 @@ class HostnameRepository implements Contract
     /**
      * @return Hostname|null
      */
-    public function getDefault()
+    public function getDefault() : ?Hostname
     {
         if (config('tenancy.hostname.default')) {
             return $this->hostname->newQuery()->where('fqdn', config('tenancy.hostname.default'));
