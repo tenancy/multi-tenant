@@ -9,7 +9,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 
 class AffectServicesListener
 {
-    static $services = [];
+    public static $services = [];
 
     public function subscribe(Dispatcher $events)
     {
@@ -37,8 +37,7 @@ class AffectServicesListener
 
         $method = array_shift($args);
 
-        collect(static::$services)->each(function($service) use ($method, $args)
-        {
+        collect(static::$services)->each(function ($service) use ($method, $args) {
             call_user_func_array(
                 [$service, $method],
                 $args

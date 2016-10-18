@@ -45,7 +45,6 @@ class HostnameActions
     public function handle(Request $request, Closure $next)
     {
         if ($this->hostname) {
-
             if ($this->hostname->under_maintenance_since) {
                 return $this->maintenance($this->hostname);
             }

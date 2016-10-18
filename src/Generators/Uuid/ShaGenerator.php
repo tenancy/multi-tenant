@@ -6,7 +6,7 @@ use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Models\Website;
 use Ramsey\Uuid\Uuid;
 
-class ShaStringGenerator implements UuidGenerator
+class ShaGenerator implements UuidGenerator
 {
     /**
      * @param Website $website
