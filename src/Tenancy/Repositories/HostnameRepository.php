@@ -31,10 +31,10 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
-    +     * @param int $website_id
-    +     *
-    +     * @return \Hyn\Tenancy\Models\Hostname
-    +     */
+     * @param int $website_id
+     *
+     * @return \Hyn\Tenancy\Models\Hostname
+     */
     public function findByWebsiteId($website_id)
     {
         return $this->hostname->whereHas('website', function ($query) use ($website_id) {
