@@ -17,4 +17,11 @@ interface HostnameRepositoryContract extends BaseRepositoryContract
      * @return \Hyn\Tenancy\Models\Hostname
      */
     public function getDefault();
+
+    /**
+     * @param int $website_id
+     *
+     * @return \Hyn\Tenancy\Models\Hostname
+     */
+    public function findByWebsiteId($website_id);
 }

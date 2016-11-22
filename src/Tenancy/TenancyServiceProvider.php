@@ -11,6 +11,7 @@ use Hyn\Tenancy\Commands\Migrate\RollbackCommand;
 use Hyn\Tenancy\Commands\Migrate\StatusCommand;
 use Hyn\Tenancy\Commands\Seeds\SeedCommand;
 use Hyn\Tenancy\Commands\SetupCommand;
+use Hyn\Tenancy\Commands\TenantCommand;
 use Hyn\Tenancy\Contracts\CustomerRepositoryContract;
 use Hyn\Tenancy\Contracts\DirectoryContract;
 use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
@@ -128,6 +129,7 @@ class TenancyServiceProvider extends ServiceProvider
          */
         $this->commands([
             SetupCommand::class,
+            TenantCommand::class,
         ]);
     }
 

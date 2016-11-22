@@ -81,6 +81,9 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                     $this->comment("Migration failed for existing table; probably a system migration: {$e->getMessage()}");
                     continue;
                 }
+                else {
+                    throw $e;
+                }
             }
 
             // Once the migrator has run we will grab the note output and send it out to
