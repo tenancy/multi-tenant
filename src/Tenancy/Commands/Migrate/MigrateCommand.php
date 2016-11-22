@@ -80,6 +80,8 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                 if (str_contains($e->getMessage(), ['Base table or view already exists'])) {
                     $this->comment("Migration failed for existing table; probably a system migration: {$e->getMessage()}");
                     continue;
+                } else {
+                    throw $e;
                 }
             }
 

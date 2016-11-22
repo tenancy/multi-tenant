@@ -31,6 +31,18 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
     }
 
     /**
+     * @param int $website_id
+     *
+     * @return \Hyn\Tenancy\Models\Hostname
+     */
+    public function findByWebsiteId($website_id)
+    {
+        return $this->hostname->whereHas('website', function ($query) use ($website_id) {
+            $query->where('website_id', $website_id);
+        })->first();
+    }
+
+    /**
      * Create a pagination object.
      *
      * @param int $per_page

@@ -123,6 +123,7 @@ class DatabaseConnection
         static::$current = $this->name;
 
         Config::set(sprintf('database.connections.%s', static::tenantConnectionName()), $this->config());
+        DB::purge(static::tenantConnectionName());
     }
 
     /**
