@@ -28,9 +28,7 @@ abstract class TenancyRequestHelper
         try {
             if (! App::runningInConsole()) {
                 $tenant_hostname = $hostname->findByHostname(Request::getHost());
-            }
-
-            elseif ($tenant_id = getenv('TENANT')) {
+            } elseif ($tenant_id = getenv('TENANT')) {
                 $tenant_hostname = $hostname->findByWebsiteId($tenant_id);
             }
 

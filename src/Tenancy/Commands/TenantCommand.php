@@ -44,7 +44,7 @@ class TenantCommand extends Command
         $this->output->progressStart(count($websites));
         foreach ($websites as $website) {
             putenv('TENANT=' . $website->id);
-            $tenantApp = require base_path('bootstrap').'/app.php';
+            $tenantApp = require base_path('bootstrap') . '/app.php';
             $kernel = $tenantApp->make(Kernel::class);
 
             $status = $kernel->handle(
