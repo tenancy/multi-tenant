@@ -21,7 +21,7 @@ class UuidProvider extends ServiceProvider
             }
 
             if (class_exists($generator)) {
-                return new $generator;
+                return $app->make($generator);
             }
 
             throw new GeneratorInvalidException($generator);

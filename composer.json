@@ -27,7 +27,8 @@
     "phpseclib/phpseclib": "~2.0",
     "laracasts/presenter": "~0.2.0",
     "doctrine/dbal": "~2.5",
-    "ramsey/uuid": "^3.5"
+    "ramsey/uuid": "^3.5",
+    "laravel/laravel": "5.3"
   },
   "require-dev": {
     "phpunit/phpunit": "5.*",

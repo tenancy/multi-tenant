@@ -5,8 +5,9 @@ namespace Hyn\Tenancy\Tests;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Providers\WebserverProvider;
+use Illuminate\Support\Arr;
 
-class LaravelIntegrationTest extends Test
+class FrameworkIntegrationTest extends Test
 {
     /**
      * @test
@@ -22,7 +23,18 @@ class LaravelIntegrationTest extends Test
                      Providers\PasswordProvider::class,
                      Providers\UuidProvider::class
                  ] as $provider) {
-            $this->assertTrue(in_array($provider, $this->app->getLoadedProviders()));
+            $this->assertTrue(
+                Arr::get($this->app->getLoadedProviders(), $provider, false),
+                "$provider is not registered"
+            );
         }
+    }
+
+    /**
+     * @test
+     */
+    public function configurations_are_loaded()
+    {
+        $this->assertFalse(config('tenancy.website.disable-random-id'));
     }
 }

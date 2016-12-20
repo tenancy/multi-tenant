@@ -3,20 +3,18 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Providers\Tenants\BusProvider;
-use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
-use Hyn\Tenancy\Providers\Tenants\PasswordProvider;
-use Hyn\Tenancy\Providers\Tenants\UuidProvider;
+use Hyn\Tenancy\Providers\Tenants as Providers;
 use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->register(ConfigurationProvider::class);
-        $this->app->register(PasswordProvider::class);
-        $this->app->register(UuidProvider::class);
-        $this->app->register(BusProvider::class);
+        $this->app->register(Providers\ConfigurationProvider::class);
+        $this->app->register(Providers\PasswordProvider::class);
+        $this->app->register(Providers\UuidProvider::class);
+        $this->app->register(Providers\BusProvider::class);
+        $this->app->register(Providers\EventProvider::class);
     }
 
     public function boot()

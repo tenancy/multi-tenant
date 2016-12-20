@@ -10,6 +10,11 @@ use Illuminate\Foundation\Testing\TestCase;
 class Test extends TestCase
 {
 
+    protected $loadProviders = [
+        TenancyProvider::class,
+        WebserverProvider::class
+    ];
+
     /**
      * Creates the application.
      *
@@ -21,11 +26,13 @@ class Test extends TestCase
     {
         $appPaths = [];
         if (getenv('CI_PROJECT_DIR')) {
-            $appPaths[] = realpath(getenv('CI_PROJECT_DIR') . '/vendor/laravel/laravel/bootstrap/app.php');
+            $appPaths[] = realpath(getenv('CI_PROJECT_DIR') . '/vendor/laravel/laravel');
         }
-        $appPaths[] = realpath('./bootstrap/app.php');
+        $appPaths[] = realpath(__DIR__ . '/..');
+        $appPaths[] = realpath(__DIR__ . '/../vendor/laravel/laravel');
 
         foreach ($appPaths as $path) {
+            $path = "$path/bootstrap/app.php";
             if (file_exists($path)) {
                 /** @var \Illuminate\Foundation\Application $app */
                 $app = require $path;
@@ -33,14 +40,16 @@ class Test extends TestCase
             }
         }
 
-        $app->make(Kernel::class)->bootstrap();
-
-        if (!$app->register(TenancyProvider::class)) {
-            throw new \RuntimeException("Failed to register Tenancy service provider");
+        if (!$app) {
+            throw new \RuntimeException("No bootstrap file found, make sure laravel/laravel is installed");
         }
 
-        if (!$app->register(WebserverProvider::class)) {
-            throw new \RuntimeException("Failed to register Tenancy webserver service provider");
+        $app->make(Kernel::class)->bootstrap();
+
+        foreach ($this->loadProviders as $provider) {
+            if (!$app->register($provider)) {
+                throw new \RuntimeException("Failed registering $provider");
+            }
         }
 
         return $app;

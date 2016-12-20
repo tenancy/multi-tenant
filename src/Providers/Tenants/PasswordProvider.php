@@ -11,10 +11,10 @@ class PasswordProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(PasswordGenerator::class, function ($app) {
-            $generator = $app['config']->get('tenancy.website.password-generator');
+            $generator = $app['config']->get('tenancy.db.password-generator');
 
             if (class_exists($generator)) {
-                return new $generator;
+                return $app->make($generator);
             }
 
             throw new GeneratorInvalidException($generator);
