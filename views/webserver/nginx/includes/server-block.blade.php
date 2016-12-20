@@ -57,7 +57,7 @@ server {
     }
     # pass the PHP scripts to FastCGI server from upstream phpfcgi
     location ~ \.php(/|$) {
-        fastcgi_pass    unix:/var/run/php5-fpm.hyn-{{ $fpm_port + $website->id }}.sock;
+        fastcgi_pass    unix:/var/run/php/php7.0-fpm.hyn-{{ $fpm_port + $website->id }}.sock;
         include         fastcgi_params;
 
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
