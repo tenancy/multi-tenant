@@ -11,6 +11,9 @@ variables:
   before_script:
     - composer global require hirak/prestissimo
     - composer install --prefer-dist --no-interaction --no-progress
+    - sudo apt-get install -qq --force-yes beanstalkd supervisor
+    - composer require pda/pheanstalk
+
 .standard_template: &standard_deploy
   services:
     - mysql:latest
@@ -19,6 +22,7 @@ variables:
       expire_in: 1 day
       paths:
           - storage/logs/laravel.log
+          - /var/log/travis-queue.log
   variables:
     DB_HOST: mysql
     DB_USERNAME: root
