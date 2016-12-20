@@ -8,9 +8,7 @@ variables:
 .before_template: &before_script
   before_script:
     - composer global require hirak/prestissimo
-    - composer config -g github-oauth.github.com $GITHUB_TOKEN
     - composer install --prefer-dist --no-interaction --no-progress
-    - touch $CI_PROJECT_DIR/id_rsa.pub
 .standard_template: &standard_deploy
   services:
     - mysql:latest
