@@ -53,4 +53,4 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
-    - vendor/bin/phpunit -d memory_limit=1G --coverage=text --colors=never --testsuite=NonExisting
+    - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting
