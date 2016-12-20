@@ -6,6 +6,7 @@ stages:
 
 variables:
   APP_ENV: "testing"
+  LARAVEL: "5.3"
 
 .before_template: &before_script
   before_script:
@@ -32,10 +33,17 @@ variables:
     MYSQL_ROOT_PASSWORD: root
   stage: test
   script:
+    - composer require laravel/laravel:$LARAVEL
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
 
-test-7.1:
+test-7.1-L-5.3:
+  <<: *before_script
+  <<: *standard_deploy
+
+test-7.1-L-master:
+  variables:
+    LARAVEL: "dev-master"
   <<: *before_script
   <<: *standard_deploy
 
@@ -44,5 +52,6 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
+    - composer require laravel/laravel:5.3
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=1G --coverage=text --colors=never --testsuite=NonExisting
