@@ -13,13 +13,6 @@ class WebserverProvider extends ServiceProvider
         $this->registerConfiguration();
     }
 
-    public function boot()
-    {
-        // ..
-    }
-
-
-
     protected function registerConfiguration()
     {
         $this->mergeConfigFrom(

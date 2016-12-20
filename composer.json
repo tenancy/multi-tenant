@@ -43,6 +43,9 @@
     "psr-4": {
       "Hyn\\Tenancy\\Tests\\": "tests/unit-tests/",
       "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/database/seeds/"
-    }
+    },
+    "classmap": [
+      "tests/Test.php"
+    ]
   }
 }
