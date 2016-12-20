@@ -46,6 +46,7 @@ test-7.1-L-master:
     LARAVEL: "dev-master"
   <<: *before_script
   <<: *standard_deploy
+  allow_failure: true
 
 code-coverage:
   <<: *before_script
