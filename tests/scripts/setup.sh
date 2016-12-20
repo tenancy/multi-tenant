@@ -12,6 +12,6 @@ fi
 ln -s $CI_PROJECT_DIR/vendor/ $CI_PROJECT_DIR/vendor/laravel/laravel/vendor
 
 # moves the unit test to the root laravel directory
-cp ci.travis.xml phpunit.xml
+cp ci.phpunit.xml phpunit.xml
 
 cd $CI_PROJECT_DIR
