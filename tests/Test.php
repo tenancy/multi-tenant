@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\TestCase;
 
 class Test extends TestCase
 {
-
     protected $loadProviders = [
         TenancyProvider::class,
         WebserverProvider::class
