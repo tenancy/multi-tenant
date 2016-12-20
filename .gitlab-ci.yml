@@ -1,4 +1,4 @@
-image: php/7.1
+image: php:7.1-apache
 
 stages:
   - test
