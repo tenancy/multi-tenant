@@ -1,0 +1,46 @@
+stages:
+  - test
+  - coverage
+
+variables:
+  APP_ENV: "testign"
+
+.before_template: &before_script
+  before_script:
+    - composer global require hirak/prestissimo
+    - composer config -g github-oauth.github.com $GITHUB_TOKEN
+    - composer install --prefer-dist --no-interaction --no-progress
+    - touch $CI_PROJECT_DIR/id_rsa.pub
+.standard_template: &standard_deploy
+  services:
+    - mysql:latest
+  artifacts:
+      when: on_failure
+      expire_in: 1 day
+      paths:
+          - storage/logs/laravel.log
+  variables:
+    DB_HOST: mysql
+    DB_USERNAME: root
+    DB_PASSWORD: root
+    DB_DATABASE: testing
+    MYSQL_DATABASE: testing
+    MYSQL_ROOT_PASSWORD: root
+    APP_SSH_PUBLIC_KEY_PATH: $CI_PROJECT_DIR/id_rsa.pub
+  stage: test
+  script:
+    - php artisan migrate
+    - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
+
+test-7.1:
+  image: nothinghere/php-7.1:latest
+  <<: *before_script
+  <<: *standard_deploy
+
+code-coverage:
+  image: nothinghere/php-7.1:latest
+  <<: *before_script
+  stage: coverage
+  when: on_success
+  script:
+    - vendor/bin/phpunit -d memory_limit=1G --coverage=text --colors=never --testsuite=NonExisting
