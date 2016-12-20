@@ -14,7 +14,7 @@ ln -s $CI_PROJECT_DIR/vendor/ $CI_PROJECT_DIR/vendor/laravel/laravel/vendor
 # Set up supervisor and the beanstalk queue
 
 cat /etc/default/beanstalkd | sed -e "s/#START=yes/START=yes/" > /tmp/beanstalkd
-sudo mv -f /tmp/beanstalkd /etc/default/beanstalkd
+mv -f /tmp/beanstalkd /etc/default/beanstalkd
 
 cat <<EOF > /tmp/supervisor
 [program:travis-queue]
@@ -28,11 +28,11 @@ directory=$CI_PROJECT_DIR/vendor/laravel/laravel
 stdout_logfile=/var/log/travis-queue.log
 redirect_stderr=true
 EOF
-sudo mv -f /tmp/supervisor /etc/supervisor/conf.d/laravel-queue.conf
+mv -f /tmp/supervisor /etc/supervisor/conf.d/laravel-queue.conf
 
-sudo service beanstalkd start
-sudo supervisorctl reread
-sudo supervisorctl update
+service beanstalkd start
+supervisorctl reread
+supervisorctl update
 
 # moves the unit test to the root laravel directory
 cp ci.travis.xml phpunit.xml
