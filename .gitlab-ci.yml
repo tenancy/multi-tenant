@@ -1,3 +1,5 @@
+image: nothinghere/php-7.1:latest
+
 stages:
   - test
   - coverage
@@ -30,12 +32,10 @@ variables:
     - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
 
 test-7.1:
-  image: nothinghere/php-7.1:latest
   <<: *before_script
   <<: *standard_deploy
 
 code-coverage:
-  image: nothinghere/php-7.1:latest
   <<: *before_script
   stage: coverage
   when: on_success

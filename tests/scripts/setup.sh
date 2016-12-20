@@ -4,7 +4,7 @@
 # v prints every line before executing
 set -ev
 
-if [ !-e "$TRAVIS_BUILD_DIR" ]; then
+if [ -n "$TRAVIS_BUILD_DIR" ]; then
     CI_PROJECT_DIR=$TRAVIS_BUILD_DIR
 fi
 
