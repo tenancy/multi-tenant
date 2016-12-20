@@ -6,13 +6,12 @@ stages:
 
 variables:
   APP_ENV: "testing"
+  QUEUE_DRIVER: "sync"
 
 .before_template: &before_script
   before_script:
     - composer global require hirak/prestissimo
     - composer install --prefer-dist --no-interaction --no-progress
-    - apt-get install -qq --assume-yes beanstalkd supervisor
-    - composer require pda/pheanstalk
 
 .standard_template: &standard_deploy
   services:
