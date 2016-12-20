@@ -9,7 +9,7 @@
 [{{ $website->id }}-{{ $website->present()->urlName }}]
 
 ;# listening for nginx proxying
-listen=/var/run/php7-fpm.hyn-{{ $config['port'] + $website->id }}.sock
+listen=/var/run/php/php7.0-fpm.hyn-{{ $config['port'] + $website->id }}.sock
 listen.allowed_clients=127.0.0.1
 
 
