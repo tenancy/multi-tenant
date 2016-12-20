@@ -31,6 +31,7 @@ EOF
 mv -f /tmp/supervisor /etc/supervisor/conf.d/laravel-queue.conf
 
 service beanstalkd start
+service supervisord start
 supervisorctl reread
 supervisorctl update
 
