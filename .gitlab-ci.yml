@@ -3,7 +3,7 @@ stages:
   - coverage
 
 variables:
-  APP_ENV: "testign"
+  APP_ENV: "testing"
 
 .before_template: &before_script
   before_script:
@@ -24,10 +24,9 @@ variables:
     DB_DATABASE: testing
     MYSQL_DATABASE: testing
     MYSQL_ROOT_PASSWORD: root
-    APP_SSH_PUBLIC_KEY_PATH: $CI_PROJECT_DIR/id_rsa.pub
   stage: test
   script:
-    - php artisan migrate
+    - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
 
 test-7.1:
@@ -41,4 +40,5 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
+    - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=1G --coverage=text --colors=never --testsuite=NonExisting
