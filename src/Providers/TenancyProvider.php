@@ -2,89 +2,21 @@
 
 namespace Hyn\Tenancy\Providers;
 
-use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
-use Hyn\Tenancy\Contracts\Website\UuidGenerator;
-use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Exceptions\UuidGeneratorInvalidException;
-use Hyn\Tenancy\Generators\Uuid\SimpleStringGenerator;
-use Hyn\Tenancy\Listeners\AffectServicesListener;
-use Hyn\Tenancy\Listeners\Models\CustomerObserver;
-use Hyn\Tenancy\Listeners\Models\HostnameObserver;
-use Hyn\Tenancy\Listeners\Models\WebsiteObserver;
-use Hyn\Tenancy\Models\Customer;
-use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\Tenants\BusProvider;
+use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
+use Hyn\Tenancy\Providers\Tenants\PasswordProvider;
+use Hyn\Tenancy\Providers\Tenants\UuidProvider;
 use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
 {
-    protected $subscribe = [
-        AffectServicesListener::class
-    ];
-
     public function register()
     {
-        $this->registerSupportingProviders();
-        $this->registerConfiguration();
-        $this->registerListeners();
-        $this->registerBinds();
-    }
-
-    protected function registerSupportingProviders()
-    {
+        $this->app->register(ConfigurationProvider::class);
+        $this->app->register(PasswordProvider::class);
+        $this->app->register(UuidProvider::class);
         $this->app->register(BusProvider::class);
-    }
-
-    protected function registerConfiguration()
-    {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../../assets/configs/tenancy.php',
-            'tenancy'
-        );
-        $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
-        ], 'tenancy');
-    }
-
-    protected function registerListeners()
-    {
-        $this->app->singleton(Connection::class);
-        AffectServicesListener::registerService($this->app->make(Connection::class));
-
-        Hostname::observe(HostnameObserver::class);
-        Customer::observe(CustomerObserver::class);
-        Website::observe(WebsiteObserver::class);
-    }
-
-    protected function registerBinds()
-    {
-        $this->app->bind(UuidGenerator::class, function ($app) {
-            $randomized = $app['config']->get('tenancy.website.disable-random-id', true);
-
-            if ($randomized) {
-                $generator = $app['config']->get('tenancy.website.random-id-generator');
-            } else {
-                $generator = SimpleStringGenerator::class;
-            }
-
-            if (class_exists($generator)) {
-                return new $generator;
-            }
-
-            throw new GeneratorInvalidException($generator);
-        });
-
-        $this->app->bind(PasswordGenerator::class, function ($app) {
-            $generator = $app['config']->get('tenancy.website.password-generator');
-
-            if (class_exists($generator)) {
-                return new $generator;
-            }
-
-            throw new GeneratorInvalidException($generator);
-        });
     }
 
     public function boot()

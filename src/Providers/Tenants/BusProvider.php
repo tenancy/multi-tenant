@@ -15,16 +15,6 @@ class BusProvider extends ServiceProvider
         });
     }
 
-    public function boot()
-    {
-        // ..
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
     public function provides()
     {
         return [
