@@ -11,7 +11,7 @@ variables:
   before_script:
     - composer global require hirak/prestissimo
     - composer install --prefer-dist --no-interaction --no-progress
-    - sudo apt-get install -qq --force-yes beanstalkd supervisor
+    - apt-get install -qq --force-yes beanstalkd supervisor
     - composer require pda/pheanstalk
 
 .standard_template: &standard_deploy
