@@ -37,7 +37,7 @@ test-7.1-L-5.3:
   script:
     - composer require laravel/laravel:5.3
     - bash tests/scripts/setup.sh
-    - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
+    - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never ci.phpunit.xml
 
 test-7.1-L-master:
   <<: *before_script
@@ -46,11 +46,11 @@ test-7.1-L-master:
   script:
     - composer require laravel/laravel:dev-master
     - bash tests/scripts/setup.sh
-    - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never
+    - vendor/bin/phpunit -d memory_limit=512M --coverage-text --colors=never ci.phpunit.xml
 
 code-coverage:
   <<: *before_script
   stage: coverage
   when: on_success
   script:
-    - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting
+    - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting ci.phpunit.xml

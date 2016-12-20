@@ -11,7 +11,4 @@ fi
 # set symlink so it seems as if this is a factual laravel installation
 ln -s $CI_PROJECT_DIR/vendor/ $CI_PROJECT_DIR/vendor/laravel/laravel/vendor
 
-# moves the unit test to the root laravel directory
-cp ci.phpunit.xml phpunit.xml
-
 cd $CI_PROJECT_DIR
