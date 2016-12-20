@@ -1,4 +1,4 @@
-image: php:7.1-apache
+image: nothinghere/php-7.1:latest
 
 stages:
   - test
@@ -53,5 +53,5 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
-    - apt-get install -qq php-xdebug
+    - pecl install xdebug
     - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting -c ci.phpunit.xml
