@@ -43,7 +43,8 @@
   "autoload-dev": {
     "psr-4": {
       "Hyn\\Tenancy\\Tests\\": "tests/unit-tests/",
-      "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/database/seeds/"
+      "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/seeds/",
+      "Hyn\\Tenancy\\Tests\\Mocks\\": "tests/mocks/"
     },
     "classmap": [
       "tests/Test.php"

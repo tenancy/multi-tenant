@@ -23,6 +23,15 @@ return [
          * @warn This won't work if disable-random-id is true.
          */
         'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaStringGenerator::class,
+
+        /**
+         * Specify the disk you configured in the filesystems.php file where to store
+         * the tenant specific files, including media, packages, routes and other
+         * files for this particular website.
+         *
+         * @info If not set, will revert to the default filesystem.
+         */
+        'disk' => null,
     ],
     'hostname' => [
         /**
