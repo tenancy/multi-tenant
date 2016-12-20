@@ -53,5 +53,6 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
-    - apt-get install -qq php-xdebug
+    - apt-get install -qq php-xdebug 2>&1 /dev/null
+    - pecl install xdebug 2>&1 /dev/null
     - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting -c ci.phpunit.xml
