@@ -57,6 +57,8 @@ class Test extends TestCase
             }
         }
 
+        touch(database_path('database.sqlite'));
+
         $this->duringSetUp($app);
 
         return $app;
@@ -70,5 +72,30 @@ class Test extends TestCase
     protected function duringSetUp(Application $app)
     {
         // ..
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function onNotSuccessfulTest($e)
+    {
+        static::cleanupTestingDatabase();
+        parent::onNotSuccessfulTest($e);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function tearDownAfterClass()
+    {
+        static::cleanupTestingDatabase();
+        parent::tearDownAfterClass();
+    }
+
+    protected static function cleanupTestingDatabase()
+    {
+        if (file_exists(database_path('database.sqlite'))) {
+            unlink(database_path('database.sqlite'));
+        }
     }
 }

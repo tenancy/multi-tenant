@@ -37,4 +37,32 @@ class FrameworkIntegrationTest extends Test
     {
         $this->assertFalse(config('tenancy.website.disable-random-id'));
     }
+
+    /**
+     * @test
+     */
+    public function publishes_vendor_files()
+    {
+        $code = $this->artisan('vendor:publish', [
+            '--tag' => 'tenancy',
+            '--force' => 1,
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, 'Publishing vendor files failed');
+    }
+
+    /**
+     * @test
+     * @depends publishes_vendor_files
+     */
+    public function runs_migrations()
+    {
+        $code = $this->artisan('migrate', [
+            '--path' => __DIR__ . '/../../assets/migrations',
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, 'Migrating system files failed');
+    }
 }

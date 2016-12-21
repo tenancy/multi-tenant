@@ -40,7 +40,7 @@ class Environment
      */
     public function identifyHostname()
     {
-        $this->app->singleton(CurrentHostname::class, function() {
+        $this->app->singleton(CurrentHostname::class, function () {
             $hostname = $this->dispatch(HostnameIdentification::class);
 
             $this->emitEvent(new Switched($hostname));
