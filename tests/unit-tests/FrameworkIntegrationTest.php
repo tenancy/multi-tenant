@@ -45,16 +45,16 @@ class FrameworkIntegrationTest extends Test
     {
         $code = $this->artisan('vendor:publish', [
             '--tag' => 'tenancy',
-            '--force' => 1,
             '-n' => 1
         ]);
 
         $this->assertEquals(0, $code, 'Publishing vendor files failed');
+
+        $this->assertFileExists(config_path('tenancy.php'));
     }
 
     /**
      * @test
-     * @depends publishes_vendor_files
      */
     public function runs_migrations()
     {
@@ -64,5 +64,15 @@ class FrameworkIntegrationTest extends Test
         ]);
 
         $this->assertEquals(0, $code, 'Migrating system files failed');
+    }
+
+    /**
+     * @test
+     */
+    public function install_command_works()
+    {
+        $code = $this->artisan('tenancy:install');
+
+        $this->assertEquals(0, $code, 'Installation didn\'t work out');
     }
 }

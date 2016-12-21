@@ -16,4 +16,11 @@ class FilesystemProvider extends ServiceProvider
             return $manager->disk($app['config']->get('tenancy.website.disk'));
         });
     }
+
+    public function provides()
+    {
+        return [
+            Filesystem::class
+        ];
+    }
 }

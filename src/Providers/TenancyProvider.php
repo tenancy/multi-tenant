@@ -2,6 +2,7 @@
 
 namespace Hyn\Tenancy\Providers;
 
+use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +17,8 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\BusProvider::class);
         $this->app->register(Providers\EventProvider::class);
         $this->app->register(Providers\FilesystemProvider::class);
+
+        $this->installCommand();
     }
 
     public function boot()
@@ -26,5 +29,18 @@ class TenancyProvider extends ServiceProvider
         $this->app->singleton(Environment::class, function () use ($environment) {
             return $environment;
         });
+    }
+
+    protected function installCommand()
+    {
+        $this->commands(InstallCommand::class);
+    }
+
+    public function provides()
+    {
+        return [
+            Environment::class,
+            InstallCommand::class
+        ];
     }
 }
