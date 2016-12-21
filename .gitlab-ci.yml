@@ -24,6 +24,7 @@ variables:
           - /var/log/travis-queue.log
   variables:
     DB_HOST: mysql
+    DB_CONNECTION: mysql
     DB_USERNAME: root
     DB_PASSWORD: root
     DB_DATABASE: testing
