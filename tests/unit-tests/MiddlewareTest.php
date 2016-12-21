@@ -22,6 +22,5 @@ class MiddlewareTest extends Test
 
     public function redirects_when_specified()
     {
-
     }
 }
