@@ -8,6 +8,10 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
 
+/**
+ * Class Test
+ * @package Hyn\Tenancy\Tests
+ */
 class Test extends TestCase
 {
     /**
@@ -81,15 +85,6 @@ class Test extends TestCase
     {
         static::cleanupTestingDatabase();
         parent::onNotSuccessfulTest($e);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tearDownAfterClass()
-    {
-        static::cleanupTestingDatabase();
-        parent::tearDownAfterClass();
     }
 
     protected static function cleanupTestingDatabase()

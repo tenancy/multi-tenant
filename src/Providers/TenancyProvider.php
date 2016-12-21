@@ -3,8 +3,10 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Commands\InstallCommand;
+use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants as Providers;
+use Hyn\Tenancy\Repositories;
 use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\FilesystemProvider::class);
 
         $this->installCommand();
+
+        $this->repositories();
     }
 
     public function boot()
@@ -36,11 +40,20 @@ class TenancyProvider extends ServiceProvider
         $this->commands(InstallCommand::class);
     }
 
+    protected function repositories()
+    {
+        $this->app->singleton(
+            Contracts\Repositories\HostnameRepository::class,
+            Repositories\HostnameRepository::class
+        );
+    }
+
     public function provides()
     {
         return [
             Environment::class,
-            InstallCommand::class
+            InstallCommand::class,
+            Contracts\Repositories\HostnameRepository::class,
         ];
     }
 }

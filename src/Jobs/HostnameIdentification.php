@@ -13,37 +13,23 @@ class HostnameIdentification
     use DispatchesEvents;
 
     /**
-     * @var Request
-     */
-    protected $request;
-
-    /**
-     * @var HostnameRepository
-     */
-    protected $hostnameRepository;
-
-    public function __construct(Request $request, HostnameRepository $hostnameRepository)
-    {
-        $this->request = $request;
-        $this->hostnameRepository = $hostnameRepository;
-    }
-
-    /**
+     * @param Request $request
+     * @param HostnameRepository $hostnameRepository
      * @return Hostname|null
      */
-    public function handle() : ?Hostname
+    public function handle(Request $request, HostnameRepository $hostnameRepository): ?Hostname
     {
         $hostname = env('TENANCY_CURRENT_HOSTNAME');
 
-        if (!$hostname && (app()->runningInConsole() || !$this->request->getHost())) {
-            return $this->hostnameRepository->getDefault();
+        if (!$hostname && (app()->runningInConsole() || !$request->getHost())) {
+            return $hostnameRepository->getDefault();
         }
 
         if (!$hostname) {
-            $hostname = $this->request->getHost();
+            $hostname = $request->getHost();
         }
 
-        $hostname = $this->hostnameRepository->findByHostname($hostname);
+        $hostname = $hostnameRepository->findByHostname($hostname);
 
         $this->emitEvent(new Identified($hostname));
 

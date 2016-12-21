@@ -3,7 +3,6 @@
 namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Events\Websites\Switched;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
@@ -41,9 +40,7 @@ class Environment
     public function identifyHostname()
     {
         $this->app->singleton(CurrentHostname::class, function () {
-            $hostname = $this->dispatch(HostnameIdentification::class);
-
-            $this->emitEvent(new Switched($hostname));
+            $hostname = $this->dispatch(new HostnameIdentification);
 
             return $hostname;
         });
