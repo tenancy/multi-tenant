@@ -18,10 +18,9 @@ variables:
     - mysql:latest
   artifacts:
       when: on_failure
-      expire_in: 1 day
+      expire_in: 8 hours
       paths:
-          - storage/logs/laravel.log
-          - /var/log/travis-queue.log
+          - vendor/laravel/laravel/storage/logs/laravel.log
   variables:
     DB_HOST: mysql
     DB_CONNECTION: mysql
