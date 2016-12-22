@@ -75,7 +75,7 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-connection-name
          */
         'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', 'system'),
-        'tenant-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', 'tenant'),
+        'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', 'tenant'),
 
         /**
          * The tenant division mode specifies to what database websites will be
