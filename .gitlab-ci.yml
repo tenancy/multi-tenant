@@ -30,6 +30,7 @@ variables:
     DB_DATABASE: testing
     MYSQL_DATABASE: testing
     MYSQL_ROOT_PASSWORD: root
+    TENANCY_SYSTEM_CONNECTION_NAME: mysql
   stage: test
 
 test-7.1-L-5.3:
