@@ -15,7 +15,7 @@ variables:
     - docker-php-ext-install pdo_mysql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
-    - composer global require hirak/prestissimo
+    - php composer global require hirak/prestissimo
 
 .standard_template: &standard_deploy
   services:
@@ -40,7 +40,7 @@ test-7.1-L-5.3:
   <<: *before_script
   <<: *standard_deploy
   script:
-    - composer update laravel/laravel:5.3 --dev --prefer-dist -n
+    - php composer update laravel/laravel:5.3 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -48,7 +48,7 @@ test-7.1-L-5.4:
   <<: *before_script
   <<: *standard_deploy
   script:
-    - composer update laravel/laravel:5.4 --dev --prefer-dist -n
+    - php composer update laravel/laravel:5.4 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -57,7 +57,7 @@ test-7.1-L-master:
   <<: *standard_deploy
   allow_failure: true
   script:
-    - composer update laravel/laravel:dev-master --dev --prefer-dist -n
+    - php composer update laravel/laravel:dev-master --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -66,6 +66,6 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
-    - composer install --prefer-dist -n
+    - php composer install --prefer-dist -n
     - pecl install xdebug
     - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting -c ci.phpunit.xml
