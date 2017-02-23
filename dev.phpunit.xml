@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+>
+    <testsuites>
+        <testsuite>
+            <directory>./tests/unit-tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_DATABASE" value="tenancy"/>
+        <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="RESET_DB" value="true"/>
+        <env name="TENANCY_CURRENT_HOSTNAME" value="local.testing"/>
+    </php>
+</phpunit>

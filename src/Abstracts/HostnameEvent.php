@@ -11,7 +11,7 @@ abstract class HostnameEvent extends AbstractEvent
      */
     public $hostname;
 
-    public function __construct(Hostname $hostname)
+    public function __construct(Hostname $hostname = null)
     {
         $this->hostname = $hostname;
     }

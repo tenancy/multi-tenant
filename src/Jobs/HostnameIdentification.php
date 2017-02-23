@@ -21,7 +21,7 @@ class HostnameIdentification
     {
         $hostname = env('TENANCY_CURRENT_HOSTNAME');
 
-        if (!$hostname && (app()->runningInConsole() || !$request->getHost())) {
+        if (empty($hostname) && (app()->runningInConsole() || !$request->getHost())) {
             return $hostnameRepository->getDefault();
         }
 

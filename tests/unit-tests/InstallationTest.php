@@ -54,6 +54,7 @@ class InstallationTest extends Test
     {
         $code = $this->artisan('vendor:publish', [
             '--tag' => 'tenancy',
+            '--provider' => Providers\ConfigurationProvider::class,
             '-n' => 1
         ]);
 
@@ -64,20 +65,6 @@ class InstallationTest extends Test
 
     /**
      * @test
-     */
-    public function migration_table_created()
-    {
-        $code = $this->artisan('migrate:install', [
-            '-n' => 1
-        ]);
-
-        $this->assertEquals(0, $code, 'Migration table creation failed');
-    }
-
-    /**
-     * @test
-     * @depends migration_table_created
-     * @depends publishes_vendor_files
      */
     public function install_command_works()
     {
@@ -94,32 +81,27 @@ class InstallationTest extends Test
      */
     public function migration_succeeded()
     {
-        Hostname::query()->first();
+        $this->assertNull(Hostname::query()->first());
     }
 
     /**
      * @test
      * @depends migration_succeeded
+     */
+    public function saves_default_hostname()
+    {
+        $this->assertTrue($this->hostname->save());
+    }
+
+    /**
+     * @test
+     * @depends saves_default_hostname
      */
     public function hostname_identification_returns_default()
     {
         $this->assertEquals(
-            $this->app->make(HostnameRepository::class)->getDefault(),
-            $this->app->make(CurrentHostname::class)
-        );
-    }
-
-    /**
-     * @test
-     * @depends migration_succeeded
-     */
-    public function hostname_identification_returns_env()
-    {
-        putenv('TENANCY_CURRENT_HOSTNAME=local.testing');
-
-        $this->assertEquals(
-            $this->hostname,
-            $this->app->make(CurrentHostname::class)
+            $this->hostname->fqdn,
+            $this->app->make(CurrentHostname::class)->fqdn
         );
     }
 

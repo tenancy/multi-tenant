@@ -10,10 +10,10 @@ interface HostnameRepository
      * @param string $hostname
      * @return Hostname|null
      */
-    public function findByHostname(string $hostname);
+    public function findByHostname(string $hostname): ?Hostname;
 
     /**
      * @return Hostname|null
      */
-    public function getDefault() : ?Hostname;
+    public function getDefault(): ?Hostname;
 }

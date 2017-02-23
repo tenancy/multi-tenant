@@ -13,8 +13,8 @@ class InstallCommand extends Command
     public function handle()
     {
         $code = $this->call('migrate', [
-            '--database' => app(Connection::class)->systemName(),
-            '--path' => __DIR__ . '/../../assets/migrations',
+            '--database' => $this->getLaravel()->make(Connection::class)->systemName(),
+            '--force' => 1,
             '-n' => 1
         ]);
 
