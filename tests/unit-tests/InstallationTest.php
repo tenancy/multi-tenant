@@ -77,6 +77,7 @@ class InstallationTest extends Test
     /**
      * @test
      * @depends migration_table_created
+     * @depends publishes_vendor_files
      */
     public function install_command_works()
     {

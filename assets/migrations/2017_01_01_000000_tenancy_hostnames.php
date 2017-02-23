@@ -29,8 +29,6 @@ class TenancyHostnames extends AbstractMigration
 
     public function down()
     {
-        if ($this->systemConnection()->hasTable('hostnames')) {
-            $this->systemConnection()->drop('hostnames');
-        }
+        $this->systemConnection()->dropIfExists('hostnames');
     }
 }
