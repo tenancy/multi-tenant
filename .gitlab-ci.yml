@@ -1,4 +1,4 @@
-image: nothinghere/php-7.1:latest
+image: php:7.1
 
 stages:
   - test
@@ -10,6 +10,11 @@ variables:
 
 .before_template: &before_script
   before_script:
+    - apt-get update -yqq
+    - apt-get install git -yqq
+    - docker-php-ext-install pdo_mysql
+    - curl -sS https://getcomposer.org/installer | php
+    - mv composer.phar composer
     - composer global require hirak/prestissimo
 
 .standard_template: &standard_deploy
