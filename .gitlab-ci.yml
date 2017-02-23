@@ -17,6 +17,7 @@ variables:
     - apt-get -yqq update
     - apt-get -qqy install git unzip zip
     - docker-php-ext-install pdo_mysql
+    - docker-php-ext-enable xdebug
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo
