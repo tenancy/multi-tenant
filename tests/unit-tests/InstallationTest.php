@@ -52,12 +52,12 @@ class InstallationTest extends Test
      */
     public function publishes_vendor_files()
     {
-        $this->artisan('vendor:publish', [
+        $code = $this->artisan('vendor:publish', [
             '--tag' => 'tenancy',
             '-n' => 1
         ]);
 
-        $this->assertEquals(0, $this->code, 'Publishing vendor files failed');
+        $this->assertEquals(0, $code, 'Publishing vendor files failed');
 
         $this->assertFileExists(config_path('tenancy.php'));
     }
@@ -67,11 +67,11 @@ class InstallationTest extends Test
      */
     public function migration_table_created()
     {
-        $this->artisan('migrate:install', [
+        $code = $this->artisan('migrate:install', [
             '-n' => 1
         ]);
 
-        $this->assertEquals(0, $this->code, 'Migration table creation failed');
+        $this->assertEquals(0, $code, 'Migration table creation failed');
     }
 
     /**
@@ -80,11 +80,11 @@ class InstallationTest extends Test
      */
     public function install_command_works()
     {
-        $this->artisan('tenancy:install', [
+        $code = $this->artisan('tenancy:install', [
             '-n' => 1
         ]);
 
-        $this->assertEquals(0, $this->code, 'Installation didn\'t work out');
+        $this->assertEquals(0, $code, 'Installation didn\'t work out');
     }
 
     /**
