@@ -7,6 +7,7 @@ use Hyn\Tenancy\Providers\WebserverProvider;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
+use Throwable;
 
 /**
  * Class Test
