@@ -14,13 +14,13 @@ variables:
 
 .before_template: &before_script
   before_script:
-    - apt-get -yqq update
-    - apt-get -qqy install git unzip zip
+    - apt-get -yqq update > /dev/null
+    - apt-get -qqy install git unzip zip > /dev/null
     - docker-php-ext-install pdo_mysql
     - docker-php-ext-enable xdebug
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
-    - php composer global require hirak/prestissimo
+    - php composer global require hirak/prestissimo > /dev/null
 
 .standard_template: &standard_deploy
   services:
