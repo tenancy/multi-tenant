@@ -11,7 +11,6 @@ variables:
 .before_template: &before_script
   before_script:
     - composer global require hirak/prestissimo
-    - composer install --prefer-dist --no-interaction --no-progress
 
 .standard_template: &standard_deploy
   services:
@@ -36,7 +35,7 @@ test-7.1-L-5.3:
   <<: *before_script
   <<: *standard_deploy
   script:
-    - composer require laravel/laravel:5.3
+    - composer update laravel/laravel:5.3 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -44,7 +43,7 @@ test-7.1-L-5.4:
   <<: *before_script
   <<: *standard_deploy
   script:
-    - composer require laravel/laravel:5.4
+    - composer update laravel/laravel:5.4 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -53,7 +52,7 @@ test-7.1-L-master:
   <<: *standard_deploy
   allow_failure: true
   script:
-    - composer require laravel/laravel:dev-master
+    - composer update laravel/laravel:dev-master --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -62,5 +61,6 @@ code-coverage:
   stage: coverage
   when: on_success
   script:
+    - composer install --prefer-dist -n
     - pecl install xdebug
     - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting -c ci.phpunit.xml
