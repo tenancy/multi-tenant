@@ -81,10 +81,10 @@ class Test extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function onNotSuccessfulTest($e)
+    protected function onNotSuccessfulTest(Throwable $t)
     {
         static::cleanupTestingDatabase();
-        parent::onNotSuccessfulTest($e);
+        parent::onNotSuccessfulTest($t);
     }
 
     protected static function cleanupTestingDatabase()
