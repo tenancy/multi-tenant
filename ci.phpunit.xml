@@ -22,5 +22,6 @@
     </filter>
     <php>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
+        <env name="TENANCY_CURRENT_HOSTNAME" value="local.testing"/>
     </php>
 </phpunit>
