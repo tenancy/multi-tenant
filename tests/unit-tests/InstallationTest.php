@@ -3,7 +3,6 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
