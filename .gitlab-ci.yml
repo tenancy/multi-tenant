@@ -14,8 +14,8 @@ variables:
 
 .before_template: &before_script
   before_script:
-    - apt-get update -yqq
-    - apt-get install git unzip zip -yqq
+    - apt-get -yqq update
+    - apt-get -qqy install git unzip zip
     - docker-php-ext-install pdo_mysql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
