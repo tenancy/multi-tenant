@@ -3,7 +3,11 @@ image: php:7.1
 stages:
   - test
   - coverage
-
+  
+cache:
+  paths:
+    - vendor/
+  
 variables:
   APP_ENV: "testing"
   QUEUE_DRIVER: "sync"
@@ -11,7 +15,7 @@ variables:
 .before_template: &before_script
   before_script:
     - apt-get update -yqq
-    - apt-get install git -yqq
+    - apt-get install git unzip zip -yqq
     - docker-php-ext-install pdo_mysql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
