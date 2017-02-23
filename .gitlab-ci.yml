@@ -17,7 +17,6 @@ variables:
     - apt-get -yqq update > /dev/null
     - apt-get -qqy install git unzip zip > /dev/null
     - docker-php-ext-install pdo_mysql
-    - docker-php-ext-enable xdebug
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo > /dev/null
@@ -73,4 +72,5 @@ code-coverage:
   script:
     - php composer install --prefer-dist -n
     - pecl install xdebug
+    - docker-php-ext-enable xdebug
     - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --testsuite=NonExisting -c ci.phpunit.xml
