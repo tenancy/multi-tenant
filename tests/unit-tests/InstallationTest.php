@@ -2,7 +2,6 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use App\Http\Kernel;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
@@ -121,7 +120,7 @@ class InstallationTest extends Test
      */
     public function verify_request()
     {
-        $response = $this->call('get', 'foo');
+        $response = $this->call('default', 'foo');
 
         $response->assertJson(['fqdn' => $this->hostname->fqdn]);
     }
@@ -141,7 +140,7 @@ class InstallationTest extends Test
 
         $this->hostname = $hostname;
 
-        $app->make(Router::class)->get('foo', function() {
+        $app->make(Router::class)->get('default', function () {
             return app(CurrentHostname::class)->toJson();
         });
     }
