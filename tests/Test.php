@@ -2,6 +2,7 @@
 
 namespace Hyn\Tenancy\Tests;
 
+use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Illuminate\Contracts\Console\Kernel;
