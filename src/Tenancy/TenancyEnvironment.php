@@ -4,6 +4,7 @@ namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Helpers\TenancyRequestHelper;
 use Hyn\Tenancy\Tenant\View as TenantView;
+use Illuminate\Routing\UrlGenerator;
 use View;
 
 /**
@@ -50,6 +51,8 @@ class TenancyEnvironment
         // sets the database connection for the tenant website
         if (! is_null($this->website)) {
             $this->website->database->setCurrent();
+            app(UrlGenerator::class)->forceRootUrl('https://' . $this->website->hostnames->first()->hostname);
+            app(UrlGenerator::class)->forceScheme('https');
         }
 
         // register tenant IOC bindings
