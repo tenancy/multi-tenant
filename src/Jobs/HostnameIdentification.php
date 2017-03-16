@@ -21,15 +21,15 @@ class HostnameIdentification
     {
         $hostname = env('TENANCY_CURRENT_HOSTNAME');
 
-        if (empty($hostname) && (app()->runningInConsole() || !$request->getHost())) {
-            return $hostnameRepository->getDefault();
-        }
-
         if (!$hostname) {
-            $hostname = $request->getHost();
+            $hostname = $request->server('SERVER_NAME');
         }
 
         $hostname = $hostnameRepository->findByHostname($hostname);
+
+        if (!$hostname) {
+            $hostname = $hostnameRepository->getDefault();
+        }
 
         $this->emitEvent(new Identified($hostname));
 

@@ -20,6 +20,11 @@ class InstallationTest extends Test
     protected $hostname;
 
     /**
+     * @var Hostname
+     */
+    protected $tenant;
+
+    /**
      * @test
      */
     public function service_providers_registered()
@@ -126,10 +131,23 @@ class InstallationTest extends Test
     }
 
     /**
+     * @test
+     * @depends verify_request
+     */
+    public function verify_tenant_request()
+    {
+        $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
+
+        $response->assertJson(['fqdn' => $this->tenant->fqdn]);
+    }
+
+    /**
      * @param Application $app
      */
     protected function duringSetUp(Application $app)
     {
+        $router = $app->make(Router::class);
+
         Hostname::unguard();
 
         $hostname = new Hostname([
@@ -140,8 +158,18 @@ class InstallationTest extends Test
 
         $this->hostname = $hostname;
 
-        $app->make(Router::class)->get('default', function () {
+
+        $router->get('default', function () {
             return app(CurrentHostname::class)->toJson();
         });
+
+        $tenant = new Hostname([
+            'fqdn' => 'tenant.testing',
+            'redirect_to' => null,
+            'force_https' => false
+        ]);
+        $tenant->save();
+
+        $this->tenant = $tenant;
     }
 }
