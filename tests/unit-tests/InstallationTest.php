@@ -120,7 +120,7 @@ class InstallationTest extends Test
      */
     public function verify_request()
     {
-        $response = $this->call('default', 'foo');
+        $response = $this->get('default');
 
         $response->assertJson(['fqdn' => $this->hostname->fqdn]);
     }
