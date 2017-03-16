@@ -15,10 +15,6 @@ class WebserverProvider extends ServiceProvider
 
     protected function registerConfiguration()
     {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../../assets/configs/webserver.php',
-            'tenancy'
-        );
         $this->publishes([
             __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
         ], 'tenancy');

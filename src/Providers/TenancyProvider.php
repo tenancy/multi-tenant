@@ -7,7 +7,6 @@ use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
@@ -26,6 +25,7 @@ class TenancyProvider extends ServiceProvider
         $this->repositories();
 
         $this->migrations();
+        $this->registerConfiguration();
     }
 
     public function boot()
@@ -36,8 +36,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->singleton(Environment::class, function () use ($environment) {
             return $environment;
         });
-
-        Schema::defaultStringLength(191);
     }
 
     protected function installCommand()
@@ -65,5 +63,12 @@ class TenancyProvider extends ServiceProvider
             InstallCommand::class,
             Contracts\Repositories\HostnameRepository::class,
         ];
+    }
+
+    protected function registerConfiguration()
+    {
+        $this->publishes([
+            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
+        ], 'tenancy');
     }
 }
