@@ -134,6 +134,15 @@ class InstallationTest extends Test
      * @test
      * @depends verify_request
      */
+    public function save_tenant_hostname()
+    {
+        $this->assertTrue($this->tenant->save());
+    }
+
+    /**
+     * @test
+     * @depends save_tenant_hostname
+     */
     public function verify_tenant_request()
     {
         $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
@@ -168,7 +177,6 @@ class InstallationTest extends Test
             'redirect_to' => null,
             'force_https' => false
         ]);
-        $tenant->save();
 
         $this->tenant = $tenant;
     }
