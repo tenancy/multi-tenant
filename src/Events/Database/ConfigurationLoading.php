@@ -2,9 +2,10 @@
 
 namespace Hyn\Tenancy\Events\Database;
 
+use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Hyn\Tenancy\Database\Connection;
 
-class ConfigurationLoading
+class ConfigurationLoading extends AbstractEvent
 {
     /**
      * @var string

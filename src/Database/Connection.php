@@ -9,11 +9,14 @@ use Hyn\Tenancy\Events\Database\ConfigurationLoading;
 use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class Connection implements ServiceMutation
 {
+    use DispatchesEvents;
+
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
 
@@ -49,18 +52,15 @@ class Connection implements ServiceMutation
      * @param Config $config
      * @param UuidGenerator $uuidGenerator
      * @param PasswordGenerator $passwordGenerator
-     * @param Dispatcher $events
      */
     public function __construct(
         Config $config,
         UuidGenerator $uuidGenerator,
-        PasswordGenerator $passwordGenerator,
-        Dispatcher $events
+        PasswordGenerator $passwordGenerator
     ) {
         $this->config = $config;
         $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
-        $this->events = $events;
 
         $this->enforceDefaultConnection();
     }
@@ -147,7 +147,7 @@ class Connection implements ServiceMutation
 
         $mode = config('tenancy.db.tenant-division-mode');
 
-        $this->events->fire(new ConfigurationLoading($mode, $clone, $this));
+        $this->emitEvent(new ConfigurationLoading($mode, $clone, $this));
 
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
