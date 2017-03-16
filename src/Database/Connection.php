@@ -5,10 +5,12 @@ namespace Hyn\Tenancy\Database;
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
 use Hyn\Tenancy\Contracts\ServiceMutation;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
+use Hyn\Tenancy\Events\Database\ConfigurationLoading;
 use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class Connection implements ServiceMutation
 {
@@ -17,6 +19,11 @@ class Connection implements ServiceMutation
 
     const DIVISION_MODE_SEPARATE_DATABASE = 'database';
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
+
+    /**
+     * Allows manually setting the configuration during event callbacks.
+     */
+    const DIVISION_MODE_BYPASS = 'bypass';
 
     /**
      * @var Config
@@ -32,21 +39,28 @@ class Connection implements ServiceMutation
      * @var PasswordGenerator
      */
     protected $passwordGenerator;
+    /**
+     * @var Dispatcher
+     */
+    protected $events;
 
     /**
      * Connection constructor.
      * @param Config $config
      * @param UuidGenerator $uuidGenerator
      * @param PasswordGenerator $passwordGenerator
+     * @param Dispatcher $events
      */
     public function __construct(
         Config $config,
         UuidGenerator $uuidGenerator,
-        PasswordGenerator $passwordGenerator
+        PasswordGenerator $passwordGenerator,
+        Dispatcher $events
     ) {
         $this->config = $config;
         $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
+        $this->events = $events;
 
         $this->enforceDefaultConnection();
     }
@@ -131,7 +145,11 @@ class Connection implements ServiceMutation
             $this->systemName()
         ));
 
-        switch (config('tenancy.db.tenant-division-mode')) {
+        $mode = config('tenancy.db.tenant-division-mode');
+
+        $this->events->fire(new ConfigurationLoading($mode, $clone, $this));
+
+        switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
                 $clone['username'] = $clone['database'] = $this->uuidGenerator->generate($website);
                 $clone['password'] = $this->passwordGenerator->generate($website);
@@ -139,8 +157,10 @@ class Connection implements ServiceMutation
             case static::DIVISION_MODE_SEPARATE_PREFIX:
                 $clone['prefix'] = sprintf('%d_', $website->id);
                 break;
+            case static::DIVISION_MODE_BYPASS:
+                break;
             default:
-                throw new ConnectionException('Division mode unknown.');
+                throw new ConnectionException("Division mode '$mode' unknown.");
         }
 
         return $clone;

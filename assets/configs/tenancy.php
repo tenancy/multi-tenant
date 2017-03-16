@@ -51,7 +51,7 @@ return [
          * set a specific website as currently active.
          *
          * @see src/Jobs/HostnameIdentification.php
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnamauto-identification
+         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameauto-identification
          */
         'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
     ],

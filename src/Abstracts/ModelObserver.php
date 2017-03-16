@@ -11,11 +11,18 @@ abstract class ModelObserver
 {
     use DispatchesEvents;
 
+    /**
+     * @param Model $model
+     */
     public function created($model)
     {
         $this->fireStandardizedEvent(__FUNCTION__, $model);
     }
 
+    /**
+     * @param string $event
+     * @param Model $model
+     */
     protected function fireStandardizedEvent(string $event, Model $model)
     {
         $eventClass = sprintf(
@@ -29,11 +36,17 @@ abstract class ModelObserver
         }
     }
 
+    /**
+     * @param Model $model
+     */
     public function updated($model)
     {
         $this->fireStandardizedEvent(__FUNCTION__, $model);
     }
 
+    /**
+     * @param Model $model
+     */
     public function deleted($model)
     {
         $this->fireStandardizedEvent(__FUNCTION__, $model);
