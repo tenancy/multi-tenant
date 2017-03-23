@@ -9,6 +9,7 @@
 [![Awesome Laravel](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/chiraggude/awesome-laravel)
 [![Total Downloads](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)](https://github.com/hyn/multi-tenant)
 [![Donate](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://paypal.me/luceos)
+[![Donate](https://img.shields.io/badge/patreon-donate-yellow.svg)](https://patreon.com/luceos)
 
 This package allows for multi tenancy websites on one installation of Laravel.
 
