@@ -4,6 +4,7 @@ namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Framework\Repositories\BaseRepository;
 use Hyn\Tenancy\Contracts\HostnameRepositoryContract;
+use Illuminate\Support\Facades\Cache;
 
 class HostnameRepository extends BaseRepository implements HostnameRepositoryContract
 {
@@ -19,7 +20,10 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
      */
     public function findByHostname($hostname)
     {
-        return $this->hostname->where('hostname', $hostname)->first();
+        $value = Cache::remember('hyn_hostname' . $hostname, 10, function () use ($hostname){
+            return $this->hostname->where('hostname', $hostname)->first();
+        });
+        return $value;
     }
 
     /**
@@ -37,9 +41,12 @@ class HostnameRepository extends BaseRepository implements HostnameRepositoryCon
      */
     public function findByWebsiteId($website_id)
     {
-        return $this->hostname->whereHas('website', function ($query) use ($website_id) {
-            $query->where('website_id', $website_id);
-        })->first();
+        $value = Cache::remember('hyn_hostname' . $website_id, 10, function () use ($website_id){
+            return $this->hostname->whereHas('website', function ($query) use ($website_id) {
+                $query->where('website_id', $website_id);
+            })->first();
+        });
+        return $value;
     }
 
     /**

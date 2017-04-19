@@ -70,6 +70,9 @@ class DatabaseConnection
      */
     protected function config()
     {
+        if (app()->environment() == 'testing') {
+            return Config::get('database.connections.testing');
+        }
         $clone = Config::get(sprintf('database.connections.%s', static::systemConnectionName()));
 
         if (Config::get('multi-tenant.db.tenant-division-mode') == static::TENANT_MODE_SEPARATE_DATABASE) {

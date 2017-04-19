@@ -94,16 +94,6 @@ class TenancyServiceProvider extends ServiceProvider
         $this->app = $app;
 
         $app->registerDeferredProvider(MigrationServiceProvider::class);
-        $app->registerDeferredProvider(SeedServiceProvider::class);
-
-        $commands = ['Migrate', 'Rollback', 'Reset', 'Refresh', 'Install', 'Make', 'Status', 'Seed'];
-
-        // We'll simply spin through the list of commands that are migration related
-        // and register each one of them with an application container. They will
-        // be resolved in the Artisan start file and registered on the console.
-        foreach ($commands as $command) {
-            $this->{'register' . $command . 'Command'}();
-        }
     }
 
     /**
@@ -147,108 +137,5 @@ class TenancyServiceProvider extends ServiceProvider
             WebsiteRepositoryContract::class,
             HostnameRepositoryContract::class,
         ]);
-    }
-
-    /**
-     * Register the "migrate" migration command.
-     *
-     * @return void
-     */
-    protected function registerMigrateCommand()
-    {
-        $this->app->bind('command.migrate', function ($object, $app) {
-            return new MigrateCommand($this->app->make('migrator'));
-        });
-    }
-
-    /**
-     * Register the "seed" command.
-     *
-     * @return void
-     */
-    protected function registerSeedCommand()
-    {
-        $this->app->bind('command.seed', function ($object, $app) {
-            return new SeedCommand($this->app->make('db'));
-        });
-    }
-
-    /**
-     * Register the "rollback" migration command.
-     *
-     * @return void
-     */
-    protected function registerRollbackCommand()
-    {
-        $this->app->bind('command.migrate.rollback', function ($object, $app) {
-            return new RollbackCommand($this->app->make('migrator'));
-        });
-    }
-
-    /**
-     * Register the "reset" migration command.
-     *
-     * @return void
-     */
-    protected function registerResetCommand()
-    {
-        $this->app->bind('command.migrate.reset', function ($object, $app) {
-            return new ResetCommand($this->app->make('migrator'));
-        });
-    }
-
-    /**
-     * Register the "refresh" migration command.
-     *
-     * @return void
-     */
-    protected function registerRefreshCommand()
-    {
-        $this->app->bind('command.migrate.refresh', function ($object, $app) {
-            return new RefreshCommand();
-        });
-    }
-
-    /**
-     * Register the "status" migration command.
-     *
-     * @return void
-     */
-    protected function registerStatusCommand()
-    {
-        $this->app->bind('command.migrate.status', function ($object, $app) {
-            return new StatusCommand($this->app->make('migrator'));
-        });
-    }
-
-    /**
-     * Register the "install" migration command.
-     *
-     * @return void
-     */
-    protected function registerInstallCommand()
-    {
-        $this->app->bind('command.migrate.install', function ($object, $app) {
-            return new InstallCommand($this->app->make('migration.repository'));
-        });
-    }
-
-    /**
-     * Register the "make" migration command.
-     *
-     * @return void
-     */
-    protected function registerMakeCommand()
-    {
-        $this->app->bind('command.migrate.make', function ($object, $app) {
-            // Once we have the migration creator registered, we will create the command
-            // and inject the creator. The creator is responsible for the actual file
-            // creation of the migrations, and may be extended by these developers.
-            $creator = $this->app->make('migration.creator');
-
-            $composer = $this->app->make('composer');
-
-            return new MigrateMakeCommand($creator, $composer);
-        });
     }
 }
