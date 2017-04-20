@@ -17,11 +17,12 @@ class EventProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Connection::class);
-        AffectServicesListener::registerService($this->app->make(Connection::class));
 
         Models\Hostname::observe(Listeners\HostnameObserver::class);
         Models\Customer::observe(Listeners\CustomerObserver::class);
         Models\Website::observe(Listeners\WebsiteObserver::class);
+
+        $this->serviceListeners();
     }
 
     public function provides()
@@ -29,5 +30,10 @@ class EventProvider extends ServiceProvider
         return [
             Connection::class
         ];
+    }
+
+    protected function serviceListeners()
+    {
+        AffectServicesListener::registerService($this->app->make(Connection::class));
     }
 }

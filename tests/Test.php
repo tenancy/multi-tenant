@@ -2,6 +2,7 @@
 
 namespace Hyn\Tenancy\Tests;
 
+use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Illuminate\Contracts\Console\Kernel;
@@ -15,6 +16,15 @@ use Throwable;
  */
 class Test extends TestCase
 {
+    /**
+     * @var Hostname
+     */
+    protected $hostname;
+
+    /**
+     * @var Hostname
+     */
+    protected $tenant;
     /**
      * Service providers to load during this test.
      *
@@ -93,5 +103,34 @@ class Test extends TestCase
         if (file_exists(database_path('database.sqlite'))) {
             unlink(database_path('database.sqlite'));
         }
+    }
+
+    protected function loadHostnames()
+    {
+        $this->hostname = Hostname::where('fqdn', 'local.testing')->firstOrFail();
+        $this->tenant = Hostname::where('fqdn', 'tenant.testing')->firstOrFail();
+    }
+
+    protected function setUpHostnames()
+    {
+        Hostname::unguard();
+
+        $hostname = new Hostname([
+            'fqdn' => 'local.testing',
+            'redirect_to' => null,
+            'force_https' => false,
+        ]);
+
+        $this->hostname = $hostname;
+
+        $tenant = new Hostname([
+            'fqdn' => 'tenant.testing',
+            'redirect_to' => null,
+            'force_https' => false
+        ]);
+
+        $this->tenant = $tenant;
+
+        Hostname::reguard();
     }
 }

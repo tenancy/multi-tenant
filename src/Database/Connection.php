@@ -52,26 +52,30 @@ class Connection implements ServiceMutation
      * @var ConnectionResolverInterface
      */
     protected $connection;
+    /**
+     * @var DatabaseManager
+     */
+    private $db;
 
     /**
      * Connection constructor.
      * @param Config $config
      * @param UuidGenerator $uuidGenerator
      * @param PasswordGenerator $passwordGenerator
-     * @param ConnectionResolverInterface $connection
+     * @param DatabaseManager $db
      */
     public function __construct(
         Config $config,
         UuidGenerator $uuidGenerator,
         PasswordGenerator $passwordGenerator,
-        ConnectionResolverInterface $connection
+        DatabaseManager $db
     ) {
         $this->config = $config;
         $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
+        $this->db = $db;
 
         $this->enforceDefaultConnection();
-        $this->connection = $connection;
     }
 
     protected function enforceDefaultConnection()
@@ -144,7 +148,7 @@ class Connection implements ServiceMutation
             $this->generateConfigurationArray($to->website)
         );
 
-        $this->connection->purge(
+        $this->db->purge(
             $this->tenantName()
         );
     }

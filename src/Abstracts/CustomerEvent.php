@@ -11,8 +11,8 @@ abstract class CustomerEvent extends AbstractEvent
      */
     public $customer;
 
-    public function __construct(Customer $customer)
+    public function __construct(Customer &$customer)
     {
-        $this->customer = $customer;
+        $this->customer = &$customer;
     }
 }

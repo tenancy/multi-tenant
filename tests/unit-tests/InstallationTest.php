@@ -14,15 +14,6 @@ use Illuminate\Support\Arr;
 
 class InstallationTest extends Test
 {
-    /**
-     * @var Hostname
-     */
-    protected $hostname;
-
-    /**
-     * @var Hostname
-     */
-    protected $tenant;
 
     /**
      * @test
@@ -157,27 +148,10 @@ class InstallationTest extends Test
     {
         $router = $app->make(Router::class);
 
-        Hostname::unguard();
-
-        $hostname = new Hostname([
-            'fqdn' => 'local.testing',
-            'redirect_to' => null,
-            'force_https' => false,
-        ]);
-
-        $this->hostname = $hostname;
-
+        $this->setUpHostnames();
 
         $router->get('default', function () {
             return app(CurrentHostname::class)->toJson();
         });
-
-        $tenant = new Hostname([
-            'fqdn' => 'tenant.testing',
-            'redirect_to' => null,
-            'force_https' => false
-        ]);
-
-        $this->tenant = $tenant;
     }
 }

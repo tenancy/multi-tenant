@@ -11,8 +11,8 @@ abstract class WebsiteEvent extends AbstractEvent
      */
     public $website;
 
-    public function __construct(Website $website)
+    public function __construct(Website &$website)
     {
-        $this->website = $website;
+        $this->website = &$website;
     }
 }
