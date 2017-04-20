@@ -12,6 +12,8 @@ use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\ConnectionResolverInterface;
+use Illuminate\Database\DatabaseManager;
 
 class Connection implements ServiceMutation
 {
@@ -46,29 +48,36 @@ class Connection implements ServiceMutation
      * @var Dispatcher
      */
     protected $events;
+    /**
+     * @var ConnectionResolverInterface
+     */
+    protected $connection;
 
     /**
      * Connection constructor.
      * @param Config $config
      * @param UuidGenerator $uuidGenerator
      * @param PasswordGenerator $passwordGenerator
+     * @param ConnectionResolverInterface $connection
      */
     public function __construct(
         Config $config,
         UuidGenerator $uuidGenerator,
-        PasswordGenerator $passwordGenerator
+        PasswordGenerator $passwordGenerator,
+        ConnectionResolverInterface $connection
     ) {
         $this->config = $config;
         $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
 
         $this->enforceDefaultConnection();
+        $this->connection = $connection;
     }
 
     protected function enforceDefaultConnection()
     {
-        if ($this->config->get('tenancy.db.default')) {
-            $this->config->set('database.default', $this->config->get('tenancy.db.default'));
+        if ($default = $this->config->get('tenancy.db.default')) {
+            $this->config->set('database.default', $default);
         }
     }
 
@@ -130,7 +139,14 @@ class Connection implements ServiceMutation
      */
     public function switch(Hostname $from, Hostname $to) : bool
     {
-        // TODO: Implement switch() method.
+        $this->config->set(
+            sprintf('database.connections.%s', $this->tenantName()),
+            $this->generateConfigurationArray($to->website)
+        );
+
+        $this->connection->purge(
+            $this->tenantName()
+        );
     }
 
     /**
