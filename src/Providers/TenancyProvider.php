@@ -71,4 +71,12 @@ class TenancyProvider extends ServiceProvider
             __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
         ], 'tenancy');
     }
+
+    protected function registerGeneratorViews()
+    {
+        $this->loadViewsFrom(
+            __DIR__ . '/../../assets/generators',
+            'tenancy.generator'
+        );
+    }
 }
