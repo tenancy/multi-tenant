@@ -14,7 +14,7 @@
         <testsuite name="Installation Test Suite">
             <file>./tests/unit-tests/InstallationTest.php</file>
         </testsuite>
-        <testsuite name="Continued Test Suite">
+        <testsuite name="Post Installation Test Suite">
             <directory suffix=".php">./tests/unit-tests/</directory>
             <exclude>./tests/unit-tests/InstallationTest.php</exclude>
         </testsuite>
