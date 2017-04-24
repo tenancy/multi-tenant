@@ -58,6 +58,11 @@ class Connection implements ServiceMutation
     private $db;
 
     /**
+     * @var Hostname
+     */
+    protected $current;
+
+    /**
      * Connection constructor.
      * @param Config $config
      * @param UuidGenerator $uuidGenerator
@@ -86,6 +91,26 @@ class Connection implements ServiceMutation
     }
 
     /**
+     * Gets the currently active tenant connection.
+     *
+     * @return \Illuminate\Database\Connection
+     */
+    public function get()
+    {
+        return $this->db->connection($this->tenantName());
+    }
+
+    /**
+     * Gets the system connection.
+     *
+     * @return \Illuminate\Database\Connection
+     */
+    public function system()
+    {
+        return $this->db->connection($this->systemName());
+    }
+
+    /**
      * @return string
      */
     public function systemName() : string
@@ -102,6 +127,16 @@ class Connection implements ServiceMutation
     }
 
     /**
+     * The currently enabled tenant hostname.
+     *
+     * @return Hostname|null
+     */
+    public function current() : ?Hostname
+    {
+        return $this->current;
+    }
+
+    /**
      * Whenever a website is activated, trigger a service update.
      *
      * @param Hostname $hostname
@@ -109,7 +144,14 @@ class Connection implements ServiceMutation
      */
     public function activate(Hostname $hostname) : bool
     {
-        // TODO: Implement activate() method.
+        $this->config->set(
+            sprintf('database.connections.%s', $this->tenantName()),
+            $this->generateConfigurationArray($hostname->website)
+        );
+
+        $this->current = $hostname;
+
+        return true;
     }
 
     /**
@@ -143,14 +185,13 @@ class Connection implements ServiceMutation
      */
     public function switch(Hostname $from, Hostname $to) : bool
     {
-        $this->config->set(
-            sprintf('database.connections.%s', $this->tenantName()),
-            $this->generateConfigurationArray($to->website)
-        );
+        $this->activate($to);
 
         $this->db->purge(
             $this->tenantName()
         );
+
+        return true;
     }
 
     /**
