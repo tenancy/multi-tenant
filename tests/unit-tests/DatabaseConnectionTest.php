@@ -32,7 +32,6 @@ class DatabaseConnectionTest extends Test
     public function hostname_identification_switches_connection()
     {
         $this->emitEvent(new Identified($this->hostname));
-        dd($this->connection->current());
     }
 
     /**

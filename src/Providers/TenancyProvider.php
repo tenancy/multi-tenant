@@ -49,6 +49,10 @@ class TenancyProvider extends ServiceProvider
             Contracts\Repositories\HostnameRepository::class,
             Repositories\HostnameRepository::class
         );
+        $this->app->singleton(
+            Contracts\Repositories\WebsiteRepository::class,
+            Repositories\WebsiteRepository::class
+        );
     }
 
     protected function migrations()
@@ -62,6 +66,7 @@ class TenancyProvider extends ServiceProvider
             Environment::class,
             InstallCommand::class,
             Contracts\Repositories\HostnameRepository::class,
+            Contracts\Repositories\WebsiteRepository::class,
         ];
     }
 

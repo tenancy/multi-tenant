@@ -7,13 +7,6 @@ use Hyn\Tenancy\Models\Hostname;
 interface ServiceMutation
 {
     /**
-     * Whenever a website is activated, trigger a service update.
-     *
-     * @param Hostname $hostname
-     * @return bool
-     */
-    public function activate(Hostname $hostname) : bool;
-    /**
      * Mutates the service based on a website being enabled.
      *
      * @param Hostname $hostname
@@ -32,9 +25,9 @@ interface ServiceMutation
     /**
      * Reacts to this service when we switch the active tenant website.
      *
-     * @param Hostname $from
      * @param Hostname $to
+     * @param Hostname|null $from
      * @return bool
      */
-    public function switch(Hostname $from, Hostname $to) : bool;
+    public function switch(Hostname $to, Hostname $from = null) : bool;
 }

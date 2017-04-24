@@ -137,24 +137,6 @@ class Connection implements ServiceMutation
     }
 
     /**
-     * Whenever a website is activated, trigger a service update.
-     *
-     * @param Hostname $hostname
-     * @return bool
-     */
-    public function activate(Hostname $hostname) : bool
-    {
-        $this->config->set(
-            sprintf('database.connections.%s', $this->tenantName()),
-            $this->generateConfigurationArray($hostname->website)
-        );
-
-        $this->current = $hostname;
-
-        return true;
-    }
-
-    /**
      * Mutates the service based on a website being enabled.
      *
      * @param Hostname $hostname
@@ -162,7 +144,7 @@ class Connection implements ServiceMutation
      */
     public function enable(Hostname $hostname) : bool
     {
-        // TODO: Implement enable() method.
+        // Nothing has to be setup here.
     }
 
     /**
@@ -173,7 +155,17 @@ class Connection implements ServiceMutation
      */
     public function disable(Hostname $hostname) : bool
     {
-        // TODO: Implement disable() method.
+        if ($this->current() == $hostname) {
+            $this->db->purge(
+                $this->tenantName()
+            );
+            $this->config->set(
+                sprintf('database.connections.%s', $this->tenantName()),
+                []
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -183,9 +175,14 @@ class Connection implements ServiceMutation
      * @param Hostname $to
      * @return bool
      */
-    public function switch(Hostname $from, Hostname $to) : bool
+    public function switch(Hostname $to, Hostname $from = null) : bool
     {
-        $this->activate($to);
+        $this->config->set(
+            sprintf('database.connections.%s', $this->tenantName()),
+            $this->generateConfigurationArray($to->website)
+        );
+
+        $this->current = $to;
 
         $this->db->purge(
             $this->tenantName()

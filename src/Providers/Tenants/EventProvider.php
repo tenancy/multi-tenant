@@ -6,13 +6,24 @@ use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Listeners\AffectServicesListener;
 use Hyn\Tenancy\Listeners\Models as Listeners;
 use Hyn\Tenancy\Models;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class EventProvider extends ServiceProvider
 {
+    /**
+     * @var array
+     */
     protected $subscribe = [
         AffectServicesListener::class
     ];
+
+    public function boot()
+    {
+        foreach ($this->subscribe as $subscriber) {
+            Event::subscribe($subscriber);
+        }
+    }
 
     public function register()
     {
@@ -25,6 +36,9 @@ class EventProvider extends ServiceProvider
         $this->serviceListeners();
     }
 
+    /**
+     * @return array
+     */
     public function provides()
     {
         return [

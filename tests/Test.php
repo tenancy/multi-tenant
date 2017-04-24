@@ -3,6 +3,7 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Illuminate\Contracts\Console\Kernel;
@@ -71,6 +72,7 @@ class Test extends TestCase
                 throw new \RuntimeException("Failed registering $provider");
             }
         }
+        \Schema::defaultStringLength(191);
 
         touch(database_path('database.sqlite'));
 

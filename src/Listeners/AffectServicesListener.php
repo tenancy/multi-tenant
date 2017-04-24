@@ -21,7 +21,7 @@ class AffectServicesListener
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Identified::class, [$this, 'activate']);
+        $events->listen(Identified::class, [$this, 'switch']);
     }
 
     /**
@@ -35,7 +35,7 @@ class AffectServicesListener
     /**
      * @param HostnameEvent $event
      */
-    protected function enable(HostnameEvent $event)
+    public function enable(HostnameEvent $event)
     {
         $this->processMethod('enable', $event->hostname);
     }
@@ -43,9 +43,9 @@ class AffectServicesListener
     /**
      * @param HostnameEvent $event
      */
-    protected function activate(HostnameEvent $event)
+    public function switch(HostnameEvent $event)
     {
-        $this->processMethod('activate', $event->hostname);
+        $this->processMethod('switch', $event->hostname);
     }
 
     /**
