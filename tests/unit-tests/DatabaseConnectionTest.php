@@ -3,11 +3,15 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
 
 class DatabaseConnectionTest extends Test
 {
+    use DispatchesEvents;
+
     /**
      * @var Connection
      */
@@ -16,18 +20,24 @@ class DatabaseConnectionTest extends Test
     /**
      * @test
      */
-    public function default_connection_works()
+    public function without_identification_no_tenant_connection_is_active()
     {
         $this->assertNull($this->connection->current());
     }
 
+    /**
+     * @test
+     * @depends without_identification_no_tenant_connection_is_active
+     */
     public function hostname_identification_switches_connection()
     {
+        $this->emitEvent(new Identified($this->hostname));
+        dd($this->connection->current());
     }
 
     /**
      * @test
-     * @depends default_connection_works
+     * @depends hostname_identification_switches_connection
      */
     public function both_connections_work()
     {
