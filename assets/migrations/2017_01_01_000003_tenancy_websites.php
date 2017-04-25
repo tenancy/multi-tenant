@@ -13,7 +13,7 @@ class TenancyWebsites extends AbstractMigration
         Schema::create('websites', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->string('uuid')->nullable();
+            $table->string('uuid');
             $table->bigInteger('customer_id')->unsigned()->nullable();
 
             $table->timestamps();

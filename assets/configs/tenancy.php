@@ -22,7 +22,7 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-websiterandom-id-generator
          * @warn This won't work if disable-random-id is true.
          */
-        'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaStringGenerator::class,
+        'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaGenerator::class,
 
         /**
          * Specify the disk you configured in the filesystems.php file where to store

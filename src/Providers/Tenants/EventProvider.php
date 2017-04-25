@@ -5,25 +5,21 @@ namespace Hyn\Tenancy\Providers\Tenants;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Listeners\AffectServicesListener;
 use Hyn\Tenancy\Listeners\Models as Listeners;
+use Hyn\Tenancy\Listeners\WebsiteUuidGeneration;
 use Hyn\Tenancy\Models;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
-class EventProvider extends ServiceProvider
+class EventProvider extends EventServiceProvider
 {
     /**
      * @var array
      */
     protected $subscribe = [
-        AffectServicesListener::class
+        // Triggers all services.
+        AffectServicesListener::class,
+        // Sets the uuid value on a website based on tenancy configuration.
+        WebsiteUuidGeneration::class,
     ];
-
-    public function boot()
-    {
-        foreach ($this->subscribe as $subscriber) {
-            Event::subscribe($subscriber);
-        }
-    }
 
     public function register()
     {
