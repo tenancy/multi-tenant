@@ -2,10 +2,9 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
+use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
@@ -17,15 +16,7 @@ use Throwable;
  */
 class Test extends TestCase
 {
-    /**
-     * @var Hostname
-     */
-    protected $hostname;
-
-    /**
-     * @var Hostname
-     */
-    protected $tenant;
+    use InteractsWithTenancy;
     /**
      * Service providers to load during this test.
      *
@@ -96,43 +87,13 @@ class Test extends TestCase
      */
     protected function onNotSuccessfulTest(Throwable $t)
     {
-        static::cleanupTestingDatabase();
+        $this->cleanupTenancy();
         parent::onNotSuccessfulTest($t);
     }
 
-    protected static function cleanupTestingDatabase()
+    protected function tearDown()
     {
-        if (file_exists(database_path('database.sqlite'))) {
-            unlink(database_path('database.sqlite'));
-        }
-    }
-
-    protected function loadHostnames()
-    {
-        $this->hostname = Hostname::where('fqdn', 'local.testing')->firstOrFail();
-        $this->tenant = Hostname::where('fqdn', 'tenant.testing')->firstOrFail();
-    }
-
-    protected function setUpHostnames()
-    {
-        Hostname::unguard();
-
-        $hostname = new Hostname([
-            'fqdn' => 'local.testing',
-            'redirect_to' => null,
-            'force_https' => false,
-        ]);
-
-        $this->hostname = $hostname;
-
-        $tenant = new Hostname([
-            'fqdn' => 'tenant.testing',
-            'redirect_to' => null,
-            'force_https' => false
-        ]);
-
-        $this->tenant = $tenant;
-
-        Hostname::reguard();
+        $this->cleanupTenancy();
+        parent::tearDown();
     }
 }

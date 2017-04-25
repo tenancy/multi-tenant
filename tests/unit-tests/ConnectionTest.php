@@ -8,7 +8,7 @@ use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
 
-class DatabaseConnectionTest extends Test
+class ConnectionTest extends Test
 {
     use DispatchesEvents;
 
@@ -32,6 +32,8 @@ class DatabaseConnectionTest extends Test
     public function hostname_identification_switches_connection()
     {
         $this->emitEvent(new Identified($this->hostname));
+
+        $this->assertEquals($this->connection->current(), $this->hostname);
     }
 
     /**
@@ -46,7 +48,7 @@ class DatabaseConnectionTest extends Test
 
     protected function duringSetUp(Application $app)
     {
-        $this->loadHostnames();
+        $this->setUpHostnames(true);
 
         $this->connection = $app->make(Connection::class);
     }

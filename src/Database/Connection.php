@@ -177,16 +177,20 @@ class Connection implements ServiceMutation
      */
     public function switch(Hostname $to, Hostname $from = null) : bool
     {
-        $this->config->set(
-            sprintf('database.connections.%s', $this->tenantName()),
-            $this->generateConfigurationArray($to->website)
-        );
+        if ($to->website) {
+            // Sets current connection settings.
+            $this->config->set(
+                sprintf('database.connections.%s', $this->tenantName()),
+                $this->generateConfigurationArray($to->website)
+            );
+
+            // Purges the old connection.
+            $this->db->purge(
+                $this->tenantName()
+            );
+        }
 
         $this->current = $to;
-
-        $this->db->purge(
-            $this->tenantName()
-        );
 
         return true;
     }

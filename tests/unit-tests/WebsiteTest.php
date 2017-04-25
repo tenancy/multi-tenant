@@ -2,15 +2,10 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Foundation\Application;
 
 class WebsiteTest extends Test
 {
-    /**
-     * @var Website
-     */
-    protected $website;
 
     /**
      * @test
@@ -35,8 +30,7 @@ class WebsiteTest extends Test
 
     protected function duringSetUp(Application $app)
     {
-        $this->website = new Website;
-
-        $this->loadHostnames();
+        $this->setUpWebsites();
+        $this->setUpHostnames();
     }
 }

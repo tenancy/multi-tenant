@@ -65,6 +65,12 @@ class InstallationTest extends Test
      */
     public function install_command_works()
     {
+        $code = $this->artisan('migrate:reset', [
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, 'Resetting migrations didn\'t work out');
+
         $code = $this->artisan('tenancy:install', [
             '-n' => 1
         ]);
@@ -95,6 +101,8 @@ class InstallationTest extends Test
      */
     public function saves_default_hostname()
     {
+        $this->setUpHostnames();
+
         $this->assertTrue($this->hostname->save());
     }
 
@@ -104,6 +112,8 @@ class InstallationTest extends Test
      */
     public function hostname_identification_returns_default()
     {
+        $this->setUpHostnames(true);
+
         $this->assertEquals(
             $this->hostname->fqdn,
             $this->app->make(CurrentHostname::class)->fqdn
@@ -116,6 +126,8 @@ class InstallationTest extends Test
      */
     public function verify_request()
     {
+        $this->setUpHostnames(true);
+
         $response = $this->get('default');
 
         $response->assertJson(['fqdn' => $this->hostname->fqdn]);
@@ -127,6 +139,8 @@ class InstallationTest extends Test
      */
     public function save_tenant_hostname()
     {
+        $this->setUpHostnames();
+
         $this->assertTrue($this->tenant->save());
     }
 
@@ -136,6 +150,8 @@ class InstallationTest extends Test
      */
     public function verify_tenant_request()
     {
+        $this->setUpHostnames(true);
+
         $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
 
         $response->assertJson(['fqdn' => $this->tenant->fqdn]);
@@ -147,8 +163,6 @@ class InstallationTest extends Test
     protected function duringSetUp(Application $app)
     {
         $router = $app->make(Router::class);
-
-        $this->setUpHostnames();
 
         $router->get('default', function () {
             return app(CurrentHostname::class)->toJson();
