@@ -36,11 +36,6 @@ class Connection implements ServiceMutation
     protected $config;
 
     /**
-     * @var UuidGenerator
-     */
-    protected $uuidGenerator;
-
-    /**
      * @var PasswordGenerator
      */
     protected $passwordGenerator;
@@ -65,18 +60,15 @@ class Connection implements ServiceMutation
     /**
      * Connection constructor.
      * @param Config $config
-     * @param UuidGenerator $uuidGenerator
      * @param PasswordGenerator $passwordGenerator
      * @param DatabaseManager $db
      */
     public function __construct(
         Config $config,
-        UuidGenerator $uuidGenerator,
         PasswordGenerator $passwordGenerator,
         DatabaseManager $db
     ) {
         $this->config = $config;
-        $this->uuidGenerator = $uuidGenerator;
         $this->passwordGenerator = $passwordGenerator;
         $this->db = $db;
 
@@ -155,7 +147,7 @@ class Connection implements ServiceMutation
      */
     public function disable(Hostname $hostname) : bool
     {
-        if ($this->current() == $hostname) {
+        if ($this->current() && $this->current()->id === $hostname->id) {
             $this->db->purge(
                 $this->tenantName()
             );
@@ -213,7 +205,7 @@ class Connection implements ServiceMutation
 
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
-                $clone['username'] = $clone['database'] = $this->uuidGenerator->generate($website);
+                $clone['username'] = $clone['database'] = $website->uuid;
                 $clone['password'] = $this->passwordGenerator->generate($website);
                 break;
             case static::DIVISION_MODE_SEPARATE_PREFIX:

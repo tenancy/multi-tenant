@@ -3,14 +3,11 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Hostnames\Identified;
-use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
 
 class ConnectionTest extends Test
 {
-    use DispatchesEvents;
 
     /**
      * @var Connection
@@ -22,7 +19,9 @@ class ConnectionTest extends Test
      */
     public function without_identification_no_tenant_connection_is_active()
     {
-        $this->assertNull($this->connection->current());
+        $this->setUpHostnames(true);
+
+        $this->assertNull($this->connection->current(), 'A tenant connection is active, that should not be the case yet.');
     }
 
     /**
@@ -31,9 +30,21 @@ class ConnectionTest extends Test
      */
     public function hostname_identification_switches_connection()
     {
-        $this->emitEvent(new Identified($this->hostname));
+        $this->setUpHostnames(true);
+        $this->activateTenant('local');
 
-        $this->assertEquals($this->connection->current(), $this->hostname);
+        $this->assertEquals($this->connection->current(), $this->hostname, 'The tenant hostname is not activated.');
+
+        $failsWithoutWebsite = false;
+
+        try {
+            $this->connection->get();
+        } catch (\InvalidArgumentException $e) {
+            $failsWithoutWebsite = true;
+        }
+
+        $this->assertTrue($failsWithoutWebsite, 'Tenant connection should not work, when the hostname has no website.');
+        $this->assertTrue($this->connection->system() instanceof DatabaseConnection, 'System connection is not working.');
     }
 
     /**
@@ -42,14 +53,16 @@ class ConnectionTest extends Test
      */
     public function both_connections_work()
     {
-        $this->assertTrue($this->connection->get() instanceof DatabaseConnection);
-        $this->assertTrue($this->connection->system() instanceof DatabaseConnection);
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant('local');
+
+        $this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
+        $this->assertTrue($this->connection->system() instanceof DatabaseConnection, 'System connection fails once tenant connection is set up.');
     }
 
     protected function duringSetUp(Application $app)
     {
-        $this->setUpHostnames(true);
-
         $this->connection = $app->make(Connection::class);
     }
 }
