@@ -15,6 +15,7 @@ class TenancyProvider extends ServiceProvider
     {
         $this->app->register(Providers\ConfigurationProvider::class);
         $this->app->register(Providers\PasswordProvider::class);
+        $this->app->register(Providers\ConnectionProvider::class);
         $this->app->register(Providers\UuidProvider::class);
         $this->app->register(Providers\BusProvider::class);
         $this->app->register(Providers\EventProvider::class);
