@@ -3,6 +3,8 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Website\UuidGenerator;
+use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
@@ -155,6 +157,16 @@ class InstallationTest extends Test
         $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
 
         $response->assertJson(['fqdn' => $this->tenant->fqdn]);
+    }
+
+    /**
+     * @test
+     */
+    public function verify_uuid_generator()
+    {
+        $generator = $this->app->make(UuidGenerator::class);
+
+        $this->assertInstanceOf(ShaGenerator::class, $generator);
     }
 
     /**
