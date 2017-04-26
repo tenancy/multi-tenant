@@ -10,7 +10,7 @@ class UuidProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind(UuidGenerator::class, function ($app) {
+        $this->app->singleton(UuidGenerator::class, function ($app) {
             $generator = $app['config']->get('tenancy.website.random-id-generator');
 
             if (class_exists($generator)) {
