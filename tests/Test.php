@@ -67,9 +67,14 @@ class Test extends TestCase
 
         touch(database_path('database.sqlite'));
 
-        $this->duringSetUp($app);
-
         return $app;
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->duringSetUp($this->app);
     }
 
     /**
