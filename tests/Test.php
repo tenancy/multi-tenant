@@ -58,11 +58,6 @@ class Test extends TestCase
 
         $app->make(Kernel::class)->bootstrap();
 
-        foreach ($this->loadProviders as $provider) {
-            if (!$app->register($provider)) {
-                throw new \RuntimeException("Failed registering $provider");
-            }
-        }
         \Schema::defaultStringLength(191);
 
         touch(database_path('database.sqlite'));
@@ -73,6 +68,12 @@ class Test extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        foreach ($this->loadProviders as $provider) {
+            if (!$this->app->register($provider)) {
+                throw new \RuntimeException("Failed registering $provider");
+            }
+        }
 
         $this->duringSetUp($this->app);
     }
