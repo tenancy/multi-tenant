@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class ConnectionProvider extends ServiceProvider
 {
-
     public function register()
     {
         $this->app->singleton(Connection::class);
