@@ -4,5 +4,4 @@ namespace Hyn\Tenancy\Validators;
 
 class HostnameValidator
 {
-
 }
