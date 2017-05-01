@@ -33,7 +33,6 @@ trait InteractsWithTenancy
 
     /**
      * @param bool $save
-     * @param string|null $setActive
      */
     protected function setUpHostnames(bool $save = false)
     {
@@ -63,6 +62,9 @@ trait InteractsWithTenancy
         }
     }
 
+    /**
+     * @param string $tenant
+     */
     protected function activateTenant(string $tenant)
     {
         $hostname = $tenant == 'tenant' ? $this->tenant : $this->hostname;
