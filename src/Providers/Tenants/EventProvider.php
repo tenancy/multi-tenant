@@ -26,12 +26,14 @@ class EventProvider extends ServiceProvider
         foreach ($this->subscribe as $listener) {
             $this->app[Dispatcher::class]->subscribe($listener);
         }
+
+        Models\Hostname::observe(Listeners\HostnameObserver::class);
+        Models\Customer::observe(Listeners\CustomerObserver::class);
+        Models\Website::observe(Listeners\WebsiteObserver::class);
     }
 
     public function register()
     {
-        Models\Hostname::observe(Listeners\HostnameObserver::class);
-        Models\Customer::observe(Listeners\CustomerObserver::class);
-        Models\Website::observe(Listeners\WebsiteObserver::class);
+        // ..
     }
 }

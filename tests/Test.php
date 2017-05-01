@@ -3,6 +3,7 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Providers\TenancyProvider;
+use Hyn\Tenancy\Providers\Tenants\EventProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
@@ -58,24 +59,33 @@ class Test extends TestCase
 
         $app->make(Kernel::class)->bootstrap();
 
-        \Schema::defaultStringLength(191);
-
-        touch(database_path('database.sqlite'));
-
-        return $app;
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
         foreach ($this->loadProviders as $provider) {
-            if (!$this->app->register($provider)) {
+            if (!$app->register($provider)) {
                 throw new \RuntimeException("Failed registering $provider");
             }
         }
 
-        $this->duringSetUp($this->app);
+        \Schema::defaultStringLength(191);
+
+        touch(database_path('database.sqlite'));
+
+        $this->duringSetUp($app);
+
+        return $app;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        // Rebinds event listeners to new dispatcher.
+        $this->app->call([
+            new EventProvider($this->app),
+            'boot'
+        ]);
     }
 
     /**
