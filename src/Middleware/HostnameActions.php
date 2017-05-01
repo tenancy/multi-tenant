@@ -4,6 +4,7 @@ namespace Hyn\Tenancy\Middleware;
 
 use Closure;
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Events\Hostnames\NoneFound;
 use Hyn\Tenancy\Events\Hostnames\Redirected;
 use Hyn\Tenancy\Events\Hostnames\Secured;
 use Hyn\Tenancy\Events\Hostnames\UnderMaintenance;
@@ -56,6 +57,8 @@ class HostnameActions
             if (!$request->secure() && $this->hostname->force_https) {
                 return $this->secure($this->hostname, $request);
             }
+        } elseif ($response = $this->abort($request)) {
+            return $response;
         }
 
         return $next($request);
@@ -92,5 +95,17 @@ class HostnameActions
         $this->emitEvent(new UnderMaintenance($hostname));
 
         throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp);
+    }
+
+    /**
+     * Aborts the application.
+     * @param Request $request
+     */
+    protected function abort(Request $request)
+    {
+        if (config('tenancy.hostname.abort-without-identified-hostname')) {
+            $this->emitEvent(new NoneFound($request));
+            return abort(404);
+        }
     }
 }

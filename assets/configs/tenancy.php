@@ -54,6 +54,13 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameauto-identification
          */
         'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
+        /**
+         * Abort application execution in case no hostname was identified. This will throw a
+         * 404 not found in case the tenant hostname was not resolved.
+         *
+         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameabort-without-identified-hostname
+         */
+        'abort-without-identified-hostname' => true,
     ],
     'db' => [
         /**
