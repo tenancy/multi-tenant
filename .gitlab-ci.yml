@@ -49,7 +49,7 @@ test-7.1-L-5.3:
   script:
     - php composer update laravel/laravel:5.3 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml --process-isolation
 
 test-7.1-L-5.4:
   <<: *before_script
@@ -57,7 +57,7 @@ test-7.1-L-5.4:
   script:
     - php composer update laravel/laravel:5.4 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml --process-isolation
 
 test-7.1-L-master:
   <<: *before_script
@@ -66,7 +66,7 @@ test-7.1-L-master:
   script:
     - php composer update laravel/laravel:dev-master --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml --process-isolation
 
 code-coverage:
   <<: *before_script
