@@ -6,9 +6,10 @@ use Hyn\Tenancy\Listeners\AffectServicesListener;
 use Hyn\Tenancy\Listeners\Models as Listeners;
 use Hyn\Tenancy\Listeners\WebsiteUuidGeneration;
 use Hyn\Tenancy\Models;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\ServiceProvider;
 
-class EventProvider extends EventServiceProvider
+class EventProvider extends ServiceProvider
 {
     /**
      * @var array
@@ -19,6 +20,13 @@ class EventProvider extends EventServiceProvider
         // Sets the uuid value on a website based on tenancy configuration.
         WebsiteUuidGeneration::class,
     ];
+
+    public function boot()
+    {
+        foreach ($this->subscribe as $listener) {
+            $this->app[Dispatcher::class]->subscribe($listener);
+        }
+    }
 
     public function register()
     {
