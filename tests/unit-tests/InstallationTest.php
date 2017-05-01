@@ -5,10 +5,13 @@ namespace Hyn\Tenancy\Tests;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
+use Hyn\Tenancy\Models\Customer;
 use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Providers\WebserverProvider;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
 use Illuminate\Routing\Router;
@@ -167,6 +170,28 @@ class InstallationTest extends Test
         $generator = $this->app->make(UuidGenerator::class);
 
         $this->assertInstanceOf(ShaGenerator::class, $generator);
+    }
+
+    /**
+     * @test
+     */
+    public function uuid_generation_listener_listens()
+    {
+        /** @var Dispatcher $events */
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach ([
+                     Website::class,
+                     Customer::class,
+                     Hostname::class,
+                 ] as $model) {
+            foreach ((new $model)->getObservableEvents() as $event) {
+                $this->assertTrue(
+                    $events->hasListeners("eloquent.$event: $model"),
+                    "Missing event $event for model $model"
+                );
+            }
+        }
     }
 
     /**

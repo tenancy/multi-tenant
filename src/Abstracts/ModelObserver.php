@@ -60,6 +60,38 @@ abstract class ModelObserver
     }
 
     /**
+     * @param Model $model
+     */
+    public function saving($model)
+    {
+        $this->fire(__FUNCTION__, $model);
+    }
+
+    /**
+     * @param Model $model
+     */
+    public function saved($model)
+    {
+        $this->fire(__FUNCTION__, $model);
+    }
+
+    /**
+     * @param Model $model
+     */
+    public function restoring($model)
+    {
+        $this->fire(__FUNCTION__, $model);
+    }
+
+    /**
+     * @param Model $model
+     */
+    public function restored($model)
+    {
+        $this->fire(__FUNCTION__, $model);
+    }
+
+    /**
      * @param string $event
      * @param Model $model
      */
