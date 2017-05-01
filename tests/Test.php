@@ -69,23 +69,10 @@ class Test extends TestCase
 
         touch(database_path('database.sqlite'));
 
+        $this->setUpTenancy();
         $this->duringSetUp($app);
 
         return $app;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        // Rebinds event listeners to new dispatcher.
-        $this->app->call([
-            new EventProvider($this->app),
-            'boot'
-        ]);
     }
 
     /**

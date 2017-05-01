@@ -3,9 +3,7 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Listeners\AffectServicesListener;
-use Hyn\Tenancy\Listeners\Models as Listeners;
 use Hyn\Tenancy\Listeners\WebsiteUuidGeneration;
-use Hyn\Tenancy\Models;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,10 +24,6 @@ class EventProvider extends ServiceProvider
         foreach ($this->subscribe as $listener) {
             $this->app[Dispatcher::class]->subscribe($listener);
         }
-
-        Models\Hostname::observe(Listeners\HostnameObserver::class);
-        Models\Customer::observe(Listeners\CustomerObserver::class);
-        Models\Website::observe(Listeners\WebsiteObserver::class);
     }
 
     public function register()

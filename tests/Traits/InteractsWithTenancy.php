@@ -2,6 +2,8 @@
 
 namespace Hyn\Tenancy\Tests\Traits;
 
+use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
@@ -24,6 +26,21 @@ trait InteractsWithTenancy
      * @var Website
      */
     protected $website;
+
+    /**
+     * @var HostnameRepository
+     */
+    protected $hostnames;
+    /**
+     * @var WebsiteRepository
+     */
+    protected $websites;
+
+    protected function setUpTenancy()
+    {
+        $this->websites = app(WebsiteRepository::class);
+        $this->hostnames = app(HostnameRepository::class);
+    }
 
     protected function loadHostnames()
     {
@@ -57,8 +74,8 @@ trait InteractsWithTenancy
         Hostname::reguard();
 
         if ($save) {
-            $this->hostname->save();
-            $this->tenant->save();
+            $this->hostnames->create($this->hostname);
+            $this->hostnames->create($this->tenant);
         }
     }
 
@@ -88,7 +105,7 @@ trait InteractsWithTenancy
         $this->website = new Website;
 
         if ($save) {
-            $this->website->save();
+            $this->websites->create($this->website);
         }
 
         if ($connect) {

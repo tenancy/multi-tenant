@@ -3,10 +3,14 @@
 namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
+use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 
 class HostnameRepository implements Contract
 {
+    use DispatchesEvents;
     /**
      * @var Hostname
      */
@@ -40,5 +44,108 @@ class HostnameRepository implements Contract
         }
 
         return null;
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @return Hostname
+     */
+    public function create(Hostname &$hostname): Hostname
+    {
+        if ($hostname->exists) {
+            return $this->update($hostname);
+        }
+
+        $this->emitEvent(
+            new Events\Creating($hostname)
+        );
+
+        $hostname->save();
+
+        $this->emitEvent(
+            new Events\Created($hostname)
+        );
+
+        return $hostname;
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @return Hostname
+     */
+    public function update(Hostname &$hostname): Hostname
+    {
+        if (!$hostname->exists) {
+            return $this->create($hostname);
+        }
+
+        $this->emitEvent(
+            new Events\Updating($hostname)
+        );
+
+        $hostname->save();
+
+        $this->emitEvent(
+            new Events\Updated($hostname)
+        );
+
+        return $hostname;
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @param bool $hard
+     * @return Hostname
+     */
+    public function delete(Hostname &$hostname, $hard = false): Hostname
+    {
+        $this->emitEvent(
+            new Events\Deleting($hostname)
+        );
+
+        if ($hard) {
+            $hostname->forceDelete();
+        } else {
+            $hostname->delete();
+        }
+
+        $this->emitEvent(
+            new Events\Deleted($hostname)
+        );
+
+        return $hostname;
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @param Website $website
+     * @return Hostname
+     */
+    public function attach(Hostname $hostname, Website $website): Hostname
+    {
+        $website->hostnames()->save($hostname);
+
+        $this->emitEvent(
+            new Events\Attached($hostname)
+        );
+
+        return $hostname;
+    }
+
+    /**
+     * @param Hostname $hostname
+     * @return Hostname
+     */
+    public function detach(Hostname $hostname): Hostname
+    {
+        $hostname->website_id = null;
+
+        $this->update($hostname);
+
+        $this->emitEvent(
+            new Events\Detached($hostname)
+        );
+
+        return $hostname;
     }
 }
