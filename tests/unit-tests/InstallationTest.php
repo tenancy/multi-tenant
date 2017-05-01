@@ -108,7 +108,9 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames();
 
-        $this->assertTrue($this->hostname->save());
+        $this->hostnames->create($this->hostname);
+
+        $this->assertTrue($this->hostname->exists);
     }
 
     /**
@@ -146,7 +148,9 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames();
 
-        $this->assertTrue($this->tenant->save());
+        $this->hostnames->create($this->tenant);
+
+        $this->assertTrue($this->tenant->exists);
     }
 
     /**
@@ -170,28 +174,6 @@ class InstallationTest extends Test
         $generator = $this->app->make(UuidGenerator::class);
 
         $this->assertInstanceOf(ShaGenerator::class, $generator);
-    }
-
-    /**
-     * @test
-     */
-    public function model_observers_registered()
-    {
-        /** @var Dispatcher $events */
-        $events = $this->app->make(Dispatcher::class);
-
-        foreach ([
-                     Website::class,
-                     Customer::class,
-                     Hostname::class,
-                 ] as $model) {
-            foreach ((new $model)->getObservableEvents() as $event) {
-                $this->assertTrue(
-                    $events->hasListeners("eloquent.$event: $model"),
-                    "Missing event $event for model $model"
-                );
-            }
-        }
     }
 
     /**

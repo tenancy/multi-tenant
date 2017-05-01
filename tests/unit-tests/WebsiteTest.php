@@ -12,7 +12,7 @@ class WebsiteTest extends Test
      */
     public function creates_website()
     {
-        $this->website->save();
+        $this->websites->create($this->website);
 
         $this->assertTrue($this->website->exists);
     }
@@ -23,7 +23,7 @@ class WebsiteTest extends Test
      */
     public function connect_hostname_to_website()
     {
-        $this->website->hostnames()->save($this->hostname);
+        $this->hostnames->attach($this->hostname, $this->website);
 
         $this->assertEquals($this->website->id, $this->hostname->website_id);
     }
