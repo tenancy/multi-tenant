@@ -175,7 +175,7 @@ class InstallationTest extends Test
     /**
      * @test
      */
-    public function uuid_generation_listener_listens()
+    public function model_observers_registered()
     {
         /** @var Dispatcher $events */
         $events = $this->app->make(Dispatcher::class);
