@@ -1,5 +1,6 @@
 [![build status](https://gitlab.com/hyn-me/multi-tenant/badges/3.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/3.x)
-[![coverage report](https://gitlab.com/hyn-me/multi-tenant/badges/3.x/coverage.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/3.x)
+[![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/3.x)
+
 
 ## Installation
 
