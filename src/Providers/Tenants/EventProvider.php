@@ -14,9 +14,8 @@
 
 namespace Hyn\Tenancy\Providers\Tenants;
 
-use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator;
-use Hyn\Tenancy\Listeners\WebsiteUuidGeneration;
+use Hyn\Tenancy\Listeners;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,11 +26,11 @@ class EventProvider extends ServiceProvider
      */
     protected $subscribe = [
         // Manages the connections for the tenants.
-        Connection::class,
+        Listeners\Database\ConnectsTenants::class,
         // Manages the directories for the tenants.
         DirectoryGenerator::class,
         // Sets the uuid value on a website based on tenancy configuration.
-        WebsiteUuidGeneration::class,
+        Listeners\WebsiteUuidGeneration::class,
     ];
 
     public function boot()

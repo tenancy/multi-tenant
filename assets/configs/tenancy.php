@@ -154,5 +154,13 @@ return [
          * a connection to a separate database.
          */
         'password-generator' => Hyn\Tenancy\Generators\Database\DefaultPasswordGenerator::class,
+
+        /**
+         * The tenant migrations to be run during creation of a tenant. Specify a directory
+         * to run the migrations from.
+         *
+         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-migrations-path
+         */
+        'tenant-migrations-path' => false,
     ]
 ];

@@ -14,7 +14,6 @@
 
 namespace Hyn\Tenancy\Database;
 
-use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
 use Hyn\Tenancy\Events\Database\ConfigurationLoading;
 use Hyn\Tenancy\Exceptions\ConnectionException;
@@ -22,6 +21,7 @@ use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
@@ -68,33 +68,30 @@ class Connection
      * @var Hostname
      */
     protected $current;
+    /**
+     * @var Kernel
+     */
+    protected $artisan;
 
     /**
      * Connection constructor.
      * @param Config $config
      * @param PasswordGenerator $passwordGenerator
      * @param DatabaseManager $db
+     * @param Kernel $artisan
      */
     public function __construct(
         Config $config,
         PasswordGenerator $passwordGenerator,
-        DatabaseManager $db
+        DatabaseManager $db,
+        Kernel $artisan
     ) {
         $this->config = $config;
         $this->passwordGenerator = $passwordGenerator;
         $this->db = $db;
+        $this->artisan = $artisan;
 
         $this->enforceDefaultConnection();
-    }
-
-    /**
-     * @param Dispatcher $events
-     */
-    public function subscribe(Dispatcher $events)
-    {
-        $events->listen(Events\Hostnames\Identified::class, [$this, 'switch']);
-        $events->listen(Events\Hostnames\Switched::class, [$this, 'switch']);
-        $events->listen(Events\Hostnames\Deleted::class, [$this, 'deleted']);
     }
 
     protected function enforceDefaultConnection()
@@ -115,6 +112,32 @@ class Connection
     }
 
     /**
+     * @param Hostname $hostname
+     * @return bool
+     */
+    public function set(Hostname $hostname): bool
+    {
+        if ($hostname->website) {
+            // Sets current connection settings.
+            $this->config->set(
+                sprintf('database.connections.%s', $this->tenantName()),
+                $this->generateConfigurationArray($hostname->website)
+            );
+        }
+
+        if ($this->current()) {
+            // Purges the old connection.
+            $this->db->purge(
+                $this->tenantName()
+            );
+        }
+
+        $this->current = $hostname;
+
+        return true;
+    }
+
+    /**
      * Gets the system connection.
      *
      * @return \Illuminate\Database\Connection
@@ -127,7 +150,7 @@ class Connection
     /**
      * @return string
      */
-    public function systemName() : string
+    public function systemName(): string
     {
         return $this->config->get('tenancy.db.system-connection-name', static::DEFAULT_SYSTEM_NAME);
     }
@@ -135,7 +158,7 @@ class Connection
     /**
      * @return string
      */
-    public function tenantName() : string
+    public function tenantName(): string
     {
         return $this->config->get('tenancy.db.tenant-connection-name', static::DEFAULT_TENANT_NAME);
     }
@@ -145,58 +168,39 @@ class Connection
      *
      * @return Hostname|null
      */
-    public function current() : ?Hostname
+    public function current(): ?Hostname
     {
         return $this->current;
     }
 
     /**
-     * Acts on this service whenever a website is disabled.
-     *
-     * @param Events\Hostnames\Deleted $event
-     * @return bool
+     * Purges the current tenant connection.
      */
-    public function deleted(Events\Hostnames\Deleted $event) : bool
+    public function purge()
     {
-        if ($this->current() && $this->current()->id === $event->hostname->id) {
-            $this->db->purge(
-                $this->tenantName()
-            );
-            $this->config->set(
-                sprintf('database.connections.%s', $this->tenantName()),
-                []
-            );
-        }
-
-        return true;
+        $this->db->purge(
+            $this->tenantName()
+        );
+        $this->config->set(
+            sprintf('database.connections.%s', $this->tenantName()),
+            []
+        );
     }
 
     /**
-     * Reacts to this service when we switch the active tenant website.
-     *
-     * @param HostnameEvent $event
+     * @param Hostname $hostname
      * @return bool
      */
-    public function switch(HostnameEvent $event) : bool
+    public function migrate(Hostname $hostname)
     {
-        if ($event->hostname->website) {
-            // Sets current connection settings.
-            $this->config->set(
-                sprintf('database.connections.%s', $this->tenantName()),
-                $this->generateConfigurationArray($event->hostname->website)
-            );
-        }
+        $this->set($hostname);
 
-        if ($this->current()) {
-            // Purges the old connection.
-            $this->db->purge(
-                $this->tenantName()
-            );
-        }
+        $code = $this->artisan->call('migrate', [
+            '--connection' => $this->tenantName(),
+            '-n' => 1
+        ]);
 
-        $this->current = $event->hostname;
-
-        return true;
+        return $code === 0;
     }
 
     /**
@@ -204,7 +208,7 @@ class Connection
      * @return array
      * @throws ConnectionException
      */
-    protected function generateConfigurationArray(Website $website) : array
+    protected function generateConfigurationArray(Website $website): array
     {
         $clone = config(sprintf(
             'database.connections.%s',
