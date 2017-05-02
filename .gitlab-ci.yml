@@ -73,11 +73,12 @@ test-7.1-L-master:
 
 code-coverage:
   <<: *before_script
+  <<: *standard_deploy
   stage: coverage
   when: on_success
   script:
     - php composer install --prefer-dist -n
     - pecl install xdebug
     - docker-php-ext-enable xdebug
-    - vendor/bin/phpunit -d memory_limit=1G --coverage-text --colors=never --coverage-clover=coverage.xml -c ci.phpunit.xml
+    - vendor/bin/phpunit -d memory_limit=1G --coverage-clover=coverage.xml -c ci.phpunit.xml
     - bash <(curl -s https://codecov.io/bash)
