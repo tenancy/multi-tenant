@@ -1,6 +1,7 @@
+[![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
 [![build status](https://gitlab.com/hyn-me/multi-tenant/badges/3.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/3.x)
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/3.x)
-
+[![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 
 ## Installation
 
