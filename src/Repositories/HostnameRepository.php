@@ -95,10 +95,12 @@ class HostnameRepository implements Contract
             new Events\Updating($hostname)
         );
 
+        $dirty = $hostname->getDirty();
+
         $hostname->save();
 
         $this->emitEvent(
-            new Events\Updated($hostname)
+            new Events\Updated($hostname, $dirty)
         );
 
         return $hostname;

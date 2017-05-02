@@ -12,10 +12,11 @@
  *
  */
 
-namespace Hyn\Tenancy\Tests;
+namespace Hyn\Tenancy\Tests\Webserver;
 
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
+use Hyn\Tenancy\Tests\Test;
 use Illuminate\Support\Arr;
 
 class WebserverDisabledTest extends Test

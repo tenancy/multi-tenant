@@ -23,6 +23,9 @@ class WebserverProvider extends ServiceProvider
         // Sets file access as wide as possible, ignoring server masks.
         umask(0);
         $this->registerConfiguration();
+        $this->registerGeneratorViews();
+
+        $this->app->register(Webserver\EventProvider::class);
     }
 
     protected function registerConfiguration()
@@ -30,5 +33,13 @@ class WebserverProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../assets/configs/webserver.php' => config_path('webserver.php')
         ], 'tenancy');
+    }
+
+    protected function registerGeneratorViews()
+    {
+        $this->loadViewsFrom(
+            __DIR__ . '/../../assets/generators',
+            'tenancy.generator'
+        );
     }
 }

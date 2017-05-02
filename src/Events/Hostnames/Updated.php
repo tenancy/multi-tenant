@@ -15,7 +15,19 @@
 namespace Hyn\Tenancy\Events\Hostnames;
 
 use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Models\Hostname;
 
 class Updated extends HostnameEvent
 {
+    /**
+     * @var array
+     */
+    public $dirty;
+
+    public function __construct(Hostname $hostname = null, array $dirty = [])
+    {
+        parent::__construct($hostname);
+
+        $this->dirty = $dirty;
+    }
 }

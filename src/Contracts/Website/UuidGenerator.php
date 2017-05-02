@@ -14,13 +14,8 @@
 
 namespace Hyn\Tenancy\Contracts\Website;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 
-interface UuidGenerator
+interface UuidGenerator extends GeneratesConfiguration
 {
-    /**
-     * @param Website $website
-     * @return string
-     */
-    public function generate(Website $website) : string;
 }

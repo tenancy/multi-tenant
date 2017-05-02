@@ -14,13 +14,8 @@
 
 namespace Hyn\Tenancy\Contracts\Database;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 
-interface PasswordGenerator
+interface PasswordGenerator extends GeneratesConfiguration
 {
-    /**
-     * @param Website $website
-     * @return string
-     */
-    public function generate(Website $website) : string;
 }

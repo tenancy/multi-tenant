@@ -12,9 +12,10 @@
  *
  */
 
-namespace Hyn\Tenancy\Tests;
+namespace Hyn\Tenancy\Tests\Database;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
 

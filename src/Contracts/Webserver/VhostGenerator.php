@@ -14,13 +14,9 @@
 
 namespace Hyn\Tenancy\Contracts\Webserver;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
+use Hyn\Tenancy\Contracts\Generator\SavesToPath;
 
-interface VhostGenerator
+interface VhostGenerator extends GeneratesConfiguration, SavesToPath
 {
-    /**
-     * @param Website $website
-     * @return void
-     */
-    public function generate(Website $website);
 }

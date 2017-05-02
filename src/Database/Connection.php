@@ -14,9 +14,8 @@
 
 namespace Hyn\Tenancy\Database;
 
+use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
-use Hyn\Tenancy\Contracts\ServiceMutation;
-use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Events\Database\ConfigurationLoading;
 use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Models\Hostname;
@@ -26,8 +25,9 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
+use Hyn\Tenancy\Events;
 
-class Connection implements ServiceMutation
+class Connection
 {
     use DispatchesEvents;
 
@@ -87,6 +87,16 @@ class Connection implements ServiceMutation
         $this->enforceDefaultConnection();
     }
 
+    /**
+     * @param Dispatcher $events
+     */
+    public function subscribe(Dispatcher $events)
+    {
+        $events->listen(Events\Hostnames\Identified::class, [$this, 'switch']);
+        $events->listen(Events\Hostnames\Switched::class, [$this, 'switch']);
+        $events->listen(Events\Hostnames\Deleted::class, [$this, 'deleted']);
+    }
+
     protected function enforceDefaultConnection()
     {
         if ($default = $this->config->get('tenancy.db.default')) {
@@ -141,25 +151,14 @@ class Connection implements ServiceMutation
     }
 
     /**
-     * Mutates the service based on a website being enabled.
-     *
-     * @param Hostname $hostname
-     * @return bool
-     */
-    public function enable(Hostname $hostname) : bool
-    {
-        // Nothing has to be setup here.
-    }
-
-    /**
      * Acts on this service whenever a website is disabled.
      *
-     * @param Hostname $hostname
+     * @param Events\Hostnames\Deleted $event
      * @return bool
      */
-    public function disable(Hostname $hostname) : bool
+    public function deleted(Events\Hostnames\Deleted $event) : bool
     {
-        if ($this->current() && $this->current()->id === $hostname->id) {
+        if ($this->current() && $this->current()->id === $event->hostname->id) {
             $this->db->purge(
                 $this->tenantName()
             );
@@ -175,26 +174,27 @@ class Connection implements ServiceMutation
     /**
      * Reacts to this service when we switch the active tenant website.
      *
-     * @param Hostname $from
-     * @param Hostname $to
+     * @param HostnameEvent $event
      * @return bool
      */
-    public function switch(Hostname $to, Hostname $from = null) : bool
+    public function switch(HostnameEvent $event) : bool
     {
-        if ($to->website) {
+        if ($event->hostname->website) {
             // Sets current connection settings.
             $this->config->set(
                 sprintf('database.connections.%s', $this->tenantName()),
-                $this->generateConfigurationArray($to->website)
+                $this->generateConfigurationArray($event->hostname->website)
             );
+        }
 
+        if ($this->current()) {
             // Purges the old connection.
             $this->db->purge(
                 $this->tenantName()
             );
         }
 
-        $this->current = $to;
+        $this->current = $event->hostname;
 
         return true;
     }

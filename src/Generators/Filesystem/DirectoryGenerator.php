@@ -1,0 +1,69 @@
+<?php
+
+namespace Hyn\Tenancy\Generators\Filesystem;
+
+use Illuminate\Contracts\Events\Dispatcher;
+use Hyn\Tenancy\Events\Websites as Events;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
+
+class DirectoryGenerator
+{
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
+
+    /**
+     * @param Dispatcher $events
+     */
+    public function subscribe(Dispatcher $events)
+    {
+        $events->listen(Events\Created::class, [$this, 'created']);
+        $events->listen(Events\Updated::class, [$this, 'updated']);
+        $events->listen(Events\Deleted::class, [$this, 'deleted']);
+    }
+
+    /**
+     * Mutates the service based on a website being enabled.
+     *
+     * @param Events\Created $event
+     * @return bool
+     */
+    public function created(Events\Created $event): bool
+    {
+        return $this->filesystem->makeDirectory($event->website->uuid);
+    }
+
+    /**
+     * @param Events\Updated $event
+     * @return bool
+     */
+    public function updated(Events\Updated $event): bool
+    {
+        if ($uuid = Arr::get($event->dirty, 'uuid')) {
+            return $this->filesystem->move(
+                $uuid,
+                $event->website->uuid
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Acts on this service whenever a website is disabled.
+     *
+     * @param Events\Deleted $event
+     * @return bool
+     */
+    public function deleted(Events\Deleted $event): bool
+    {
+        return $this->filesystem->deleteDirectory($event->website->uuid);
+    }
+}

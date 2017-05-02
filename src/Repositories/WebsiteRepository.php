@@ -82,10 +82,12 @@ class WebsiteRepository implements Contract
             new Events\Updating($website)
         );
 
+        $dirty = $website->getDirty();
+
         $website->save();
 
         $this->emitEvent(
-            new Events\Updated($website)
+            new Events\Updated($website, $dirty)
         );
 
         return $website;

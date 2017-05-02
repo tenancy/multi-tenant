@@ -12,7 +12,7 @@
  *
  */
 
-namespace Hyn\Tenancy\Events\Websites;
+namespace Hyn\Tenancy\Events\Hostnames;
 
 use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Models\Hostname;

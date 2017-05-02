@@ -15,7 +15,19 @@
 namespace Hyn\Tenancy\Events\Websites;
 
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
+use Hyn\Tenancy\Models\Website;
 
 class Updated extends WebsiteEvent
 {
+    /**
+     * @var array
+     */
+    public $dirty;
+
+    public function __construct(Website &$website, array $dirty = [])
+    {
+        parent::__construct($website);
+
+        $this->dirty = $dirty;
+    }
 }
