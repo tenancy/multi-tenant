@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository as Contract;
 use Hyn\Tenancy\Events\Websites as Events;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
+use Hyn\Tenancy\Validators\WebsiteValidator;
 
 class WebsiteRepository implements Contract
 {
@@ -26,14 +27,20 @@ class WebsiteRepository implements Contract
      * @var Website
      */
     protected $website;
+    /**
+     * @var WebsiteValidator
+     */
+    protected $validator;
 
     /**
      * WebsiteRepository constructor.
      * @param Website $website
+     * @param WebsiteValidator $validator
      */
-    public function __construct(Website $website)
+    public function __construct(Website $website, WebsiteValidator $validator)
     {
         $this->website = $website;
+        $this->validator = $validator;
     }
 
     /**
@@ -59,6 +66,8 @@ class WebsiteRepository implements Contract
             new Events\Creating($website)
         );
 
+        $this->validator->save($website);
+
         $website->save();
 
         $this->emitEvent(
@@ -82,6 +91,8 @@ class WebsiteRepository implements Contract
             new Events\Updating($website)
         );
 
+        $this->validator->save($website);
+
         $dirty = $website->getDirty();
 
         $website->save();
@@ -103,6 +114,8 @@ class WebsiteRepository implements Contract
         $this->emitEvent(
             new Events\Deleting($website)
         );
+
+        $this->validator->delete($website);
 
         if ($hard) {
             $website->forceDelete();

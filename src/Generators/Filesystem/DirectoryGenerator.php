@@ -37,7 +37,11 @@ class DirectoryGenerator
      */
     public function created(Events\Created $event): bool
     {
-        return $this->filesystem->makeDirectory($event->website->uuid);
+        if (config('tenancy.website.auto-create-tenant-directory')) {
+            return $this->filesystem->makeDirectory($event->website->uuid);
+        }
+
+        return true;
     }
 
     /**
@@ -46,7 +50,9 @@ class DirectoryGenerator
      */
     public function updated(Events\Updated $event): bool
     {
-        if ($uuid = Arr::get($event->dirty, 'uuid')) {
+        $rename = config('tenancy.website.auto-rename-tenant-directory');
+
+        if ($rename && $uuid = Arr::get($event->dirty, 'uuid')) {
             return $this->filesystem->move(
                 $uuid,
                 $event->website->uuid
@@ -64,6 +70,10 @@ class DirectoryGenerator
      */
     public function deleted(Events\Deleted $event): bool
     {
-        return $this->filesystem->deleteDirectory($event->website->uuid);
+        if (config('tenancy.website.auto-delete-tenant-directory')) {
+            return $this->filesystem->deleteDirectory($event->website->uuid);
+        }
+
+        return true;
     }
 }

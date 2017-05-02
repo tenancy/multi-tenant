@@ -14,6 +14,16 @@
 
 namespace Hyn\Tenancy\Validators;
 
-class WebsiteValidator
+use Hyn\Tenancy\Abstracts\Validator;
+
+class WebsiteValidator extends Validator
 {
+    protected $create = [
+        'uuid' => ['required', 'string'],
+        'customer_id' => ['integer', 'exists:customers,id'],
+    ];
+    protected $update = [
+        'uuid' => ['required', 'string'],
+        'customer_id' => ['integer', 'exists:customers,id'],
+    ];
 }

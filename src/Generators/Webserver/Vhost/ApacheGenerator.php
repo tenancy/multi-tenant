@@ -21,10 +21,19 @@ class ApacheGenerator implements VhostGenerator
 {
     /**
      * @param Website $website
-     * @return void
+     * @return string
      */
-    public function generate(Website $website)
+    public function generate(Website $website): string
     {
         return view('tenancy.generator::webserver.apache.vhost', compact('website'));
+    }
+
+    /**
+     * @param Website $website
+     * @return string
+     */
+    public function targetPath(Website $website): string
+    {
+        // TODO: Implement targetPath() method.
     }
 }

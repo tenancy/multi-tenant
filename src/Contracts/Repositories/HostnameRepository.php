@@ -53,10 +53,10 @@ interface HostnameRepository
      * @param Website $website
      * @return Hostname
      */
-    public function attach(Hostname $hostname, Website $website): Hostname;
+    public function attach(Hostname &$hostname, Website &$website): Hostname;
     /**
      * @param Hostname $hostname
      * @return Hostname
      */
-    public function detach(Hostname $hostname): Hostname;
+    public function detach(Hostname &$hostname): Hostname;
 }

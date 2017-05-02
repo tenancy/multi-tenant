@@ -19,6 +19,7 @@ use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
+use Hyn\Tenancy\Validators\HostnameValidator;
 
 class HostnameRepository implements Contract
 {
@@ -27,14 +28,19 @@ class HostnameRepository implements Contract
      * @var Hostname
      */
     protected $hostname;
+    /**
+     * @var HostnameValidator
+     */
+    protected $validator;
 
     /**
      * HostnameRepository constructor.
      * @param Hostname $hostname
      */
-    public function __construct(Hostname $hostname)
+    public function __construct(Hostname $hostname, HostnameValidator $validator)
     {
         $this->hostname = $hostname;
+        $this->validator = $validator;
     }
 
     /**
@@ -72,6 +78,8 @@ class HostnameRepository implements Contract
             new Events\Creating($hostname)
         );
 
+        $this->validator->save($hostname);
+
         $hostname->save();
 
         $this->emitEvent(
@@ -95,6 +103,8 @@ class HostnameRepository implements Contract
             new Events\Updating($hostname)
         );
 
+        $this->validator->save($hostname);
+
         $dirty = $hostname->getDirty();
 
         $hostname->save();
@@ -117,6 +127,8 @@ class HostnameRepository implements Contract
             new Events\Deleting($hostname)
         );
 
+        $this->validator->delete($hostname);
+
         if ($hard) {
             $hostname->forceDelete();
         } else {
@@ -135,7 +147,7 @@ class HostnameRepository implements Contract
      * @param Website $website
      * @return Hostname
      */
-    public function attach(Hostname $hostname, Website $website): Hostname
+    public function attach(Hostname &$hostname, Website &$website): Hostname
     {
         $website->hostnames()->save($hostname);
 
@@ -150,7 +162,7 @@ class HostnameRepository implements Contract
      * @param Hostname $hostname
      * @return Hostname
      */
-    public function detach(Hostname $hostname): Hostname
+    public function detach(Hostname &$hostname): Hostname
     {
         $hostname->website_id = null;
 

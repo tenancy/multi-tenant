@@ -41,9 +41,39 @@ return [
          * the tenant specific files, including media, packages, routes and other
          * files for this particular website.
          *
+         * @see
          * @info If not set, will revert to the default filesystem.
          */
         'disk' => null,
+
+        /**
+         * Automatically generate a tenant directory based on the random id of the
+         * website. Uses the above disk to store files to override system-wide
+         * files.
+         *
+         * @see
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-directory' => true,
+
+        /**
+         * Automatically rename the tenant directory when the random id of the
+         * website changes. This should not be too common, but in case it happens
+         * we automatically want to move files accordingly.
+         *
+         * @see
+         * @info set to false to disable.
+         */
+        'auto-rename-tenant-directory' => true,
+
+        /**
+         * Automatically deletes the tenant specific directory and all files
+         * contained within.
+         *
+         * @see
+         * @info set to true to enable.
+         */
+        'auto-delete-tenant-directory' => false,
     ],
     'hostname' => [
         /**

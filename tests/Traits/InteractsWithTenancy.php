@@ -69,16 +69,12 @@ trait InteractsWithTenancy
 
         $hostname = new Hostname([
             'fqdn' => 'local.testing',
-            'redirect_to' => null,
-            'force_https' => false,
         ]);
 
         $this->hostname = $hostname;
 
         $tenant = new Hostname([
             'fqdn' => 'tenant.testing',
-            'redirect_to' => null,
-            'force_https' => false
         ]);
 
         $this->tenant = $tenant;
