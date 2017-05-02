@@ -8,8 +8,10 @@ Register the service provider in your `config/app.php`:
 ```php
     'providers' => [
         // [..]
-        // Hyn multi tenancy
+        // Hyn multi tenancy.
         Hyn\Tenancy\Providers\TenancyProvider::class,
+        // Hyn multi tenancy webserver integration.
+        Hyn\Tenancy\Providers\WebserverProvider::class,
     ],
 ```
 

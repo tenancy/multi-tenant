@@ -28,7 +28,7 @@ class WebserverProvider extends ServiceProvider
     protected function registerConfiguration()
     {
         $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
+            __DIR__ . '/../../assets/configs/webserver.php' => config_path('webserver.php')
         ], 'tenancy');
     }
 }
