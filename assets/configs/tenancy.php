@@ -74,6 +74,11 @@ return [
          * @info set to true to enable.
          */
         'auto-delete-tenant-directory' => false,
+
+        /**
+         * Time to cache websites in minutes. Set to false to disable.
+         */
+        'cache' => 10,
     ],
     'hostname' => [
         /**
@@ -103,6 +108,11 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameabort-without-identified-hostname
          */
         'abort-without-identified-hostname' => true,
+
+        /**
+         * Time to cache hostnames in minutes. Set to false to disable.
+         */
+        'cache' => 10,
     ],
     'db' => [
         /**

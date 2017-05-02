@@ -19,6 +19,7 @@ use Hyn\Tenancy\Events\Websites as Events;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\WebsiteValidator;
+use Illuminate\Contracts\Cache\Factory;
 
 class WebsiteRepository implements Contract
 {
@@ -31,16 +32,22 @@ class WebsiteRepository implements Contract
      * @var WebsiteValidator
      */
     protected $validator;
+    /**
+     * @var Factory
+     */
+    protected $cache;
 
     /**
      * WebsiteRepository constructor.
      * @param Website $website
      * @param WebsiteValidator $validator
+     * @param Factory $cache
      */
-    public function __construct(Website $website, WebsiteValidator $validator)
+    public function __construct(Website $website, WebsiteValidator $validator, Factory $cache)
     {
         $this->website = $website;
         $this->validator = $validator;
+        $this->cache = $cache;
     }
 
     /**
@@ -49,7 +56,9 @@ class WebsiteRepository implements Contract
      */
     public function findByUuid(string $uuid): ?Website
     {
-        return $this->website->newQuery()->where('uuid', $uuid)->first();
+        return $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
+            return $this->website->newQuery()->where('uuid', $uuid)->first();
+        });
     }
 
     /**
@@ -69,6 +78,8 @@ class WebsiteRepository implements Contract
         $this->validator->save($website);
 
         $website->save();
+
+        $this->cache->flush("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Created($website)
@@ -97,6 +108,8 @@ class WebsiteRepository implements Contract
 
         $website->save();
 
+        $this->cache->flush("tenancy.website.{$website->uuid}");
+
         $this->emitEvent(
             new Events\Updated($website, $dirty)
         );
@@ -122,6 +135,8 @@ class WebsiteRepository implements Contract
         } else {
             $website->delete();
         }
+
+        $this->cache->flush("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Deleted($website)

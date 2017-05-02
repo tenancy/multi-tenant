@@ -14,12 +14,14 @@
 
 namespace Hyn\Tenancy\Repositories;
 
+use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
 use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
+use Illuminate\Contracts\Cache\Factory;
 
 class HostnameRepository implements Contract
 {
@@ -32,15 +34,22 @@ class HostnameRepository implements Contract
      * @var HostnameValidator
      */
     protected $validator;
+    /**
+     * @var Factory
+     */
+    protected $cache;
 
     /**
      * HostnameRepository constructor.
      * @param Hostname $hostname
+     * @param HostnameValidator $validator
+     * @param Factory $cache
      */
-    public function __construct(Hostname $hostname, HostnameValidator $validator)
+    public function __construct(Hostname $hostname, HostnameValidator $validator, Factory $cache)
     {
         $this->hostname = $hostname;
         $this->validator = $validator;
+        $this->cache = $cache;
     }
 
     /**
@@ -49,7 +58,9 @@ class HostnameRepository implements Contract
      */
     public function findByHostname(string $hostname): ?Hostname
     {
-        return $this->hostname->newQuery()->where('fqdn', $hostname)->first();
+        return $this->cache->remember("tenancy.hostname.$hostname", config('tenancy.hostname.cache'), function () use ($hostname) {
+            return $this->hostname->newQuery()->where('fqdn', $hostname)->first();
+        });
     }
 
     /**
@@ -109,6 +120,8 @@ class HostnameRepository implements Contract
 
         $hostname->save();
 
+        $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
+
         $this->emitEvent(
             new Events\Updated($hostname, $dirty)
         );
@@ -135,6 +148,8 @@ class HostnameRepository implements Contract
             $hostname->delete();
         }
 
+        $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
+
         $this->emitEvent(
             new Events\Deleted($hostname)
         );
@@ -150,6 +165,8 @@ class HostnameRepository implements Contract
     public function attach(Hostname &$hostname, Website &$website): Hostname
     {
         $website->hostnames()->save($hostname);
+
+        $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
 
         $this->emitEvent(
             new Events\Attached($hostname)
