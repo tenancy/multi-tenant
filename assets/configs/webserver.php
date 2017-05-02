@@ -14,7 +14,25 @@
 
 return [
 
-    'apache' => [
+    /**
+     * Apache2 is one of the most widely adopted webserver packages available.
+     *
+     * @see http://httpd.apache.org/docs/
+     * @see https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu
+     */
+    'apache2' => [
+        /**
+         * Whether the integration with Apache2 is currently active.
+         *
+         * @see
+         */
+        'enabled' => false,
+
+        /**
+         * The generator taking care of hooking into the Apache services and files.
+         */
+        'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator::class,
+
         'paths' => [
             /**
              * Location where to save tenant vhost configuration files to.
