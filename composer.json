@@ -1,6 +1,6 @@
 {
     "name": "hyn/multi-tenant",
-    "description": "Multi tenant laravel lts with separation between tenant and system",
+    "description": "Run multiple websites using the same laravel installation while keeping tenant specific data separated for fully independant multi-domain setups.",
     "keywords": [
         "laravel",
         "multi-tenant",
