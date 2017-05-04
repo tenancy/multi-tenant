@@ -12,20 +12,20 @@ variables:
   APP_ENV: "testing"
   QUEUE_DRIVER: "sync"
   
-.mariadb_template: &mariadb
-    services:
+.mariadb_template:
+    services: &mariadb_services
         - mariadb:latest
-    variables:
+    variables: &mariadb_variables
         DB_HOST: mariadb
         DB_CONNECTION: mysql
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
         
-.pgsql_template: &pgsql
-    services:
+.pgsql_template:
+    services: &pgsql_services
         - postgres:latest
-    variables:
+    variables: &pgsql_variables
         DB_HOST: postgres
         DB_CONNECTION: pgsql
         TENANCY_SYSTEM_CONNECTION_NAME: pgsql
@@ -51,19 +51,13 @@ variables:
       expire_in: 8 hours
       paths:
           - vendor/laravel/laravel/storage/logs/laravel.log
-  variables:
-    DB_USERNAME: runner
-    DB_PASSWORD: root
-    DB_DATABASE: testing
-    TENANCY_DEFAULT_HOSTNAME: local.testing
-    APP_KEY: Phei9thoong3ai8aqu4ieHie6kee1zee
-    QUEUE_DRIVER: sync
   stage: test
 
 test-7.1-L-5.3-mariadb:
   <<: *before_script
   <<: *standard_deploy
-  <<: *mariadb
+  services: *mariadb_services
+  variables: *mariadb_variables
   script:
     - php composer update laravel/laravel:5.3 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
@@ -72,7 +66,8 @@ test-7.1-L-5.3-mariadb:
 test-7.1-L-5.4-mariadb:
   <<: *before_script
   <<: *standard_deploy
-  <<: *mariadb
+  services: *mariadb_services
+  variables: *mariadb_variables
   script:
     - php composer update laravel/laravel:5.4 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
@@ -81,7 +76,8 @@ test-7.1-L-5.4-mariadb:
 test-7.1-L-master-mariadb:
   <<: *before_script
   <<: *standard_deploy
-  <<: *mariadb
+  services: *mariadb_services
+  variables: *mariadb_variables
   allow_failure: true
   script:
     - php composer update laravel/laravel:dev-master --dev --prefer-dist -n
@@ -91,7 +87,8 @@ test-7.1-L-master-mariadb:
 code-coverage:
   <<: *before_script
   <<: *standard_deploy
-  <<: *mariadb
+  services: *mariadb_services
+  variables: *mariadb_variables
   stage: coverage
   when: on_success
   script:
