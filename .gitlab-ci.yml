@@ -17,8 +17,6 @@ cache:
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
         
 .pgsql_template: &pgsql
     services:
@@ -35,7 +33,7 @@ cache:
   before_script:
     - apt-get -yqq update
     - apt-get -qqy install git unzip zip
-    - docker-php-ext-install pdo_mysql
+    - docker-php-ext-install pdo_mysql pdo_pgsql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo
