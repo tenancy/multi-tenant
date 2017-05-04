@@ -27,6 +27,8 @@ class EventProvider extends ServiceProvider
     protected $subscribe = [
         // Manages the connections for the tenants.
         Listeners\Database\ConnectsTenants::class,
+        // Runs migrations for new tenants.
+        Listeners\Database\MigratesTenants::class,
         // Manages the directories for the tenants.
         DirectoryGenerator::class,
         // Sets the uuid value on a website based on tenancy configuration.

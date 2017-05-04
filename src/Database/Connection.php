@@ -33,6 +33,7 @@ class Connection
 
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
+    const DEFAULT_MIGRATION_NAME = 'tenant-migration';
 
     const DIVISION_MODE_SEPARATE_DATABASE = 'database';
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
@@ -113,26 +114,29 @@ class Connection
 
     /**
      * @param Hostname $hostname
+     * @param null $connection
      * @return bool
      */
-    public function set(Hostname $hostname): bool
+    public function set(Hostname $hostname, $connection = null): bool
     {
+        $connection = $connection ?? $this->tenantName();
+
         if ($hostname->website) {
             // Sets current connection settings.
             $this->config->set(
-                sprintf('database.connections.%s', $this->tenantName()),
+                sprintf('database.connections.%s', $connection),
                 $this->generateConfigurationArray($hostname->website)
             );
         }
 
-        if ($this->current()) {
-            // Purges the old connection.
-            $this->db->purge(
-                $this->tenantName()
-            );
-        }
+        // Purges the old connection.
+        $this->db->purge(
+            $connection
+        );
 
-        $this->current = $hostname;
+        if ($connection == $this->tenantName()) {
+            $this->current = $hostname;
+        }
 
         return true;
     }
@@ -164,6 +168,14 @@ class Connection
     }
 
     /**
+     * @return string
+     */
+    public function migrationName(): string
+    {
+        return $this->config->get('tenancy.db.migration-connection-name', static::DEFAULT_MIGRATION_NAME);
+    }
+
+    /**
      * The currently enabled tenant hostname.
      *
      * @return Hostname|null
@@ -175,14 +187,18 @@ class Connection
 
     /**
      * Purges the current tenant connection.
+     * @param null $connection
      */
-    public function purge()
+    public function purge($connection = null)
     {
+        $connection = $connection ?? $this->tenantName();
+
         $this->db->purge(
-            $this->tenantName()
+            $connection
         );
+
         $this->config->set(
-            sprintf('database.connections.%s', $this->tenantName()),
+            sprintf('database.connections.%s', $connection),
             []
         );
     }
@@ -193,12 +209,14 @@ class Connection
      */
     public function migrate(Hostname $hostname)
     {
-        $this->set($hostname);
+        $this->set($hostname, $this->migrationName());
 
         $code = $this->artisan->call('migrate', [
-            '--connection' => $this->tenantName(),
+            '--connection' => $this->migrationName(),
             '-n' => 1
         ]);
+
+        $this->purge($this->migrationName());
 
         return $code === 0;
     }

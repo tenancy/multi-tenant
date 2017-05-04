@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Database;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Events\Hostnames\Created;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
@@ -72,6 +73,23 @@ class ConnectionTest extends Test
 
         $this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
         $this->assertTrue($this->connection->system() instanceof DatabaseConnection, 'System connection fails once tenant connection is set up.');
+    }
+
+    /**
+     * @test
+     * @depends both_connections_work
+     */
+    public function can_migrate_the_tenant()
+    {
+        $this->app['config']->set('tenancy.tenant-migrations-path', __DIR__ . '/../../migrations');
+
+        $this->assertNotFalse(config('tenancy.tenant-migrations-path'));
+
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant('local');
+
+        $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
     }
 
     protected function duringSetUp(Application $app)

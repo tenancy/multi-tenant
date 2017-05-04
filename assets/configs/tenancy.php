@@ -12,6 +12,8 @@
  *
  */
 
+use Hyn\Tenancy\Database\Connection;
+
 return [
     'website' => [
         /**
@@ -132,9 +134,11 @@ return [
          * @see src/Database/Connection.php
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbsystem-connection-name
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-connection-name
+         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbmigration-connection-name
          */
-        'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', 'system'),
-        'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', 'tenant'),
+        'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', Connection::DEFAULT_SYSTEM_NAME),
+        'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', Connection::DEFAULT_TENANT_NAME),
+        'tenant-migration-name' => env('TENANCY_MIGRATION_CONNECTION_NAME', Connection::DEFAULT_MIGRATION_NAME),
 
         /**
          * The tenant division mode specifies to what database websites will be

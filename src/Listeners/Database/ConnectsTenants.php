@@ -27,7 +27,6 @@ class ConnectsTenants
         $events->listen(Events\Hostnames\Identified::class, [$this, 'switch']);
         $events->listen(Events\Hostnames\Switched::class, [$this, 'switch']);
         $events->listen(Events\Hostnames\Deleted::class, [$this, 'deleted']);
-        $events->listen(Events\Hostnames\Created::class, [$this, 'migrate']);
     }
 
     /**
@@ -54,18 +53,5 @@ class ConnectsTenants
     public function switch(HostnameEvent $event) : bool
     {
         return $this->connection->set($event->hostname);
-    }
-
-    /**
-     * @param HostnameEvent $event
-     * @return bool
-     */
-    public function migrate(HostnameEvent $event): bool
-    {
-        if (config('tenancy.db.tenant-migrations-path')) {
-            return $this->connection->migrate($event->hostname);
-        }
-
-        return true;
     }
 }

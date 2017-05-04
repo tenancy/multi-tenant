@@ -27,6 +27,10 @@ abstract class AbstractMigration extends Migration
 
     public function getConnection()
     {
+        if ($this->connection) {
+            return $this->connection;
+        }
+
         if ($this->system) {
             return $this->connectionResolver()->systemName();
         }
