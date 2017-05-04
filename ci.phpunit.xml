@@ -30,11 +30,11 @@
     </filter>
     <php>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
+        <env name="APP_ENV" value="testing"/>
         <env name="DB_USERNAME" value="runner"/>
         <env name="DB_PASSWORD" value="root"/>
         <env name="DB_DATABASE" value="testing"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="APP_ENV" value="testing"/>
         <env name="TENANCY_DEFAULT_HOSTNAME" value="local.testing"/>
     </php>
 </phpunit>
