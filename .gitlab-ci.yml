@@ -18,6 +18,7 @@ variables:
     variables:
         DB_HOST: mariadb
         DB_CONNECTION: mysql
+        TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
         
@@ -27,6 +28,7 @@ variables:
     variables:
         DB_HOST: postgres
         DB_CONNECTION: pgsql
+        TENANCY_SYSTEM_CONNECTION_NAME: pgsql
         POSTGRES_DB: testing
         POSTGRES_USER: runner
         POSTGRES_PASSWORD: root
@@ -53,7 +55,6 @@ variables:
     DB_USERNAME: runner
     DB_PASSWORD: root
     DB_DATABASE: testing
-    TENANCY_SYSTEM_CONNECTION_NAME: mysql
     TENANCY_DEFAULT_HOSTNAME: local.testing
     APP_KEY: Phei9thoong3ai8aqu4ieHie6kee1zee
     QUEUE_DRIVER: sync
@@ -90,6 +91,7 @@ test-7.1-L-master-mariadb:
 code-coverage:
   <<: *before_script
   <<: *standard_deploy
+  <<: *mariadb
   stage: coverage
   when: on_success
   script:
