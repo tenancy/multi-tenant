@@ -33,7 +33,7 @@ variables:
       paths:
           - vendor/laravel/laravel/storage/logs/laravel.log
   variables:
-    DB_HOST: mysql
+    DB_HOST: mariadb
     DB_CONNECTION: mysql
     DB_USERNAME: root
     DB_PASSWORD: root
