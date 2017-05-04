@@ -11,6 +11,25 @@ cache:
 variables:
   APP_ENV: "testing"
   QUEUE_DRIVER: "sync"
+  
+.mariadb_template: &mariadb
+    services:
+        - mariadb:latest
+    variables:
+        DB_HOST: mariadb
+        DB_CONNECTION: mysql
+        MYSQL_DATABASE: testing
+        MYSQL_ROOT_PASSWORD: root
+        
+.pgsql_template: &pgsql
+    services:
+        - postgres:latest
+    variables:
+        DB_HOST: postgres
+        DB_CONNECTION: pgsql
+        POSTGRES_DB: testing
+        POSTGRES_USER: runner
+        POSTGRES_PASSWORD: root
 
 .before_template: &before_script
   before_script:
@@ -25,46 +44,43 @@ variables:
   cache:
     key: "$CI_JOB_NAME"
     untracked: false
-  services:
-    - mariadb:latest
   artifacts:
       when: on_failure
       expire_in: 8 hours
       paths:
           - vendor/laravel/laravel/storage/logs/laravel.log
   variables:
-    DB_HOST: mariadb
-    DB_CONNECTION: mysql
-    DB_USERNAME: root
+    DB_USERNAME: runner
     DB_PASSWORD: root
     DB_DATABASE: testing
-    MYSQL_DATABASE: testing
-    MYSQL_ROOT_PASSWORD: root
     TENANCY_SYSTEM_CONNECTION_NAME: mysql
     TENANCY_DEFAULT_HOSTNAME: local.testing
     APP_KEY: Phei9thoong3ai8aqu4ieHie6kee1zee
     QUEUE_DRIVER: sync
   stage: test
 
-test-7.1-L-5.3:
+test-7.1-L-5.3-mariadb:
   <<: *before_script
   <<: *standard_deploy
+  <<: *mariadb
   script:
     - php composer update laravel/laravel:5.3 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-test-7.1-L-5.4:
+test-7.1-L-5.4-mariadb:
   <<: *before_script
   <<: *standard_deploy
+  <<: *mariadb
   script:
     - php composer update laravel/laravel:5.4 --dev --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-test-7.1-L-master:
+test-7.1-L-master-mariadb:
   <<: *before_script
   <<: *standard_deploy
+  <<: *mariadb
   allow_failure: true
   script:
     - php composer update laravel/laravel:dev-master --dev --prefer-dist -n
