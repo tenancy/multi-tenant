@@ -21,6 +21,8 @@ variables:
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: runner
+        MYSQL_PASSWORD: root
         
 .pgsql_template:
     services: &pgsql_services
@@ -59,7 +61,7 @@ test-7.1-L-5.3-mariadb:
   services: *mariadb_services
   variables: *mariadb_variables
   script:
-    - php composer update laravel/laravel:5.3 --dev --prefer-dist -n
+    - php composer update laravel/laravel:5.3 --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -69,7 +71,7 @@ test-7.1-L-5.4-mariadb:
   services: *mariadb_services
   variables: *mariadb_variables
   script:
-    - php composer update laravel/laravel:5.4 --dev --prefer-dist -n
+    - php composer update laravel/laravel:5.4 --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
@@ -80,7 +82,7 @@ test-7.1-L-master-mariadb:
   variables: *mariadb_variables
   allow_failure: true
   script:
-    - php composer update laravel/laravel:dev-master --dev --prefer-dist -n
+    - php composer update laravel/laravel:dev-master --prefer-dist -n
     - bash tests/scripts/setup.sh
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
