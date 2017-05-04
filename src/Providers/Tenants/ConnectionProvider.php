@@ -15,13 +15,34 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Database\Console\MigrateCommand;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
 
 class ConnectionProvider extends ServiceProvider
 {
+    protected $defer = true;
+
     public function register()
     {
         $this->app->singleton(Connection::class);
+
+        $this->registerMigrateCommand();
+    }
+    /**
+     * Register the "migrate" migration command.
+     *
+     * @return void
+     */
+    protected function registerMigrateCommand()
+    {
+        $this->app->singleton('command.migrate', function (Application $app) {
+            return new MigrateCommand($app->make('migrator'));
+        });
+
+        $this->commands([
+            'command.migrate'
+        ]);
     }
 
     /**
@@ -30,7 +51,8 @@ class ConnectionProvider extends ServiceProvider
     public function provides()
     {
         return [
-            Connection::class
+            Connection::class,
+            'command.migrate'
         ];
     }
 }

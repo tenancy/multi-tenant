@@ -33,8 +33,8 @@ class MigratesTenants
      */
     public function migrate(HostnameEvent $event): bool
     {
-        if (config('tenancy.db.tenant-migrations-path')) {
-            return $this->connection->migrate($event->hostname);
+        if ($path = config('tenancy.db.tenant-migrations-path')) {
+            return $this->connection->migrate($event->hostname, $path);
         }
 
         return true;

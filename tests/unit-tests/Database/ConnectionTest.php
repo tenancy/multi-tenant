@@ -30,12 +30,13 @@ class ConnectionTest extends Test
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function without_identification_no_tenant_connection_is_active()
     {
         $this->setUpHostnames(true);
 
-        $this->assertNull($this->connection->current(), 'A tenant connection is active, that should not be the case yet.');
+        $this->connection->get();
     }
 
     /**
@@ -46,8 +47,6 @@ class ConnectionTest extends Test
     {
         $this->setUpHostnames(true);
         $this->activateTenant('local');
-
-        $this->assertEquals($this->connection->current(), $this->hostname, 'The tenant hostname is not activated.');
 
         $failsWithoutWebsite = false;
 
@@ -81,9 +80,9 @@ class ConnectionTest extends Test
      */
     public function can_migrate_the_tenant()
     {
-        $this->app['config']->set('tenancy.tenant-migrations-path', __DIR__ . '/../../migrations');
+        config(['tenancy.db.tenant-migrations-path' => __DIR__ . '/../../migrations']);
 
-        $this->assertNotFalse(config('tenancy.tenant-migrations-path'));
+        $this->assertNotNull(config('tenancy.db.tenant-migrations-path'));
 
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);

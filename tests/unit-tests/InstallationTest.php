@@ -17,13 +17,10 @@ namespace Hyn\Tenancy\Tests;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
-use Hyn\Tenancy\Models\Customer;
 use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Providers\WebserverProvider;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
 use Illuminate\Routing\Router;
@@ -42,7 +39,9 @@ class InstallationTest extends Test
                      WebserverProvider::class,
                      Providers\BusProvider::class,
                      Providers\ConfigurationProvider::class,
+                     Providers\ConnectionProvider::class,
                      Providers\EventProvider::class,
+                     Providers\FilesystemProvider::class,
                      Providers\PasswordProvider::class,
                      Providers\UuidProvider::class
                  ] as $provider) {
@@ -83,6 +82,9 @@ class InstallationTest extends Test
     public function install_command_works()
     {
         $code = $this->artisan('migrate:reset', [
+            // @todo
+            // @see https://github.com/orchestral/kernel/issues/11
+            '--path' => '/foo-bar',
             '-n' => 1
         ]);
 

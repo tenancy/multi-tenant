@@ -26,22 +26,6 @@ class ConnectsTenants
     {
         $events->listen(Events\Hostnames\Identified::class, [$this, 'switch']);
         $events->listen(Events\Hostnames\Switched::class, [$this, 'switch']);
-        $events->listen(Events\Hostnames\Deleted::class, [$this, 'deleted']);
-    }
-
-    /**
-     * Acts on this service whenever a website is disabled.
-     *
-     * @param Events\Hostnames\Deleted $event
-     * @return bool
-     */
-    public function deleted(Events\Hostnames\Deleted $event) : bool
-    {
-        if ($this->connection->current() && $this->connection->current()->id === $event->hostname->id) {
-            $this->connection->purge();
-        }
-
-        return true;
     }
 
     /**

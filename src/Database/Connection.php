@@ -26,6 +26,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
+use Illuminate\Support\Str;
 
 class Connection
 {
@@ -64,11 +65,6 @@ class Connection
      * @var DatabaseManager
      */
     private $db;
-
-    /**
-     * @var Hostname
-     */
-    protected $current;
     /**
      * @var Kernel
      */
@@ -113,19 +109,29 @@ class Connection
     }
 
     /**
-     * @param Hostname $hostname
+     * @param Hostname|Website $to
      * @param null $connection
      * @return bool
      */
-    public function set(Hostname $hostname, $connection = null): bool
+    public function set($to, $connection = null): bool
     {
         $connection = $connection ?? $this->tenantName();
 
-        if ($hostname->website) {
+        $website = null;
+
+        if ($to instanceof Hostname) {
+            $website = $to->website;
+        }
+
+        if ($to instanceof Website) {
+            $website = $to;
+        }
+
+        if ($website) {
             // Sets current connection settings.
             $this->config->set(
                 sprintf('database.connections.%s', $connection),
-                $this->generateConfigurationArray($hostname->website)
+                $this->generateConfigurationArray($website)
             );
         }
 
@@ -134,8 +140,10 @@ class Connection
             $connection
         );
 
-        if ($connection == $this->tenantName()) {
-            $this->current = $hostname;
+        if ($website) {
+            $this->db->reconnect(
+                $connection
+            );
         }
 
         return true;
@@ -176,16 +184,6 @@ class Connection
     }
 
     /**
-     * The currently enabled tenant hostname.
-     *
-     * @return Hostname|null
-     */
-    public function current(): ?Hostname
-    {
-        return $this->current;
-    }
-
-    /**
      * Purges the current tenant connection.
      * @param null $connection
      */
@@ -205,16 +203,27 @@ class Connection
 
     /**
      * @param Hostname $hostname
+     * @param string|null $path
      * @return bool
      */
-    public function migrate(Hostname $hostname)
+    public function migrate(Hostname $hostname, string $path = null)
     {
         $this->set($hostname, $this->migrationName());
 
-        $code = $this->artisan->call('migrate', [
-            '--connection' => $this->migrationName(),
+        if ($path) {
+            $path = realpath($path);
+        }
+
+        $options = [
+            '--database' => $this->migrationName(),
             '-n' => 1
-        ]);
+        ];
+
+        if ($path) {
+            $options['--realpath'] = $path;
+        }
+
+        $code = $this->artisan->call('migrate', $options);
 
         $this->purge($this->migrationName());
 
@@ -226,7 +235,7 @@ class Connection
      * @return array
      * @throws ConnectionException
      */
-    protected function generateConfigurationArray(Website $website): array
+    public function generateConfigurationArray(Website $website): array
     {
         $clone = config(sprintf(
             'database.connections.%s',
