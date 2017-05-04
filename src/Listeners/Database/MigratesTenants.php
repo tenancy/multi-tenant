@@ -3,6 +3,7 @@
 namespace Hyn\Tenancy\Listeners\Database;
 
 use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
@@ -24,17 +25,17 @@ class MigratesTenants
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Hostnames\Created::class, [$this, 'migrate']);
+        $events->listen(Events\Websites\Created::class, [$this, 'migrate']);
     }
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      * @return bool
      */
-    public function migrate(HostnameEvent $event): bool
+    public function migrate(WebsiteEvent $event): bool
     {
         if ($path = config('tenancy.db.tenant-migrations-path')) {
-            return $this->connection->migrate($event->hostname, $path);
+            return $this->connection->migrate($event->website, $path);
         }
 
         return true;

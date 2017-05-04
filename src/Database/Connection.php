@@ -202,13 +202,13 @@ class Connection
     }
 
     /**
-     * @param Hostname $hostname
+     * @param Hostname|Website $for
      * @param string|null $path
      * @return bool
      */
-    public function migrate(Hostname $hostname, string $path = null)
+    public function migrate($for, string $path = null)
     {
-        $this->set($hostname, $this->migrationName());
+        $this->set($for, $this->migrationName());
 
         if ($path) {
             $path = realpath($path);

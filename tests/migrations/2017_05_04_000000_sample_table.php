@@ -18,8 +18,6 @@ use Illuminate\Support\Facades\Schema;
 
 class SampleTable extends AbstractMigration
 {
-    protected $system = false;
-
     public function up()
     {
         Schema::create('samples', function (Blueprint $table) {

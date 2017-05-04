@@ -19,7 +19,7 @@ use Illuminate\Database\Migrations\Migration;
 
 abstract class AbstractMigration extends Migration
 {
-    protected $system = false;
+    protected $system = null;
 
     abstract public function up();
 
@@ -27,15 +27,15 @@ abstract class AbstractMigration extends Migration
 
     public function getConnection()
     {
-        if ($this->connection) {
-            return $this->connection;
-        }
-
-        if ($this->system) {
+        if ($this->system === true) {
             return $this->connectionResolver()->systemName();
         }
 
-        return $this->connectionResolver()->tenantName();
+        if ($this->system === false) {
+            return $this->connectionResolver()->tenantName();
+        }
+
+        return $this->connection;
     }
 
     /**

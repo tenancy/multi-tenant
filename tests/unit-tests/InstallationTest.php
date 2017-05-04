@@ -82,9 +82,6 @@ class InstallationTest extends Test
     public function install_command_works()
     {
         $code = $this->artisan('migrate:reset', [
-            // @todo
-            // @see https://github.com/orchestral/kernel/issues/11
-            '--path' => '/foo-bar',
             '-n' => 1
         ]);
 
