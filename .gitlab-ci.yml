@@ -26,7 +26,7 @@ variables:
     key: "$CI_JOB_NAME"
     untracked: false
   services:
-    - mysql:latest
+    - mariadb:latest
   artifacts:
       when: on_failure
       expire_in: 8 hours
