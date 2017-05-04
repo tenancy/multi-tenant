@@ -17,7 +17,7 @@ cache:
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_USER: runner
+        MYSQL_USER: root
         MYSQL_PASSWORD: root
         
 .pgsql_template: &pgsql
@@ -28,7 +28,7 @@ cache:
         DB_CONNECTION: pgsql
         TENANCY_SYSTEM_CONNECTION_NAME: pgsql
         POSTGRES_DB: testing
-        POSTGRES_USER: runner
+        POSTGRES_USER: root
         POSTGRES_PASSWORD: root
 
 .before_template: &before_script
