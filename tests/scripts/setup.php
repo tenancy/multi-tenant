@@ -22,10 +22,14 @@ if (preg_match(
     }
 
     echo <<<EOM
+    
+    
 Found advanced CI configuration from CI_JOB_NAME environment variable:
     - PHP {$m['php_version']}
     - Laravel {$m['laravel_version']}
     - Db driver: {$m['db']}
+
+
 EOM;
 
     passthru("php composer update laravel/laravel:{$m['laravel_version']} --prefer-dist -n");
