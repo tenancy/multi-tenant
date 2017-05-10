@@ -2,12 +2,12 @@
 
 namespace Hyn\Tenancy\Generators\Webserver\Database;
 
-use Illuminate\Database\Connection as IlluminateConnection;
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Events\Websites as Events;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Connection as IlluminateConnection;
 use Illuminate\Support\Arr;
-use Hyn\Tenancy\Events\Websites as Events;
 
 class DatabaseGenerator
 {
@@ -41,6 +41,7 @@ class DatabaseGenerator
 
     /**
      * @param Events\Created $event
+     * @throws GeneratorFailedException
      */
     public function create(Events\Created $event)
     {
@@ -50,50 +51,51 @@ class DatabaseGenerator
 
         $config = $this->connection->generateConfigurationArray($event->website);
 
-        $this->connection->system()->transaction(function (IlluminateConnection $connection) use ($config) {
-            $driver = Arr::get($config, 'driver', 'mysql');
 
-            switch ($driver) {
-                case 'mysql':
-                    $success = $this->createMysql($connection, $config);
-                    break;
-                case 'pgsql':
-                    $success = $this->createPostgres($connection, $config);
-                    break;
-                default:
-                    throw new GeneratorFailedException("Could not generate database for driver $driver");
-            }
+        $driver = Arr::get($config, 'driver', 'mysql');
 
-            if (!$success) {
-                throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
-            }
+        switch ($driver) {
+            case 'mysql':
+                $success = $this->createMysql($config);
+                break;
+            case 'pgsql':
+                $success = $this->createPostgres($config);
+                break;
+            default:
+                throw new GeneratorFailedException("Could not generate database for driver $driver");
+        }
+
+        if (!$success) {
+            throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
+        }
+    }
+
+    /**
+     * @param array $config
+     * @return bool
+     */
+    protected function createMysql(array $config = [])
+    {
+        $create = function ($connection) use ($config) {
+            return $connection->statement("CREATE DATABASE `{$config['database']}`");
+        };
+        $grant = function ($connection) use ($config) {
+            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+        };
+
+        return $this->connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
+            return $create($connection) && $grant($connection);
         });
     }
 
     /**
-     * @param $connection
      * @param array $config
      * @return bool
      */
-    protected function createMysql($connection, array $config = [])
+    protected function createPostgres(array $config = [])
     {
-        $create = function() use ($connection, $config) {
-            return $connection->statement("CREATE DATABASE `{$config['database']}`");
-        };
-        $grant = function() use ($connection, $config) {
-            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
-        };
+        $connection = $this->connection;
 
-        return $create() && $grant();
-    }
-
-    /**
-     * @param $connection
-     * @param array $config
-     * @return bool
-     */
-    protected function createPostgres($connection, array $config = [])
-    {
         $user = function () use ($connection, $config) {
             return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
         };
