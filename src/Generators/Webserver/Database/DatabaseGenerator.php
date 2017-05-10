@@ -42,10 +42,10 @@ class DatabaseGenerator
     }
 
     /**
-     * @param Events\Created $event
+     * @param Events\Websites\Created $event
      * @throws GeneratorFailedException
      */
-    public function create(Events\Created $event)
+    public function create(Events\Websites\Created $event)
     {
         if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
             return;
