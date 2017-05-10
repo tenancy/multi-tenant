@@ -29,6 +29,24 @@ return [
         'enabled' => false,
 
         /**
+         * Define the ports of your Apache service.
+         */
+        'ports' => [
+            /**
+             * HTTP, non-SSL port.
+             *
+             * @default 80
+             */
+            'http' => 80,
+            /**
+             * HTTPS, SSL port.
+             *
+             * @default 443
+             */
+            'https' => 443
+        ],
+
+        /**
          * The generator taking care of hooking into the Apache services and files.
          */
         'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator::class,

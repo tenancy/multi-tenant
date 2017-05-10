@@ -36,13 +36,19 @@
     ErrorLog {{ $log_path }}.error.log
     CustomLog {{ $log_path }}.access.log combined
 
+    <Directory "{{ base_path() }}">
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
     <IfModule mod_fastcgi.c>
         AddType application/x-httpd-fastphp5 .php
         Action application/x-httpd-fastphp5 /php5-fcgi
         Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
         FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.hyn-{{ $fpm_port + $website->id }}.sock -pass-header Authorization
         <Directory /usr/lib/cgi-bin>
-        Require all granted
+            Require all granted
         </Directory>
     </IfModule>
 </VirtualHost>
@@ -102,7 +108,7 @@
         SSLCertificateKeyFile {{ $ssl->pathKey }}
 
         <FilesMatch "\.(cgi|shtml|phtml|php)$">
-        SSLOptions +StdEnvVars
+            SSLOptions +StdEnvVars
         </FilesMatch>
 
         BrowserMatch "MSIE [2-6]" \
@@ -111,13 +117,19 @@
         # MSIE 7 and newer should be able to use keepalive
         BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
 
+        <Directory "{{ base_path() }}">
+            Options FollowSymLinks
+            AllowOverride All
+            Require all granted
+        </Directory>
+
         <IfModule mod_fastcgi.c>
             AddType application/x-httpd-fastphp5 .php
             Action application/x-httpd-fastphp5 /php5-fcgi
             Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
             FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.hyn-{{ $fpm_port + $website->id }}.sock -pass-header Authorization
             <Directory /usr/lib/cgi-bin>
-            Require all granted
+                Require all granted
             </Directory>
         </IfModule>
     </VirtualHost>

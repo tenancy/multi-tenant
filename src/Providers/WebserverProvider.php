@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Providers;
 
+use Hyn\Tenancy\Listeners\Servant;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,7 @@ class WebserverProvider extends ServiceProvider
         $this->registerGeneratorViews();
 
         $this->app->register(Webserver\EventProvider::class);
+        $this->app->singleton(Servant::class);
     }
 
     protected function registerConfiguration()
@@ -47,20 +49,5 @@ class WebserverProvider extends ServiceProvider
             __DIR__ . '/../../assets/generators',
             'tenancy.generator'
         );
-    }
-
-    protected function integrateServices()
-    {
-        collect(config('webserver', []))
-            ->filter(function ($service) {
-                return Arr::get($service, 'enabled');
-            })
-            ->each(function ($config, $service) {
-                $generator = Arr::get($config, 'generator');
-
-                if ($generator && class_exists($generator)) {
-                    $this->app->singleton("service.$service", $generator);
-                }
-            });
     }
 }

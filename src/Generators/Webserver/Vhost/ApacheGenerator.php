@@ -14,10 +14,11 @@
 
 namespace Hyn\Tenancy\Generators\Webserver\Vhost;
 
+use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
 use Hyn\Tenancy\Models\Website;
 
-class ApacheGenerator implements VhostGenerator
+class ApacheGenerator implements VhostGenerator, ReloadsServices
 {
     /**
      * @param Website $website
@@ -34,6 +35,30 @@ class ApacheGenerator implements VhostGenerator
      */
     public function targetPath(Website $website): string
     {
-        // TODO: Implement targetPath() method.
+        return sprintf(
+            "%s/apache/{$website->uuid}.conf",
+            config('webserver.apache2.paths.tenant-files', storage_path('tenancy/webserver'))
+        );
+    }
+
+    public function reload(): bool
+    {
+        $success = null;
+
+        if ($this->testConfiguration()) {
+            exec('webserver.apache2.paths.actions.reload', $_, $success);
+        }
+
+        return $success;
+    }
+
+    /**
+     * @return bool
+     */
+    public function testConfiguration(): bool
+    {
+        exec('webserver.apache2.paths.actions.test-config', $_, $success);
+
+        return $success;
     }
 }

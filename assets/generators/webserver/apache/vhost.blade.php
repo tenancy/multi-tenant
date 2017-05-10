@@ -1,15 +1,15 @@
 #
 #   Auto generated Apache configuration
 #       @time: {{ date('H:i:s d-m-Y') }}
-#       @author: hyn-me/webserver
-#       @website: {{ $website->id }} "{{ $website->present()->name }}"
+#       @author: hyn/multi-tenant
+#       @website: {{ $website->uuid }}
 #
 
 #
 #   Hostnames with certificate
 #
 @foreach($website->hostnamesWithCertificate as $hostname)
-    @include('tenancy.generator::webserver.apache.blocks.block', [
+    @include('tenancy.generator::webserver.apache.blocks.server', [
         'hostname' => $hostname,
         'ssl' => $hostname->certificate
     ])
@@ -19,14 +19,7 @@
 #   Hostnames without certificate
 #
 @if($website->hostnamesWithoutCertificate->count() > 0)
-    @include('tenancy.generator::webserver.apache.blocks.block', [
+    @include('tenancy.generator::webserver.apache.blocks.server', [
         'hostnames' => $website->hostnamesWithoutCertificate
     ])
 @endif
-
-
-<Directory "{{ base_path() }}">
-    Options FollowSymLinks
-    AllowOverride All
-    Require all granted
-</Directory>
