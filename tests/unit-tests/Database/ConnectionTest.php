@@ -72,10 +72,6 @@ class ConnectionTest extends Test
 
         $this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
         $this->assertTrue($this->connection->system() instanceof DatabaseConnection, 'System connection fails once tenant connection is set up.');
-
-        echo json_encode($this->connection->generateConfigurationArray($this->website));
-
-        var_dump($this->connection->system()->select('select * from mysql.user'));
     }
 
     /**

@@ -51,6 +51,7 @@ class DatabaseGenerator
 
         $config = $this->connection->generateConfigurationArray($event->website);
 
+        $this->configureHost($config);
 
         $driver = Arr::get($config, 'driver', 'mysql');
 
@@ -86,6 +87,20 @@ class DatabaseGenerator
         return $this->connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
             return $create($connection) && $grant($connection);
         });
+    }
+
+    /**
+     * Mutates specified host for remote connections.
+     *
+     * @param $config
+     */
+    protected function configureHost(&$config)
+    {
+        $host = Arr::get($config, 'host');
+
+        if (! in_array($host, ['localhost', '127.0.0.1', '192.168.0.1'])) {
+            $config['host'] = '%';
+        }
     }
 
     /**
