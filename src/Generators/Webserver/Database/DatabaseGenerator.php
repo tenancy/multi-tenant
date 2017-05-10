@@ -98,10 +98,10 @@ class DatabaseGenerator
             return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
         };
         $create = function () use ($connection, $config) {
-            return $connection->statement("CREATE DATABASE {$config['database']} WITH OWNER=\"{$config['username']}\"");
+            return $connection->statement("CREATE DATABASE \"{$config['database']}\" WITH OWNER=\"{$config['username']}\"");
         };
         $grant = function () use ($connection, $config) {
-            return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE {$config['database']} TO \"{$config['username']}\"");
+            return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
         };
 
         return $user() && $create() && $grant();
