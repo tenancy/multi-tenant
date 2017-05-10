@@ -17,6 +17,7 @@ cache:
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
+        MYSQL_ROOT_HOST: mariadb
         
 .pgsql_template: &pgsql
     services:
