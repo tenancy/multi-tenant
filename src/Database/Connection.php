@@ -219,10 +219,12 @@ class Connection
             '-n' => 1
         ];
 
+        // Create migrations table.
+        $this->artisan->call('migrate:install', $options);
+
         if ($path) {
             $options['--realpath'] = $path;
         }
-
         $code = $this->artisan->call('migrate', $options);
 
         $this->purge($this->migrationName());
