@@ -49,7 +49,7 @@ cache:
           - vendor/laravel/laravel/storage/logs/laravel.log
   stage: test
 
-test-7.1-L-5.3-pgsql:
+7.1-L-5.3-pgsql:
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
@@ -57,7 +57,16 @@ test-7.1-L-5.3-pgsql:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
     
-test-7.1-L-5.4-pgsql:
+7.1-L-5.4-pgsql:
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  script:
+    - php tests/scripts/setup.php
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+    
+        
+7.1-L-master-pgsql:
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
@@ -65,7 +74,7 @@ test-7.1-L-5.4-pgsql:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-test-7.1-L-5.3-mariadb:
+7.1-L-5.3-mariadb:
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
@@ -73,7 +82,7 @@ test-7.1-L-5.3-mariadb:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-test-7.1-L-5.4-mariadb:
+7.1-L-5.4-mariadb:
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
@@ -81,7 +90,7 @@ test-7.1-L-5.4-mariadb:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-test-7.1-L-master-mariadb:
+7.1-L-master-mariadb:
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb

@@ -13,13 +13,16 @@ if (getenv('TRAVIS_BUILD_DIR')) {
  * Install db driver dependencies.
  */
 if (preg_match(
-    '/^(?<stage>[^\-]+)\-(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
+    '/^(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
     getenv('CI_JOB_NAME'),
     $m
 )) {
+    if (!strstr($m['laravel_version'], '.')) {
+        $m['laravel_version'] = "dev-" . $m['laravel_version'];
+    }
+
     echo <<<EOM
 Found advanced CI configuration from CI_JOB_NAME environment variable:
-    - Stage {$m['stage']}
     - PHP {$m['php_version']}
     - Laravel {$m['laravel_version']}
     - Db driver: {$m['db']}
