@@ -13,7 +13,7 @@ if (getenv('TRAVIS_BUILD_DIR')) {
  * Install db driver dependencies.
  */
 if (preg_match(
-    '/^(?<stage>[^\-]+)\-(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[0-9\.]+)\-(?<db>[a-z\+)$/',
+    '/^(?<stage>[^\-]+)\-(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
     getenv('CI_JOB_NAME'),
     $m
 )) {
