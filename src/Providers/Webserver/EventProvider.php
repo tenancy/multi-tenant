@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Providers\Webserver;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Listeners;
 
 class EventProvider extends ServiceProvider
 {
@@ -23,6 +24,7 @@ class EventProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
+        Listeners\Servant::class,
     ];
 
     public function boot()

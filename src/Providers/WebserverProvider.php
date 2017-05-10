@@ -15,16 +15,10 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Listeners\Servant;
-use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class WebserverProvider extends ServiceProvider
 {
-    public function boot()
-    {
-        $this->integrateServices();
-    }
-
     public function register()
     {
         // Sets file access as wide as possible, ignoring server masks.
