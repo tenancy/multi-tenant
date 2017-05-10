@@ -3,14 +3,16 @@
 namespace Hyn\Tenancy\Generators\Webserver\Database;
 
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Websites as Events;
+use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Connection as IlluminateConnection;
 use Illuminate\Support\Arr;
 
 class DatabaseGenerator
 {
+    use DispatchesEvents;
     /**
      * @var Connection
      */
@@ -36,7 +38,7 @@ class DatabaseGenerator
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Created::class, [$this, 'create']);
+        $events->listen(Events\Websites\Created::class, [$this, 'create']);
     }
 
     /**
@@ -52,6 +54,10 @@ class DatabaseGenerator
         $config = $this->connection->generateConfigurationArray($event->website);
 
         $this->configureHost($config);
+
+        $this->emitEvent(
+            new Events\Database\Creating($config, $event->website)
+        );
 
         $driver = Arr::get($config, 'driver', 'mysql');
 
@@ -69,6 +75,10 @@ class DatabaseGenerator
         if (!$success) {
             throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
         }
+
+        $this->emitEvent(
+            new Events\Database\Created($config, $event->website)
+        );
     }
 
     /**

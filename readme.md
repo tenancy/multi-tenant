@@ -3,6 +3,12 @@
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/3.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 
+## Requirements, recommended environment
+
+- PHP 7.1+
+- Apache 2.4+, nginx support coming soon.
+- MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 16 characters.
+
 ## Installation
 
 Register the service provider in your `config/app.php`:
