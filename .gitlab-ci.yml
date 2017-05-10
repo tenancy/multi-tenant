@@ -70,6 +70,7 @@ cache:
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
+  allow_failure: true
   script:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
