@@ -33,7 +33,6 @@ cache:
   before_script:
     - apt-get -yqq update
     - apt-get -qqy install git unzip zip
-    - docker-php-ext-install pdo_mysql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo
@@ -48,6 +47,15 @@ cache:
       paths:
           - vendor/laravel/laravel/storage/logs/laravel.log
   stage: test
+
+test-7.1-L-5.3-pgsql:
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  script:
+    - php composer update laravel/laravel:5.3 --prefer-dist -n
+    - bash tests/scripts/setup.sh
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
 test-7.1-L-5.3-mariadb:
   <<: *before_script
