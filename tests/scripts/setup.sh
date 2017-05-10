@@ -21,6 +21,7 @@ fi
 
 # We need to configure pdo for the specific connection.
 if [[ "$CI_JOB_NAME" == *-pgsql ]]; then
+    apt-get -qqy install postgresql-dev
     docker-php-ext-install pdo_pgsql
 fi
 if [[ "$CI_JOB_NAME" == *-mysql ]]; then
