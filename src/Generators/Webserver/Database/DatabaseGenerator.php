@@ -80,7 +80,7 @@ class DatabaseGenerator
             return $connection->statement("CREATE DATABASE `{$config['database']}`");
         };
         $grant = function ($connection) use ($config) {
-            return $connection->statement("GRANT ALL PRIVILEGES ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
         return $this->connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
