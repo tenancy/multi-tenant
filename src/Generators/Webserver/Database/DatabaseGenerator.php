@@ -95,7 +95,7 @@ class DatabaseGenerator
     protected function createPostgres($connection, array $config = [])
     {
         $user = function () use ($connection, $config) {
-            return $connection->statement("CREATE USER {$config['username']} WITH PASSWORD '{$config['passowrd']}'");
+            return $connection->statement("CREATE USER {$config['username']} WITH PASSWORD '{$config['password']}'");
         };
         $create = function () use ($connection, $config) {
             return $connection->statement("CREATE DATABASE {$config['database']} WITH OWNER={$config['username']}");
