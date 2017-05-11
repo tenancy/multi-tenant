@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Providers\TenancyProvider;
-use Hyn\Tenancy\Providers\Tenants\EventProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;

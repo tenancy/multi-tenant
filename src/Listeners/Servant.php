@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Listeners;
 
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
 use Illuminate\Support\Arr;
@@ -23,18 +24,7 @@ use Illuminate\Support\Collection;
 
 class Servant
 {
-    /**
-     * @var Collection
-     */
-    protected $services;
-
-    /**
-     * Servant constructor.
-     */
-    public function __construct()
-    {
-        $this->services = static::services();
-    }
+    use DispatchesEvents;
 
     /**
      * @param Dispatcher $events
@@ -50,7 +40,7 @@ class Servant
      */
     public function generate(Events\Websites\Created $event)
     {
-        $this->each(function ($generator) use ($event) {
+        $this->each(function ($generator, $service) use ($event) {
             $contents = $path = null;
 
             if ($generator instanceof GeneratesConfiguration) {
@@ -62,9 +52,32 @@ class Servant
             }
 
             if ($path && $contents) {
+                $this->directory($path);
+
                 file_put_contents($path, $contents);
+
+                $this->emitEvent(
+                    (new Events\Webservers\ConfigurationSaved($event->website, $service))
+                        ->setConfiguration($contents)
+                        ->setPath($path)
+                );
             }
         });
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected function directory(string $path): bool
+    {
+        $dir = dirname($path);
+
+        if (!is_dir($dir)) {
+            return mkdir($dir, 0777, true);
+        }
+
+        return is_dir($dir);
     }
 
     /**
@@ -72,7 +85,7 @@ class Servant
      */
     public function delete(Events\Websites\Deleted $event)
     {
-        $this->each(function ($generator) use ($event) {
+        $this->each(function ($generator, $service) use ($event) {
             $path = null;
 
             if ($generator instanceof SavesToPath) {
@@ -90,10 +103,10 @@ class Servant
      */
     protected function each($callable)
     {
-        $this->services->each(function (array $config, string $service) use ($callable) {
+        $this->services()->each(function (array $config, string $service) use ($callable) {
             $generator = $this->generator($config);
 
-            $callable($generator);
+            $callable($generator, $service);
         });
     }
 
@@ -109,7 +122,7 @@ class Servant
     /**
      * @return Collection
      */
-    protected static function services(): Collection
+    protected function services(): Collection
     {
         return collect(config('webserver', []))
             ->filter(function ($service) {

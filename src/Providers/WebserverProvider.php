@@ -35,6 +35,10 @@ class WebserverProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../assets/configs/webserver.php' => config_path('webserver.php')
         ], 'tenancy');
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../assets/configs/webserver.php',
+            'webserver'
+        );
     }
 
     protected function registerGeneratorViews()

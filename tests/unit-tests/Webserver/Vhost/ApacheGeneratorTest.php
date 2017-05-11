@@ -14,13 +14,24 @@
 
 namespace Hyn\Tenancy\Tests\Webserver\Vhost;
 
+use Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
 class ApacheGeneratorTest extends Test
 {
+    /**
+     * @var ApacheGenerator
+     */
+    protected $generator;
+
     protected function duringSetUp(Application $app)
     {
+        $this->setUpWebsites();
+        $this->setUpHostnames();
+        $app['config']->set('webserver.apache2.enabled', true);
+
+        $this->generator = $app->make(ApacheGenerator::class);
     }
 
     /**
@@ -28,5 +39,10 @@ class ApacheGeneratorTest extends Test
      */
     public function generates_vhost_configuration()
     {
+        $this->websites->create($this->website);
+
+        $path = $this->generator->targetPath($this->website);
+
+        $this->assertFileExists($path);
     }
 }

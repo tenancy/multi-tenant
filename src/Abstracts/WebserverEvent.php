@@ -23,8 +23,8 @@ abstract class WebserverEvent extends AbstractEvent
      */
     public $website;
 
-    public function __construct(Website &$website)
+    public function __construct(Website $website, string $service)
     {
-        $this->website = &$website;
+        $this->website = $website;
     }
 }

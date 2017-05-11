@@ -37,10 +37,13 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
     {
         return sprintf(
             "%s/apache/{$website->uuid}.conf",
-            config('webserver.apache2.paths.tenant-files', storage_path('tenancy/webserver'))
+            config('webserver.apache2.paths.tenant-files') ?? storage_path('tenancy/webserver')
         );
     }
 
+    /**
+     * @return bool
+     */
     public function reload(): bool
     {
         $success = null;
