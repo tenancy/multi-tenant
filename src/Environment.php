@@ -19,7 +19,6 @@ use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Collection;
 
 class Environment
 {
@@ -30,11 +29,6 @@ class Environment
      */
     protected $app;
 
-    /**
-     * @var Collection
-     */
-    protected $services;
-
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -42,8 +36,6 @@ class Environment
         if (config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
         }
-
-        $this->services = new Collection();
     }
 
     /**

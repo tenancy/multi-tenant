@@ -19,12 +19,29 @@ use Hyn\Tenancy\Contracts\Generator\SavesToPath;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
+/**
+ * Class Servant
+ * @package Hyn\Tenancy\Listeners
+ *
+ * Servant takes care of registering and configuring webserver services.
+ */
 class Servant
 {
     use DispatchesEvents;
+
+    /**
+     * @var FilesystemManager
+     */
+    protected $filesystemManager;
+
+    public function __construct(FilesystemManager $filesystemManager)
+    {
+        $this->filesystemManager = $filesystemManager;
+    }
 
     /**
      * @param Dispatcher $events
@@ -51,7 +68,7 @@ class Servant
                 $path = $generator->targetPath($event->website);
             }
 
-            if ($path && $contents && $this->writeFileToDisk($path, $contents, $config)) {
+            if ($path && $contents && $this->writeFileToDisk($path, $contents, $service, $config)) {
                 $this->emitEvent(
                     (new Events\Webservers\ConfigurationSaved($event->website, $service))
                         ->setConfiguration($contents)
@@ -64,32 +81,29 @@ class Servant
     /**
      * @param string $path
      * @param string $contents
+     * @param string $service
      * @param array $config
      * @return bool
      */
-    protected function writeFileToDisk(string $path, string $contents, array $config = []): bool
+    protected function writeFileToDisk(string $path, string $contents, string $service, array $config = []): bool
     {
-        $filesystem = $this->serviceFilesystem($config);
+        $filesystem = $this->serviceFilesystem($service, $config);
 
-        $directory = $filesystem->exists(dirname($path));
-
-        if (!$directory && dirname($path) != '.') {
-            $directory = $filesystem->makeDirectory(dirname($path));
+        if (!$filesystem->exists(dirname($path)) && dirname($path) != '.') {
+            $filesystem->makeDirectory(dirname($path));
         }
 
-        return $directory && $filesystem->put($path, $contents);
+        return $filesystem->put($path, $contents);
     }
 
     /**
+     * @param $service
      * @param array $config
      * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
-    public function serviceFilesystem(array $config)
+    public function serviceFilesystem($service, array $config)
     {
-        /** @var \Illuminate\Filesystem\FilesystemManager $manager */
-        $manager = app('filesystem');
-
-        return $manager->disk(Arr::get($config, 'disk'));
+        return $this->filesystemManager->disk(Arr::get($config, 'disk') ?? "tenancy-webserver-$service" );
     }
 
     /**
@@ -105,7 +119,7 @@ class Servant
             }
 
             if ($path) {
-                $filesystem = $this->serviceFilesystem($config);
+                $filesystem = $this->serviceFilesystem($service, $config);
                 $filesystem->delete($path);
             }
         });
@@ -135,12 +149,13 @@ class Servant
     /**
      * @return Collection
      */
-    protected function services(): Collection
+    public function services(): Collection
     {
         return collect(config('webserver', []))
             ->filter(function ($service) {
-                return Arr::get($service, 'enabled', false) &&
-                    Arr::get($service, 'generator');
+                return
+                    Arr::get($service, 'enabled', false) &&
+                    Arr::get($service, 'generator', false);
             });
     }
 }

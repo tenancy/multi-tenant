@@ -23,11 +23,13 @@ class FilesystemProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind('tenant.disk', function ($app) {
+        $this->addDisks();
+
+        $this->app->singleton('tenant.disk', function ($app) {
             /** @var \Illuminate\Filesystem\FilesystemManager $manager */
             $manager = $app->make('filesystem');
 
-            return $manager->disk($app['config']->get('tenancy.website.disk'));
+            return $manager->disk($app['config']->get('tenancy.website.disk') ?? 'tenancy-default');
         });
 
         $this->app->when(DirectoryGenerator::class)
@@ -37,5 +39,13 @@ class FilesystemProvider extends ServiceProvider
         $this->app->when(AbstractTenantDirectoryListener::class)
             ->needs(Filesystem::class)
             ->give('tenant.disk');
+    }
+
+    protected function addDisks()
+    {
+        $this->app['config']->set('filesystems.disks.tenancy-default', [
+            'driver' => 'local',
+            'root' => storage_path('app/tenancy/tenants')
+        ]);
     }
 }

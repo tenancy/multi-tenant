@@ -16,20 +16,10 @@ namespace Hyn\Tenancy\Generators\Filesystem;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events\Websites as Events;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 
 class DirectoryGenerator
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    public function __construct(Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
-    }
 
     /**
      * @param Dispatcher $events
@@ -50,7 +40,7 @@ class DirectoryGenerator
     public function created(Events\Created $event): bool
     {
         if (config('tenancy.website.auto-create-tenant-directory')) {
-            return $this->filesystem->makeDirectory($event->website->uuid);
+            return app('tenant.disk')->makeDirectory($event->website->uuid);
         }
 
         return true;
@@ -65,7 +55,7 @@ class DirectoryGenerator
         $rename = config('tenancy.website.auto-rename-tenant-directory');
 
         if ($rename && $uuid = Arr::get($event->dirty, 'uuid')) {
-            return $this->filesystem->move(
+            return app('tenant.disk')->move(
                 $uuid,
                 $event->website->uuid
             );
@@ -83,7 +73,7 @@ class DirectoryGenerator
     public function deleted(Events\Deleted $event): bool
     {
         if (config('tenancy.website.auto-delete-tenant-directory')) {
-            return $this->filesystem->deleteDirectory($event->website->uuid);
+            return app('tenant.disk')->deleteDirectory($event->website->uuid);
         }
 
         return true;

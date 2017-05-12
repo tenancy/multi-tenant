@@ -26,7 +26,9 @@ class WebserverProvider extends ServiceProvider
         $this->registerConfiguration();
         $this->registerGeneratorViews();
 
+        $this->app->register(Webserver\FilesystemProvider::class);
         $this->app->register(Webserver\EventProvider::class);
+
         $this->app->singleton(Servant::class);
     }
 
