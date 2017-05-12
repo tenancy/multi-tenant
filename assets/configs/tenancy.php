@@ -166,5 +166,46 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-migrations-path
          */
         'tenant-migrations-path' => false,
+    ],
+    'folders' => [
+        'config' => [
+            /**
+             * Merge configuration files from the config directory
+             * inside the tenant directory with the global configuration files.
+             */
+            'enabled' => true,
+
+            /**
+             * List of configuration files to ignore, preventing override of crucial
+             * application configurations.
+             */
+            'blacklist' => ['database', 'tenancy', 'webserver'],
+        ],
+        'vendor' => [
+            /**
+             * Allows using a custom vendor (composer driven) folder inside
+             * the tenant directory.
+             */
+            'enabled' => true,
+        ],
+        'trans' => [
+            /**
+             * Allows reading translation files from a trans directory inside
+             * the tenant directory.
+             */
+            'enabled' => true,
+
+            /**
+             * Will override the global translations with the tenant translations.
+             * This is done by overriding the laravel default translator with the new path.
+             */
+            'override-global' => true,
+
+            /**
+             * In case you disabled global override, specify a namespace here to load the
+             * tenant translation files with.
+             */
+            'namespace' => 'tenant',
+        ],
     ]
 ];

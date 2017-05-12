@@ -40,7 +40,7 @@ class Servant
      */
     public function generate(Events\Websites\Created $event)
     {
-        $this->each(function ($generator, $service) use ($event) {
+        $this->each(function ($generator, $service, $config) use ($event) {
             $contents = $path = null;
 
             if ($generator instanceof GeneratesConfiguration) {
@@ -51,11 +51,7 @@ class Servant
                 $path = $generator->targetPath($event->website);
             }
 
-            if ($path && $contents) {
-                $this->directory($path);
-
-                file_put_contents($path, $contents);
-
+            if ($path && $contents && $this->writeFileToDisk($path, $contents, $config)) {
                 $this->emitEvent(
                     (new Events\Webservers\ConfigurationSaved($event->website, $service))
                         ->setConfiguration($contents)
@@ -67,17 +63,33 @@ class Servant
 
     /**
      * @param string $path
+     * @param string $contents
+     * @param array $config
      * @return bool
      */
-    protected function directory(string $path): bool
+    protected function writeFileToDisk(string $path, string $contents, array $config = []): bool
     {
-        $dir = dirname($path);
+        $filesystem = $this->serviceFilesystem($config);
 
-        if (!is_dir($dir)) {
-            return mkdir($dir, 0777, true);
+        $directory = $filesystem->exists(dirname($path));
+
+        if (!$directory && dirname($path) != '.') {
+            $directory = $filesystem->makeDirectory(dirname($path));
         }
 
-        return is_dir($dir);
+        return $directory && $filesystem->put($path, $contents);
+    }
+
+    /**
+     * @param array $config
+     * @return \Illuminate\Contracts\Filesystem\Filesystem
+     */
+    public function serviceFilesystem(array $config)
+    {
+        /** @var \Illuminate\Filesystem\FilesystemManager $manager */
+        $manager = app('filesystem');
+
+        return $manager->disk(Arr::get($config, 'disk'));
     }
 
     /**
@@ -85,7 +97,7 @@ class Servant
      */
     public function delete(Events\Websites\Deleted $event)
     {
-        $this->each(function ($generator, $service) use ($event) {
+        $this->each(function ($generator, $service, $config) use ($event) {
             $path = null;
 
             if ($generator instanceof SavesToPath) {
@@ -93,7 +105,8 @@ class Servant
             }
 
             if ($path) {
-                unlink($path);
+                $filesystem = $this->serviceFilesystem($config);
+                $filesystem->delete($path);
             }
         });
     }
@@ -101,12 +114,12 @@ class Servant
     /**
      * @param $callable
      */
-    protected function each($callable)
+    public function each($callable)
     {
         $this->services()->each(function (array $config, string $service) use ($callable) {
             $generator = $this->generator($config);
 
-            $callable($generator, $service);
+            $callable($generator, $service, $config);
         });
     }
 

@@ -15,7 +15,9 @@
 namespace Hyn\Tenancy\Tests\Webserver\Vhost;
 
 use Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator;
+use Hyn\Tenancy\Listeners\Servant;
 use Hyn\Tenancy\Tests\Test;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Foundation\Application;
 
 class ApacheGeneratorTest extends Test
@@ -25,6 +27,11 @@ class ApacheGeneratorTest extends Test
      */
     protected $generator;
 
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
     protected function duringSetUp(Application $app)
     {
         $this->setUpWebsites();
@@ -32,6 +39,7 @@ class ApacheGeneratorTest extends Test
         $app['config']->set('webserver.apache2.enabled', true);
 
         $this->generator = $app->make(ApacheGenerator::class);
+        $this->filesystem = (new Servant())->serviceFilesystem(config('webserver.apache2'));
     }
 
     /**
@@ -43,6 +51,6 @@ class ApacheGeneratorTest extends Test
 
         $path = $this->generator->targetPath($this->website);
 
-        $this->assertFileExists($path);
+        $this->assertTrue($this->filesystem->exists($path));
     }
 }

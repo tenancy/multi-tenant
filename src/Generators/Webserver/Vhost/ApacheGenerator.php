@@ -35,10 +35,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function targetPath(Website $website): string
     {
-        return sprintf(
-            "%s/apache/{$website->uuid}.conf",
-            config('webserver.apache2.paths.tenant-files') ?? storage_path('tenancy/webserver')
-        );
+        return "{$website->uuid}.conf";
     }
 
     /**
@@ -49,7 +46,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
         $success = null;
 
         if ($this->testConfiguration()) {
-            exec('webserver.apache2.paths.actions.reload', $_, $success);
+            exec(config('webserver.apache2.paths.actions.reload'), $_, $success);
         }
 
         return $success;
@@ -60,7 +57,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function testConfiguration(): bool
     {
-        exec('webserver.apache2.paths.actions.test-config', $_, $success);
+        exec(config('webserver.apache2.paths.actions.test-config'), $_, $success);
 
         return $success;
     }

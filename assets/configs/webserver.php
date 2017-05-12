@@ -51,14 +51,17 @@ return [
          */
         'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator::class,
 
+        /**
+         * Specify the disk you configured in the filesystems.php file where to store
+         * the tenant vhost configuration files.
+         *
+         * @see
+         * @info If not set, will revert to the default filesystem.
+         */
+        'disk' => null,
+
         'paths' => [
-            /**
-             * Location where to save tenant vhost configuration files to.
-             *
-             * @info In case you leave this unset, will fallback to default.
-             * @see https://hyn.readme.io/v3.0/docs/webserverphp#section-apachepathstenant-files
-             */
-            'tenant-files' => null,
+
             /**
              * Location where vhost configuration files can be found.
              *
