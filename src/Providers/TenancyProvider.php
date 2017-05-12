@@ -30,8 +30,8 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\ConnectionProvider::class);
         $this->app->register(Providers\UuidProvider::class);
         $this->app->register(Providers\BusProvider::class);
-        $this->app->register(Providers\EventProvider::class);
         $this->app->register(Providers\FilesystemProvider::class);
+        $this->app->register(Providers\EventProvider::class);
 
         $this->installCommand();
 

@@ -4,6 +4,7 @@ namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Website\Directory;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -28,11 +29,30 @@ abstract class AbstractTenantDirectoryListener
      * @var Repository
      */
     protected $config;
+    /**
+     * @var Directory
+     */
+    protected $directory;
 
-    public function __construct(Filesystem $filesystem, Repository $config)
+    /**
+     * Event has to have a Website object to work.
+     *
+     * @var bool
+     */
+    protected $requiresWebsite = true;
+
+    /**
+     * Path has to exist in tenant directory.
+     *
+     * @var bool
+     */
+    protected $requiresPath = true;
+
+    public function __construct(Filesystem $filesystem, Repository $config, Directory $directory)
     {
         $this->filesystem = $filesystem;
         $this->config = $config;
+        $this->directory = $directory;
     }
 
     /**
@@ -41,8 +61,30 @@ abstract class AbstractTenantDirectoryListener
     public function subscribe(Dispatcher $events)
     {
         if ($this->config->get("{$this->configBaseKey}.enabled")) {
-            $events->listen(Identified::class, [$this, 'load']);
+            $events->listen(Identified::class, [$this, 'proxy']);
         }
+    }
+
+    /**
+     * @param Identified $event
+     */
+    public function proxy(Identified $event)
+    {
+        if ($event->hostname->website) {
+            $this->directory->setWebsite($event->hostname->website);
+        } elseif ($this->requiresWebsite) {
+            return;
+        }
+
+        if ($this->requiresPath || !$this->exists()) {
+            return;
+        }
+
+        $result = $this->load($event);
+
+        // Possible after processing.
+
+        return $result;
     }
 
     /**
@@ -52,29 +94,22 @@ abstract class AbstractTenantDirectoryListener
     abstract public function load(Identified $event);
 
     /**
-     * @param Website|null $website
      * @return bool
      */
-    protected function exists(Website $website = null): bool
+    protected function exists(): bool
     {
-        if (!$website) {
+        if (!$this->website) {
             return false;
         }
 
-        return $this->filesystem->exists($this->path($website));
+        return $this->directory->exists($this->path);
     }
 
     /**
-     * @param Website $website
      * @return string
      */
-    protected function path(Website $website)
+    protected function path()
     {
-        return sprintf(
-            "%s%s%s",
-            $website->uuid,
-            DIRECTORY_SEPARATOR,
-            $this->path
-        );
+        return $this->directory->path($this->path);
     }
 }

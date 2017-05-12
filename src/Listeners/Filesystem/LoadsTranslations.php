@@ -21,9 +21,7 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
      */
     public function load(Identified $event)
     {
-        if ($this->exists($event->hostname->website)) {
-            $this->readLanguageFiles($this->path($this->hostname->website));
-        }
+        $this->readLanguageFiles($this->path());
     }
 
     protected function readLanguageFiles(string $path)

@@ -19,9 +19,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
      */
     public function load(Identified $event)
     {
-        if ($this->exists($event->hostname->website)) {
-            $this->readConfigurationFiles($this->path($this->hostname->website));
-        }
+        $this->readConfigurationFiles($this->path());
     }
 
     protected function readConfigurationFiles(string $path)
