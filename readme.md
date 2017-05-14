@@ -5,7 +5,8 @@
 
 ## Requirements, recommended environment
 
-- PHP 7.1+
+- Linux based OS.
+- PHP 7.1+.
 - Apache 2.4+, nginx support coming soon.
 - MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 16 characters.
 

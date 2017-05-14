@@ -36,7 +36,5 @@ return true;
 EOM
 ));
         $this->activateTenant('local');
-
-        dd(config('test'));
     }
 }

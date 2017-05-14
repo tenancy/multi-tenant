@@ -90,7 +90,7 @@ class Directory implements Filesystem
         return $this->filesystem->put(
             $this->path($path),
             $contents,
-            $visibility
+            compact('visibility')
         );
     }
 
