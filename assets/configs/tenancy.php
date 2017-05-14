@@ -19,7 +19,7 @@ return [
         /**
          * Each website has a short random hash that identifies this entity
          * to the application. By default this id is randomized and fully
-         * auto-generated. In case you want to force your own logic fi
+         * auto-generated. In case you want to force your own logic or
          * when you need to have a better overview of the complete
          * tenant folder structure, disable this and implement
          * your own id generation logic.
