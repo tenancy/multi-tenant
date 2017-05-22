@@ -5,6 +5,7 @@ namespace Hyn\Tenancy\Tests\Filesystem;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class DirectoryGeneratorTest extends Test
 {
@@ -34,6 +35,18 @@ class DirectoryGeneratorTest extends Test
     /**
      * @test
      * @depends directory_created
+     */
+    public function directory_modified()
+    {
+        $this->website->uuid = Str::random(16);
+        $this->website = $this->websites->update($this->website);
+
+        $this->assertTrue($this->filesystem->exists($this->website->uuid));
+    }
+
+    /**
+     * @test
+     * @depends directory_modified
      */
     public function directory_deleted()
     {
