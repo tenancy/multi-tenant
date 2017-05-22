@@ -30,4 +30,15 @@ class DirectoryGeneratorTest extends Test
 
         $this->assertTrue($this->filesystem->exists($this->website->uuid));
     }
+
+    /**
+     * @test
+     * @depends directory_created
+     */
+    public function directory_deleted()
+    {
+        $this->websites->delete($this->website);
+
+        $this->assertFalse($this->filesystem->exists($this->website->uuid));
+    }
 }
