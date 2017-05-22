@@ -25,7 +25,6 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->filesystem->allFiles($this->path()) as $file) {
-            dd($file);
 
 
 //            $this->config->set()

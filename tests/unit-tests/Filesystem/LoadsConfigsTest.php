@@ -29,12 +29,18 @@ class LoadsConfigsTest extends Test
     {
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('config'));
+        // Write a testing config.
         $this->assertTrue($this->directory->put('config' . DIRECTORY_SEPARATOR . 'test.php', <<<EOM
 <?php
 
-return true;
+return ['foo' => 'bar'];
 EOM
 ));
+
+        $this->assertTrue($this->directory->exists('config/test.php'));
+
         $this->activateTenant('local');
+
+        $this->assertEquals('bar', config('test.foo'));
     }
 }

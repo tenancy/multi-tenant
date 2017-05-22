@@ -306,4 +306,12 @@ class Directory implements Filesystem
             $this->path($directory)
         );
     }
+
+    /**
+     * @return Website|null
+     */
+    public function getWebsite(): ?Website
+    {
+        return $this->website;
+    }
 }

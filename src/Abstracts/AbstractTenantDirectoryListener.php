@@ -3,7 +3,7 @@
 namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Events\Hostnames\Identified;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Listeners\Filesystem\LoadsConfigs;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -98,7 +98,7 @@ abstract class AbstractTenantDirectoryListener
      */
     protected function exists(): bool
     {
-        if (!$this->website) {
+        if (!$this->directory->getWebsite()) {
             return false;
         }
 
