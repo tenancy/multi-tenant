@@ -4,6 +4,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
 use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Exceptions\FilesystemException;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 
@@ -18,10 +19,15 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
 
     /**
      * @param Identified $event
+     * @throws FilesystemException
      */
     public function load(Identified $event)
     {
-        $this->readLanguageFiles($this->directory->path($this->path, true));
+        if ($this->directory->isLocal()) {
+            $this->readLanguageFiles($this->directory->path($this->path, true));
+        } else {
+            throw new FilesystemException("$this->path is not available locally, cannot include");
+        }
     }
 
     protected function readLanguageFiles(string $path)
