@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Listeners;
 
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -49,13 +50,38 @@ class Servant
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Created::class, [$this, 'generate']);
+        $events->listen(Events\Websites\Updated::class, [$this, 'move']);
         $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
     }
 
+    public function move(Events\Websites\Updated $event)
+    {
+        if (! $event->website->isDirty('uuid')) {
+            return;
+        }
+
+        $this->each(function ($generator, $service, $config) use ($event) {
+            $path = null;
+
+            if ($generator instanceof SavesToPath) {
+                $original = $event->website->newInstance();
+                $original->setRawAttributes($event->website->getOriginal());
+                $path = $generator->targetPath($original);
+            }
+
+            if ($path) {
+                $filesystem = $this->serviceFilesystem($service, $config);
+                $filesystem->delete($path);
+            }
+        });
+
+        $this->generate($event);
+    }
+
     /**
-     * @param Events\Websites\Created $event
+     * @param WebsiteEvent $event
      */
-    public function generate(Events\Websites\Created $event)
+    public function generate(WebsiteEvent $event)
     {
         $this->each(function ($generator, $service, $config) use ($event) {
             $contents = $path = null;

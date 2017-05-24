@@ -26,7 +26,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
-use Illuminate\Support\Str;
 
 class Connection
 {
