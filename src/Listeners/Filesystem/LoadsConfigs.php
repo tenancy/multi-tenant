@@ -31,7 +31,11 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
             $key = basename($file, '.php');
 
-            $values = $this->directory->getRequire($file);
+            if ($this->directory->isLocal()) {
+                $values = $this->directory->getRequire($file);
+            } else {
+                $values = include 'data:text/plain,' . $this->directory->get($file);
+            }
 
             $existing = $this->config->get($key, []);
 
