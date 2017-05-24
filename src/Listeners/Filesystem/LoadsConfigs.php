@@ -19,18 +19,25 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
      */
     public function load(Identified $event)
     {
-        $this->readConfigurationFiles($this->path());
+        $this->readConfigurationFiles($this->path);
     }
 
+    /**
+     * @param string $path
+     */
     protected function readConfigurationFiles(string $path)
     {
-        foreach ($this->filesystem->allFiles($this->path()) as $file) {
+        foreach ($this->directory->files($path) as $file) {
 
+            $key = basename($file, '.php');
+            $values = include 'data:text/plain,' . $this->directory->get($file);
 
-//            $this->config->set()
+            $existing = $this->config->get($key, []);
+
+            $this->config->set($key, array_merge(
+                $existing,
+                $values
+            ));
         }
-
-//        $config = $this->app['config']->get($key, []);
-//        $this->app['config']->set($key, array_merge(require $path, $config));
     }
 }

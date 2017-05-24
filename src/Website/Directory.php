@@ -2,9 +2,11 @@
 
 namespace Hyn\Tenancy\Website;
 
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 class Directory implements Filesystem
 {
@@ -21,20 +23,25 @@ class Directory implements Filesystem
      * @var Website
      */
     protected $website;
+    /**
+     * @var Environment
+     */
+    protected $environment;
 
-    public function __construct(Filesystem $filesystem, Repository $config)
+    public function __construct(Filesystem $filesystem, Repository $config, Environment $environment)
     {
         $this->filesystem = $filesystem;
         $this->folders = $config->get('tenancy.folders', []);
+        $this->environment = $environment;
     }
 
     /**
      * @param string|null $path
      * @return bool
      */
-    public function exists($path): bool
+    public function exists($path = null): bool
     {
-        return $this->website && $this->filesystem->exists($this->path($path));
+        return $this->getWebsite() && $this->filesystem->exists($this->path($path));
     }
 
     /**
@@ -44,22 +51,31 @@ class Directory implements Filesystem
     public function setWebsite(Website $website): Directory
     {
         $this->website = $website;
+
         return $this;
     }
 
     /**
      * @param string $path
      * @return string
-     * @internal param string $folder
      */
-    public function path(string $path = ''): string
+    public function path(string $path = null): string
     {
-        return sprintf(
-            "%s%s%s",
-            $this->website->uuid,
-            DIRECTORY_SEPARATOR,
-            $path
+        $prefix = sprintf(
+            "%s%s",
+            $this->getWebsite()->uuid,
+            DIRECTORY_SEPARATOR
         );
+
+        if ($path === null) {
+            $path = '';
+        }
+
+        if (!Str::startsWith($path, $prefix)) {
+            $path = "$prefix$path";
+        }
+
+        return $path;
     }
 
     /**
@@ -312,6 +328,6 @@ class Directory implements Filesystem
      */
     public function getWebsite(): ?Website
     {
-        return $this->website;
+        return $this->website ?: $this->environment->website();
     }
 }

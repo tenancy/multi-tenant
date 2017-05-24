@@ -66,6 +66,7 @@ abstract class AbstractTenantDirectoryListener
     }
 
     /**
+     * Proxies fired events to configure the handler.
      * @param Identified $event
      */
     public function proxy(Identified $event)
@@ -76,7 +77,7 @@ abstract class AbstractTenantDirectoryListener
             return;
         }
 
-        if ($this->requiresPath || !$this->exists()) {
+        if ($this->requiresPath && !$this->exists()) {
             return;
         }
 
