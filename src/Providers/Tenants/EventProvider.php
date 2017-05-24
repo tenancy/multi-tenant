@@ -37,6 +37,8 @@ class EventProvider extends ServiceProvider
         Listeners\WebsiteUuidGeneration::class,
         // Loads custom configuration folder for tenant.
         Listeners\Filesystem\LoadsConfigs::class,
+        // Adds tenant specific routes.
+        Listeners\Filesystem\LoadsRoutes::class,
         // Loads custom translation folder for tenant.
         Listeners\Filesystem\LoadsTranslations::class,
         // Loads custom vendor folder for tenant.

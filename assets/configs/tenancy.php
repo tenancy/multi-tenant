@@ -181,12 +181,16 @@ return [
              */
             'blacklist' => ['database', 'tenancy', 'webserver'],
         ],
-        'vendor' => [
+        'routes' => [
             /**
-             * Allows using a custom vendor (composer driven) folder inside
-             * the tenant directory.
+             * Allows adding and overriding URL routes inside the tenant directory.
              */
             'enabled' => true,
+
+            /**
+             * Prefix all tenant routes.
+             */
+            'prefix' => null,
         ],
         'trans' => [
             /**
@@ -206,6 +210,13 @@ return [
              * tenant translation files with.
              */
             'namespace' => 'tenant',
+        ],
+        'vendor' => [
+            /**
+             * Allows using a custom vendor (composer driven) folder inside
+             * the tenant directory.
+             */
+            'enabled' => true,
         ],
     ]
 ];
