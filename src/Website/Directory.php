@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * This file is part of the hyn/multi-tenant package.
+ *
+ * (c) Daniël Klabbers <daniel@klabbers.email>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see https://github.com/hyn/multi-tenant
+ *
+ */
+
 namespace Hyn\Tenancy\Website;
 
 use Hyn\Tenancy\Environment;
@@ -354,7 +366,7 @@ class Directory implements Filesystem
         return $this->filesystem->getAdapter() instanceof Local;
     }
 
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if ($this->isLocal() && method_exists($this->local, $name)) {
             $arguments[0] = $this->path($arguments[0], true);
