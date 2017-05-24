@@ -6,7 +6,9 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
+use League\Flysystem\Adapter\Local;
 
 class Directory implements Filesystem
 {
@@ -27,12 +29,17 @@ class Directory implements Filesystem
      * @var Environment
      */
     protected $environment;
+    /**
+     * @var LocalSystem
+     */
+    protected $local;
 
-    public function __construct(Filesystem $filesystem, Repository $config, Environment $environment)
+    public function __construct(Filesystem $filesystem, Repository $config, Environment $environment, LocalSystem $local)
     {
         $this->filesystem = $filesystem;
         $this->folders = $config->get('tenancy.folders', []);
         $this->environment = $environment;
+        $this->local = $local;
     }
 
     /**
@@ -57,9 +64,10 @@ class Directory implements Filesystem
 
     /**
      * @param string $path
+     * @param bool $local
      * @return string
      */
-    public function path(string $path = null): string
+    public function path(string $path = null, $local = false): string
     {
         $prefix = sprintf(
             "%s%s",
@@ -73,6 +81,13 @@ class Directory implements Filesystem
 
         if (!Str::startsWith($path, $prefix)) {
             $path = "$prefix$path";
+        }
+
+        if ($local && $this->isLocal()) {
+            $path = sprintf("%s%s",
+                $this->filesystem->getAdapter()->getPathPrefix(),
+                $path
+            );
         }
 
         return $path;
@@ -329,5 +344,22 @@ class Directory implements Filesystem
     public function getWebsite(): ?Website
     {
         return $this->website ?: $this->environment->website();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocal(): bool
+    {
+        return $this->filesystem->getAdapter() instanceof Local;
+    }
+
+    function __call($name, $arguments)
+    {
+        if ($this->isLocal() && method_exists($this->local, $name)) {
+            $arguments[0] = $this->path($arguments[0], true);
+
+            return call_user_func_array([$this->local, $name], $arguments);
+        }
     }
 }

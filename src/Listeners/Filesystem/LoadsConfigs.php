@@ -30,7 +30,8 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
         foreach ($this->directory->files($path) as $file) {
 
             $key = basename($file, '.php');
-            $values = include 'data:text/plain,' . $this->directory->get($file);
+
+            $values = $this->directory->getRequire($file);
 
             $existing = $this->config->get($key, []);
 

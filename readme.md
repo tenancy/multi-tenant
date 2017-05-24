@@ -9,8 +9,6 @@
 - PHP 7.1+.
 - Apache 2.4+, nginx support coming soon.
 - MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 16 characters.
-- PHP.ini:
-  - allow_url_include On; used to include tenant configuration files on the fly.
 
 ## Installation
 
