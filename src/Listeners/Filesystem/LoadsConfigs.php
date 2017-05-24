@@ -45,7 +45,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
             $existing = $this->config->get($key, []);
 
-            $this->config->set($key, array_merge(
+            $this->config->set($key, array_merge_recursive(
                 $existing,
                 $values
             ));

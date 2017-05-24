@@ -10,6 +10,9 @@ use Illuminate\Translation\Translator;
 
 class LoadsTranslations extends AbstractTenantDirectoryListener
 {
+    /**
+     * @var string
+     */
     protected $configBaseKey = 'tenancy.folders.trans';
 
     /**
@@ -30,6 +33,9 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
         }
     }
 
+    /**
+     * @param string $path
+     */
     protected function readLanguageFiles(string $path)
     {
         if ($this->config->get('tenancy.folders.trans.override-global')) {
