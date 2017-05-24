@@ -129,7 +129,7 @@ class Servant
      */
     public function serviceFilesystem($service, array $config)
     {
-        return $this->filesystemManager->disk(Arr::get($config, 'disk') ?? "tenancy-webserver-$service" );
+        return $this->filesystemManager->disk(Arr::get($config, 'disk') ?? "tenancy-webserver-$service");
     }
 
     /**

@@ -39,7 +39,7 @@ class ApacheGeneratorTest extends Test
         $app['config']->set('webserver.apache2.enabled', true);
 
         $this->generator = $app->make(ApacheGenerator::class);
-        $this->filesystem = app(Servant::class)->serviceFilesystem('apache2', config('webserver.apache2' ,[]));
+        $this->filesystem = app(Servant::class)->serviceFilesystem('apache2', config('webserver.apache2', []));
     }
 
     /**
