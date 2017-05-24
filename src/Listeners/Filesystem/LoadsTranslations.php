@@ -9,7 +9,7 @@ use Illuminate\Translation\Translator;
 
 class LoadsTranslations extends AbstractTenantDirectoryListener
 {
-    protected $configBaseKey = 'tenancy.folders.lang';
+    protected $configBaseKey = 'tenancy.folders.trans';
 
     /**
      * @var string
@@ -21,12 +21,12 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
      */
     public function load(Identified $event)
     {
-        $this->readLanguageFiles($this->path());
+        $this->readLanguageFiles($this->directory->path($this->path, true));
     }
 
     protected function readLanguageFiles(string $path)
     {
-        if (config('tenancy.folders.lang.override-global')) {
+        if ($this->config->get('tenancy.folders.trans.override-global')) {
             app()->singleton('translation.loader', function ($app) use ($path) {
                 return new FileLoader($app['files'], $path);
             });
@@ -35,7 +35,7 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
                 $translator->setFallback($app['config']['app.fallback_locale']);
                 return $translator;
             });
-        } else if ($namespace = config('tenancy.folders.lang.namespace')) {
+        } else if ($namespace = $this->config->get('tenancy.folders.trans.namespace')) {
             app('translator')->addNamespace($namespace, $path);
         }
     }

@@ -31,6 +31,12 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
             $key = basename($file, '.php');
 
+
+            // Blacklisted; skip.
+            if (in_array($key, $this->config->get('tenancy.folders.config.blacklist', []))) {
+                continue;
+            }
+
             if ($this->directory->isLocal()) {
                 $values = $this->directory->getRequire($file);
             } else {

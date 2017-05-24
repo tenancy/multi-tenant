@@ -44,4 +44,27 @@ EOM
 
         $this->assertEquals('bar', config('test.foo'));
     }
+
+    /**
+     * @test
+     */
+    public function blocks_blacklisted_configs()
+    {
+        // Directory should now exists, let's write the config folder.
+        $this->assertTrue($this->directory->makeDirectory('config'));
+
+        // Write a testing config.
+        $this->assertTrue($this->directory->put('config' . DIRECTORY_SEPARATOR . 'database.php', <<<EOM
+<?php
+
+return ['foo' => 'bar'];
+EOM
+        ));
+
+        $this->assertTrue($this->directory->exists('config/database.php'));
+
+        $this->activateTenant('local');
+
+        $this->assertNull(config('database.foo'));
+    }
 }
