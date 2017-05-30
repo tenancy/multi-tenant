@@ -54,6 +54,9 @@ class Servant
         $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
     }
 
+    /**
+     * @param Events\Websites\Updated $event
+     */
     public function move(Events\Websites\Updated $event)
     {
         if (! $event->website->isDirty('uuid')) {
