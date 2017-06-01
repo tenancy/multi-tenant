@@ -51,6 +51,8 @@ class DatabaseGenerator
     public function subscribe(Dispatcher $events)
     {
         $events->listen(Events\Websites\Created::class, [$this, 'create']);
+        $events->listen(Events\Websites\Updated::class, [$this, 'updated']);
+        $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
     }
 
     /**
@@ -59,6 +61,10 @@ class DatabaseGenerator
      */
     public function create(Events\Websites\Created $event)
     {
+        if (!config('tenancy.db.auto-create-tenant-database', true)) {
+            return;
+        }
+
         if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
             return;
         }
@@ -144,5 +150,74 @@ class DatabaseGenerator
         };
 
         return $user() && $create() && $grant();
+    }
+
+    /**
+     * @param Events\Websites\Deleted $event
+     * @throws GeneratorFailedException
+     */
+    public function delete(Events\Websites\Deleted $event)
+    {
+        if (!config('tenancy.db.auto-delete-tenant-database', false)) {
+            return;
+        }
+
+        if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            return;
+        }
+
+        $config = $this->connection->generateConfigurationArray($event->website);
+
+        $this->emitEvent(
+            new Events\Database\Deleting($config, $event->website)
+        );
+
+        $statement = "DROP DATABASE IF EXISTS `{$config['database']}`";
+
+        if (Arr::get($config, 'driver') === 'pgsql') {
+            $statement = "DROP DATABASE IF EXISTS \"{$config['database']}\"";
+        }
+
+        if (!$this->connection->system()->statement($statement)) {
+            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
+        }
+
+        $this->emitEvent(
+            new Events\Database\Deleted($config, $event->website)
+        );
+    }
+
+    public function updated(Events\Websites\Updated $event)
+    {
+
+        if (!config('tenancy.db.auto-rename-tenant-database', false)) {
+            return;
+        }
+
+        if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            return;
+        }
+
+        $config = $this->connection->generateConfigurationArray($event->website);
+
+        $this->emitEvent(
+            new Events\Database\Renaming($config, $event->website)
+        );
+
+        $uuid = Arr::get($event->dirty, 'uuid');
+
+        $statement = "RENAME TABLE `$uuid`.table TO `{$config['database']}`.table";
+
+        if (Arr::get($config, 'driver') === 'pgsql') {
+            $statement = "ALTER DATABASE \"$uuid\" RENAME TO \"{$config['database']}\"";
+        }
+
+        if (!$this->connection->system()->statement($statement)) {
+            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
+        }
+
+        $this->emitEvent(
+            new Events\Database\Renamed($config, $event->website)
+        );
     }
 }

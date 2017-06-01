@@ -166,6 +166,34 @@ return [
          * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-migrations-path
          */
         'tenant-migrations-path' => false,
+
+        /**
+         * Automatically generate a tenant database based on the random id of the
+         * website.
+         *
+         * @see
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-database' => true,
+
+        /**
+         * Automatically rename the tenant database when the random id of the
+         * website changes. This should not be too common, but in case it happens
+         * we automatically want to move databases accordingly.
+         *
+         * @see
+         * @info set to false to disable.
+         */
+        'auto-rename-tenant-database' => true,
+
+        /**
+         * Automatically deletes the tenant specific database and all data
+         * contained within.
+         *
+         * @see
+         * @info set to true to enable.
+         */
+        'auto-delete-tenant-database' => false,
     ],
     'folders' => [
         'config' => [
