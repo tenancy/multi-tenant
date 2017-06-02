@@ -47,5 +47,13 @@
         "classmap": [
             "tests/Test.php"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hyn\\Tenancy\\Providers\\TenancyProvider",
+                "Hyn\\Tenancy\\Providers\\WebserverProvider"
+            ]
+        }
     }
 }
