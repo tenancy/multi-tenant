@@ -187,6 +187,10 @@ class DatabaseGenerator
         );
     }
 
+    /**
+     * @param Events\Websites\Updated $event
+     * @throws GeneratorFailedException
+     */
     public function updated(Events\Websites\Updated $event)
     {
         if (!config('tenancy.db.auto-rename-tenant-database', false)) {
