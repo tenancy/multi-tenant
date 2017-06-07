@@ -7,18 +7,25 @@ stages:
 cache:
   paths:
     - vendor/
+
+#
+#   TEMPLATES
+#
+.apache_template: &apache
+    image: php:7.1-apache
+  
+.nginx_template: &nginx
+    image: php:7.1-fpm
   
 .mariadb_template: &mariadb
     services:
         - mariadb:latest
-        - webdevops/apache:ubuntu-16.04
     variables:
         DB_HOST: mariadb
         DB_CONNECTION: mysql
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
-        WEB_DOCUMENT_ROOT: $CI_PROJECT_DIR
         
 .pgsql_template: &pgsql
     services:
@@ -31,7 +38,6 @@ cache:
         POSTGRES_DB: testing
         POSTGRES_USER: root
         POSTGRES_PASSWORD: root
-        WEB_DOCUMENT_ROOT: $CI_PROJECT_DIR
 
 .before_template: &before_script
   before_script:
@@ -52,59 +58,122 @@ cache:
       paths:
           - vendor/laravel/laravel/storage/logs/laravel.log
   stage: test
-
-7.1-L-5.3-pgsql:
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *pgsql
+  
+.testing_template: &testing
   script:
     - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
     
-7.1-L-5.4-pgsql:
+
+#
+#   APACHE/PGSQL
+#
+apache-7.1-L-5.3-pgsql:
+  <<: *apache
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
-  script:
-    - php tests/scripts/setup.php
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+  <<: *testing
+    
+apache-7.1-L-5.4-pgsql:
+  <<: *apache
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
     
         
-7.1-L-master-pgsql:
+apache-7.1-L-master-pgsql:
+  <<: *apache
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
+  <<: *testing
   allow_failure: true
-  script:
-    - php tests/scripts/setup.php
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
-7.1-L-5.3-mariadb:
+#
+#   APACHE/MARIADB
+#
+apache-7.1-L-5.3-mariadb:
+  <<: *apache
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
-  script:
-    - php tests/scripts/setup.php
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+  <<: *testing
 
-7.1-L-5.4-mariadb:
+
+apache-7.1-L-5.4-mariadb:
+  <<: *apache
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
-  script:
-    - php tests/scripts/setup.php
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+  <<: *testing
 
-7.1-L-master-mariadb:
+apache-7.1-L-master-mariadb:
+  <<: *apache
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
+  <<: *testing
   allow_failure: true
-  script:
-    - php tests/scripts/setup.php
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
 
+
+#
+#   NGINX/PGSQL
+#
+nginx-7.1-L-5.3-pgsql:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
+    
+nginx-7.1-L-5.4-pgsql:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
+    
+        
+nginx-7.1-L-master-pgsql:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
+  allow_failure: true
+
+#
+#   NGINX/MARIADB
+#
+nginx-7.1-L-5.3-mariadb:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mariadb
+  <<: *testing
+
+nginx-7.1-L-5.4-mariadb:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mariadb
+  <<: *testing
+
+nginx-7.1-L-master-mariadb:
+  <<: *nginx
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mariadb
+  <<: *testing
+  allow_failure: true
+
+#
+#   CODE COVERAGE
+#
 code-coverage:
+  image: php:7.1
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb

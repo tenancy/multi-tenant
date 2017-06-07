@@ -25,7 +25,7 @@ if (getenv('TRAVIS_BUILD_DIR')) {
  * Install db driver dependencies.
  */
 if (preg_match(
-    '/^(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
+    '/^(?<webserver>[a-z]+)\-(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
     getenv('CI_JOB_NAME'),
     $m
 )) {
@@ -37,6 +37,7 @@ if (preg_match(
     
     
 Found advanced CI configuration from CI_JOB_NAME environment variable:
+    - Webserver {$m['webserver']}
     - PHP {$m['php_version']}
     - Laravel {$m['laravel_version']}
     - Db driver: {$m['db']}
