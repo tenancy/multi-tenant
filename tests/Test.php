@@ -76,7 +76,7 @@ class Test extends TestCase
             }
         }
 
-        if (env('BUILD_LARAVEL_VERSION') != '5.3') {
+        if (getenv('BUILD_LARAVEL_VERSION') != '5.3') {
             \Schema::defaultStringLength(191);
         }
 
