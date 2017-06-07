@@ -53,7 +53,7 @@ EOM;
 
     $composerCommand = "php composer require laravel/laravel:{$m['laravel_version']}";
 
-    if ($m['laravel_version'] == '5.3') {
+    if ($m['laravel_version'] == '5.3.*') {
         $composerCommand .= " phpunit/phpunit:5.*";
     }
 
