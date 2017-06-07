@@ -11,16 +11,19 @@ cache:
 .mariadb_template: &mariadb
     services:
         - mariadb:latest
+        - webdevops/apache:ubuntu-16.04
     variables:
         DB_HOST: mariadb
         DB_CONNECTION: mysql
         TENANCY_SYSTEM_CONNECTION_NAME: mysql
         MYSQL_DATABASE: testing
         MYSQL_ROOT_PASSWORD: root
+        WEB_DOCUMENT_ROOT: $CI_PROJECT_DIR
         
 .pgsql_template: &pgsql
     services:
         - postgres:latest
+        - webdevops/apache:ubuntu-16.04
     variables:
         DB_HOST: postgres
         DB_CONNECTION: pgsql
@@ -28,6 +31,7 @@ cache:
         POSTGRES_DB: testing
         POSTGRES_USER: root
         POSTGRES_PASSWORD: root
+        WEB_DOCUMENT_ROOT: $CI_PROJECT_DIR
 
 .before_template: &before_script
   before_script:
