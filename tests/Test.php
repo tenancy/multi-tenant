@@ -76,14 +76,19 @@ class Test extends TestCase
             }
         }
 
-        if (getenv('BUILD_LARAVEL_VERSION') != '5.3') {
-            \Schema::defaultStringLength(191);
-        }
+        $this->setSchemaLength($app);
 
         $this->setUpTenancy();
         $this->duringSetUp($app);
 
         return $app;
+    }
+
+    protected function setSchemaLength($app)
+    {
+        if (version_compare(substr($app->version(), 0,3), '5.3' , 'gt')) {
+            \Schema::defaultStringLength(191);
+        }
     }
 
     /**
