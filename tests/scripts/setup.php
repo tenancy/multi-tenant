@@ -33,6 +33,8 @@ if (preg_match(
         $m['laravel_version'] = "dev-" . $m['laravel_version'];
     }
 
+    putenv("BUILD_WEBSERVER={$m['webserver']}");
+
     echo <<<EOM
     
     
@@ -45,7 +47,7 @@ Found advanced CI configuration from CI_JOB_NAME environment variable:
 
 EOM;
 
-    passthru("php composer update laravel/laravel:{$m['laravel_version']} --prefer-dist -n");
+    passthru("php composer require laravel/laravel:{$m['laravel_version']} --prefer-dist -n");
 
     foreach ([
                  "$base_path/vendor/laravel/laravel/config/tenancy.php",

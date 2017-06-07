@@ -42,11 +42,13 @@ cache:
 .before_template: &before_script
   before_script:
     - apt-get -yqq update
-    - apt-get -qqy install git unzip zip libpq-dev
+    - apt-get -yqq install git unzip zip libpq-dev
     - docker-php-ext-install pdo_pgsql pdo_mysql
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo
+    - php tests/scripts/setup.php
+    - [ $BUILD_WEBSERVER == "nginx" ]; apt-get -yqq nginx;
 
 .standard_template: &standard_deploy
   cache:
@@ -61,7 +63,6 @@ cache:
   
 .testing_template: &testing
   script:
-    - php tests/scripts/setup.php
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
     
 
