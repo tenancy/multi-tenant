@@ -29,11 +29,15 @@ if (preg_match(
     getenv('CI_JOB_NAME'),
     $m
 )) {
+    putenv("BUILD_WEBSERVER={$m['webserver']}");
+    putenv("BUILD_LARAVEL_VERSION={$m['laravel_version']}");
+    putenv("BUILD_PHP_VERSION={$m['php_version']}");
+
     if (!strstr($m['laravel_version'], '.')) {
         $m['laravel_version'] = "dev-" . $m['laravel_version'];
+    } else {
+        $m['laravel_version'] = $m['laravel_version'] . ".*";
     }
-
-    putenv("BUILD_WEBSERVER={$m['webserver']}");
 
     echo <<<EOM
     
@@ -47,7 +51,7 @@ Found advanced CI configuration from CI_JOB_NAME environment variable:
 
 EOM;
 
-    $composerCommand = "php composer require laravel/laravel:{$m['laravel_version']}.*";
+    $composerCommand = "php composer require laravel/laravel:{$m['laravel_version']}";
 
     if ($m['laravel_version'] == '5.3') {
         $composerCommand .= " phpunit/phpunit:5.*";

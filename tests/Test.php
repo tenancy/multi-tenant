@@ -76,9 +76,9 @@ class Test extends TestCase
             }
         }
 
-        \Schema::defaultStringLength(191);
-
-        touch(database_path('database.sqlite'));
+        if (env('BUILD_LARAVEL_VERSION') != '5.3') {
+            \Schema::defaultStringLength(191);
+        }
 
         $this->setUpTenancy();
         $this->duringSetUp($app);
