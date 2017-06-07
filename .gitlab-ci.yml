@@ -30,7 +30,6 @@ cache:
 .pgsql_template: &pgsql
     services:
         - postgres:latest
-        - webdevops/apache:ubuntu-16.04
     variables:
         DB_HOST: postgres
         DB_CONNECTION: pgsql
