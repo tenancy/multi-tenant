@@ -101,21 +101,6 @@ class Test extends TestCase
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function onNotSuccessfulTest($t)
-    {
-        $this->cleanupTenancy();
-        parent::onNotSuccessfulTest($t);
-    }
-
-    protected function tearDown()
-    {
-        $this->cleanupTenancy();
-        parent::tearDown();
-    }
-
-    /**
      * @param $compareTo
      * @param Application|null $app
      * @return bool
