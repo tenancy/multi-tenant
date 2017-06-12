@@ -100,6 +100,12 @@ class Test extends TestCase
         // ..
     }
 
+    protected function tearDown()
+    {
+        $this->cleanupTenancy();
+        parent::tearDown();
+    }
+
     /**
      * @param $compareTo
      * @param Application|null $app

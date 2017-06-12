@@ -120,4 +120,13 @@ trait InteractsWithTenancy
             $this->website->hostnames()->save($this->hostname);
         }
     }
+
+    protected function cleanupTenancy()
+    {
+        foreach (['website', 'hostname', 'tenant'] as $property) {
+            if ($this->{$property} && $this->{$property}->exists) {
+                $this->{$property}->delete();
+            }
+        }
+    }
 }
