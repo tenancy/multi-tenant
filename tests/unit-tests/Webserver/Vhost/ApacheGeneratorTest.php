@@ -34,6 +34,10 @@ class ApacheGeneratorTest extends Test
 
     protected function duringSetUp(Application $app)
     {
+        if (env('BUILD_WEBSERVER') != 'apache') {
+            $this->markTestSkipped('Testing a different driver');
+        }
+
         $this->setUpWebsites();
         $this->setUpHostnames();
         $app['config']->set('webserver.apache2.enabled', true);
