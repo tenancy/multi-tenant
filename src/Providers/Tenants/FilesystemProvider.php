@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
@@ -30,14 +29,10 @@ class FilesystemProvider extends ServiceProvider
             /** @var \Illuminate\Filesystem\FilesystemManager $manager */
             $manager = $app->make('filesystem');
 
-            return $manager->disk($app['config']->get('tenancy.website.disk') ?? 'tenancy-default');
+            return $manager->disk($app['config']->get('tenancy.website.disk') ?: 'tenancy-default');
         });
 
         $this->app->when(Directory::class)
-            ->needs(Filesystem::class)
-            ->give('tenant.disk');
-
-        $this->app->when(DirectoryGenerator::class)
             ->needs(Filesystem::class)
             ->give('tenant.disk');
 

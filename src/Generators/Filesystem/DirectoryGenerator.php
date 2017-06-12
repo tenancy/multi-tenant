@@ -21,15 +21,6 @@ use Illuminate\Support\Arr;
 
 class DirectoryGenerator
 {
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    public function __construct(Filesystem $filesystem)
-    {
-        $this->filesystem = $filesystem;
-    }
 
     /**
      * @param Dispatcher $events
@@ -42,6 +33,14 @@ class DirectoryGenerator
     }
 
     /**
+     * @return Filesystem
+     */
+    protected function filesystem(): Filesystem
+    {
+        return app('tenant.disk');
+    }
+
+    /**
      * Mutates the service based on a website being enabled.
      *
      * @param Events\Created $event
@@ -50,7 +49,7 @@ class DirectoryGenerator
     public function created(Events\Created $event): bool
     {
         if (config('tenancy.website.auto-create-tenant-directory')) {
-            return $this->filesystem->makeDirectory($event->website->uuid);
+            return $this->filesystem()->makeDirectory($event->website->uuid);
         }
 
         return true;
@@ -65,7 +64,7 @@ class DirectoryGenerator
         $rename = config('tenancy.website.auto-rename-tenant-directory');
 
         if ($rename && $uuid = Arr::get($event->dirty, 'uuid')) {
-            return $this->filesystem->move(
+            return $this->filesystem()->move(
                 $uuid,
                 $event->website->uuid
             );
@@ -83,7 +82,7 @@ class DirectoryGenerator
     public function deleted(Events\Deleted $event): bool
     {
         if (config('tenancy.website.auto-delete-tenant-directory')) {
-            return $this->filesystem->deleteDirectory($event->website->uuid);
+            return $this->filesystem()->deleteDirectory($event->website->uuid);
         }
 
         return true;
