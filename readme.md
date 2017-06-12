@@ -83,9 +83,15 @@ php artisan vendor:deploy --tag tenancy
 
 Open the `config/tenancy.php` and `config/webserver.php` file and modify to your needs.
 
+> Make sure your system connection has been configured in `database.php`. In case you didn't override the system connection name the `default` connection is used.
+
 Now run:
 
 ```bash
 php artisan tenancy:install
 ```
 This will run the required system database migrations.
+
+## Support development
+
+If you like this package and the direction it's taking, please consider becoming a patron at [patreon.com/tenancy](http://patreon.com/tenancy). Pledges start as low as $1 giving access to a private discord server for additional support chat.
