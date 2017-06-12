@@ -86,7 +86,7 @@ class Test extends TestCase
 
     protected function setSchemaLength($app)
     {
-        if (version_compare(substr($app->version(), 0,3), '5.3' , 'gt')) {
+        if (! $this->isAppVersion('5.3', $app)) {
             \Schema::defaultStringLength(191);
         }
     }
@@ -104,7 +104,7 @@ class Test extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function onNotSuccessfulTest(Throwable $t)
+    protected function onNotSuccessfulTest($t)
     {
         $this->cleanupTenancy();
         parent::onNotSuccessfulTest($t);
@@ -114,5 +114,16 @@ class Test extends TestCase
     {
         $this->cleanupTenancy();
         parent::tearDown();
+    }
+
+    /**
+     * @param $compareTo
+     * @param Application|null $app
+     * @return bool
+     */
+    protected function isAppVersion($compareTo, Application $app = null): bool
+    {
+        if (!$app && $this->app) { $app = $this->app; }
+        return version_compare(substr($app->version(), 0, 3), $compareTo, 'eq');
     }
 }

@@ -133,7 +133,7 @@ class Directory implements Filesystem
         return $this->filesystem->put(
             $this->path($path),
             $contents,
-            compact('visibility')
+            $visibility
         );
     }
 

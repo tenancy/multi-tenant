@@ -146,9 +146,9 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames(true);
 
-        $response = $this->get('default');
+        $response = $this->get('http://localhost/default');
 
-        $response->assertJson(['fqdn' => $this->hostname->fqdn]);
+        $response->seeJson(['fqdn' => $this->hostname->fqdn]);
     }
 
     /**
@@ -174,7 +174,7 @@ class InstallationTest extends Test
 
         $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
 
-        $response->assertJson(['fqdn' => $this->tenant->fqdn]);
+        $response->seeJson(['fqdn' => $this->tenant->fqdn]);
     }
 
     /**

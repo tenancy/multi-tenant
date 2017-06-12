@@ -47,7 +47,7 @@ class LoadsRoutesTest extends Test
         $this->assertTrue($this->directory->put('routes.php', <<<EOM
 <?php
 
-\$router->get('foo', function () { return 'testing'; })->name('bar');
+\Route::get('foo', function () { return 'testing'; })->name('bar');
 EOM
 ));
 
