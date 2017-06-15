@@ -197,13 +197,17 @@ class DatabaseGenerator
             return;
         }
 
+        $uuid = Arr::get($event->dirty, 'uuid');
+
+        if (!$uuid) {
+            return;
+        }
+
         $config = $this->connection->generateConfigurationArray($event->website);
 
         $this->emitEvent(
             new Events\Database\Renaming($config, $event->website)
         );
-
-        $uuid = Arr::get($event->dirty, 'uuid');
 
         $statement = "RENAME TABLE `$uuid`.table TO `{$config['database']}`.table";
 

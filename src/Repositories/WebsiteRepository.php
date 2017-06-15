@@ -130,7 +130,6 @@ class WebsiteRepository implements Contract
 
         $this->validator->delete($website);
 
-
         $hard ? $website->forceDelete() : $website->delete();
 
         $this->cache->flush("tenancy.website.{$website->uuid}");
