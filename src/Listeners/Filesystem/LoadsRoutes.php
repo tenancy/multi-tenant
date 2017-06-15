@@ -53,7 +53,9 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
 
         $router->group(
             $prefix ? compact('prefix') : [],
-            $this->directory->path($path, true)
+            function ($router) use ($path) {
+                return $this->directory->getRequire($path);
+            }
         );
     }
 }

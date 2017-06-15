@@ -20,7 +20,6 @@ use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
-use Throwable;
 
 /**
  * Class Test
@@ -76,14 +75,19 @@ class Test extends TestCase
             }
         }
 
-        \Schema::defaultStringLength(191);
-
-        touch(database_path('database.sqlite'));
+        $this->setSchemaLength($app);
 
         $this->setUpTenancy();
         $this->duringSetUp($app);
 
         return $app;
+    }
+
+    protected function setSchemaLength($app)
+    {
+        if (! $this->isAppVersion('5.3', $app)) {
+            \Schema::defaultStringLength(191);
+        }
     }
 
     /**
@@ -96,18 +100,20 @@ class Test extends TestCase
         // ..
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function onNotSuccessfulTest(Throwable $t)
-    {
-        $this->cleanupTenancy();
-        parent::onNotSuccessfulTest($t);
-    }
-
     protected function tearDown()
     {
         $this->cleanupTenancy();
         parent::tearDown();
+    }
+
+    /**
+     * @param $compareTo
+     * @param Application|null $app
+     * @return bool
+     */
+    protected function isAppVersion($compareTo, Application $app = null): bool
+    {
+        if (!$app && $this->app) { $app = $this->app; }
+        return version_compare(substr($app->version(), 0, 3), $compareTo, 'eq');
     }
 }

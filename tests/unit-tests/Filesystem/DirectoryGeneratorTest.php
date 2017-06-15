@@ -39,9 +39,14 @@ class DirectoryGeneratorTest extends Test
      */
     public function directory_created()
     {
+        $this->assertFalse($this->filesystem->exists($this->website->uuid));
+
         $this->websites->create($this->website);
 
-        $this->assertTrue($this->filesystem->exists($this->website->uuid));
+        $this->assertTrue(
+            $this->filesystem->exists($this->website->uuid),
+            "Failed to generate directory for website {$this->website->uuid}."
+        );
     }
 
     /**
