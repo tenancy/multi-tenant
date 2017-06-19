@@ -35,8 +35,8 @@ class ApacheGeneratorTest extends Test
     protected function duringSetUp(Application $app)
     {
         // Marks all tests in this class as skipped.
-        if (env('BUILD_WEBSERVER') != 'apache') {
-            $this->markTestSkipped('Testing a different driver: ' . env('BUILD_WEBSERVER', 'none'));
+        if ($this->buildWebserver != 'apache') {
+            $this->markTestSkipped('Testing a different driver: ' . $this->buildWebserver);
         }
 
         $this->setUpWebsites();

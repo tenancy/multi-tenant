@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
+use Hyn\Tenancy\Tests\Traits\InteractsWithBuilds;
 use Hyn\Tenancy\Tests\Traits\InteractsWithLaravelVersions;
 use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
@@ -28,8 +29,10 @@ use Illuminate\Foundation\Testing\TestCase;
  */
 class Test extends TestCase
 {
-    use InteractsWithTenancy;
-    use InteractsWithLaravelVersions;
+    use InteractsWithTenancy,
+        InteractsWithLaravelVersions,
+        InteractsWithBuilds;
+
 
     /**
      * Service providers to load during this test.
@@ -80,6 +83,7 @@ class Test extends TestCase
 
         $this->setSchemaLength($app);
 
+        $this->identifyBuild();
         $this->setUpTenancy();
         $this->duringSetUp($app);
 
