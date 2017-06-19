@@ -18,11 +18,11 @@ trait InteractsWithLaravelVersions
             return $response->assertJsonFragment($data);
         }
 
-        if ($response instanceof Response) {
+        if ($response instanceof self) {
             return $this->seeJson($data);
         }
 
-        throw new \RuntimeException('Response object unknown');
+        throw new \RuntimeException('Response object unknown: ' . get_class($response));
     }
 
     /**
