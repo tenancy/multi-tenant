@@ -8,8 +8,12 @@ use Illuminate\Http\Response;
 
 trait InteractsWithLaravelVersions
 {
-    public function assertJsonFragment($response, $data = [])
+    public function assertJsonFragment($data = [], $response = null)
     {
+        if (! $response && $this->response) {
+            $response = $this->response;
+        }
+
         if ($response instanceof TestResponse) {
             return $response->assertJsonFragment($data);
         }

@@ -146,9 +146,9 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames(true);
 
-        $response = $this->get('http://localhost/default');
+        $this->get('http://localhost/default');
 
-        $response->assertJsonFragment(['fqdn' => $this->hostname->fqdn]);
+        $this->assertJsonFragment(['fqdn' => $this->hostname->fqdn]);
     }
 
     /**
@@ -172,9 +172,9 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames(true);
 
-        $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
+        $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
 
-        $response->assertJsonFragment(['fqdn' => $this->tenant->fqdn]);
+        $this->assertJsonFragment(['fqdn' => $this->tenant->fqdn]);
     }
 
     /**
