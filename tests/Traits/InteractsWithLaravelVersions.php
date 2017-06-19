@@ -4,7 +4,6 @@ namespace Hyn\Tenancy\Tests\Traits;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\TestResponse;
-use Illuminate\Http\Response;
 
 trait InteractsWithLaravelVersions
 {

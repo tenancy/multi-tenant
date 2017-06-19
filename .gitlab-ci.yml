@@ -62,7 +62,7 @@ cache:
   
 .testing_template: &testing
   script:
-    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml
+    - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml -vv
     
 
 #
