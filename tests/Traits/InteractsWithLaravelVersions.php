@@ -1,5 +1,17 @@
 <?php
 
+/*
+ * This file is part of the hyn/multi-tenant package.
+ *
+ * (c) Daniël Klabbers <daniel@klabbers.email>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see https://github.com/hyn/multi-tenant
+ *
+ */
+
 namespace Hyn\Tenancy\Tests\Traits;
 
 use Illuminate\Foundation\Application;
@@ -31,7 +43,9 @@ trait InteractsWithLaravelVersions
      */
     protected function isAppVersion($compareTo, Application $app = null): bool
     {
-        if (!$app && $this->app) { $app = $this->app; }
+        if (!$app && $this->app) {
+            $app = $this->app;
+        }
 
         return version_compare(substr($app->version(), 0, 3), $compareTo, 'eq');
     }
