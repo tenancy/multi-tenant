@@ -2,15 +2,23 @@
 
 namespace Hyn\Tenancy\Tests\Traits;
 
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Http\Response;
+
 trait InteractsWithLaravelVersions
 {
     public function assertJsonFragment($response, $data = [])
     {
-        if ($this->isAppVersion('5.3')) {
+        if ($response instanceof TestResponse) {
+            return $response->assertJsonFragment($data);
+        }
+
+        if ($response instanceof Response) {
             return $response->seeJson($data);
         }
 
-        return $response->assertJsonFragment($data);
+        throw new \RuntimeException('Response object unknown');
     }
 
     /**
@@ -21,6 +29,7 @@ trait InteractsWithLaravelVersions
     protected function isAppVersion($compareTo, Application $app = null): bool
     {
         if (!$app && $this->app) { $app = $this->app; }
+
         return version_compare(substr($app->version(), 0, 3), $compareTo, 'eq');
     }
 }
