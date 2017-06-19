@@ -10,7 +10,7 @@ trait InteractsWithLaravelVersions
 {
     public function assertJsonFragment($data = [], $response = null)
     {
-        if (! $response && $this->response) {
+        if (! $response && isset($this->response)) {
             $response = $this->response;
         }
 
@@ -19,7 +19,7 @@ trait InteractsWithLaravelVersions
         }
 
         if ($response instanceof Response) {
-            return $response->seeJson($data);
+            return $this->seeJson($data);
         }
 
         throw new \RuntimeException('Response object unknown');
