@@ -95,3 +95,8 @@ This will run the required system database migrations.
 ## Support development
 
 If you like this package and the direction it's taking, please consider becoming a patron at [patreon.com/tenancy](http://patreon.com/tenancy). Pledges start as low as $1 giving access to a private discord server for additional support chat.
+
+## License and contributing
+
+This package is offered under the [MIT license](license.md). In case you're interested at
+contributing, make sure to read the [contributing guidelines](.github/CONTRIBUTING.md).
