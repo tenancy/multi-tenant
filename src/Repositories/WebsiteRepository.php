@@ -20,6 +20,7 @@ use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\WebsiteValidator;
 use Illuminate\Contracts\Cache\Factory;
+use Illuminate\Database\Eloquent\Builder;
 
 class WebsiteRepository implements Contract
 {
@@ -139,5 +140,14 @@ class WebsiteRepository implements Contract
         );
 
         return $website;
+    }
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder
+    {
+        return $this->website->newQuery();
     }
 }

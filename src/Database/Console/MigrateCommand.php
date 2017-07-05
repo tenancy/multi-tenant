@@ -14,6 +14,9 @@
 
 namespace Hyn\Tenancy\Database\Console;
 
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Database\Connection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Database\Console\Migrations\MigrateCommand as BaseCommand;
@@ -21,14 +24,50 @@ use Illuminate\Database\Console\Migrations\MigrateCommand as BaseCommand;
 class MigrateCommand extends BaseCommand
 {
     /**
+     * @var WebsiteRepository
+     */
+    private $websites;
+    /**
+     * @var Connection
+     */
+    private $connection;
+
+    /**
      * Create a new migration command instance.
      *
-     * @param  \Illuminate\Database\Migrations\Migrator  $migrator
+     * @param  \Illuminate\Database\Migrations\Migrator $migrator
+     * @param WebsiteRepository $websites
      */
-    public function __construct(Migrator $migrator)
+    public function __construct(Migrator $migrator, WebsiteRepository $websites, Connection $connection)
     {
         parent::__construct($migrator);
         $this->specifyParameters();
+        $this->websites = $websites;
+        $this->connection = $connection;
+    }
+
+    public function fire()
+    {
+        if (!$this->hasOption('tenant')) {
+            return parent::fire();
+        }
+
+        if (!$this->confirmToProceed()) {
+            return;
+        }
+
+        $this->input->setOption('force', true);
+        $this->input->setOption('database', $this->connection->migrationName());
+
+        $this->websites
+            ->query()
+            ->chunk(10, function (Collection $websites) {
+                $websites->each(function ($website) {
+                    $this->connection->set($website, $this->connection->migrationName());
+
+                    parent::fire();
+                });
+            });
     }
 
     /**
@@ -43,11 +82,11 @@ class MigrateCommand extends BaseCommand
         // migrations may be run for any customized path from within the application.
         if ($this->input->hasOption('path') && $this->option('path')) {
             return collect($this->option('path'))->map(function ($path) {
-                return $this->laravel->basePath().'/'.$path;
+                return $this->laravel->basePath() . '/' . $path;
             })->all();
         }
 
-        if (! is_null($realPath = $this->input->getOption('realpath'))) {
+        if (!is_null($realPath = $this->input->getOption('realpath'))) {
             return [$realPath];
         }
 
@@ -65,6 +104,7 @@ class MigrateCommand extends BaseCommand
     {
         return array_merge([
             ['realpath', null, InputOption::VALUE_OPTIONAL, 'The absolute path to migration files.', null],
+            ['tenant', null, InputOption::VALUE_OPTIONAL, 'Run migrations for all tenants.', false],
         ], parent::getOptions());
     }
 }

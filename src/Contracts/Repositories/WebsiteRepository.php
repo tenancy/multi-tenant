@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Contracts\Repositories;
 
 use Hyn\Tenancy\Models\Website;
+use Illuminate\Database\Eloquent\Builder;
 
 interface WebsiteRepository
 {
@@ -39,4 +40,10 @@ interface WebsiteRepository
      * @return Website
      */
     public function delete(Website &$website, $hard = false): Website;
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder;
 }
