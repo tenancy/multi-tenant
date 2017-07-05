@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Tests\Database;
 
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Hostnames\Created;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;

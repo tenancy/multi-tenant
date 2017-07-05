@@ -1,0 +1,43 @@
+<?php
+
+namespace Hyn\Tenancy\Tests\Commands;
+
+use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Tests\Test;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Collection;
+
+class MigrateCommandTest extends Test
+{
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
+    /**
+     * @test
+     */
+    public function runs_on_tenants()
+    {
+        $code = $this->artisan('migrate', [
+            '--realpath' => __DIR__ . '/../../migrations',
+            '--tenant' => 1,
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, 'Tenant migration didn\'t work out');
+
+        $this->websites->query()->chunk(10, function (Collection $websites) {
+            $websites->each(function (Website $website) {
+                $this->connection->set($website, $this->connection->migrationName());
+                $this->assertTrue($this->connection->migration()->getSchemaBuilder()->hasTable('samples'));
+            });
+        });
+    }
+
+    protected function duringSetUp(Application $app)
+    {
+        $this->connection = $app->make(Connection::class);
+    }
+}

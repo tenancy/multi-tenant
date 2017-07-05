@@ -175,6 +175,14 @@ class Connection
     }
 
     /**
+     * @return \Illuminate\Database\Connection
+     */
+    public function migration()
+    {
+        return $this->db->connection($this->migrationName());
+    }
+
+    /**
      * @return string
      */
     public function migrationName(): string
