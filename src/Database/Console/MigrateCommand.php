@@ -103,7 +103,7 @@ class MigrateCommand extends BaseCommand
     {
         return array_merge([
             ['realpath', null, InputOption::VALUE_OPTIONAL, 'The absolute path to migration files.', null],
-            ['tenant', null, InputOption::VALUE_OPTIONAL, 'Run migrations for all tenants.', false],
+            ['tenant', null, InputOption::VALUE_NONE, 'Run migrations for all tenants.', false],
         ], parent::getOptions());
     }
 }
