@@ -36,19 +36,18 @@ class MigrateCommand extends BaseCommand
      * Create a new migration command instance.
      *
      * @param  \Illuminate\Database\Migrations\Migrator $migrator
-     * @param WebsiteRepository $websites
      */
-    public function __construct(Migrator $migrator, WebsiteRepository $websites, Connection $connection)
+    public function __construct(Migrator $migrator)
     {
         parent::__construct($migrator);
         $this->specifyParameters();
-        $this->websites = $websites;
-        $this->connection = $connection;
+        $this->websites = app(WebsiteRepository::class);
+        $this->connection = app(Connection::class);
     }
 
     public function fire()
     {
-        if (!$this->hasOption('tenant')) {
+        if (!$this->option('tenant')) {
             return parent::fire();
         }
 
