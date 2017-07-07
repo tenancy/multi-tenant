@@ -48,7 +48,7 @@ class ConnectionProvider extends ServiceProvider
     {
         return [
             Connection::class,
-            'tenancy.command.migrate'
+            'tenancy.command.migrate',
         ];
     }
 }

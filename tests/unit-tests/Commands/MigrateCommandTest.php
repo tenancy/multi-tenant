@@ -44,6 +44,9 @@ class MigrateCommandTest extends Test
      */
     public function runs_on_tenants()
     {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+
         $code = $this->artisan('tenancy:migrate', [
             '--realpath' => __DIR__ . '/../../migrations',
             '-n' => 1
