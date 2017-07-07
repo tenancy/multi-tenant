@@ -34,6 +34,8 @@ class CustomerRepositoryTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Repositories\CustomerRepository::create
+     * @covers \Hyn\Tenancy\Contracts\Repositories\CustomerRepository::create
      */
     public function creation_succeeds()
     {
@@ -45,5 +47,7 @@ class CustomerRepositoryTest extends Test
         $customer = $this->customers->create($customer);
 
         $this->assertTrue($customer->exists);
+
+        $this->assertTrue($this->customers->query()->where('id', $customer->id)->exists());
     }
 }

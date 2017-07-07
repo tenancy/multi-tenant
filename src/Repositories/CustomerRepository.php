@@ -19,6 +19,7 @@ use Hyn\Tenancy\Contracts\Repositories\CustomerRepository as Contract;
 use Hyn\Tenancy\Events\Customers as Events;
 use Hyn\Tenancy\Models\Customer;
 use Hyn\Tenancy\Traits\DispatchesEvents;
+use Illuminate\Database\Eloquent\Builder;
 
 class CustomerRepository implements Contract
 {
@@ -114,5 +115,14 @@ class CustomerRepository implements Contract
         );
 
         return $customer;
+    }
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder
+    {
+        return $this->customer->newQuery();
     }
 }

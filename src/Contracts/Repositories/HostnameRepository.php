@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Contracts\Repositories;
 
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
+use Illuminate\Database\Eloquent\Builder;
 
 interface HostnameRepository
 {
@@ -60,4 +61,10 @@ interface HostnameRepository
      * @return Hostname
      */
     public function detach(Hostname &$hostname): Hostname;
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder;
 }

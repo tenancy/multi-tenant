@@ -15,7 +15,6 @@
 
 namespace Hyn\Tenancy\Repositories;
 
-use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
 use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Models\Hostname;
@@ -23,6 +22,7 @@ use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
 use Illuminate\Contracts\Cache\Factory;
+use Illuminate\Database\Eloquent\Builder;
 
 class HostnameRepository implements Contract
 {
@@ -191,5 +191,14 @@ class HostnameRepository implements Contract
         );
 
         return $hostname;
+    }
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder
+    {
+        return $this->hostname->newQuery();
     }
 }

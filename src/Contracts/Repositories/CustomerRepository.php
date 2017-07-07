@@ -16,6 +16,7 @@
 namespace Hyn\Tenancy\Contracts\Repositories;
 
 use Hyn\Tenancy\Models\Customer;
+use Illuminate\Database\Eloquent\Builder;
 
 interface CustomerRepository
 {
@@ -43,4 +44,10 @@ interface CustomerRepository
      * @return Customer
      */
     public function delete(Customer &$customer, $hard = false): Customer;
+
+    /**
+     * @warn Only use for querying.
+     * @return Builder
+     */
+    public function query(): Builder;
 }
