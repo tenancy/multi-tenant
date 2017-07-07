@@ -78,7 +78,7 @@ Then follow the instructions for Laravel 5.3 and 5.4 above to register the `Hyn\
 First publish the configuration files so you can modify it to your needs:
 
 ```bash
-php artisan vendor:deploy --tag tenancy
+php artisan vendor:publish --tag tenancy
 ```
 
 Open the `config/tenancy.php` and `config/webserver.php` file and modify to your needs.
