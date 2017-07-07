@@ -31,7 +31,7 @@ abstract class DatabaseEvent extends AbstractEvent
 
     public function __construct(array &$config, Website $website = null)
     {
-        $this->config = $config;
+        $this->config = &$config;
         $this->hostname = &$hostname;
     }
 }

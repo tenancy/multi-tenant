@@ -1,6 +1,6 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
 [![build status](https://gitlab.com/hyn-me/multi-tenant/badges/3.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/3.x)
-[![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/3.x)
+[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/3.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09)](https://www.codacy.com/app/Luceos/multi-tenant?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hyn/multi-tenant&amp;utm_campaign=Badge_Grade)
 
