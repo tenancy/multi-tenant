@@ -68,6 +68,10 @@ class TenancyProvider extends ServiceProvider
             Contracts\Repositories\WebsiteRepository::class,
             Repositories\WebsiteRepository::class
         );
+        $this->app->singleton(
+            Contracts\Repositories\CustomerRepository::class,
+            Repositories\CustomerRepository::class
+        );
     }
 
     protected function migrations()
