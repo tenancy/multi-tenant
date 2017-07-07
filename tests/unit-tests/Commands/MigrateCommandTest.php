@@ -46,7 +46,6 @@ class MigrateCommandTest extends Test
     {
         $code = $this->artisan('tenancy:migrate', [
             '--realpath' => __DIR__ . '/../../migrations',
-            '--tenant' => 1,
             '-n' => 1
         ]);
 

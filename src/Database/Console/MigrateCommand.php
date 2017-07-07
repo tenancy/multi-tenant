@@ -23,7 +23,6 @@ use Illuminate\Database\Console\Migrations\MigrateCommand as BaseCommand;
 
 class MigrateCommand extends BaseCommand
 {
-    protected $name = 'tenancy:migrate';
     /**
      * @var WebsiteRepository
      */
@@ -42,6 +41,7 @@ class MigrateCommand extends BaseCommand
     {
         parent::__construct($migrator);
 
+        $this->setName('tenancy:migrate');
         $this->specifyParameters();
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
@@ -49,10 +49,6 @@ class MigrateCommand extends BaseCommand
 
     public function fire()
     {
-        if (!$this->option('tenant')) {
-            return parent::fire();
-        }
-
         if (!$this->confirmToProceed()) {
             return;
         }
@@ -105,7 +101,6 @@ class MigrateCommand extends BaseCommand
     {
         return array_merge([
             ['realpath', null, InputOption::VALUE_OPTIONAL, 'The absolute path to migration files.', null],
-            ['tenant', null, InputOption::VALUE_NONE, 'Run migrations for all tenants.'],
         ], parent::getOptions());
     }
 }

@@ -21,8 +21,6 @@ use Illuminate\Contracts\Foundation\Application;
 
 class ConnectionProvider extends ServiceProvider
 {
-    protected $defer = true;
-
     public function register()
     {
         $this->app->singleton(Connection::class);
@@ -40,9 +38,7 @@ class ConnectionProvider extends ServiceProvider
             return new MigrateCommand($app->make('migrator'));
         });
 
-        $this->commands([
-            'tenancy.command.migrate'
-        ]);
+        $this->commands('tenancy.command.migrate');
     }
 
     /**
