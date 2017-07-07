@@ -9,7 +9,8 @@
  * file that was distributed with this source code.
  *
  * @see https://github.com/hyn/multi-tenant
- *
+ * @see https://hyn.me
+ * @see https://patreon.com/tenancy
  */
 
 namespace Hyn\Tenancy\Contracts\Database;
