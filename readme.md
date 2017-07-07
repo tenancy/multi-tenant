@@ -114,4 +114,4 @@ Get in touch personally using;
 - The email address provided in the [composer.json](composer.json).
 - The [community on patreon](http://patreon.com/tenancy/community).
 
-Keep informed about new by [signing up for the newsletter](https://confirmsubscription.com/h/i/DB343D4781A9960C).
+Keep informed about news of this package by [signing up for the newsletter](https://confirmsubscription.com/h/i/DB343D4781A9960C).
