@@ -21,15 +21,28 @@ class HostnameRepositoryTest extends Test
 {
     /**
      * @test
-     * @depends creates_website
      * @covers \Hyn\Tenancy\Repositories\HostnameRepository::attach
      * @covers \Hyn\Tenancy\Contracts\Repositories\HostnameRepository::attach
      */
     public function connect_hostname_to_website()
     {
+        $this->websites->create($this->website);
+
         $this->hostnames->attach($this->hostname, $this->website);
 
         $this->assertEquals($this->website->id, $this->hostname->website_id);
+    }
+
+    /**
+     * @test
+     * @covers \Hyn\Tenancy\Validators\HostnameValidator::create
+     * @expectedException \Hyn\Tenancy\Exceptions\ModelValidationException
+     */
+    public function assert_validation_fqdn_required()
+    {
+        $this->hostname->fqdn = null;
+
+        $this->hostnames->create($this->hostname);
     }
 
     protected function duringSetUp(Application $app)

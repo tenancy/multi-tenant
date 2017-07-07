@@ -76,6 +76,6 @@ class Environment
     {
         $hostname = $this->hostname();
 
-        return $hostname ? $hostname->website : false;
+        return $hostname ? $hostname->website : null;
     }
 }

@@ -16,7 +16,6 @@
 namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Events\Hostnames\Identified;
-use Hyn\Tenancy\Listeners\Filesystem\LoadsConfigs;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -84,7 +83,7 @@ abstract class AbstractTenantDirectoryListener
      */
     public function proxy(Identified $event)
     {
-        if ($event->hostname->website) {
+        if ($event->hostname && $event->hostname->website) {
             $this->directory->setWebsite($event->hostname->website);
         } elseif ($this->requiresWebsite) {
             return;

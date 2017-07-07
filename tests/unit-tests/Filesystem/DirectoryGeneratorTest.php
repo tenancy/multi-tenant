@@ -38,6 +38,7 @@ class DirectoryGeneratorTest extends Test
     /**
      * @test
      * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::created
+     * @covers \Hyn\Tenancy\Events\Websites\Created
      */
     public function directory_created()
     {
@@ -55,6 +56,7 @@ class DirectoryGeneratorTest extends Test
      * @test
      * @depends directory_created
      * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::updated
+     * @covers \Hyn\Tenancy\Events\Websites\Updated
      */
     public function directory_modified()
     {
@@ -68,6 +70,7 @@ class DirectoryGeneratorTest extends Test
      * @test
      * @depends directory_modified
      * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::deleted
+     * @covers \Hyn\Tenancy\Events\Websites\Deleted
      */
     public function directory_deleted()
     {

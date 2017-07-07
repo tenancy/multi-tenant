@@ -44,6 +44,7 @@ class ConnectionTest extends Test
      * @depends without_identification_no_tenant_connection_is_active
      * @covers \Hyn\Tenancy\Database\Connection::get
      * @covers \Hyn\Tenancy\Database\Connection::system
+     * @covers \Hyn\Tenancy\Events\Hostnames\Identified
      */
     public function hostname_identification_switches_connection()
     {
@@ -67,6 +68,7 @@ class ConnectionTest extends Test
      * @depends hostname_identification_switches_connection
      * @covers \Hyn\Tenancy\Database\Connection::get
      * @covers \Hyn\Tenancy\Database\Connection::system
+     * @covers \Hyn\Tenancy\Events\Hostnames\Identified
      */
     public function both_connections_work()
     {
@@ -83,6 +85,7 @@ class ConnectionTest extends Test
      * @depends both_connections_work
      * @covers \Hyn\Tenancy\Database\Connection::migrate
      * @covers \Hyn\Tenancy\Listeners\Database\MigratesTenants
+     * @covers \Hyn\Tenancy\Events\Hostnames\Identified
      */
     public function can_migrate_the_tenant()
     {
