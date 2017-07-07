@@ -106,3 +106,12 @@ contributing, make sure to read the [contributing guidelines](.github/CONTRIBUTI
 ## Changes
 
 All changes are covered in the [changelog](changelog.md).
+
+## Contact
+
+Get in touch personally using;
+
+- The email address provided in the [composer.json](composer.json).
+- The [community on patreon](http://patreon.com/tenancy/community).
+
+Keep informed about new by [signing up for the newsletter](https://confirmsubscription.com/h/i/DB343D4781A9960C).
