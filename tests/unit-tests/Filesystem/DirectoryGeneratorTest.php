@@ -37,6 +37,7 @@ class DirectoryGeneratorTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::created
      */
     public function directory_created()
     {
@@ -53,6 +54,7 @@ class DirectoryGeneratorTest extends Test
     /**
      * @test
      * @depends directory_created
+     * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::updated
      */
     public function directory_modified()
     {
@@ -65,6 +67,7 @@ class DirectoryGeneratorTest extends Test
     /**
      * @test
      * @depends directory_modified
+     * @covers \Hyn\Tenancy\Generators\Filesystem\DirectoryGenerator::deleted
      */
     public function directory_deleted()
     {

@@ -37,6 +37,9 @@ class LoadsConfigsTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Website\Directory::makeDirectory
+     * @covers \Hyn\Tenancy\Website\Directory::exists
+     * @covers \Hyn\Tenancy\Listeners\Filesystem\LoadsConfigs
      */
     public function reads_additional_config()
     {
@@ -60,6 +63,10 @@ EOM
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Website\Directory::makeDirectory
+     * @covers \Hyn\Tenancy\Website\Directory::exists
+     * @covers \Hyn\Tenancy\Website\Directory::put
+     * @covers \Hyn\Tenancy\Listeners\Filesystem\LoadsConfigs
      */
     public function blocks_blacklisted_configs()
     {

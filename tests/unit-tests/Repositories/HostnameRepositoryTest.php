@@ -17,22 +17,13 @@ namespace Hyn\Tenancy\Tests;
 
 use Illuminate\Contracts\Foundation\Application;
 
-class WebsiteTest extends Test
+class HostnameRepositoryTest extends Test
 {
-
-    /**
-     * @test
-     */
-    public function creates_website()
-    {
-        $this->websites->create($this->website);
-
-        $this->assertTrue($this->website->exists);
-    }
-
     /**
      * @test
      * @depends creates_website
+     * @covers \Hyn\Tenancy\Repositories\HostnameRepository::attach
+     * @covers \Hyn\Tenancy\Contracts\Repositories\HostnameRepository::attach
      */
     public function connect_hostname_to_website()
     {

@@ -27,6 +27,6 @@ class ShaGenerator implements UuidGenerator
      */
     public function generate(Website $website) : string
     {
-        return Uuid::uuid4();
+        return Uuid::uuid4()->toString();
     }
 }

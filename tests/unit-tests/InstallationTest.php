@@ -142,6 +142,8 @@ class InstallationTest extends Test
     /**
      * @test
      * @depends saves_default_hostname
+     * @covers \Hyn\Tenancy\Contracts\Repositories\HostnameRepository::getDefault
+     * @covers \Hyn\Tenancy\Repositories\HostnameRepository::getDefault
      */
     public function verify_request()
     {
@@ -168,6 +170,7 @@ class InstallationTest extends Test
     /**
      * @test
      * @depends save_tenant_hostname
+     * @covers \Hyn\Tenancy\Jobs\HostnameIdentification
      */
     public function verify_tenant_request()
     {
@@ -180,12 +183,19 @@ class InstallationTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Generators\Uuid\ShaGenerator
+     * @covers \Hyn\Tenancy\Contracts\Website\UuidGenerator
      */
     public function verify_uuid_generator()
     {
+        $this->setUpWebsites();
+
+        /** @var ShaGenerator $generator */
         $generator = $this->app->make(UuidGenerator::class);
 
         $this->assertInstanceOf(ShaGenerator::class, $generator);
+
+        $this->assertTrue(is_string($generator->generate($this->website)));
     }
 
     /**

@@ -41,6 +41,9 @@ class LoadsRoutesTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Website\Directory::exists
+     * @covers \Hyn\Tenancy\Website\Directory::put
+     * @covers \Hyn\Tenancy\Listeners\Filesystem\LoadsRoutes
      */
     public function reads_additional_routes()
     {
