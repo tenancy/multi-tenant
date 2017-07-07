@@ -32,12 +32,11 @@ class ConnectionProvider extends ServiceProvider
     /**
      * Register the "migrate" migration command.
      *
-     * @param Application $app
      * @return void
      */
-    protected function registerMigrateCommand(Application $app)
+    protected function registerMigrateCommand()
     {
-        $app->singleton('tenancy.command.migrate', function (Application $app) {
+        $this->app->singleton('tenancy.command.migrate', function (Application $app) {
             return new MigrateCommand($app->make('migrator'));
         });
 

@@ -230,7 +230,7 @@ class Connection
             $options['--realpath'] = $path;
         }
 
-        $code = $this->artisan->call('migrate', $options);
+        $code = $this->artisan->call('tenancy:migrate', $options);
 
         $this->purge($this->migrationName());
 

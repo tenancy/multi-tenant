@@ -35,7 +35,7 @@ class MigrateCommandTest extends Test
     {
         $this->assertInstanceOf(
             MigrateCommand::class,
-            $this->app->make('command.migrate')
+            $this->app->make('tenancy.command.migrate')
         );
     }
 
@@ -44,7 +44,7 @@ class MigrateCommandTest extends Test
      */
     public function runs_on_tenants()
     {
-        $code = $this->artisan('migrate', [
+        $code = $this->artisan('tenancy:migrate', [
             '--realpath' => __DIR__ . '/../../migrations',
             '--tenant' => 1,
             '-n' => 1
