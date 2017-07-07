@@ -1,4 +1,3 @@
-- 3.0.0-beta.2
-	- Added tenant support in the migrate command.
-- 3.0.0-beta.1
+- 3.0.0
+	- Created tenancy:migrate command.
 	- Complete rewrite from scratch.
