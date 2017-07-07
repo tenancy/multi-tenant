@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Database\Console\MigrateCommand;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
@@ -26,6 +27,17 @@ class MigrateCommandTest extends Test
      * @var Connection
      */
     protected $connection;
+
+    /**
+     * @test
+     */
+    public function is_ioc_bound()
+    {
+        $this->assertInstanceOf(
+            MigrateCommand::class,
+            $this->app->make('command.migrate')
+        );
+    }
 
     /**
      * @test
