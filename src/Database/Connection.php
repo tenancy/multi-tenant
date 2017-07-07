@@ -16,7 +16,6 @@
 namespace Hyn\Tenancy\Database;
 
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
-use Hyn\Tenancy\Events\Database\ConfigurationLoading;
 use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
@@ -252,7 +251,7 @@ class Connection
 
         $mode = config('tenancy.db.tenant-division-mode');
 
-        $this->emitEvent(new ConfigurationLoading($mode, $clone, $this));
+        $this->emitEvent(new Events\Database\ConfigurationLoading($mode, $clone, $this));
 
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
@@ -267,6 +266,8 @@ class Connection
             default:
                 throw new ConnectionException("Division mode '$mode' unknown.");
         }
+
+        $this->emitEvent(new Events\Database\ConfigurationLoaded($clone, $this));
 
         return $clone;
     }
