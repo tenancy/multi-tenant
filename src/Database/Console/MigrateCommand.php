@@ -23,6 +23,7 @@ use Illuminate\Database\Console\Migrations\MigrateCommand as BaseCommand;
 
 class MigrateCommand extends BaseCommand
 {
+    protected $name = 'tenancy:migrate';
     /**
      * @var WebsiteRepository
      */
@@ -40,6 +41,7 @@ class MigrateCommand extends BaseCommand
     public function __construct(Migrator $migrator)
     {
         parent::__construct($migrator);
+
         $this->specifyParameters();
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
