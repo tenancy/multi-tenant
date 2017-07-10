@@ -18,9 +18,9 @@ namespace Hyn\Tenancy\Generators\Webserver\Database;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
+use Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\Connection as IlluminateConnection;
 use Illuminate\Support\Arr;
 
 class DatabaseGenerator
@@ -51,16 +51,36 @@ class DatabaseGenerator
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Websites\Created::class, [$this, 'create']);
+        $events->listen(Events\Websites\Created::class, [$this, 'created']);
         $events->listen(Events\Websites\Updated::class, [$this, 'updated']);
-        $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
+        $events->listen(Events\Websites\Deleted::class, [$this, 'deleted']);
+    }
+
+    /**
+     * @param array $config
+     * @return \Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator
+     * @throws GeneratorFailedException
+     */
+    protected function driver(array $config)
+    {
+        $driver = Arr::get($config, 'driver', 'mysql');
+
+        switch ($driver) {
+            case 'pgsql':
+                return new Drivers\PostgreSQL;
+                break;
+            case 'mysql':
+                return new Drivers\MariaDB;
+            default:
+                throw new GeneratorFailedException("Could not generate database for driver $driver");
+        }
     }
 
     /**
      * @param Events\Websites\Created $event
      * @throws GeneratorFailedException
      */
-    public function create(Events\Websites\Created $event)
+    public function created(Events\Websites\Created $event)
     {
         if (!config('tenancy.db.auto-create-tenant-database', true)) {
             return;
@@ -78,44 +98,13 @@ class DatabaseGenerator
             new Events\Database\Creating($config, $event->website)
         );
 
-        $driver = Arr::get($config, 'driver', 'mysql');
-
-        switch ($driver) {
-            case 'mysql':
-                $success = $this->createMysql($config);
-                break;
-            case 'pgsql':
-                $success = $this->createPostgres($config);
-                break;
-            default:
-                throw new GeneratorFailedException("Could not generate database for driver $driver");
-        }
-
-        if (!$success) {
+        if (!$this->driver($config)->created($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
         }
 
         $this->emitEvent(
             new Events\Database\Created($config, $event->website)
         );
-    }
-
-    /**
-     * @param array $config
-     * @return bool
-     */
-    protected function createMysql(array $config = [])
-    {
-        $create = function ($connection) use ($config) {
-            return $connection->statement("CREATE DATABASE `{$config['database']}`");
-        };
-        $grant = function ($connection) use ($config) {
-            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
-        };
-
-        return $this->connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
-            return $create($connection) && $grant($connection);
-        });
     }
 
     /**
@@ -133,31 +122,10 @@ class DatabaseGenerator
     }
 
     /**
-     * @param array $config
-     * @return bool
-     */
-    protected function createPostgres(array $config = [])
-    {
-        $connection = $this->connection->system();
-
-        $user = function () use ($connection, $config) {
-            return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
-        };
-        $create = function () use ($connection, $config) {
-            return $connection->statement("CREATE DATABASE \"{$config['database']}\" WITH OWNER=\"{$config['username']}\"");
-        };
-        $grant = function () use ($connection, $config) {
-            return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
-        };
-
-        return $user() && $create() && $grant();
-    }
-
-    /**
      * @param Events\Websites\Deleted $event
      * @throws GeneratorFailedException
      */
-    public function delete(Events\Websites\Deleted $event)
+    public function deleted(Events\Websites\Deleted $event)
     {
         if (!config('tenancy.db.auto-delete-tenant-database', false)) {
             return;
@@ -173,13 +141,7 @@ class DatabaseGenerator
             new Events\Database\Deleting($config, $event->website)
         );
 
-        $statement = "DROP DATABASE IF EXISTS `{$config['database']}`";
-
-        if (Arr::get($config, 'driver') === 'pgsql') {
-            $statement = "DROP DATABASE IF EXISTS \"{$config['database']}\"";
-        }
-
-        if (!$this->connection->system()->statement($statement)) {
+        if (!$this->driver($config)->deleted($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
         }
 
@@ -214,13 +176,7 @@ class DatabaseGenerator
             new Events\Database\Renaming($config, $event->website)
         );
 
-        $statement = "RENAME TABLE `$uuid`.table TO `{$config['database']}`.table";
-
-        if (Arr::get($config, 'driver') === 'pgsql') {
-            $statement = "ALTER DATABASE \"$uuid\" RENAME TO \"{$config['database']}\"";
-        }
-
-        if (!$this->connection->system()->statement($statement)) {
+        if (!$this->driver($config)->updated($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
         }
 

@@ -1,0 +1,69 @@
+<?php
+
+namespace Hyn\Tenancy\Generators\Webserver\Database\Drivers;
+
+use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
+use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Events\Websites\Created;
+use Hyn\Tenancy\Events\Websites\Deleted;
+use Hyn\Tenancy\Events\Websites\Updated;
+use Hyn\Tenancy\Exceptions\GeneratorFailedException;
+use Illuminate\Database\Connection as IlluminateConnection;
+use Illuminate\Support\Arr;
+
+class MariaDB implements DatabaseGenerator
+{
+    /**
+     * @param Created $event
+     * @param array $config
+     * @param Connection $connection
+     * @return bool
+     */
+    public function created(Created $event, array $config, Connection $connection): bool
+    {
+        $create = function ($connection) use ($config) {
+            return $connection->statement("CREATE DATABASE `{$config['database']}`");
+        };
+        $grant = function ($connection) use ($config) {
+            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+        };
+
+        return $connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
+            return $create($connection) && $grant($connection);
+        });
+    }
+
+    /**
+     * @param Updated $event
+     * @param array $config
+     * @param Connection $connection
+     * @return bool
+     * @throws GeneratorFailedException
+     */
+    public function updated(Updated $event, array $config, Connection $connection): bool
+    {
+        $uuid = Arr::get($event->dirty, 'uuid');
+
+        if (!$connection->system()->statement("RENAME TABLE `$uuid`.table TO `{$config['database']}`.table")) {
+            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Deleted $event
+     * @param array $config
+     * @param Connection $connection
+     * @return bool
+     * @throws GeneratorFailedException
+     */
+    public function deleted(Deleted $event, array $config, Connection $connection): bool
+    {
+        if (!$connection->system()->statement("DROP DATABASE IF EXISTS `{$config['database']}`")) {
+            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
+        }
+
+        return true;
+    }
+}
