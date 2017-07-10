@@ -15,20 +15,13 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Database\Console\MigrateCommand;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
 
 class MigrateCommandTest extends Test
 {
-    /**
-     * @var Connection
-     */
-    protected $connection;
-
     /**
      * @test
      */
@@ -62,10 +55,5 @@ class MigrateCommandTest extends Test
                 $this->assertTrue($this->connection->migration()->getSchemaBuilder()->hasTable('samples'));
             });
         });
-    }
-
-    protected function duringSetUp(Application $app)
-    {
-        $this->connection = $app->make(Connection::class);
     }
 }

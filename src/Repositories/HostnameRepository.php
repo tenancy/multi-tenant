@@ -167,6 +167,8 @@ class HostnameRepository implements Contract
     {
         $website->hostnames()->save($hostname);
 
+        $this->validator->save($hostname);
+
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
 
         $this->emitEvent(

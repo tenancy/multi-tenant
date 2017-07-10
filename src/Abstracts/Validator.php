@@ -15,6 +15,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Exceptions\ModelValidationException;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Validation\Validator as Native;
@@ -94,6 +95,8 @@ abstract class Validator
         /** @var Factory $validator */
         $factory = app(Factory::class);
 
+        $rules = $this->replaceVariables($rules);
+
         /** @var Native $validator */
         $validator = $factory->make(
             $model->getAttributes(),
@@ -105,5 +108,27 @@ abstract class Validator
         }
 
         return $validator->passes();
+    }
+
+    /**
+     * @param array $rules
+     * @return array
+     */
+    protected function replaceVariables(array $rules)
+    {
+        /** @var Connection $connection */
+        $connection = app(Connection::class);
+
+        return collect($rules)->map(function($ruleSet) use ($connection) {
+            return collect($ruleSet)->map(function ($rule) use ($connection) {
+                return str_replace([
+                    '%system%',
+                    '%tenant%'
+                ], [
+                    $connection->systemName(),
+                    $connection->tenantName()
+                ], $rule);
+            })->toArray();
+        })->toArray();
     }
 }

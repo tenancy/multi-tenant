@@ -15,19 +15,11 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
-use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Connection as DatabaseConnection;
 
 class ConnectionTest extends Test
 {
-
-    /**
-     * @var Connection
-     */
-    protected $connection;
-
     /**
      * @test
      * @expectedException \InvalidArgumentException
@@ -98,10 +90,5 @@ class ConnectionTest extends Test
         $this->activateTenant('local');
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
-    }
-
-    protected function duringSetUp(Application $app)
-    {
-        $this->connection = $app->make(Connection::class);
     }
 }

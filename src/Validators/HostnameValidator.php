@@ -24,8 +24,8 @@ class HostnameValidator extends Validator
         'redirect_to' => ['string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['date'],
-        'website_id' => ['integer', 'exists:websites,id'],
-        'customer_id' => ['integer', 'exists:customers,id'],
+        'website_id' => ['integer', 'exists:%system%.websites,id'],
+        'customer_id' => ['integer', 'exists:%system%.customers,id'],
     ];
 
     protected $update = [
@@ -34,7 +34,7 @@ class HostnameValidator extends Validator
         'redirect_to' => ['string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['date'],
-        'website_id' => ['integer', 'exists:websites,id'],
-        'customer_id' => ['integer', 'exists:customers,id'],
+        'website_id' => ['integer', 'exists:%system%.websites,id'],
+        'customer_id' => ['integer', 'exists:%system%.customers,id'],
     ];
 }

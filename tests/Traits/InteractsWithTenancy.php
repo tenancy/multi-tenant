@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
@@ -49,10 +50,17 @@ trait InteractsWithTenancy
      */
     protected $websites;
 
+    /**
+     * @var Connection
+     */
+    protected $connection;
+
     protected function setUpTenancy()
     {
         $this->websites = app(WebsiteRepository::class);
         $this->hostnames = app(HostnameRepository::class);
+
+        $this->connection = app(Connection::class);
     }
 
     protected function loadHostnames()
