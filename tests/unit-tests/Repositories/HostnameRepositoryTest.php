@@ -49,6 +49,7 @@ class HostnameRepositoryTest extends Test
 
     /**
      * @test
+     * @covers \Hyn\Tenancy\Validators\HostnameValidator::save
      */
     public function validates_website_relation()
     {
