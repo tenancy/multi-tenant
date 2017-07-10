@@ -119,7 +119,7 @@ abstract class Validator
         /** @var Connection $connection */
         $connection = app(Connection::class);
 
-        return collect($rules)->map(function($ruleSet) use ($connection) {
+        return collect($rules)->map(function ($ruleSet) use ($connection) {
             return collect($ruleSet)->map(function ($rule) use ($connection) {
                 return str_replace([
                     '%system%',
