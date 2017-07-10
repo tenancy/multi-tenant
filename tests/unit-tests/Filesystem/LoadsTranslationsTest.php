@@ -37,12 +37,6 @@ class LoadsTranslationsTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Website\Directory::makeDirectory
-     * @covers \Hyn\Tenancy\Website\Directory::exists
-     * @covers \Hyn\Tenancy\Website\Directory::put
-     * @covers \Hyn\Tenancy\Listeners\Filesystem\LoadsTranslations
-     * @covers \Hyn\Tenancy\Events\Hostnames\Identified
-     * @covers \Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener
      */
     public function reads_additional_translations()
     {

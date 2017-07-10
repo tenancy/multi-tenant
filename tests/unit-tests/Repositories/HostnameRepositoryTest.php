@@ -23,8 +23,6 @@ class HostnameRepositoryTest extends Test
 {
     /**
      * @test
-     * @covers \Hyn\Tenancy\Repositories\HostnameRepository::attach
-     * @covers \Hyn\Tenancy\Contracts\Repositories\HostnameRepository::attach
      */
     public function connect_hostname_to_website()
     {
@@ -37,7 +35,6 @@ class HostnameRepositoryTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Validators\HostnameValidator::create
      * @expectedException \Hyn\Tenancy\Exceptions\ModelValidationException
      */
     public function assert_validation_fqdn_required()
@@ -49,7 +46,6 @@ class HostnameRepositoryTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Validators\HostnameValidator::save
      */
     public function validates_website_relation()
     {

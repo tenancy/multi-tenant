@@ -22,8 +22,6 @@ class WebsiteRepositoryTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Repositories\WebsiteRepository::create
-     * @covers \Hyn\Tenancy\Contracts\Repositories\WebsiteRepository::create
      */
     public function creates_website()
     {

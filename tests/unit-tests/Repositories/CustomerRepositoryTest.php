@@ -34,8 +34,6 @@ class CustomerRepositoryTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Repositories\CustomerRepository::create
-     * @covers \Hyn\Tenancy\Contracts\Repositories\CustomerRepository::create
      */
     public function creation_succeeds()
     {

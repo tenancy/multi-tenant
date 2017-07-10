@@ -35,7 +35,6 @@ class MigrateCommandTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Database\Console\MigrateCommand
      */
     public function runs_on_tenants()
     {

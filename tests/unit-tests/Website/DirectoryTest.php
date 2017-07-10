@@ -33,8 +33,6 @@ class DirectoryTest extends Test
 
     /**
      * @test
-     * @covers \Hyn\Tenancy\Website\Directory::setWebsite
-     * @covers \Hyn\Tenancy\Website\Directory::getWebsite
      */
     public function can_switch_website()
     {
