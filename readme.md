@@ -29,6 +29,9 @@ Database separation methods:
 - Table prefixed in the system database.
 - Or .. manually, the way you want, by listening to an event.
 
+[Complete documentation](https://laravel-tenancy.com) covers more than just the
+ installation and configuration.
+
 ## Requirements, recommended environment
 
 - Linux based OS preferred.
