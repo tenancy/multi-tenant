@@ -16,7 +16,7 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
 use Illuminate\Routing\Router;
 
@@ -30,10 +30,10 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
     protected $path = 'routes.php';
 
     /**
-     * @param Identified $event
+     * @param HostnameEvent $event
      * @throws FilesystemException
      */
-    public function load(Identified $event)
+    public function load(HostnameEvent $event)
     {
         if ($this->directory->isLocal()) {
             $this->loadRoutes($this->path);

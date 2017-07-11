@@ -16,7 +16,7 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Abstracts\HostnameEvent;
 
 class LoadsConfigs extends AbstractTenantDirectoryListener
 {
@@ -28,9 +28,9 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected $path = 'config';
 
     /**
-     * @param Identified $event
+     * @param HostnameEvent $event
      */
-    public function load(Identified $event)
+    public function load(HostnameEvent $event)
     {
         $this->readConfigurationFiles($this->path);
     }

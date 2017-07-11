@@ -16,7 +16,7 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
 
 class LoadsVendor extends AbstractTenantDirectoryListener
@@ -29,10 +29,10 @@ class LoadsVendor extends AbstractTenantDirectoryListener
     protected $path = 'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 
     /**
-     * @param Identified $event
+     * @param HostnameEvent $event
      * @throws FilesystemException
      */
-    public function load(Identified $event)
+    public function load(HostnameEvent $event)
     {
         if ($this->directory->isLocal()) {
             $this->directory->requireOnce($this->path);

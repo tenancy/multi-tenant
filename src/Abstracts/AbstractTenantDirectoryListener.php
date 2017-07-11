@@ -16,6 +16,7 @@
 namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -73,15 +74,15 @@ abstract class AbstractTenantDirectoryListener
     public function subscribe(Dispatcher $events)
     {
         if ($this->config->get("{$this->configBaseKey}.enabled")) {
-            $events->listen(Identified::class, [$this, 'proxy']);
+            $events->listen([Identified::class, Switched::class], [$this, 'proxy']);
         }
     }
 
     /**
      * Proxies fired events to configure the handler.
-     * @param Identified $event
+     * @param HostnameEvent $event
      */
-    public function proxy(Identified $event)
+    public function proxy(HostnameEvent $event)
     {
         if ($event->hostname && $event->hostname->website) {
             $this->directory->setWebsite($event->hostname->website);
@@ -101,10 +102,10 @@ abstract class AbstractTenantDirectoryListener
     }
 
     /**
-     * @param Identified $event
+     * @param HostnameEvent $event
      * @return void
      */
-    abstract public function load(Identified $event);
+    abstract public function load(HostnameEvent $event);
 
     /**
      * @return bool
