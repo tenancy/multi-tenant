@@ -54,7 +54,6 @@ cache:
     key: "$CI_JOB_NAME"
     untracked: false
   artifacts:
-      when: on_failure
       expire_in: 8 hours
       paths:
           - vendor/laravel/laravel/storage/app/tenancy/
