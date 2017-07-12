@@ -1,23 +1,5 @@
-
-
 <VirtualHost *:{{ $config->port->http or 80 }}>
-    @if(isset($hostname))
-        ServerAdmin webmaster{{ "@" . $hostname->hostname }}
-    @else
-        ServerAdmin webmaster{{ "@" .  $hostnames->first()->hostname }}
-    @endif
-
-    @if(isset($hostname))
-        ServerName {{ $hostname->hostname }}
-    @else
-        @foreach($hostnames->pluck('hostname') as $i => $hostname)
-            @if($i == 0)
-                ServerName {{ $hostname }}
-            @else
-                ServerAlias {{ $hostname }}
-            @endif
-        @endforeach
-    @endif
+    ServerName {{ $hostname->hostname }}
 
     # public path, serving content
     DocumentRoot {{ public_path() }}
