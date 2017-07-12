@@ -246,5 +246,11 @@ return [
              */
             'enabled' => true,
         ],
+        'media' => [
+            /**
+             * Mounts the assets directory with (static) files for public use.
+             */
+            'enabled' => true,
+        ]
     ]
 ];
