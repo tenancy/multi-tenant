@@ -84,6 +84,7 @@ class TenancyProvider extends ServiceProvider
         return [
             Environment::class,
             InstallCommand::class,
+            Contracts\Repositories\CustomerRepository::class,
             Contracts\Repositories\HostnameRepository::class,
             Contracts\Repositories\WebsiteRepository::class,
         ];
