@@ -47,7 +47,7 @@ class WebserverProvider extends ServiceProvider
     {
         $this->loadViewsFrom(
             __DIR__ . '/../../assets/generators',
-            'tenancy.generator'
+            'tenancy.generators'
         );
     }
 }
