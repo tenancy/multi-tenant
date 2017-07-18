@@ -1,80 +1,35 @@
-<VirtualHost *:{{ $config->port->http or 80 }}>
-    ServerName {{ $hostname->hostname }}
+<VirtualHost *:{{ array_get($config, 'ports.http', 80) }}>
+    ServerName {{ $hostname->fqdn }}
 
     # public path, serving content
     DocumentRoot {{ public_path() }}
     # default document handling
     DirectoryIndex index.html index.php
 
-    @if($website->directory->media())
+    @if($directory->exists('media'))
         # media directory
-        alias "/media/" "{{ $website->directory->media() }}"
+        alias "/media/" "{{ $directory->path('media') }}"
     @endif
 
     # allow cross domain loading of resources
     Header set Access-Control-Allow-Origin "*"
-
-    # logging
-    ErrorLog {{ $log_path }}.error.log
-    CustomLog {{ $log_path }}.access.log combined
 
     <Directory "{{ base_path() }}">
         Options FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
-
-    <IfModule mod_fastcgi.c>
-        AddType application/x-httpd-fastphp5 .php
-        Action application/x-httpd-fastphp5 /php5-fcgi
-        Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-        FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.hyn-{{ $fpm_port + $website->id }}.sock -pass-header Authorization
-        <Directory /usr/lib/cgi-bin>
-            Require all granted
-        </Directory>
-    </IfModule>
 </VirtualHost>
 
 
 @if(isset($ssl))
-    <VirtualHost *:{{ $config->port->https or 443 }}>
-
-        @if(isset($hostname))
-            ServerAdmin webmaster{{ "@" . $hostname->hostname }}
-        @else
-            ServerAdmin webmaster{{ "@" . $hostnames->first()->hostname }}
-        @endif
-
-        @if(isset($hostname))
-            ServerName {{ $hostname->hostname }}
-        @else
-            @foreach($hostnames->pluck('hostname') as $i => $hostname)
-                @if($i == 0)
-                    ServerName {{ $hostname }}
-                @else
-                    ServerAlias {{ $hostname }}
-                @endif
-            @endforeach
-        @endif
+    <VirtualHost *:{{ array_get($config, 'ports.https', 443) }}>
+        ServerName {{ $hostname->fqdn }}
 
         # public path, serving content
         DocumentRoot {{ public_path() }}
         # default document handling
         DirectoryIndex index.html index.php
-
-        @if ($website->websiteUser)
-            # user
-            {{--        RUidGid {{ $website->websiteUser }} {{ config('webserver.group', 'users') }}--}}
-            # using mpm itk module; see http://mpm-itk.sesse.net/
-            <IfModule mpm_itk_module>
-                AssignUserId {{ $website->websiteUser }} {{ config('webserver.group', 'users') }}
-            </IfModule>
-        @endif
-
-        @if($website->directory->media())
-            # media directory
-            alias "/media/" "{{ $website->directory->media() }}"
-        @endif
 
         # allow cross domain loading of resources
         Header set Access-Control-Allow-Origin "*"
@@ -104,15 +59,5 @@
             AllowOverride All
             Require all granted
         </Directory>
-
-        <IfModule mod_fastcgi.c>
-            AddType application/x-httpd-fastphp5 .php
-            Action application/x-httpd-fastphp5 /php5-fcgi
-            Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-            FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.hyn-{{ $fpm_port + $website->id }}.sock -pass-header Authorization
-            <Directory /usr/lib/cgi-bin>
-                Require all granted
-            </Directory>
-        </IfModule>
     </VirtualHost>
 @endif

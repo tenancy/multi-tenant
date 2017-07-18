@@ -15,6 +15,20 @@
 return [
 
     /**
+     * Let's Encrypt free SSL certificates for automatic https links of your tenant websites.
+     *
+     * @see http://www.letsencrypt.org
+     */
+    'lets-encrypt' => [
+        /**
+         * Whether Let's Encrypt is actively used to manage the SSL certificates of this domain.
+         *
+         * @info The Let's Encrypt is a non-terminal, pure PHP implementation.
+         */
+        'enabled' => true,
+    ],
+
+    /**
      * Apache2 is one of the most widely adopted webserver packages available.
      *
      * @see http://httpd.apache.org/docs/

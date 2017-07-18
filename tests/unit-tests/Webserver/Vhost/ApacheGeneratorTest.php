@@ -39,8 +39,9 @@ class ApacheGeneratorTest extends Test
             $this->markTestSkipped('Testing a different driver: ' . $this->buildWebserver);
         }
 
-        $this->setUpWebsites();
         $this->setUpHostnames();
+        $this->setUpWebsites(true, true);
+
         $app['config']->set('webserver.apache2.enabled', true);
 
         $this->generator = $app->make(ApacheGenerator::class);

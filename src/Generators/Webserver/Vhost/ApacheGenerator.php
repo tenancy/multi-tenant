@@ -17,16 +17,31 @@ namespace Hyn\Tenancy\Generators\Webserver\Vhost;
 use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
 use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Website\Directory;
 
 class ApacheGenerator implements VhostGenerator, ReloadsServices
 {
+    /**
+     * @var Directory
+     */
+    private $directory;
+
+    function __construct(Directory $directory)
+    {
+        $this->directory = $directory;
+    }
+
     /**
      * @param Website $website
      * @return string
      */
     public function generate(Website $website): string
     {
-        return view('tenancy.generators::webserver.apache.vhost', compact('website'));
+        return view('tenancy.generators::webserver.apache.vhost', [
+            'website' => $website,
+            'config' => config('webserver.apache2', []),
+            'directory' => $this->directory
+        ]);
     }
 
     /**
