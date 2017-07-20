@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Listeners;
 
 use Hyn\Tenancy\Abstracts\AbstractEvent;
-use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
 use Hyn\Tenancy\Traits\DispatchesEvents;

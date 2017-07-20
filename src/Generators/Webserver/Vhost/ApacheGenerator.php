@@ -40,7 +40,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
         return view('tenancy.generators::webserver.apache.vhost', [
             'website' => $website,
             'config' => config('webserver.apache2', []),
-            'directory' => $this->directory
+            'directory' => $this->directory->setWebsite($website)
         ]);
     }
 

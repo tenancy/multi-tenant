@@ -32,7 +32,7 @@ class Attached extends AbstractEvent
 
     public function __construct(Hostname &$hostname, Website &$website)
     {
-        $this->hostname = $hostname;
-        $this->website = $website;
+        $this->hostname = &$hostname;
+        $this->website = &$website;
     }
 }

@@ -41,10 +41,8 @@ class ApacheGeneratorTest extends Test
 
         $app['config']->set('webserver.apache2.enabled', true);
 
-        $this->setUpHostnames();
-
         $this->generator = $app->make(ApacheGenerator::class);
-        $this->filesystem = app(Servant::class)->serviceFilesystem('apache2', config('webserver.apache2', []));
+        $this->filesystem = $app->make(Servant::class)->serviceFilesystem('apache2', config('webserver.apache2', []));
     }
 
     /**
@@ -52,6 +50,7 @@ class ApacheGeneratorTest extends Test
      */
     public function generates_vhost_configuration()
     {
+        $this->setUpHostnames();
         $this->setUpWebsites(true, true);
 
         $path = $this->generator->targetPath($this->website);
