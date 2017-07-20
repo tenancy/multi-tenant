@@ -39,10 +39,10 @@ class ApacheGeneratorTest extends Test
             $this->markTestSkipped('Testing a different driver: ' . $this->buildWebserver);
         }
 
+        $app['config']->set('webserver.apache2.enabled', true);
+
         $this->setUpHostnames();
         $this->setUpWebsites(true, true);
-
-        $app['config']->set('webserver.apache2.enabled', true);
 
         $this->generator = $app->make(ApacheGenerator::class);
         $this->filesystem = app(Servant::class)->serviceFilesystem('apache2', config('webserver.apache2', []));
@@ -53,8 +53,6 @@ class ApacheGeneratorTest extends Test
      */
     public function generates_vhost_configuration()
     {
-        $this->websites->create($this->website);
-
         $path = $this->generator->targetPath($this->website);
 
         $this->assertTrue($this->filesystem->exists($path));
