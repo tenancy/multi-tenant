@@ -1,8 +1,10 @@
 #
 #   Auto generated Apache configuration
-#       @time: {{ date('H:i:s d-m-Y') }}
 #       @author: hyn/multi-tenant
-#       @website: {{ $website->uuid }}
+#       @see: http://laravel-tenancy.com
+#       @time: {{ date('H:i:s d-m-Y') }}
+#       @website id: {{ $website->id }}
+#       @website uuid: {{ $website->uuid }}
 #
 
 @foreach($website->hostnames as $hostname)
