@@ -7,9 +7,13 @@
 #       @website uuid: {{ $website->uuid }}
 #
 
-@foreach($website->hostnames as $hostname)
+@forelse($website->hostnames as $hostname)
     @include('tenancy.generators::webserver.apache.blocks.server', [
         'hostname' => $hostname,
         'website' => $website
     ])
-@endforeach
+@empty
+#
+#   No hostnames found
+#
+@endforelse
