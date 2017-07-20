@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Webserver\Vhost;
 use Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator;
 use Hyn\Tenancy\Listeners\Servant;
 use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Website\Directory;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -56,5 +57,26 @@ class ApacheGeneratorTest extends Test
         $path = $this->generator->targetPath($this->website);
 
         $this->assertTrue($this->filesystem->exists($path));
+    }
+
+    /**
+     * @test
+     */
+    public function generates_vhost_media_alias()
+    {
+
+        $this->setUpHostnames();
+        $this->setUpWebsites(true);
+
+        $directory = app(Directory::class)->setWebsite($this->website);
+        $directory->makeDirectory('media');
+
+        $this->hostnames->attach($this->hostname, $this->website);
+
+        $path = $this->generator->targetPath($this->website);
+
+        $config = $this->filesystem->get($path);
+
+        $this->assertContains('alias', $config);
     }
 }

@@ -6,9 +6,9 @@
     # default document handling
     DirectoryIndex index.html index.php
 
-    @if($directory->exists('media'))
+    @if($media)
         # media directory
-        alias "/media/" "{{ $directory->path('media') }}"
+        alias "/media/" "{{ $media }}"
     @endif
 
     # allow cross domain loading of resources

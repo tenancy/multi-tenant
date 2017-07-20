@@ -10,7 +10,8 @@
 @forelse($website->hostnames as $hostname)
     @include('tenancy.generators::webserver.apache.blocks.server', [
         'hostname' => $hostname,
-        'website' => $website
+        'website' => $website,
+        'media' => $media
     ])
 @empty
 #
