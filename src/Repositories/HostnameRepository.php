@@ -166,7 +166,11 @@ class HostnameRepository implements Contract
     {
         $website->hostnames()->save($hostname);
 
+        // Required to refresh relationship objects.
+        $website->load('hostnames');
+
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
+        $this->cache->flush("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Attached($hostname, $website)
@@ -181,6 +185,8 @@ class HostnameRepository implements Contract
      */
     public function detach(Hostname &$hostname): Hostname
     {
+        $this->cache->flush("tenancy.website.{$hostname->website->uuid}");
+
         $hostname->website()->dissociate();
 
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
