@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Listeners;
 
+use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
@@ -85,9 +86,9 @@ class Servant
     }
 
     /**
-     * @param WebsiteEvent $event
+     * @param AbstractEvent|Events\Hostnames\Attached|Events\Websites\Created $event
      */
-    public function generate(WebsiteEvent $event)
+    public function generate(AbstractEvent $event)
     {
         $this->each(function ($generator, $service, $config) use ($event) {
             $contents = $path = null;

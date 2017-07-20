@@ -171,7 +171,7 @@ class HostnameRepository implements Contract
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
 
         $this->emitEvent(
-            new Events\Attached($hostname)
+            new Events\Attached($hostname, $website)
         );
 
         return $hostname;
