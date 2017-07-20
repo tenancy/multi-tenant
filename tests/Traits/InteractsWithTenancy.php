@@ -125,7 +125,7 @@ trait InteractsWithTenancy
         }
 
         if ($connect) {
-            $this->website->hostnames()->save($this->hostname);
+            $this->hostnames->attach($this->hostname, $this->website);
         }
     }
 

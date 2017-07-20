@@ -49,7 +49,10 @@ class Servant
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Websites\Created::class, [$this, 'generate']);
+        $events->listen(
+            [Events\Websites\Created::class, Events\Hostnames\Attached::class],
+            [$this, 'generate']
+        );
         $events->listen(Events\Websites\Updated::class, [$this, 'move']);
         $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
     }
