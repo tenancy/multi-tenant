@@ -64,7 +64,6 @@ class ApacheGeneratorTest extends Test
      */
     public function generates_vhost_media_alias()
     {
-
         $this->setUpHostnames();
         $this->setUpWebsites(true);
 
