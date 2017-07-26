@@ -42,6 +42,7 @@ Database separation methods:
 ## Installation
 
 Use the following versions based on the compatibility with Laravel:
+<<<<<<< HEAD
 
 | Tenancy version | Tenancy branch | Laravel version |
 | :---: | :---: | :---: |
@@ -51,7 +52,7 @@ Use the following versions based on the compatibility with Laravel:
 
 ### Laravel 5.3
 
-Register the service provider in your `config/app.php`:
+Register the service providers in your `config/app.php`:
 
 ```php
     'providers' => [
