@@ -22,6 +22,7 @@ use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
+use Schema;
 
 /**
  * Class Test
@@ -92,9 +93,7 @@ class Test extends TestCase
 
     protected function setSchemaLength($app)
     {
-        if (! $this->isAppVersion('5.3', $app)) {
-            \Schema::defaultStringLength(191);
-        }
+       Schema::defaultStringLength(191);
     }
 
     /**
