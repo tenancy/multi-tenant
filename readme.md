@@ -1,6 +1,6 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
-[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/5.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/5.x)
-[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x)
+[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/4.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/4.x)
+[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09)](https://www.codacy.com/app/Luceos/multi-tenant?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hyn/multi-tenant&amp;utm_campaign=Badge_Grade)
 
@@ -45,9 +45,13 @@ Use the following versions based on the compatibility with Laravel:
 
 | Tenancy version | Tenancy branch | Laravel version |
 | :---: | :---: | :---: |
-| 3.* | 3.x | 5.3.* |
-| 4.* | 4.x | 5.4.* |
-| 5.* | 5.x | 5.5.* |
+| [3.*](https://github.com/hyn/multi-tenant/tree/3.x) | 3.x | 5.3.* |
+| [4.*](https://github.com/hyn/multi-tenant/tree/4.x) | 4.x | 5.4.* |
+| [5.*](https://github.com/hyn/multi-tenant/tree/5.x) | 5.x | 5.5.* |
+
+```bash
+composer require hyn/multi-tenant
+```
 
 ### Laravel 5.5
 
