@@ -42,13 +42,17 @@ Database separation methods:
 ## Installation
 
 Use the following versions based on the compatibility with Laravel:
-<<<<<<< HEAD
 
 | Tenancy version | Tenancy branch | Laravel version |
 | :---: | :---: | :---: |
-| 3.* | 3.x | 5.3.* |
-| 4.* | 4.x | 5.4.* |
-| 5.* | 5.x | 5.5.* |
+| [3.*](https://github.com/hyn/multi-tenant/tree/3.x) | 3.x | 5.3.* |
+| [4.*](https://github.com/hyn/multi-tenant/tree/4.x) | 4.x | 5.4.* |
+| [5.*](https://github.com/hyn/multi-tenant/tree/5.x) | 5.x | 5.5.* |
+
+
+```bash
+composer require hyn/multi-tenant
+```
 
 ### Laravel 5.3
 

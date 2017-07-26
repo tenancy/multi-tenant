@@ -82,11 +82,17 @@ class Test extends TestCase
             }
         }
 
+        $this->setSchemaLength($app);
         $this->identifyBuild();
         $this->setUpTenancy();
         $this->duringSetUp($app);
 
         return $app;
+    }
+
+    protected function setSchemaLength($app)
+    {
+        Schema::defaultStringLength(191);
     }
 
     /**
