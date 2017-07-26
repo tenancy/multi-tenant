@@ -76,7 +76,6 @@ apache-7.1-pgsql:
   <<: *standard_deploy
   <<: *pgsql
   <<: *testing
-  allow_failure: true
 
 #
 #   APACHE/MARIADB
@@ -88,7 +87,6 @@ apache-7.1-mariadb:
   <<: *standard_deploy
   <<: *mariadb
   <<: *testing
-  allow_failure: true
 
 
 #
@@ -100,7 +98,6 @@ nginx-7.1-pgsql:
   <<: *standard_deploy
   <<: *pgsql
   <<: *testing
-  allow_failure: true
 
 #
 #   NGINX/MARIADB
@@ -112,7 +109,6 @@ nginx-7.1-mariadb:
   <<: *standard_deploy
   <<: *mariadb
   <<: *testing
-  allow_failure: true
 
 #
 #   CODE COVERAGE
