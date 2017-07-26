@@ -93,7 +93,7 @@ class Test extends TestCase
 
     protected function setSchemaLength($app)
     {
-       Schema::defaultStringLength(191);
+        Schema::defaultStringLength(191);
     }
 
     /**
