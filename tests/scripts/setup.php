@@ -25,19 +25,12 @@ if (getenv('TRAVIS_BUILD_DIR')) {
  * Install db driver dependencies.
  */
 if (preg_match(
-    '/^(?<webserver>[a-z]+)\-(?<php_version>[0-9\.]+)\-L\-(?<laravel_version>[^\-]+)\-(?<db>[a-z]+)$/',
+    '/^(?<webserver>[a-z]+)\-(?<php_version>[0-9\.]+)\-(?<db>[a-z]+)$/',
     getenv('CI_JOB_NAME'),
     $m
 )) {
     putenv("BUILD_WEBSERVER={$m['webserver']}");
-    putenv("BUILD_LARAVEL_VERSION={$m['laravel_version']}");
     putenv("BUILD_PHP_VERSION={$m['php_version']}");
-
-    if (!strstr($m['laravel_version'], '.')) {
-        $m['laravel_version'] = "dev-" . $m['laravel_version'];
-    } else {
-        $m['laravel_version'] = $m['laravel_version'] . ".*";
-    }
 
     echo <<<EOM
     
@@ -45,7 +38,6 @@ if (preg_match(
 Found advanced CI configuration from CI_JOB_NAME environment variable:
     - Webserver {$m['webserver']}
     - PHP {$m['php_version']}
-    - Laravel {$m['laravel_version']}
     - Db driver: {$m['db']}
 
 

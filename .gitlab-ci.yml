@@ -68,22 +68,8 @@ cache:
 #
 #   APACHE/PGSQL
 #
-apache-7.1-L-5.3-pgsql:
-  <<: *apache
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *pgsql
-  <<: *testing
-    
-apache-7.1-L-5.4-pgsql:
-  <<: *apache
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *pgsql
-  <<: *testing
-    
         
-apache-7.1-L-master-pgsql:
+apache-7.1-pgsql:
   <<: *apache
   <<: *before_script
   <<: *standard_deploy
@@ -94,22 +80,8 @@ apache-7.1-L-master-pgsql:
 #
 #   APACHE/MARIADB
 #
-apache-7.1-L-5.3-mariadb:
-  <<: *apache
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *mariadb
-  <<: *testing
 
-
-apache-7.1-L-5.4-mariadb:
-  <<: *apache
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *mariadb
-  <<: *testing
-
-apache-7.1-L-master-mariadb:
+apache-7.1-mariadb:
   <<: *apache
   <<: *before_script
   <<: *standard_deploy
@@ -121,22 +93,7 @@ apache-7.1-L-master-mariadb:
 #
 #   NGINX/PGSQL
 #
-nginx-7.1-L-5.3-pgsql:
-  <<: *nginx
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *pgsql
-  <<: *testing
-    
-nginx-7.1-L-5.4-pgsql:
-  <<: *nginx
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *pgsql
-  <<: *testing
-    
-        
-nginx-7.1-L-master-pgsql:
+nginx-7.1-pgsql:
   <<: *nginx
   <<: *before_script
   <<: *standard_deploy
@@ -147,21 +104,8 @@ nginx-7.1-L-master-pgsql:
 #
 #   NGINX/MARIADB
 #
-nginx-7.1-L-5.3-mariadb:
-  <<: *nginx
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *mariadb
-  <<: *testing
 
-nginx-7.1-L-5.4-mariadb:
-  <<: *nginx
-  <<: *before_script
-  <<: *standard_deploy
-  <<: *mariadb
-  <<: *testing
-
-nginx-7.1-L-master-mariadb:
+nginx-7.1-mariadb:
   <<: *nginx
   <<: *before_script
   <<: *standard_deploy
