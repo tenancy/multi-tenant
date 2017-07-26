@@ -46,6 +46,7 @@ cache:
     - curl -sS https://getcomposer.org/installer | php
     - mv composer.phar composer
     - php composer global require hirak/prestissimo
+    - php composer install --prefer-dist -n
     - php tests/scripts/setup.php
     - '[ "${BUILD_WEBSERVER}" = "nginx" ] && apt-get -yqq nginx'
 
