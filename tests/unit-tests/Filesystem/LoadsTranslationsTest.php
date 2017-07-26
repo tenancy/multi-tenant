@@ -56,10 +56,6 @@ EOM
 
         $this->activateTenant('local');
 
-        if (! $this->isAppVersion('5.3')) {
-            $this->assertEquals('bar', trans('test.foo', [], 'ch'));
-        } else {
-            $this->assertEquals('bar', trans('test.foo', [], 'messages', 'ch'));
-        }
+        $this->assertEquals('bar', trans('test.foo', [], 'ch'));
     }
 }
