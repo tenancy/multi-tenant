@@ -43,14 +43,6 @@ Found advanced CI configuration from CI_JOB_NAME environment variable:
 
 EOM;
 
-    $composerCommand = "php composer require laravel/laravel:{$m['laravel_version']}";
-
-    if ($m['laravel_version'] == '5.3.*') {
-        $composerCommand .= " phpunit/phpunit:5.*";
-    }
-
-    passthru("$composerCommand --prefer-dist -n");
-
     foreach ([
                  "$base_path/vendor/laravel/laravel/config/tenancy.php",
                  "$base_path/vendor/laravel/laravel/config/webserver.php",
