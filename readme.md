@@ -54,12 +54,13 @@ Use the following versions based on the compatibility with Laravel:
 Using [auto discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518), the
 tenancy package will be auto detected by Laravel automatically. 
 
-In case you want to disable webserver integration, set the `dont-discover` in your application 
-composer.json, like so:
+#### Manual configuration
+
+In case you want to disable webserver integration or prefer manual integration, 
+set the `dont-discover` in your application composer.json, like so:
 
 ```json
 {
-    // ..
     "extra": {
         "laravel": {
             "dont-discover": "hyn/multi-tenant"
@@ -68,7 +69,19 @@ composer.json, like so:
 }
 ```
 
-Then follow the instructions for Laravel 5.3 and 5.4 above to register the `Hyn\Tenancy\Providers\TenancyProvider`.
+If you disable auto discovery you are able to configure the providers by yourself.
+
+Register the service provider in your `config/app.php`:
+
+```php
+    'providers' => [
+        // [..]
+        // Hyn multi tenancy.
+        Hyn\Tenancy\Providers\TenancyProvider::class,
+        // Hyn multi tenancy webserver integration.
+        Hyn\Tenancy\Providers\WebserverProvider::class,
+    ],
+```
 
 ### Deploy configuration
 
