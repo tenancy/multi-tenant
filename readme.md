@@ -1,6 +1,6 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
-[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/3.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/3.x)
-[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/3.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/3.x)
+[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/4.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/4.x)
+[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09)](https://www.codacy.com/app/Luceos/multi-tenant?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hyn/multi-tenant&amp;utm_campaign=Badge_Grade)
 
@@ -41,7 +41,15 @@ Database separation methods:
 
 ## Installation
 
-### Laravel 5.3 and 5.4
+Use the following versions based on the compatibility with Laravel:
+
+| Tenancy version | Tenancy branch | Laravel version |
+| :---: | :---: | :---: |
+| 3.* | 3.x | 5.3.* |
+| 4.* | 4.x | 5.4.* |
+| 5.* | 5.x | 5.5.* |
+
+### Laravel 5.4
 
 Register the service provider in your `config/app.php`:
 
@@ -54,27 +62,6 @@ Register the service provider in your `config/app.php`:
         Hyn\Tenancy\Providers\WebserverProvider::class,
     ],
 ```
-
-### Laravel 5.5 and up
-
-Using [auto discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518), the
-tenancy package will be auto detected by Laravel automatically. 
-
-In case you want to disable webserver integration, set the `dont-discover` in your application 
-composer.json, like so:
-
-```json
-{
-    // ..
-    "extra": {
-        "laravel": {
-            "dont-discover": "hyn/multi-tenant"
-        }
-    }
-}
-```
-
-Then follow the instructions for Laravel 5.3 and 5.4 above to register the `Hyn\Tenancy\Providers\TenancyProvider`.
 
 ### Deploy configuration
 
