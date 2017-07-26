@@ -16,7 +16,6 @@ namespace Hyn\Tenancy\Website;
 
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Website;
-use Hyn\Tenancy\Traits\UnderstandsLaravelVersions;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
@@ -25,8 +24,6 @@ use League\Flysystem\Adapter\Local;
 
 class Directory implements Filesystem
 {
-    use UnderstandsLaravelVersions;
-
     /**
      * @var array
      */
@@ -136,7 +133,7 @@ class Directory implements Filesystem
         return $this->filesystem->put(
             $this->path($path),
             $contents,
-            $this->laravelVersionCompare('5.3') ? $visibility : compact('visibility')
+            compact('visibility')
         );
     }
 
