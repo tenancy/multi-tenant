@@ -41,7 +41,15 @@ Database separation methods:
 
 ## Installation
 
-### Laravel 5.3 and 5.4
+Use the following versions based on the compatibility with Laravel:
+
+| Tenancy version | Tenancy branch | Laravel version |
+| :---: | :---: | :---: |
+| 3.* | 3.x | 5.3.* |
+| 4.* | 4.x | 5.4.* |
+| 5.* | 5.x | 5.5.* |
+
+### Laravel 5.3
 
 Register the service provider in your `config/app.php`:
 
@@ -54,27 +62,6 @@ Register the service provider in your `config/app.php`:
         Hyn\Tenancy\Providers\WebserverProvider::class,
     ],
 ```
-
-### Laravel 5.5 and up
-
-Using [auto discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518), the
-tenancy package will be auto detected by Laravel automatically. 
-
-In case you want to disable webserver integration, set the `dont-discover` in your application 
-composer.json, like so:
-
-```json
-{
-    // ..
-    "extra": {
-        "laravel": {
-            "dont-discover": "hyn/multi-tenant"
-        }
-    }
-}
-```
-
-Then follow the instructions for Laravel 5.3 and 5.4 above to register the `Hyn\Tenancy\Providers\TenancyProvider`.
 
 ### Deploy configuration
 
