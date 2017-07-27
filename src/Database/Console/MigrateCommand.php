@@ -47,7 +47,7 @@ class MigrateCommand extends BaseCommand
         $this->connection = app(Connection::class);
     }
 
-    public function fire()
+    public function handle()
     {
         if (!$this->confirmToProceed()) {
             return;
@@ -62,7 +62,7 @@ class MigrateCommand extends BaseCommand
                 $websites->each(function ($website) {
                     $this->connection->set($website, $this->connection->migrationName());
 
-                    parent::fire();
+                    parent::handle();
                 });
             });
     }

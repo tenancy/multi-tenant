@@ -28,7 +28,7 @@ class MigrateCommandTest extends Test
     {
         $this->assertInstanceOf(
             MigrateCommand::class,
-            $this->app->make('tenancy.command.migrate')
+            $this->app->make(MigrateCommand::class)
         );
     }
 
@@ -50,7 +50,10 @@ class MigrateCommandTest extends Test
         $this->websites->query()->chunk(10, function (Collection $websites) {
             $websites->each(function (Website $website) {
                 $this->connection->set($website, $this->connection->migrationName());
-                $this->assertTrue($this->connection->migration()->getSchemaBuilder()->hasTable('samples'));
+                $this->assertTrue(
+                    $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
+                    "Connection for {$website->uuid} has no table samples"
+                );
             });
         });
     }

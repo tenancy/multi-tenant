@@ -32,11 +32,4 @@ class UuidProvider extends ServiceProvider
             throw new GeneratorInvalidException($generator);
         });
     }
-
-    public function provides()
-    {
-        return [
-            UuidGenerator::class
-        ];
-    }
 }
