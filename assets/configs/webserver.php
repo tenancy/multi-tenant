@@ -26,6 +26,15 @@ return [
          * @info The Let's Encrypt is a non-terminal, pure PHP implementation.
          */
         'enabled' => true,
+
+        /**
+         * Specify the path to your public and private keys. If not specified, tenancy will generate this
+         * files on your behalf. Make sure you back up these files as well.
+         */
+        'key-pair' => [
+            'public' => null,
+            'private' => null,
+        ],
     ],
 
     /**
@@ -78,8 +87,6 @@ return [
 
             /**
              * Location where vhost configuration files can be found.
-             *
-             * @see https://hyn.readme.io/v3.0/docs/webserverphp#section-apachepathsvhost-files
              */
             'vhost-files' => [
                 '/etc/apache2/sites-enabled/'

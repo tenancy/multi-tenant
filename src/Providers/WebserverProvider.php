@@ -29,6 +29,10 @@ class WebserverProvider extends ServiceProvider
         $this->app->register(Webserver\FilesystemProvider::class);
         $this->app->register(Webserver\EventProvider::class);
 
+        if (config('webserver.lets-encrypt.enabled')) {
+            $this->app->register(Webserver\CertificateProvider::class);
+        }
+
         $this->app->singleton(Servant::class);
     }
 

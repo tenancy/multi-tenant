@@ -26,7 +26,8 @@
         "php": ">=7.1.0",
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
-        "ramsey/uuid": "^3.5"
+        "ramsey/uuid": "^3.5",
+        "acmephp/core": "^1.0@beta"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1",
@@ -56,5 +57,7 @@
                 "Hyn\\Tenancy\\Providers\\WebserverProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
 }

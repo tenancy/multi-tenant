@@ -23,8 +23,6 @@ return [
          * when you need to have a better overview of the complete
          * tenant folder structure, disable this and implement
          * your own id generation logic.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-websitedisable-random-id
          */
         'disable-random-id' => false,
 
@@ -33,7 +31,6 @@ return [
          * above. You can override what generator to use by modifying this value
          * in the configuration.
          *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-websiterandom-id-generator
          * @warn This won't work if disable-random-id is true.
          */
         'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaGenerator::class,
@@ -43,7 +40,6 @@ return [
          * the tenant specific files, including media, packages, routes and other
          * files for this particular website.
          *
-         * @see
          * @info If not set, will revert to the default filesystem.
          */
         'disk' => null,
@@ -53,7 +49,6 @@ return [
          * website. Uses the above disk to store files to override system-wide
          * files.
          *
-         * @see
          * @info set to false to disable.
          */
         'auto-create-tenant-directory' => true,
@@ -63,7 +58,6 @@ return [
          * website changes. This should not be too common, but in case it happens
          * we automatically want to move files accordingly.
          *
-         * @see
          * @info set to false to disable.
          */
         'auto-rename-tenant-directory' => true,
@@ -72,7 +66,6 @@ return [
          * Automatically deletes the tenant specific directory and all files
          * contained within.
          *
-         * @see
          * @info set to true to enable.
          */
         'auto-delete-tenant-directory' => false,
@@ -89,8 +82,6 @@ return [
          * in the database, complete in detail the default hostname.
          *
          * @warn this must be a FQDN, these have no protocol or path!
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnamedefault
          */
         'default' => env('TENANCY_DEFAULT_HOSTNAME'),
         /**
@@ -100,14 +91,11 @@ return [
          * set a specific website as currently active.
          *
          * @see src/Jobs/HostnameIdentification.php
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameauto-identification
          */
         'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
         /**
          * Abort application execution in case no hostname was identified. This will throw a
          * 404 not found in case the tenant hostname was not resolved.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameabort-without-identified-hostname
          */
         'abort-without-identified-hostname' => true,
 
@@ -122,8 +110,6 @@ return [
          * configuration setting. In Laravel this is normally configured to 'mysql'.
          * You can set a environment variable to override the default database
          * connection to - for instance - the tenant connection 'tenant'.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbdefault
          */
         'default' => env('TENANCY_DEFAULT_CONNECTION'),
         /**
@@ -132,9 +118,6 @@ return [
          * is set up automatically by this package.
          *
          * @see src/Database/Connection.php
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbsystem-connection-name
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-connection-name
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbmigration-connection-name
          */
         'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', Connection::DEFAULT_SYSTEM_NAME),
         'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', Connection::DEFAULT_TENANT_NAME),
@@ -147,7 +130,6 @@ return [
          * set the mode to 'prefix'.
          *
          * @see src/Database/Connection.php
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-division-mode
          */
         'tenant-division-mode' => env('TENANCY_DATABASE_DIVISION_MODE', 'database'),
 
@@ -162,8 +144,6 @@ return [
         /**
          * The tenant migrations to be run during creation of a tenant. Specify a directory
          * to run the migrations from.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbtenant-migrations-path
          */
         'tenant-migrations-path' => false,
 
