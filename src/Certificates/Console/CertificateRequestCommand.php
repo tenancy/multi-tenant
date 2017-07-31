@@ -58,7 +58,7 @@ class CertificateRequestCommand extends Command
             null, null, null, null, null,
             $website->customer ? $website->customer->email : null,
             $website->hostnames->reject(function ($hostname) use ($commonName) {
-                return $hostname === $commonName
+                return $hostname->fqdn === $commonName->fqdn;
             })->pluck('fqdn')
         );
 
@@ -69,6 +69,6 @@ class CertificateRequestCommand extends Command
 
         $certificateResponse = $acme->requestCertificate($commonName->fqdn, $csr);
 
-        
+
     }
 }
