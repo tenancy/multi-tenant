@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -24,8 +25,8 @@ use Hyn\Tenancy\Abstracts\SystemModel;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
- * @property Website[] $websites
- * @property Hostname[] $hostnames
+ * @property Website[]|Collection $websites
+ * @property Hostname[]|Collection $hostnames
  */
 class Customer extends SystemModel
 {
