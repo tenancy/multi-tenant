@@ -9,8 +9,6 @@ cache:
     - vendor/
 
 services:
-    - name: acmephp/testing-ca
-      alias: boulder
 
 #
 #   TEMPLATES
@@ -24,6 +22,8 @@ services:
 .mariadb_template: &mariadb
     services:
         - mariadb:latest
+        - name: acmephp/testing-ca
+          alias: boulder
     variables:
         DB_HOST: mariadb
         DB_CONNECTION: mysql
@@ -34,6 +34,8 @@ services:
 .pgsql_template: &pgsql
     services:
         - postgres:latest
+        - name: acmephp/testing-ca
+          alias: boulder
     variables:
         DB_HOST: postgres
         DB_CONNECTION: pgsql
