@@ -20,6 +20,8 @@ class LetsEncryptGeneratorTest extends Test
 
         $app['config']->set('webserver.lets-encrypt.directory-url', 'http://boulder:4000');
         $app['config']->set('webserver.lets-encrypt.agreement-url', 'http://boulder:4000/terms/v1');
+        $app['config']->set('webserver.lets-encrypt.key-pair.private', __DIR__ . '/../../../../lets-encrypt-private.pem');
+        $app['config']->set('webserver.lets-encrypt.key-pair.public', __DIR__ . '/../../../../lets-encrypt-public.pem');
 
         $this->generator = $app->make(LetsEncryptGenerator::class);
     }
