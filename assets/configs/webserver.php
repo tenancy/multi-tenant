@@ -50,6 +50,21 @@ return [
          * @info If not set, will revert to the default filesystem.
          */
         'disk' => null,
+
+        /**
+         * Override the Lets Encrypt directory URL. By default tenancy will use the production directory
+         * if your app is running in production, in all situations it will use the staging environment.
+         *
+         * @warn Do not modify unless you are aware how the ACME specification handles this.
+         */
+        'directory-url' => null,
+
+        /**
+         * Override the Lets Encrypt agreement URL. By default tenancy will use the correct settings.
+         *
+         * @warn Do not modify unless you are aware hwo the ACME specification handles this.
+         */
+        'agreement-url' => null,
     ],
 
     /**

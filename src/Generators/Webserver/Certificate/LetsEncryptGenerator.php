@@ -41,7 +41,9 @@ class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
     public function generate(Website $website): string
     {
         try {
-            $this->acme->registerAccount();
+            $this->acme->registerAccount(
+                config('webserver.lets-encrypt.agreement-url')
+            );
         } catch (MalformedServerException $e) {
             // ..
         }

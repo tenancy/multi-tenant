@@ -17,6 +17,10 @@ class LetsEncryptGeneratorTest extends Test
     {
         $this->setUpHostnames();
         $this->setUpWebsites(true, true);
+
+        $app['config']->set('webserver.lets-encrypt.directory-url', 'http://boulder:4000');
+        $app['config']->set('webserver.lets-encrypt.agreement-url', 'http://boulder:4000/terms/v1');
+
         $this->generator = $app->make(LetsEncryptGenerator::class);
     }
 

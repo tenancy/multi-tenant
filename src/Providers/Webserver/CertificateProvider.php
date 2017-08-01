@@ -71,6 +71,10 @@ class CertificateProvider extends ServiceProvider
      */
     protected function directoryUrl(): string
     {
+        if ($url = config('webserver.lets-encrypt.directory-url')) {
+            return $url;
+        }
+
         return $this->app->environment() === 'production' ?
             'https://acme-v01.api.letsencrypt.org/directory' :
             'https://acme-staging.api.letsencrypt.org/directory';
