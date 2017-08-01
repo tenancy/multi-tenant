@@ -8,8 +8,6 @@ cache:
   paths:
     - vendor/
 
-services:
-
 #
 #   TEMPLATES
 #
@@ -54,6 +52,7 @@ services:
     - php composer global require hirak/prestissimo
     - php composer install --prefer-dist -n
     - php tests/scripts/setup.php
+    - openssl req -nodes -new -x509 -keyout vendor/laravel/laravel/storage/app/tenancy/tenants/lets-encrypt-private.pem -out vendor/laravel/laravel/storage/app/tenancy/tenants/lets-encrypt-public.pem -subj "/C=NL/ST=Gelderland/L=Nijmegen/O=Hyn/OU=IT Department/CN=ssl.hyn.me"
     - '[ "${BUILD_WEBSERVER}" = "nginx" ] && apt-get -yqq nginx'
 
 .standard_template: &standard_deploy

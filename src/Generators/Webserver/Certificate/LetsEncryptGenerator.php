@@ -49,6 +49,10 @@ class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
         /** @var Hostname $commonName */
         $commonName = $website->hostnames->first();
 
+        if (!$commonName) {
+            throw new CertificateRequestFailure("No commonName available for website {$website->uuid}");
+        }
+
         $challenges = $this->acme->requestAuthorization($commonName->fqdn);
 
         $challenge = collect($challenges)->first(function ($challenge) {
