@@ -64,10 +64,12 @@ class CertificateRequestCommand extends Command
 
         $csr = new CertificateRequest(
             $name,
-            (new KeyPairGenerator())->generateKeyPair()
+            $keyPair = (new KeyPairGenerator())->generateKeyPair()
         );
 
-        $certificateResponse = $acme->requestCertificate($commonName->fqdn, $csr);
+        $response = $acme->requestCertificate($commonName->fqdn, $csr);
+
+        $certificate = $response->getCertificate();
 
 
     }

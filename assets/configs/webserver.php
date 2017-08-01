@@ -35,6 +35,20 @@ return [
             'public' => null,
             'private' => null,
         ],
+
+        /**
+         * The generator taking care of hooking into the Lets Encrypt services and files.
+         */
+        'generator' => \Hyn\Tenancy\Generators\Webserver\Certificates\LetsEncryptGenerator::class,
+
+        /**
+         * Specify the disk you configured in the filesystems.php file where to store
+         * the tenant SSL configuration files.
+         *
+         * @see
+         * @info If not set, will revert to the default filesystem.
+         */
+        'disk' => null,
     ],
 
     /**

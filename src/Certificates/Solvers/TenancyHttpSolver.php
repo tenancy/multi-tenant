@@ -45,7 +45,11 @@ class TenancyHttpSolver implements SolverInterface
         }
     }
 
-    protected function getWellKnownPath(AuthorizationChallenge $authorizationChallenge)
+    /**
+     * @param AuthorizationChallenge $authorizationChallenge
+     * @return string
+     */
+    public function getWellKnownPath(AuthorizationChallenge $authorizationChallenge): string
     {
         return public_path('.well-known/acme-challenge/%s', $authorizationChallenge->getToken());
     }
