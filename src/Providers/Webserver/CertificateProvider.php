@@ -3,6 +3,7 @@
 namespace Hyn\Tenancy\Providers\Webserver;
 
 use AcmePhp\Core\AcmeClient;
+use AcmePhp\Core\Challenge\SolverInterface;
 use AcmePhp\Core\Http\Base64SafeEncoder;
 use AcmePhp\Core\Http\SecureHttpClient;
 use AcmePhp\Core\Http\ServerErrorHandler;
@@ -28,7 +29,13 @@ class CertificateProvider extends ServiceProvider
                     new DataSigner(),
                     new ServerErrorHandler()
                 ),
-                'https://acme-v01.api.letsencrypt.org/directory'
+                $this->directoryUrl()
+            );
+        });
+
+        $this->app->singleton(SolverInterface::class, function ($app) {
+            return $app->make(
+                $app['config']->get('webserver.lets-encrypt.solver')
             );
         });
     }
@@ -57,5 +64,15 @@ class CertificateProvider extends ServiceProvider
             $public,
             $private
         );
+    }
+
+    /**
+     * @return string
+     */
+    protected function directoryUrl(): string
+    {
+        return $this->app->environment() === 'production' ?
+            'https://acme-v01.api.letsencrypt.org/directory' :
+            'https://acme-staging.api.letsencrypt.org/directory';
     }
 }

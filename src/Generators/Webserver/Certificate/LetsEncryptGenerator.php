@@ -1,13 +1,14 @@
 <?php
 
-namespace Hyn\Tenancy\Generators\Webserver\Certificates;
+namespace Hyn\Tenancy\Generators\Webserver\Certificate;
 
 use AcmePhp\Core\AcmeClient;
+use AcmePhp\Core\Challenge\SolverInterface;
 use AcmePhp\Core\Exception\Server\MalformedServerException;
 use AcmePhp\Core\Protocol\AuthorizationChallenge;
-use Hyn\Tenancy\Certificates\Solvers\TenancyHttpSolver;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
+use Hyn\Tenancy\Exceptions\CertificateRequestFailure;
 use Hyn\Tenancy\Models\Website;
 
 class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
@@ -22,11 +23,11 @@ class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
      */
     protected $challenge;
     /**
-     * @var TenancyHttpSolver
+     * @var SolverInterface
      */
-    private $solver;
+    protected $solver;
 
-    public function __construct(AcmeClient $acme, TenancyHttpSolver $solver)
+    public function __construct(AcmeClient $acme, SolverInterface $solver)
     {
         $this->acme = $acme;
         $this->solver = $solver;
@@ -35,6 +36,7 @@ class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
     /**
      * @param Website $website
      * @return string
+     * @throws CertificateRequestFailure
      */
     public function generate(Website $website): string
     {
@@ -44,6 +46,42 @@ class LetsEncryptGenerator implements GeneratesConfiguration, SavesToPath
             // ..
         }
 
+        /** @var Hostname $commonName */
+        $commonName = $website->hostnames->first();
+
+        $challenges = $this->acme->requestAuthorization($commonName->fqdn);
+
+        $challenge = collect($challenges)->first(function ($challenge) {
+            return $this->solver->supports($challenge);
+        });
+
+        $this->solver->solve($challenge);
+
+        $check = $this->acme->challengeAuthorization($challenge);
+
+        if (!isset($check['status']) || $check['status'] !== 'valid') {
+            throw new CertificateRequestFailure();
+        }
+
+        $name = new DistinguishedName(
+            $commonName->fqdn,
+            null, null, null, null, null,
+            $website->customer ? $website->customer->email : config('mail.from.address'),
+            $website->hostnames->reject(function ($hostname) use ($commonName) {
+                return $hostname->fqdn === $commonName->fqdn;
+            })->pluck('fqdn')
+        );
+
+        $csr = new CertificateRequest(
+            $name,
+            $keyPair = (new KeyPairGenerator())->generateKeyPair()
+        );
+
+        $response = $this->acme->requestCertificate($commonName->fqdn, $csr);
+
+        $certificate = $response->getCertificate();
+
+dd($certificate);
 
     }
 

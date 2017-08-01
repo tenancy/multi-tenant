@@ -8,6 +8,10 @@ cache:
   paths:
     - vendor/
 
+services:
+    - name: acmephp/testing-ca
+      alias: boulder
+
 #
 #   TEMPLATES
 #

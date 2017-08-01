@@ -23,7 +23,7 @@ return [
         /**
          * Whether Let's Encrypt is actively used to manage the SSL certificates of this domain.
          *
-         * @info The Let's Encrypt is a non-terminal, pure PHP implementation.
+         * @info The Let's Encrypt implementation is a non-terminal, pure PHP implementation.
          */
         'enabled' => true,
 
@@ -39,13 +39,14 @@ return [
         /**
          * The generator taking care of hooking into the Lets Encrypt services and files.
          */
-        'generator' => \Hyn\Tenancy\Generators\Webserver\Certificates\LetsEncryptGenerator::class,
+        'generator' => \Hyn\Tenancy\Generators\Webserver\Certificate\LetsEncryptGenerator::class,
+
+        'solver' => \Hyn\Tenancy\Certificates\Solvers\TenancyHttpSolver::class,
 
         /**
          * Specify the disk you configured in the filesystems.php file where to store
          * the tenant SSL configuration files.
          *
-         * @see
          * @info If not set, will revert to the default filesystem.
          */
         'disk' => null,
