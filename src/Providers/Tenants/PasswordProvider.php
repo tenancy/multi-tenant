@@ -32,11 +32,4 @@ class PasswordProvider extends ServiceProvider
             throw new GeneratorInvalidException($generator);
         });
     }
-
-    public function provides()
-    {
-        return [
-            PasswordGenerator::class
-        ];
-    }
 }

@@ -34,21 +34,12 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrateCommand()
     {
-        $this->app->singleton('tenancy.command.migrate', function (Application $app) {
+        $this->app->singleton(MigrateCommand::class, function (Application $app) {
             return new MigrateCommand($app->make('migrator'));
         });
 
-        $this->commands('tenancy.command.migrate');
-    }
-
-    /**
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            Connection::class,
-            'tenancy.command.migrate',
-        ];
+        $this->commands([
+            MigrateCommand::class
+        ]);
     }
 }
