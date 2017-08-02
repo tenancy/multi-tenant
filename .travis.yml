@@ -1,0 +1,19 @@
+addons:
+  hosts:
+    - tenant.testing
+    - local.testing
+
+env:
+  - DB=mariadb
+  - DB=pgsql
+php:
+  - 7.1
+  - 7.2
+  - nightly
+
+jobs:
+    allow_failures:
+      - php: nightly
+
+script:
+  - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml -vv
