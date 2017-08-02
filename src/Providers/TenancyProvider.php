@@ -25,6 +25,8 @@ class TenancyProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->repositories();
+
         $this->app->register(Providers\ConfigurationProvider::class);
         $this->app->register(Providers\PasswordProvider::class);
         $this->app->register(Providers\ConnectionProvider::class);
@@ -36,8 +38,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\EventProvider::class);
 
         $this->installCommand();
-
-        $this->repositories();
 
         $this->migrations();
         $this->registerConfiguration();
