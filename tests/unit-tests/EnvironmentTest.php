@@ -18,7 +18,6 @@ use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
-use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Illuminate\Contracts\Foundation\Application;
 
 class EnvironmentTest extends Test

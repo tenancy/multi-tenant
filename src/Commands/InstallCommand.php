@@ -38,5 +38,7 @@ class InstallCommand extends Command
         if ($code != 0) {
             throw new \RuntimeException("Migrations not run.");
         }
+
+        file_put_contents(base_path('tenancy.json'), json_encode([], JSON_PRETTY_PRINT));
     }
 }
