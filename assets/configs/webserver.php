@@ -37,10 +37,8 @@ return [
         ],
 
         /**
-         * The generator taking care of hooking into the Lets Encrypt services and files.
+         * @todo
          */
-        'generator' => \Hyn\Tenancy\Generators\Webserver\Certificate\LetsEncryptGenerator::class,
-
         'solver' => \Hyn\Tenancy\Certificates\Solvers\TenancyHttpSolver::class,
 
         /**
