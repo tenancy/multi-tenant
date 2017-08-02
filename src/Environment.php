@@ -34,11 +34,19 @@ class Environment
     {
         $this->app = $app;
 
-        if (config('tenancy.hostname.auto-identification')) {
+        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function installed(): bool
+    {
+        return file_exists(base_path('tenancy.json'));
     }
 
     /**
