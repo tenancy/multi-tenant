@@ -1,8 +1,8 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
-[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/5.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/5.x)
-[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x)
+[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/4.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/4.x)
+[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09?branch=5.x)](https://www.codacy.com/app/Luceos/multi-tenant)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09?branch=4.x)](https://www.codacy.com/app/Luceos/multi-tenant)
 
 The unobtrusive Laravel package that makes your app multi tenant. Serving 
 multiple websites, each with one or more hostnames from the same codebase. But
