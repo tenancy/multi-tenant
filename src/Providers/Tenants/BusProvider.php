@@ -26,11 +26,4 @@ class BusProvider extends ServiceProvider
             return new Dispatcher($app);
         });
     }
-
-    public function provides()
-    {
-        return [
-            DispatcherContract::class,
-        ];
-    }
 }

@@ -79,17 +79,6 @@ class TenancyProvider extends ServiceProvider
         $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
     }
 
-    public function provides()
-    {
-        return [
-            Environment::class,
-            InstallCommand::class,
-            Contracts\Repositories\CustomerRepository::class,
-            Contracts\Repositories\HostnameRepository::class,
-            Contracts\Repositories\WebsiteRepository::class,
-        ];
-    }
-
     protected function registerConfiguration()
     {
         $this->publishes([
