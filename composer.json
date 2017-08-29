@@ -55,5 +55,7 @@
                 "Hyn\\Tenancy\\Providers\\WebserverProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
