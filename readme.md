@@ -17,7 +17,7 @@ for different clients or start-ups building the next software as a
 
 Offers:
 
-- Integration with Laravel 5.3, 5.4 and the upcoming 5.5.
+- Integration with all Long Term Support versions of Laravel, which includes 5.5.
 - MariaDB or PostgreSQL database drivers.
 - Event driven, extensible architecture.  
 - Close integration into the webserver.
@@ -41,24 +41,16 @@ Database separation methods:
 
 ## Installation
 
-Use the following versions based on the compatibility with Laravel:
-
-| Tenancy version | Tenancy branch | Laravel version |
-| :---: | :---: | :---: |
-| [3.*](https://github.com/hyn/multi-tenant/tree/3.x) | 3.x | 5.3.* |
-| [4.*](https://github.com/hyn/multi-tenant/tree/4.x) | 4.x | 5.4.* |
-| [5.*](https://github.com/hyn/multi-tenant/tree/5.x) | 5.x | 5.5.* |
-
 ```bash
 composer require hyn/multi-tenant
 ```
 
-### Laravel 5.5
+### Automatic service registration
 
 Using [auto discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518), the
 tenancy package will be auto detected by Laravel automatically. 
 
-#### Manual configuration
+#### Manual service registration
 
 In case you want to disable webserver integration or prefer manual integration, 
 set the `dont-discover` in your application composer.json, like so:
