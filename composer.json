@@ -26,12 +26,13 @@
         "php": ">=7.1.0",
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
-        "ramsey/uuid": "^3.5"
+        "ramsey/uuid": "^3.5",
+        "laravel/framework": "5.5.*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.1",
         "symfony/dom-crawler": "~3.1",
-        "laravel/laravel": "dev-develop as 5.5.0",
+        "laravel/laravel": "5.5.*",
         "mockery/mockery": "^0.9.9"
     },
     "autoload": {
@@ -55,7 +56,5 @@
                 "Hyn\\Tenancy\\Providers\\WebserverProvider"
             ]
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
