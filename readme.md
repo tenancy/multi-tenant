@@ -34,6 +34,7 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
+- Laravel 5.5
 - Linux based OS preferred.
 - PHP 7.
 - Apache 2.4+, nginx support coming soon.
