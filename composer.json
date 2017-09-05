@@ -23,7 +23,7 @@
         "docs": "https://laravel-tenancy.com"
     },
     "require": {
-        "php": ">=7.1.0",
+        "php": "7.*",
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
         "ramsey/uuid": "^3.5",

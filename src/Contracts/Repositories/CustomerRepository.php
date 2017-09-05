@@ -23,7 +23,7 @@ interface CustomerRepository
      * @param string $email
      * @return Customer|null
      */
-    public function findByEmail(string $email): ?Customer;
+    public function findByEmail(string $email);
 
     /**
      * @param Customer $customer

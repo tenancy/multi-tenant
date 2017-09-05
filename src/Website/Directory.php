@@ -353,7 +353,7 @@ class Directory implements Filesystem
     /**
      * @return Website|null
      */
-    public function getWebsite(): ?Website
+    public function getWebsite()
     {
         return $this->website ?: $this->environment->website();
     }

@@ -56,7 +56,7 @@ class HostnameRepository implements Contract
      * @param string $hostname
      * @return Hostname|null
      */
-    public function findByHostname(string $hostname): ?Hostname
+    public function findByHostname(string $hostname)
     {
         return $this->cache->remember("tenancy.hostname.$hostname", config('tenancy.hostname.cache'), function () use ($hostname) {
             return $this->hostname->newQuery()->where('fqdn', $hostname)->first();

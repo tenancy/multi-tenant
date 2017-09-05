@@ -41,7 +41,7 @@ class CustomerRepository implements Contract
      * @param string $email
      * @return Customer|null
      */
-    public function findByEmail(string $email): ?Customer
+    public function findByEmail(string $email)
     {
         return $this->customer->newQuery()->where('email', $email)->first();
     }

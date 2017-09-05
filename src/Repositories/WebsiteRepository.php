@@ -55,7 +55,7 @@ class WebsiteRepository implements Contract
      * @param string $uuid
      * @return Website|null
      */
-    public function findByUuid(string $uuid): ?Website
+    public function findByUuid(string $uuid)
     {
         return $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
             return $this->website->newQuery()->where('uuid', $uuid)->first();

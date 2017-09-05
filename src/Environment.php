@@ -64,7 +64,7 @@ class Environment
     /**
      * @return Models\Customer|null
      */
-    public function customer(): ?Models\Customer
+    public function customer()
     {
         $hostname = $this->hostname();
 
@@ -77,7 +77,7 @@ class Environment
      * @param Models\Hostname|null $model
      * @return Models\Hostname|null
      */
-    public function hostname(Models\Hostname $model = null): ?Models\Hostname
+    public function hostname(Models\Hostname $model = null)
     {
         if ($model !== null) {
             $this->app->singleton(CurrentHostname::class, function () use ($model) {
@@ -95,7 +95,7 @@ class Environment
     /**
      * @return Models\Website|bool
      */
-    public function website(): ?Models\Website
+    public function website()
     {
         $hostname = $this->hostname();
 
