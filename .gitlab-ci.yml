@@ -11,6 +11,12 @@ cache:
 #
 #   TEMPLATES
 #
+.apache_70_template: &apache70
+    image: php:7.0-apache
+
+.nginx_70_template: &nginx70
+    image: php:7.0-fpm
+
 .apache_template: &apache
     image: php:7.1-apache
   
@@ -65,11 +71,16 @@ cache:
   script:
     - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml -vv
     
-
 #
 #   APACHE/PGSQL
 #
-        
+
+apache-7.0-pgsql:
+  <<: *apache70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
 apache-7.1-pgsql:
   <<: *apache
   <<: *before_script
@@ -81,6 +92,12 @@ apache-7.1-pgsql:
 #   APACHE/MARIADB
 #
 
+apache-7.0-mariadb:
+  <<: *apache70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mariadb
+  <<: *testing
 apache-7.1-mariadb:
   <<: *apache
   <<: *before_script
@@ -92,6 +109,12 @@ apache-7.1-mariadb:
 #
 #   NGINX/PGSQL
 #
+nginx-7.0-pgsql:
+  <<: *nginx70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *pgsql
+  <<: *testing
 nginx-7.1-pgsql:
   <<: *nginx
   <<: *before_script
@@ -103,6 +126,12 @@ nginx-7.1-pgsql:
 #   NGINX/MARIADB
 #
 
+nginx-7.0-mariadb:
+  <<: *nginx70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mariadb
+  <<: *testing
 nginx-7.1-mariadb:
   <<: *nginx
   <<: *before_script
