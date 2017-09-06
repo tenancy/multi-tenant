@@ -14,5 +14,11 @@ class TenantModelTest extends Test
         $model = new TenantExtend();
 
         $this->assertEquals($model->getConnectionName(), $this->connection->tenantName());
+
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant('local');
+
+        $this->assertEquals($model->getConnection(), $this->connection->get());
     }
 }
