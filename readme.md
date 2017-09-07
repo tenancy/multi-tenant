@@ -38,7 +38,7 @@ Database separation methods:
 - Linux based OS preferred.
 - PHP 7.
 - Apache 2.4+, nginx support coming soon.
-- MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 16 characters.
+- MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 32 characters.
 
 ## Installation
 
