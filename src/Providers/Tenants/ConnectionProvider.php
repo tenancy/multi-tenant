@@ -43,11 +43,15 @@ class ConnectionProvider extends ServiceProvider
         $this->app->singleton(Console\ResetCommand::class, function (Application $app) {
             return new Console\ResetCommand($app->make('migrator'));
         });
+        $this->app->singleton(Console\RefreshCommand::class, function (Application $app) {
+            return new Console\RefreshCommand($app->make('migrator'));
+        });
 
         $this->commands([
             Console\MigrateCommand::class,
             Console\RollbackCommand::class,
-            Console\ResetCommand::class
+            Console\ResetCommand::class,
+            Console\RefreshCommand::class
         ]);
     }
 }

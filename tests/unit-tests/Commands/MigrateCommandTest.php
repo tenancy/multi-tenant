@@ -70,6 +70,23 @@ class MigrateCommandTest extends Test
      * @test
      * @depends runs_rollback_on_tenants
      */
+    public function runs_refresh_on_tenants()
+    {
+        $this->migrateAndTest('migrate');
+
+        $this->migrateAndTest('refresh', function (Website $website) {
+            $this->connection->set($website, $this->connection->migrationName());
+            $this->assertTrue(
+                $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
+                "Connection for {$website->uuid} has no table samples"
+            );
+        });
+    }
+
+    /**
+     * @test
+     * @depends runs_refresh_on_tenants
+     */
     public function runs_reset_on_tenants()
     {
         $this->migrateAndTest('migrate');

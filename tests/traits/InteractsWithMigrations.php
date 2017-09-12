@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 trait InteractsWithMigrations
 {
+    /**
+     * @param string $command
+     * @param callable|null $callback
+     * @param callable|null $hook
+     */
     protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null)
     {
         $code = $this->artisan("tenancy:$command", [
