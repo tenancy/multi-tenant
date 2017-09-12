@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Database\Console\MigrateCommand;
+use Hyn\Tenancy\Database\Console\RollbackCommand;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -24,7 +25,7 @@ class ConnectionProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Connection::class);
-        $this->registerMigrateCommand();
+        $this->registerMigrationCommands();
     }
 
     /**
@@ -32,14 +33,18 @@ class ConnectionProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerMigrateCommand()
+    protected function registerMigrationCommands()
     {
         $this->app->singleton(MigrateCommand::class, function (Application $app) {
             return new MigrateCommand($app->make('migrator'));
         });
+        $this->app->singleton(RollbackCommand::class, function (Application $app) {
+            return new RollbackCommand($app->make('migrator'));
+        });
 
         $this->commands([
-            MigrateCommand::class
+            MigrateCommand::class,
+            RollbackCommand::class
         ]);
     }
 }
