@@ -35,7 +35,7 @@ class MigrateCommandTest extends Test
     /**
      * @test
      */
-    public function runs_on_tenants()
+    public function runs_migrate_on_tenants()
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
@@ -45,7 +45,7 @@ class MigrateCommandTest extends Test
             '-n' => 1
         ]);
 
-        $this->assertEquals(0, $code, 'Tenant migration didn\'t work out');
+        $this->assertEquals(0, $code, 'tenancy:migrate didn\'t work out');
 
         $this->websites->query()->chunk(10, function (Collection $websites) {
             $websites->each(function (Website $website) {
@@ -53,6 +53,30 @@ class MigrateCommandTest extends Test
                 $this->assertTrue(
                     $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
                     "Connection for {$website->uuid} has no table samples"
+                );
+            });
+        });
+    }
+
+    /**
+     * @test
+     * @depends runs_migrate_on_tenants
+     */
+    public function runs_rollback_on_tenants()
+    {
+        $code = $this->artisan('tenancy:rollback', [
+            '--realpath' => __DIR__ . '/../../migrations',
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, 'tenancy:rollback didn\'t work out');
+
+        $this->websites->query()->chunk(10, function (Collection $websites) {
+            $websites->each(function (Website $website) {
+                $this->connection->set($website, $this->connection->migrationName());
+                $this->assertFalse(
+                    $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
+                    "Connection for {$website->uuid} has table samples"
                 );
             });
         });

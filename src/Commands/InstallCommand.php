@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Commands;
 
+use Carbon\Carbon;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Console\Command;
 
@@ -39,6 +40,8 @@ class InstallCommand extends Command
             throw new \RuntimeException("Migrations not run.");
         }
 
-        file_put_contents(base_path('tenancy.json'), json_encode([], JSON_PRETTY_PRINT));
+        file_put_contents(base_path('tenancy.json'), json_encode([
+            'installed_at' => Carbon::now()->toIso8601String()
+        ], JSON_PRETTY_PRINT));
     }
 }
