@@ -66,6 +66,11 @@ return [
         'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator::class,
 
         /**
+         * The view that holds the vhost configuration template.
+         */
+        'view' => 'tenancy.generators::webserver.apache.vhost',
+
+        /**
          * Specify the disk you configured in the filesystems.php file where to store
          * the tenant vhost configuration files.
          *
