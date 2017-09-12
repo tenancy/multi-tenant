@@ -24,6 +24,7 @@ return [
          * Whether Let's Encrypt is actively used to manage the SSL certificates of this domain.
          *
          * @info The Let's Encrypt is a non-terminal, pure PHP implementation.
+         * @deprecated Currently not implemented, awaits the implementation in the ssl branch.
          */
         'enabled' => true,
     ],
@@ -74,7 +75,6 @@ return [
          * Specify the disk you configured in the filesystems.php file where to store
          * the tenant vhost configuration files.
          *
-         * @see
          * @info If not set, will revert to the default filesystem.
          */
         'disk' => null,
@@ -83,16 +83,26 @@ return [
 
             /**
              * Location where vhost configuration files can be found.
-             *
-             * @see https://hyn.readme.io/v3.0/docs/webserverphp#section-apachepathsvhost-files
              */
             'vhost-files' => [
                 '/etc/apache2/sites-enabled/'
             ],
 
+            /**
+             * Actions to run to work with the Apache2 service.
+             */
             'actions' => [
+                /**
+                 * Action that asserts Apache2 is installed.
+                 */
                 'exists' => '/etc/init.d/apache2',
+                /**
+                 * Action to run to test the apache configuration.
+                 */
                 'test-config' => 'apache2ctl -t',
+                /**
+                 * Action to run to reload the apache service.
+                 */
                 'reload' => 'apache2ctl graceful'
             ]
         ]
