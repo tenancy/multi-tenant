@@ -18,12 +18,14 @@ use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithRoutes;
 use Illuminate\Contracts\Foundation\Application;
 
-class LoadsRoutesTest extends Test
+class LoadsPrefixedRoutesTest extends Test
 {
     use InteractsWithRoutes;
 
     protected function duringSetUp(Application $app)
     {
+        $app['config']->set('tenancy.routes.prefix', 'v1');
+
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
     }
@@ -31,8 +33,8 @@ class LoadsRoutesTest extends Test
     /**
      * @test
      */
-    public function reads_additional_routes()
+    public function read_prefixed_additional_routes()
     {
-        $this->create_and_test_route('foo');
+        $this->create_and_test_route('foo', 'v1/foo');
     }
 }
