@@ -78,6 +78,8 @@ class DatabaseCommandTest extends Test
      */
     public function runs_rollback_on_tenants()
     {
+        $this->migrateAndTest('migrate');
+        
         $this->migrateAndTest('migrate:rollback', function (Website $website) {
             $this->connection->set($website, $this->connection->migrationName());
             $this->assertFalse(
