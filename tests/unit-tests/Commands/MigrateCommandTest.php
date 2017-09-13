@@ -15,14 +15,10 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Console\Migrations\MigrateCommand;
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
-use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
 
 class MigrateCommandTest extends Test
 {
-    use InteractsWithMigrations;
-
     /**
      * @test
      */
@@ -32,71 +28,5 @@ class MigrateCommandTest extends Test
             MigrateCommand::class,
             $this->app->make(MigrateCommand::class)
         );
-    }
-
-    /**
-     * @test
-     */
-    public function runs_migrate_on_tenants()
-    {
-        $this->setUpHostnames(true);
-        $this->setUpWebsites(true, true);
-
-        $this->migrateAndTest('migrate', function (Website $website) {
-            $this->connection->set($website, $this->connection->migrationName());
-            $this->assertTrue(
-                $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
-                "Connection for {$website->uuid} has no table samples"
-            );
-        });
-    }
-
-    /**
-     * @test
-     * @depends runs_migrate_on_tenants
-     */
-    public function runs_rollback_on_tenants()
-    {
-        $this->migrateAndTest('rollback', function (Website $website) {
-            $this->connection->set($website, $this->connection->migrationName());
-            $this->assertFalse(
-                $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
-                "Connection for {$website->uuid} has table samples"
-            );
-        });
-    }
-
-    /**
-     * @test
-     * @depends runs_rollback_on_tenants
-     */
-    public function runs_refresh_on_tenants()
-    {
-        $this->migrateAndTest('migrate');
-
-        $this->migrateAndTest('refresh', function (Website $website) {
-            $this->connection->set($website, $this->connection->migrationName());
-            $this->assertTrue(
-                $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
-                "Connection for {$website->uuid} has no table samples"
-            );
-        });
-    }
-
-    /**
-     * @test
-     * @depends runs_refresh_on_tenants
-     */
-    public function runs_reset_on_tenants()
-    {
-        $this->migrateAndTest('migrate');
-
-        $this->migrateAndTest('reset', function (Website $website) {
-            $this->connection->set($website, $this->connection->migrationName());
-            $this->assertFalse(
-                $this->connection->migration()->getSchemaBuilder()->hasTable('samples'),
-                "Connection for {$website->uuid} has table samples"
-            );
-        });
     }
 }

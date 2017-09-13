@@ -25,16 +25,32 @@ trait InteractsWithMigrations
      */
     protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null)
     {
-        if ($command !== 'migrate') {
-            $command = "migrate:$command";
-        }
-
         $code = $this->artisan("tenancy:$command", [
             '--realpath' => __DIR__ . '/../migrations',
             '-n' => 1
         ]);
 
         $this->assertEquals(0, $code, "tenancy:$command didn't work out");
+
+        if ($hook) {
+            $hook();
+        }
+
+        if ($callback) {
+            $this->websites->query()->chunk(10, function (Collection $websites) use ($callback) {
+                $websites->each($callback);
+            });
+        }
+    }
+
+    protected function seedAndTest(callable $callback = null, callable $hook = null)
+    {
+        $code = $this->artisan("tenancy:db:seed", [
+            '--class' => 'SampleSeeder',
+            '-n' => 1
+        ]);
+
+        $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
 
         if ($hook) {
             $hook();
