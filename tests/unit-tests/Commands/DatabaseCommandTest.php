@@ -65,7 +65,6 @@ class DatabaseCommandTest extends Test
 
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website, $this->connection->migrationName());
-            dd($this->connection->migration()->table('samples')->get(['name']));
             $this->assertTrue(
                 $this->connection->migration()->table('samples')->count() === 1,
                 "Connection for {$website->uuid} has no sample data seeded"
