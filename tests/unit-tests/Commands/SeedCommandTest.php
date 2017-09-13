@@ -14,10 +14,10 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use Hyn\Tenancy\Database\Console\Migrations\RefreshCommand;
+use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 use Hyn\Tenancy\Tests\Test;
 
-class RefreshCommandTest extends Test
+class SeedCommandTest extends Test
 {
     /**
      * @test
@@ -25,8 +25,8 @@ class RefreshCommandTest extends Test
     public function is_ioc_bound()
     {
         $this->assertInstanceOf(
-            RefreshCommand::class,
-            $this->app->make(RefreshCommand::class)
+            SeedCommand::class,
+            $this->app->make(SeedCommand::class)
         );
     }
 }

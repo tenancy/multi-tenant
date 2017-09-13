@@ -12,12 +12,12 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Database\Console;
+namespace Hyn\Tenancy\Database\Console\Migrations;
 
-use Hyn\Tenancy\Traits\MutatesCommands;
-use Illuminate\Database\Console\Migrations\RefreshCommand as BaseCommand;
+use Hyn\Tenancy\Traits\MutatesMigrationCommands;
+use Illuminate\Database\Console\Migrations\RollbackCommand as BaseCommand;
 
-class RefreshCommand extends BaseCommand
+class RollbackCommand extends BaseCommand
 {
-    use MutatesCommands;
+    use MutatesMigrationCommands;
 }

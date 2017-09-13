@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 
-trait MutatesCommands
+trait MutatesMigrationCommands
 {
     /**
      * @var WebsiteRepository

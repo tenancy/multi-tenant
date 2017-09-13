@@ -34,24 +34,28 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrationCommands()
     {
-        $this->app->singleton(Console\MigrateCommand::class, function (Application $app) {
-            return new Console\MigrateCommand($app->make('migrator'));
+        $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
+            return new Console\Migrations\MigrateCommand($app->make('migrator'));
         });
-        $this->app->singleton(Console\RollbackCommand::class, function (Application $app) {
-            return new Console\RollbackCommand($app->make('migrator'));
+        $this->app->singleton(Console\Migrations\RollbackCommand::class, function (Application $app) {
+            return new Console\Migrations\RollbackCommand($app->make('migrator'));
         });
-        $this->app->singleton(Console\ResetCommand::class, function (Application $app) {
-            return new Console\ResetCommand($app->make('migrator'));
+        $this->app->singleton(Console\Migrations\ResetCommand::class, function (Application $app) {
+            return new Console\Migrations\ResetCommand($app->make('migrator'));
         });
-        $this->app->singleton(Console\RefreshCommand::class, function (Application $app) {
-            return new Console\RefreshCommand($app->make('migrator'));
+        $this->app->singleton(Console\Migrations\RefreshCommand::class, function (Application $app) {
+            return new Console\Migrations\RefreshCommand($app->make('migrator'));
+        });
+        $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
+            return new Console\Seeds\SeedCommand($app['db']);
         });
 
         $this->commands([
-            Console\MigrateCommand::class,
-            Console\RollbackCommand::class,
-            Console\ResetCommand::class,
-            Console\RefreshCommand::class
+            Console\Migrations\MigrateCommand::class,
+            Console\Migrations\RollbackCommand::class,
+            Console\Migrations\ResetCommand::class,
+            Console\Migrations\RefreshCommand::class,
+            Console\Seeds\SeedCommand::class
         ]);
     }
 }

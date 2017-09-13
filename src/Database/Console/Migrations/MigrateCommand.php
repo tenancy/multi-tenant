@@ -12,12 +12,12 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Database\Console;
+namespace Hyn\Tenancy\Database\Console\Migrations;
 
-use Hyn\Tenancy\Traits\MutatesCommands;
+use Hyn\Tenancy\Traits\MutatesMigrationCommands;
 use Illuminate\Database\Console\Migrations\MigrateCommand as BaseCommand;
 
 class MigrateCommand extends BaseCommand
 {
-    use MutatesCommands;
+    use MutatesMigrationCommands;
 }

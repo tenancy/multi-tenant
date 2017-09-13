@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use Hyn\Tenancy\Database\Console\RollbackCommand;
+use Hyn\Tenancy\Database\Console\Migrations\RollbackCommand;
 use Hyn\Tenancy\Tests\Test;
 
 class RollbackCommandTest extends Test

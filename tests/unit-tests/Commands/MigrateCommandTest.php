@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use Hyn\Tenancy\Database\Console\MigrateCommand;
+use Hyn\Tenancy\Database\Console\Migrations\MigrateCommand;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
