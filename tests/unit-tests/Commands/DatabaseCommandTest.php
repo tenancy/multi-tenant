@@ -18,10 +18,17 @@ use Hyn\Tenancy\Database\Console\Migrations\MigrateCommand;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
+use Illuminate\Contracts\Foundation\Application;
 
 class DatabaseCommandTest extends Test
 {
     use InteractsWithMigrations;
+
+    protected function duringSetUp(Application $app)
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+    }
 
     /**
      * @test
@@ -39,9 +46,6 @@ class DatabaseCommandTest extends Test
      */
     public function runs_migrate_on_tenants()
     {
-        $this->setUpHostnames(true);
-        $this->setUpWebsites(true, true);
-
         $this->migrateAndTest('migrate', function (Website $website) {
             $this->connection->set($website, $this->connection->migrationName());
             $this->assertTrue(
@@ -57,9 +61,12 @@ class DatabaseCommandTest extends Test
      */
     public function runs_seed_on_tenants()
     {
+        $this->migrateAndTest('migrate');
+
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website, $this->connection->migrationName());
-            $this->assertFalse(
+            dd($this->connection->migration()->table('samples')->get(['name']));
+            $this->assertTrue(
                 $this->connection->migration()->table('samples')->count() === 1,
                 "Connection for {$website->uuid} has no sample data seeded"
             );
