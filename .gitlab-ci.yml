@@ -17,10 +17,10 @@ cache:
 .nginx_70_template: &nginx70
     image: php:7.0-fpm
 
-.apache_template: &apache
+.apache_71_template: &apache71
     image: php:7.1-apache
   
-.nginx_template: &nginx
+.nginx_71_template: &nginx71
     image: php:7.1-fpm
   
 .mariadb_template: &mariadb
@@ -82,7 +82,7 @@ apache-7.0-pgsql:
   <<: *pgsql
   <<: *testing
 apache-7.1-pgsql:
-  <<: *apache
+  <<: *apache71
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
@@ -99,7 +99,7 @@ apache-7.0-mariadb:
   <<: *mariadb
   <<: *testing
 apache-7.1-mariadb:
-  <<: *apache
+  <<: *apache71
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
@@ -116,7 +116,7 @@ nginx-7.0-pgsql:
   <<: *pgsql
   <<: *testing
 nginx-7.1-pgsql:
-  <<: *nginx
+  <<: *nginx71
   <<: *before_script
   <<: *standard_deploy
   <<: *pgsql
@@ -133,7 +133,7 @@ nginx-7.0-mariadb:
   <<: *mariadb
   <<: *testing
 nginx-7.1-mariadb:
-  <<: *nginx
+  <<: *nginx71
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
