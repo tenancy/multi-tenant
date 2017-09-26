@@ -38,8 +38,6 @@ return [
     'apache2' => [
         /**
          * Whether the integration with Apache2 is currently active.
-         *
-         * @see
          */
         'enabled' => false,
 
@@ -104,6 +102,87 @@ return [
                  * Action to run to reload the apache service.
                  */
                 'reload' => 'apache2ctl graceful'
+            ]
+        ]
+    ],
+
+    /**
+     * Nginx webserver support.
+     *
+     * @see http://nginx.org
+     */
+    'nginx' => [
+        /**
+         * Whether the integration with Nginx is currently active.
+         */
+        'enabled' => false,
+
+        /**
+         * The php sock to be used.
+         */
+        'php-sock' => 'unix:/var/run/php/php7.0-fpm.sock',
+
+        /**
+         * Define the ports of your Apache service.
+         */
+        'ports' => [
+            /**
+             * HTTP, non-SSL port.
+             *
+             * @default 80
+             */
+            'http' => 80,
+            /**
+             * HTTPS, SSL port.
+             *
+             * @default 443
+             */
+            'https' => 443
+        ],
+
+        /**
+         * The generator taking care of hooking into the Apache services and files.
+         */
+        'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\NginxGenerator::class,
+
+        /**
+         * The view that holds the vhost configuration template.
+         */
+        'view' => 'tenancy.generators::webserver.nginx.vhost',
+
+        /**
+         * Specify the disk you configured in the filesystems.php file where to store
+         * the tenant vhost configuration files.
+         *
+         * @info If not set, will revert to the default filesystem.
+         */
+        'disk' => null,
+
+        'paths' => [
+
+            /**
+             * Location where vhost configuration files can be found.
+             */
+            'vhost-files' => [
+                '/etc/nginx/sites-enabled/'
+            ],
+
+            /**
+             * Actions to run to work with the Apache2 service.
+             */
+            'actions' => [
+                /**
+                 * Action that asserts Apache2 is installed.
+                 */
+                'exists' => '/etc/init.d/nginx',
+                /**
+                 * Action to run to test the apache configuration.
+                 */
+                'test-config' => '/etc/init.d/nginx configtest',
+                /**
+                 * Action to run to reload the apache service.
+                 */
+                'reload' => 'systemctl restart nginx'
             ]
         ]
     ]

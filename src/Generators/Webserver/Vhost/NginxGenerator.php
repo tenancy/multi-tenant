@@ -1,0 +1,91 @@
+<?php
+
+/*
+ * This file is part of the hyn/multi-tenant package.
+ *
+ * (c) Daniël Klabbers <daniel@klabbers.email>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see https://laravel-tenancy.com
+ * @see https://github.com/hyn/multi-tenant
+ */
+
+namespace Hyn\Tenancy\Generators\Webserver\Vhost;
+
+use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
+use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Website\Directory;
+
+class NginxGenerator implements VhostGenerator, ReloadsServices
+{
+    /**
+     * @var Directory
+     */
+    private $directory;
+
+    public function __construct(Directory $directory)
+    {
+        $this->directory = $directory;
+    }
+
+    /**
+     * @param Website $website
+     * @return null|string
+     */
+    public function media(Website $website)
+    {
+        return $this->directory->setWebsite($website)->isLocal() && $this->directory->exists('media') ?
+            $this->directory->path('media', true) :
+            null;
+    }
+
+    /**
+     * @param Website $website
+     * @return string
+     */
+    public function generate(Website $website): string
+    {
+        return view(config('webserver.nginx.view'), [
+            'website' => $website,
+            'config' => config('webserver.nginx', []),
+            'directory' => $this->directory->setWebsite($website),
+            'media' => $this->media($website)
+        ]);
+    }
+
+    /**
+     * @param Website $website
+     * @return string
+     */
+    public function targetPath(Website $website): string
+    {
+        return "{$website->uuid}.conf";
+    }
+
+    /**
+     * @return bool
+     */
+    public function reload(): bool
+    {
+        $success = null;
+
+        if ($this->testConfiguration()) {
+            exec(config('webserver.nginx.paths.actions.reload'), $_, $success);
+        }
+
+        return $success;
+    }
+
+    /**
+     * @return bool
+     */
+    public function testConfiguration(): bool
+    {
+        exec(config('webserver.nginx.paths.actions.test-config'), $_, $success);
+
+        return $success;
+    }
+}
