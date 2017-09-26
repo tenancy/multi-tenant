@@ -14,6 +14,10 @@
     # allow cross domain loading of resources
     Header set Access-Control-Allow-Origin "*"
 
+    # logging
+    ErrorLog {{ storage_path('logs/')  }}{{ $hostname->fqdn }}.error.log
+    CustomLog {{ storage_path('logs/')  }}{{ $hostname->fqdn }}.access.log combined
+
     <Directory "{{ base_path() }}">
         Options FollowSymLinks
         AllowOverride All
@@ -35,8 +39,8 @@
         Header set Access-Control-Allow-Origin "*"
 
         # logging
-        ErrorLog {{ $log_path }}.error.log
-        CustomLog {{ $log_path }}.access.log combined
+        ErrorLog {{ storage_path('logs/')  }}{{ $hostname->fqdn }}.error.log
+        CustomLog {{ storage_path('logs/')  }}{{ $hostname->fqdn }}.access.log combined
 
         # enable SSL
         SSLEngine On
