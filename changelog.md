@@ -1,3 +1,4 @@
-- 3.0.0
-	- Created tenancy:migrate command.
-	- Complete rewrite from scratch.
+- 5.0.1
+    - Added initial Nginx support.
+    - Added MySQL database support, set tenancy > website > uuid-limit-length-to-32.
+- 5.0.0
