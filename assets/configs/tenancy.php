@@ -36,6 +36,14 @@ return [
         'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaGenerator::class,
 
         /**
+         * Enable this flag in case you're using a driver that does not support
+         * database username or database name with a length of more than 32 characters.
+         *
+         * This should be enabled for MySQL, but not for MariaDB and PostgreSQL.
+         */
+        'uuid-limit-length-to-32' => env('LIMIT_UUID_LENGTH_32', false),
+
+        /**
          * Specify the disk you configured in the filesystems.php file where to store
          * the tenant specific files, including media, packages, routes and other
          * files for this particular website.
