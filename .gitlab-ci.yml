@@ -44,6 +44,18 @@ cache:
         POSTGRES_USER: root
         POSTGRES_PASSWORD: root
 
+
+.mysql_template: &mysql
+    services:
+        - mysql:latest
+    variables:
+        DB_HOST: mysql
+        DB_CONNECTION: mysql
+        TENANCY_SYSTEM_CONNECTION_NAME: mysql
+        MYSQL_DATABASE: testing
+        MYSQL_ROOT_PASSWORD: root
+        LIMIT_UUID_LENGTH_32: 1
+
 .before_template: &before_script
   before_script:
     - apt-get -yqq update
@@ -105,6 +117,22 @@ apache-7.1-mariadb:
   <<: *mariadb
   <<: *testing
 
+#
+#   APACHE/MYSQL
+#
+
+apache-7.0-mysql:
+  <<: *apache70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mysql
+  <<: *testing
+apache-7.1-mysql:
+  <<: *apache71
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mysql
+  <<: *testing
 
 #
 #   NGINX/PGSQL
@@ -137,6 +165,24 @@ nginx-7.1-mariadb:
   <<: *before_script
   <<: *standard_deploy
   <<: *mariadb
+  <<: *testing
+
+
+#
+#   NGINX/MYSQL
+#
+
+nginx-7.0-mysql:
+  <<: *nginx70
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mysql
+  <<: *testing
+nginx-7.1-mysql:
+  <<: *nginx71
+  <<: *before_script
+  <<: *standard_deploy
+  <<: *mysql
   <<: *testing
 
 #
