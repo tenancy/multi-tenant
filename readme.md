@@ -18,7 +18,6 @@ for different clients or start-ups building the next software as a
 Offers:
 
 - Integration with all Long Term Support versions of Laravel, which includes 5.5.
-- MariaDB or PostgreSQL database drivers.
 - Event driven, extensible architecture.  
 - Close integration into the webserver.
 - The ability to add tenant specific configs, code, routes etc.
@@ -34,11 +33,12 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
-- Laravel 5.5
+- Laravel 5.5.
 - Linux based OS preferred.
 - PHP 7.
-- Apache 2.4+, nginx support coming soon.
-- MariaDB 10+ or PostgreSQL 9+; please note that MySQL won't work because it limits database usernames to 32 characters.
+- Apache or Nginx.
+
+Please read the full [requirements in the documentation](https://laravel-tenancy.com/documentation/introduction/requirements).
 
 ## Installation
 
