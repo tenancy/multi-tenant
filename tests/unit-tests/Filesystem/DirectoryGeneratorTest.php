@@ -31,7 +31,7 @@ class DirectoryGeneratorTest extends Test
         $this->setUpWebsites();
         $this->setUpHostnames();
 
-        $this->filesystem = app('tenant.disk');
+        $this->filesystem = app('tenancy.disk');
     }
 
     /**
