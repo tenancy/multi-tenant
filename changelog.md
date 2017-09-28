@@ -1,3 +1,6 @@
+- 5.0.2
+    - #262, now setting a tenant disk.
+    - #260, now triggering events in case tenant directories are mutated.
 - 5.0.1
     - Added initial Nginx support.
     - Added MySQL database support, set tenancy > website > uuid-limit-length-to-32.
