@@ -54,7 +54,7 @@ EOM
 
         $this->assertTrue($this->directory->exists('vendor/autoload.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertTrue(class_exists(\Test\Vendor\Foo::class));
     }

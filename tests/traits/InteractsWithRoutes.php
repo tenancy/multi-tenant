@@ -42,7 +42,7 @@ EOM
 
         $this->assertTrue($directory->exists('routes.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         /** @var Router $router */
         $router = $this->app->make('router');

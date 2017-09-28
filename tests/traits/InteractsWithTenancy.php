@@ -98,7 +98,7 @@ trait InteractsWithTenancy
     /**
      * @param string $tenant
      */
-    protected function activateTenant(string $tenant)
+    protected function activateTenant(string $tenant = null)
     {
         $hostname = $tenant == 'tenant' ? $this->tenant : $this->hostname;
 

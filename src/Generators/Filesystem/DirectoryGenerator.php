@@ -37,7 +37,7 @@ class DirectoryGenerator
      */
     protected function filesystem(): Filesystem
     {
-        return app('tenant.disk');
+        return app('tenancy.disk');
     }
 
     /**

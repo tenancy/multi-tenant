@@ -25,7 +25,7 @@ class FilesystemProvider extends ServiceProvider
     {
         $this->addDisks();
 
-        $this->app->singleton('tenant.disk', function ($app) {
+        $this->app->singleton('tenancy.disk', function ($app) {
             /** @var \Illuminate\Filesystem\FilesystemManager $manager */
             $manager = $app->make('filesystem');
 
@@ -34,11 +34,11 @@ class FilesystemProvider extends ServiceProvider
 
         $this->app->when(Directory::class)
             ->needs(Filesystem::class)
-            ->give('tenant.disk');
+            ->give('tenancy.disk');
 
         $this->app->when(AbstractTenantDirectoryListener::class)
             ->needs(Filesystem::class)
-            ->give('tenant.disk');
+            ->give('tenancy.disk');
 
         $this->app->bind(Directory::class);
     }
