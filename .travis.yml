@@ -1,0 +1,31 @@
+sudo: false
+language: php
+
+addons:
+  hosts:
+    - tenant.testing
+    - local.testing
+
+env:
+  - DB=mysql TENANCY_SYSTEM_CONNECTION=mysql
+  - DB=mariadb TENANCY_SYSTEM_CONNECTION=mysql
+  - DB=pgsql TENANCY_SYSTEM_CONNECTION=pgsql
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
+jobs:
+    allow_failures:
+      - php: nightly
+before_install:
+  - travis_retry composer self-update
+install:
+  - composer update --prefer-dist --no-interaction -o
+before_script:
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'DROP DATABASE IF EXISTS testing;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE testing;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'mariadb' || '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE IF NOT EXISTS testing;'; fi"
+script:
+  - vendor/bin/phpunit -d memory_limit=512M --colors=never -c ci.phpunit.xml -vv
