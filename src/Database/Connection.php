@@ -262,7 +262,6 @@ class Connection
         $code = $this->artisan->call('tenancy:db:seed', $options);
         $this->purge($this->tenantName());
         return $code == 0;
-
     }
 
 
