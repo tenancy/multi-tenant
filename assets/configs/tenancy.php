@@ -163,6 +163,12 @@ return [
          */
         'tenant-migrations-path' => false,
 
+
+        /**
+         * After creating, migrating a website, run this seed. Set to false if you don't want to seed.
+         * Requirement: valid class
+         */
+        'tenant-seed-after-created-website' => false,
         /**
          * Automatically generate a tenant database based on the random id of the
          * website.

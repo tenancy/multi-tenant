@@ -236,6 +236,36 @@ class Connection
         return $code === 0;
     }
 
+    public function seed($for)
+    {
+        $this->set($for, $this->tenantName());
+
+        $website = null;
+
+        if ($for instanceof Hostname) {
+            $website = $for->website;
+        }
+
+        if ($for instanceof Website) {
+            $website = $for;
+        }
+
+
+
+        $options = [
+            '--database' => $this->tenantName(),
+            '--websiteid' => $website->id,
+            '--class' => config('tenancy.db.tenant-seed-after-created-website')
+        ];
+
+
+        $code = $this->artisan->call('tenancy:db:seed', $options);
+        $this->purge($this->tenantName());
+        return $code == 0;
+
+    }
+
+
     /**
      * @param Website $website
      * @return array

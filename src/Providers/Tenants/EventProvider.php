@@ -31,6 +31,8 @@ class EventProvider extends ServiceProvider
         Listeners\Database\ConnectsTenants::class,
         // Runs migrations for new tenants.
         Listeners\Database\MigratesTenants::class,
+        // Runs the seeds after the first migration
+        Listeners\Database\SeedsTenants::class,
         // Manages the directories for the tenants.
         Generators\Filesystem\DirectoryGenerator::class,
         // Sets the uuid value on a website based on tenancy configuration.

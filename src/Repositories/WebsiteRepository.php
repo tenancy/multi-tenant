@@ -63,6 +63,15 @@ class WebsiteRepository implements Contract
     }
 
     /**
+     * @param string $id
+     * @return Website|null
+     */
+    public function findById(string $id)
+    {
+        return $this->website->newQuery()->where('id', $id)->first();
+    }
+
+    /**
      * @param Website $website
      * @return Website
      */
