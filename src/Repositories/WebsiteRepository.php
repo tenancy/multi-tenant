@@ -58,7 +58,7 @@ class WebsiteRepository implements Contract
     public function findByUuid(string $uuid)
     {
         return $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
-            return $this->website->newQuery()->where('uuid', $uuid)->first();
+            return $this->query()->where('uuid', $uuid)->first();
         });
     }
 
@@ -68,7 +68,7 @@ class WebsiteRepository implements Contract
      */
     public function findById(string $id)
     {
-        return $this->website->newQuery()->where('id', $id)->first();
+        return $this->query()->where('id', $id)->first();
     }
 
     /**

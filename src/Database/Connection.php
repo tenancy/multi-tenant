@@ -106,15 +106,8 @@ class Connection
         return $this->db->connection($this->tenantName());
     }
 
-    /**
-     * @param Hostname|Website $to
-     * @param null $connection
-     * @return bool
-     */
-    public function set($to, $connection = null): bool
+    private function convertWebsiteOrHostnameToWebsite($to)
     {
-        $connection = $connection ?? $this->tenantName();
-
         $website = null;
 
         if ($to instanceof Hostname) {
@@ -124,6 +117,20 @@ class Connection
         if ($to instanceof Website) {
             $website = $to;
         }
+
+        return $website;
+    }
+
+    /**
+     * @param Hostname|Website $to
+     * @param null $connection
+     * @return bool
+     */
+    public function set($to, $connection = null): bool
+    {
+        $connection = $connection ?? $this->tenantName();
+
+        $website = $this->convertWebsiteOrHostnameToWebsite($to);
 
         if ($website) {
             // Sets current connection settings.
@@ -236,31 +243,28 @@ class Connection
         return $code === 0;
     }
 
-    public function seed($for)
+    /**
+     * @param Website|Hostname $for
+     * @param class $class Leave null if you don't want to use a specific class.
+     * @return bool
+     */
+    public function seed($for, $class = null)
     {
-        $this->set($for, $this->tenantName());
+        $this->set($for, $this->migrationName());
 
-        $website = null;
-
-        if ($for instanceof Hostname) {
-            $website = $for->website;
-        }
-
-        if ($for instanceof Website) {
-            $website = $for;
-        }
-
-
+        $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
         $options = [
-            '--database' => $this->tenantName(),
-            '--websiteid' => $website->id,
-            '--class' => config('tenancy.db.tenant-seed-after-created-website')
+            '--database' => $this->migrationName(),
+            '--websiteid' => $website->id
         ];
 
+        if ($class) {
+            $options['--class'] = $class;
+        }
 
         $code = $this->artisan->call('tenancy:db:seed', $options);
-        $this->purge($this->tenantName());
+        $this->purge($this->migrationName());
         return $code == 0;
     }
 

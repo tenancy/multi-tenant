@@ -66,7 +66,7 @@ class DatabaseCommandTest extends Test
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website, $this->connection->migrationName());
             $this->assertTrue(
-                $this->connection->migration()->table('samples')->count() === 1,
+                $this->connection->migration()->table('samples')->count() === 2,
                 "Connection for {$website->uuid} has no sample data seeded"
             );
         });
@@ -141,15 +141,18 @@ class DatabaseCommandTest extends Test
         );
 
         config(['tenancy.db.tenant-seed-after-created-website' => \SampleSeeder::class]);
-        $this->assertTrue(class_exists(config('tenancy.db.tenant-seed-after-created-website')), "Seed class doesnt exists.");
+        $this->assertTrue(class_exists(config('tenancy.db.tenant-seed-after-created-website')),
+            "Seed class doesnt exists.");
         $this->assertNotNull(config('tenancy.db.tenant-migrations-path'));
         $website = new Website;
         $this->websites->create($website);
         $this->assertNotEquals(0, $website->id, "Website has not been created");
         $this->connection->set($website, $this->connection->migrationName());
+
+        $count = $this->connection->migration()->table('samples')->count();
         $this->assertTrue(
-            $this->connection->migration()->table('samples')->count() === 1,
-            "Connection for {$website->uuid} has no sample data seeded"
+          $count === 2,
+            "Connection for {$website->uuid} has no sample data seeded, count is {$count}"
         );
     }
 
@@ -177,7 +180,7 @@ class DatabaseCommandTest extends Test
 
         $this->connection->set($website1, $this->connection->migrationName());
         $this->assertTrue(
-            $this->connection->migration()->table('samples')->count() === 1,
+            $this->connection->migration()->table('samples')->count() === 2,
             "Connection for {$website1->uuid} has no sample data seeded"
         );
 
@@ -193,7 +196,7 @@ class DatabaseCommandTest extends Test
 
         $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
         $this->assertTrue(
-            $this->connection->migration()->table('samples')->count() === 1,
+            $this->connection->migration()->table('samples')->count() === 2,
             "Connection for {$website2->uuid} has no sample data"
         );
     }

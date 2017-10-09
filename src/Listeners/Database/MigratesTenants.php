@@ -49,17 +49,11 @@ class MigratesTenants
     public function migrate(WebsiteEvent $event): bool
     {
         $result = false;
-        $resultUsed = false;
         if ($path = config('tenancy.db.tenant-migrations-path')) {
             $result = $this->connection->migrate($event->website, $path);
-            $resultUsed = true;
         }
 
-        if (!$result && $resultUsed) {
-            return $result;
-        }
-
-        if (config('tenancy.db.tenant-seed-after-created-website')) {
+        if ($result && config('tenancy.db.tenant-seed-after-created-website')) {
             $this->emitEvent(new Events\Websites\Migrated($event->website));
         }
 

@@ -45,8 +45,11 @@ class SeedsTenants
      * @param WebsiteEvent $event
      * @return bool
      */
-    public function seed(WebsiteEvent $event) : bool
+    public function seed(WebsiteEvent $event): bool
     {
-        return $this->connection->seed($event->website);
+        if ($class = config('tenancy.db.tenant-seed-after-created-website')) {
+            return $this->connection->seed($event->website, $class);
+        }
+        return true;
     }
 }
