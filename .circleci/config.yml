@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  php-7.1-apache:
+    docker:
+      - image: php:7.1-apache
+        environment:
+          - DB_DATABASE: testing
+          - DB_USERNAME: testing
+          - DB_PASSWORD: testing
+          - APP_KEY: deela5kinohw0haekoothahSh8eexach
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ arch }}-{{ checksum "composer.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: service mysql start
+      - run: mysql -e "create database if not exists testing;"
+      - run: mysql -e "create or replace user testing@localhost identified by 'testing';"
+      - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
+      - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+      - run: composer install -n --prefer-dist --no-progress -o
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+
+      # run tests!
+      - run: ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - php-7.1-apache
