@@ -50,6 +50,7 @@ class SeedsTenants
         if ($class = config('tenancy.db.tenant-seed-after-created-website')) {
             return $this->connection->seed($event->website, $class);
         }
+
         return true;
     }
 }

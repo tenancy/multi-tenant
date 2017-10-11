@@ -28,8 +28,9 @@ class DirectoryGeneratorTest extends Test
 
     protected function duringSetUp(Application $app)
     {
-        $this->setUpWebsites();
-        $this->setUpHostnames();
+        config(['tenancy.website.auto-delete-tenant-directory' => true]);
+
+        $this->setUpWebsites(true);
 
         $this->filesystem = app('tenancy.disk');
     }
@@ -39,9 +40,7 @@ class DirectoryGeneratorTest extends Test
      */
     public function directory_created()
     {
-        $this->assertFalse($this->filesystem->exists($this->website->uuid));
-
-        $this->websites->create($this->website);
+        $this->assertTrue(config('tenancy.website.auto-create-tenant-directory'));
 
         $this->assertTrue(
             $this->filesystem->exists($this->website->uuid),
@@ -56,6 +55,7 @@ class DirectoryGeneratorTest extends Test
     public function directory_modified()
     {
         $this->website->uuid = Str::random(16);
+
         $this->website = $this->websites->update($this->website);
 
         $this->assertTrue($this->filesystem->exists($this->website->uuid));

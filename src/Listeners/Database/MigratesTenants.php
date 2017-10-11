@@ -56,6 +56,6 @@ class MigratesTenants
             return true;
         }
         
-        return false;
+        return true;
     }
 }

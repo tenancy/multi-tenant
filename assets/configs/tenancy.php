@@ -137,7 +137,7 @@ return [
          */
         'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', Connection::DEFAULT_SYSTEM_NAME),
         'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', Connection::DEFAULT_TENANT_NAME),
-        'tenant-migration-name' => env('TENANCY_MIGRATION_CONNECTION_NAME', Connection::DEFAULT_MIGRATION_NAME),
+        'migration-connection-name' => env('TENANCY_MIGRATION_CONNECTION_NAME', Connection::DEFAULT_MIGRATION_NAME),
 
         /**
          * The tenant division mode specifies to what database websites will be

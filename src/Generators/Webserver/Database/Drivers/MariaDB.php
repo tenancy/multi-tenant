@@ -56,9 +56,11 @@ class MariaDB implements DatabaseGenerator
     {
         $uuid = Arr::get($event->dirty, 'uuid');
 
-        if (!$connection->system()->statement("RENAME TABLE `$uuid`.table TO `{$config['database']}`.table")) {
-            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
-        }
+        $this->created(new Created($event->website), $config, $connection);
+
+//        if (!$connection->system()->statement("RENAME TABLE `$uuid`.`table` TO `{$config['database']}`.`table`")) {
+//            throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");
+//        }
 
         return true;
     }
