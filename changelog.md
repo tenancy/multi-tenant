@@ -1,3 +1,5 @@
+- 5.0.4
+    - Flushing cache whenever hostname fqdn or website uuid changes.
 - 5.0.3
     - Added seed command and auto seeding of newly auto-migrated tenants.
     - Added more strict validation.
