@@ -165,10 +165,14 @@ return [
 
 
         /**
-         * After creating, migrating a website, run this seed. Set to false if you don't want to seed.
-         * Requirement: valid class
+         * Seeds the newly created tenant database based on this Seeder.
+         *
+         * @info requires tenant-migrations-path to be in use.
+         *
+         * @warn specify a valid fully qualified class name.
+         * @example App\Seeders\AdminSeeder::class
          */
-        'tenant-seed-after-created-website' => false,
+        'tenant-seed-class' => false,
         /**
          * Automatically generate a tenant database based on the random id of the
          * website.

@@ -25,6 +25,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
+use InvalidArgumentException;
 
 class Connection
 {
@@ -221,14 +222,14 @@ class Connection
      */
     public function migrate($for, string $path = null)
     {
-        $this->set($for, $this->migrationName());
+        $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
         if ($path) {
             $path = realpath($path);
         }
 
         $options = [
-            '--database' => $this->migrationName(),
+            '--website_id' => [$website->id],
             '-n' => 1
         ];
 
@@ -238,25 +239,21 @@ class Connection
 
         $code = $this->artisan->call('tenancy:migrate', $options);
 
-        $this->purge($this->migrationName());
-
         return $code === 0;
     }
 
     /**
      * @param Website|Hostname $for
-     * @param class $class Leave null if you don't want to use a specific class.
+     * @param string $class
      * @return bool
      */
-    public function seed($for, $class = null)
+    public function seed($for, string $class = null)
     {
-        $this->set($for, $this->migrationName());
-
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
         $options = [
-            '--database' => $this->migrationName(),
-            '--websiteid' => $website->id
+            '--website_id' => [$website->id],
+            '-n' => 1
         ];
 
         if ($class) {
@@ -264,8 +261,8 @@ class Connection
         }
 
         $code = $this->artisan->call('tenancy:db:seed', $options);
-        $this->purge($this->migrationName());
-        return $code == 0;
+
+        return $code === 0;
     }
 
 

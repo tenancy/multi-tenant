@@ -14,10 +14,10 @@
 
 namespace Hyn\Tenancy\Tests\Filesystem;
 
+use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 
 class DirectoryGeneratorTest extends Test
 {
@@ -54,7 +54,7 @@ class DirectoryGeneratorTest extends Test
      */
     public function directory_modified()
     {
-        $this->website->uuid = Str::random(16);
+        $this->website->uuid = app(UuidGenerator::class)->generate($this->website);
 
         $this->website = $this->websites->update($this->website);
 
