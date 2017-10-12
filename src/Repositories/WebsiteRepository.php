@@ -115,7 +115,6 @@ class WebsiteRepository implements Contract
         $this->validator->save($website);
 
         $dirty = collect(array_keys($website->getDirty()))->mapWithKeys(function ($value, $key) use ($website) {
-
             return [ $value => $website->getOriginal($value) ];
         })->toArray();
 
