@@ -60,6 +60,49 @@ class HostnameRepositoryTest extends Test
         }
     }
 
+    /**
+     * @test
+     */
+    public function validation_under_maintenance()
+    {
+        try {
+            $this->hostname->under_maintenance_since = null;
+            $this->hostnames->update($this->hostname);
+            $this->assertNull($this->hostname->under_maintenance_since);
+        } catch (ModelValidationException $e) {
+            $this->fail("The validation should not fail, message: {$e->getMessage()}");
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function validation_redirect_to()
+    {
+        try {
+            $this->hostname->redirect_to = null;
+            $this->hostnames->update($this->hostname);
+            $this->assertNull($this->hostname->redirect_to);
+        } catch (ModelValidationException $e) {
+            $this->fail("The validation should not fail, message: {$e->getMessage()}");
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function validation_customer_id()
+    {
+        try {
+            $this->hostname->customer_id = null;
+            $this->hostnames->update($this->hostname);
+            $this->assertNull($this->hostname->customer_id);
+        } catch (ModelValidationException $e) {
+            $this->fail("The validation should not fail, message: {$e->getMessage()}");
+        }
+    }
+
+
     protected function duringSetUp(Application $app)
     {
         $this->setUpWebsites();
