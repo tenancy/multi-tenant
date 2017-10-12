@@ -116,14 +116,18 @@ class WebsiteRepository implements Contract
 
         $dirty = collect(array_keys($website->getDirty()))->mapWithKeys(function ($value, $key) use ($website) {
             return [ $value => $website->getOriginal($value) ];
-        })->toArray();
+        });
 
         $website->save();
 
         $this->cache->flush("tenancy.website.{$website->uuid}");
 
+        if ($dirty->has('uuid')) {
+            $this->cache->forget("tenancy.website.{$dirty->get('uuid')}");
+        }
+
         $this->emitEvent(
-            new Events\Updated($website, $dirty)
+            new Events\Updated($website, $dirty->toArray())
         );
 
         return $website;
