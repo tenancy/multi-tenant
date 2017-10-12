@@ -16,12 +16,12 @@ namespace Hyn\Tenancy\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 
 trait MutatesMigrationCommands
 {
+    use AddWebsiteFilterOnCommand;
     /**
      * @var WebsiteRepository
      */
@@ -37,6 +37,7 @@ trait MutatesMigrationCommands
 
         $this->setName('tenancy:' . $this->getName());
         $this->specifyParameters();
+
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
     }
@@ -50,15 +51,13 @@ trait MutatesMigrationCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->migrationName());
 
-        $this->websites
-            ->query()
-            ->chunk(10, function (Collection $websites) {
-                $websites->each(function ($website) {
-                    $this->connection->set($website, $this->connection->migrationName());
+        $this->processHandle(function ($website) {
+            $this->connection->set($website, $this->connection->migrationName());
 
-                    parent::handle();
-                });
-            });
+            parent::handle();
+
+            $this->connection->purge($this->connection->migrationName());
+        });
     }
 
     /**
@@ -94,6 +93,7 @@ trait MutatesMigrationCommands
     protected function getOptions()
     {
         return array_merge([
+            $this->addWebsiteOption(),
             ['realpath', null, InputOption::VALUE_OPTIONAL, 'The absolute path to migration files.', null],
         ], parent::getOptions());
     }

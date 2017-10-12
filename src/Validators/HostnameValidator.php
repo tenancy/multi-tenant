@@ -19,7 +19,7 @@ use Hyn\Tenancy\Abstracts\Validator;
 class HostnameValidator extends Validator
 {
     protected $create = [
-        'fqdn' => ['required', 'string'],
+        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn'],
         'redirect_to' => ['string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['date'],
@@ -29,7 +29,7 @@ class HostnameValidator extends Validator
 
     protected $update = [
         'id' => ['required', 'integer'],
-        'fqdn' => ['required', 'string'],
+        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn'],
         'redirect_to' => ['string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['date'],

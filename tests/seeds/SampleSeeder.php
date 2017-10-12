@@ -23,9 +23,5 @@ class SampleSeeder extends Seeder
         DB::table('samples')->insert([
             'name' => Str::random(5)
         ]);
-
-        $tenantExtend = new \Hyn\Tenancy\Tests\Extend\TenantExtend();
-        $tenantExtend->name = Str::random(5);
-        $tenantExtend->save();
     }
 }

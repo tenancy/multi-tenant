@@ -14,7 +14,6 @@
 
 namespace Hyn\Tenancy\Listeners\Database;
 
-use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -47,7 +46,7 @@ class SeedsTenants
      */
     public function seed(WebsiteEvent $event): bool
     {
-        if ($class = config('tenancy.db.tenant-seed-after-created-website')) {
+        if ($class = config('tenancy.db.tenant-seed-class')) {
             return $this->connection->seed($event->website, $class);
         }
 

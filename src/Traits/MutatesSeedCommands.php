@@ -16,12 +16,12 @@ namespace Hyn\Tenancy\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Illuminate\Database\Eloquent\Collection;
-use Symfony\Component\Console\Input\InputOption;
+use Hyn\Tenancy\Models\Website;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 trait MutatesSeedCommands
 {
+    use AddWebsiteFilterOnCommand;
     /**
      * @var WebsiteRepository
      */
@@ -36,40 +36,39 @@ trait MutatesSeedCommands
         parent::__construct($resolver);
 
         $this->setName('tenancy:' . $this->getName());
-        $this->addOption('--websiteid', null, InputOption::VALUE_OPTIONAL, 'The tenant-id the seed should be run on.');
         $this->specifyParameters();
+
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
     }
 
-
     public function handle()
     {
-        $websiteId = $this->option('websiteid');
         if (!$this->confirmToProceed()) {
             return;
         }
 
         $this->input->setOption('force', true);
-        $this->input->setOption('database', $this->connection->tenantName());
+        $this->input->setOption('database', $this->connection->migrationName());
 
-        if ($websiteId != null) {
-            $website = $this->websites->findById($websiteId);
-            if ($website == null) {
-                throw new \InvalidArgumentException("Website with id {$websiteId} not found.");
-            }
-            $this->connection->set($website, $this->connection->tenantName());
+        $this->processHandle(function (Website $website) {
+            $this->connection->set($website, $this->connection->migrationName());
+
             parent::handle();
-        } else {
-            $this->websites
-                ->query()
-                ->chunk(10, function (Collection $websites) {
-                    $websites->each(function ($website) {
-                        $this->connection->set($website, $this->connection->tenantName());
 
-                        parent::handle();
-                    });
-                });
-        }
+            $this->connection->purge($this->connection->migrationName());
+        });
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array_merge([
+            $this->addWebsiteOption()
+        ], parent::getOptions());
     }
 }

@@ -60,6 +60,9 @@ trait InteractsWithTenancy
         $this->hostnames = app(HostnameRepository::class);
 
         $this->connection = app(Connection::class);
+
+        // Keeps our database clean.
+        config(['auto-delete-tenant-database' => true]);
     }
 
     protected function loadHostnames()
@@ -75,8 +78,7 @@ trait InteractsWithTenancy
     {
         Hostname::unguard();
         if (!$this->hostname) {
-
-            $hostname = new Hostname([
+            $hostname = Hostname::firstOrNew([
                 'fqdn' => 'local.testing',
             ]);
 
@@ -84,7 +86,7 @@ trait InteractsWithTenancy
         }
 
         if (!$this->tenant) {
-            $tenant = new Hostname([
+            $tenant = Hostname::firstOrNew([
                 'fqdn' => 'tenant.testing',
             ]);
 
