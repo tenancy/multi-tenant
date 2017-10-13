@@ -14,11 +14,15 @@
 
 namespace Hyn\Tenancy\Tests;
 
+use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
+use Hyn\Tenancy\Middleware\HostnameActions;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class EnvironmentTest extends Test
 {
@@ -60,6 +64,48 @@ class EnvironmentTest extends Test
         $this->assertEquals($this->hostname->fqdn, $identified->fqdn);
 
         $this->assertEquals($identified->fqdn, $this->environment->hostname()->fqdn);
+    }
+
+    /**
+     * @test
+     */
+    public function maintenance_test()
+    {
+        try {
+            $middleware = new HostnameActions(null, app()->make(Redirector::class));
+        } catch (\TypeError $ex) {
+            $this->fail('It should accept null as CurrentHostname, as this middleware should be able to run on non-identified websites.');
+        }
+
+
+        $this->hostname->save();
+        $this->app->make('config')->set('tenancy.hostname.default', $this->hostname->fqdn);
+        $identified = $this->app->make(CurrentHostname::class);
+        $this->assertNotNull($identified);
+        $now = Carbon::now();
+        $identified->under_maintenance_since = $now;
+        $identified->save();
+
+        $request = new Request();
+        $middleware = new HostnameActions($identified, app()->make(Redirector::class));
+
+        try {
+            $a = $middleware->handle($request, function () {
+                return "ok";
+            });
+            $this->fail('Middleware didn\'t fire maintenance exception');
+        } catch (\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException $e) {
+            $this->assertEquals($e->wentDownAt->timestamp, $now->timestamp);
+        }
+
+        $identified->under_maintenance_since = null;
+        $identified->save();
+
+        $res = $middleware->handle($request, function () {
+            return "ok";
+        });
+
+        $this->assertEquals("ok", $res);
     }
 
 
