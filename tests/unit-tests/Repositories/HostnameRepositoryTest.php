@@ -102,6 +102,30 @@ class HostnameRepositoryTest extends Test
         }
     }
 
+    /**
+     * @test
+     */
+    public function validation_website_id()
+    {
+        try {
+            $this->hostname->website_id = null;
+            $this->hostnames->update($this->hostname);
+            $this->assertNull($this->hostname->website_id);
+        } catch (ModelValidationException $e) {
+            $this->fail("The validation should not fail, message: {$e->getMessage()}");
+        }
+    }
+
+    /**
+     * @test
+     */
+    public function hostname_delete()
+    {
+        $this->hostnames->delete($this->hostname,false);
+        $this->assertFalse($this->hostname->exists);
+        $this->assertFalse($this->hostnames->query()->where('id', $this->hostname->id)->exists());
+    }
+
 
     protected function duringSetUp(Application $app)
     {
