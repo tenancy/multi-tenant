@@ -23,7 +23,7 @@ class HostnameValidator extends Validator
         'redirect_to' => ['nullable', 'string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['nullable', 'date'],
-        'website_id' => ['integer', 'nullable', 'exists:%system%.websites,id'],
+        'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
         'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 
@@ -33,7 +33,7 @@ class HostnameValidator extends Validator
         'redirect_to' => ['nullable', 'string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['nullable', 'date'],
-        'website_id' => ['integer', 'nullable', 'exists:%system%.websites,id'],
+        'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
         'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 }
