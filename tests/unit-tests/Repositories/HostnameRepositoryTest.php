@@ -121,7 +121,7 @@ class HostnameRepositoryTest extends Test
      */
     public function hostname_delete()
     {
-        $this->hostnames->delete($this->hostname,false);
+        $this->hostnames->delete($this->hostname, false);
         $this->assertFalse($this->hostname->exists);
         $this->assertFalse($this->hostnames->query()->where('id', $this->hostname->id)->exists());
     }
