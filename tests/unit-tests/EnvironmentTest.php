@@ -21,6 +21,7 @@ use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Middleware\HostnameActions;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
@@ -69,19 +70,23 @@ class EnvironmentTest extends Test
     /**
      * @test
      */
-    public function maintenance_test()
+    public function we_can_set_current_hostname_to_null_on_hostname_action_middleware()
     {
-        try {
-            $middleware = new HostnameActions(null, app()->make(Redirector::class));
-        } catch (\TypeError $ex) {
-            $this->fail('It should accept null as CurrentHostname, as this middleware should be able to run on non-identified websites.');
-        }
+        $middleware = new HostnameActions(null, app()->make(Redirector::class));
+        $this->assertNotNull($middleware);
+    }
 
 
+    /**
+     * @test
+     */
+    public function middlware_fired_under_maintenance()
+    {
         $this->hostname->save();
         $this->app->make('config')->set('tenancy.hostname.default', $this->hostname->fqdn);
         $identified = $this->app->make(CurrentHostname::class);
         $this->assertNotNull($identified);
+
         $now = Carbon::now();
         $identified->under_maintenance_since = $now;
         $identified->save();
@@ -94,7 +99,7 @@ class EnvironmentTest extends Test
                 return "ok";
             });
             $this->fail('Middleware didn\'t fire maintenance exception');
-        } catch (\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException $e) {
+        } catch (MaintenanceModeException $e) {
             $this->assertEquals($e->wentDownAt->timestamp, $now->timestamp);
         }
 
