@@ -76,8 +76,14 @@ trait MutatesMigrationCommands
             })->all();
         }
 
+        // Real path option is given.
         if (!is_null($realPath = $this->input->getOption('realpath'))) {
             return [$realPath];
+        }
+
+        // Tenant migrations path is configured.
+        if ($path = config('tenancy.db.tenant-migrations-path')) {
+            return [$path];
         }
 
         return array_merge(
