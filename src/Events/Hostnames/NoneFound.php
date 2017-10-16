@@ -14,9 +14,10 @@
 
 namespace Hyn\Tenancy\Events\Hostnames;
 
+use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Illuminate\Http\Request;
 
-class NoneFound
+class NoneFound extends AbstractEvent
 {
     /**
      * @var Request

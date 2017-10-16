@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
+use Hyn\Tenancy\Contracts\CurrentHostname;
 
 /**
  * @property int $id
@@ -31,8 +32,10 @@ use Hyn\Tenancy\Abstracts\SystemModel;
  * @property int $customer_id
  * @property Customer $customer
  */
-class Hostname extends SystemModel
+class Hostname extends SystemModel implements CurrentHostname
 {
+    protected $dates = ['under_maintenance_since'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
