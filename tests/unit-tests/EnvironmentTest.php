@@ -58,7 +58,8 @@ class EnvironmentTest extends Test
         $this->assertNull($identified);
 
         $this->hostname->save();
-        $this->app->make('config')->set('tenancy.hostname.default', $this->hostname->fqdn);
+        
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
 
         $identified = $this->app->make(CurrentHostname::class);
 
@@ -73,6 +74,7 @@ class EnvironmentTest extends Test
     public function we_can_set_current_hostname_to_null_on_hostname_action_middleware()
     {
         $middleware = new HostnameActions(null, app()->make(Redirector::class));
+        
         $this->assertNotNull($middleware);
     }
 
@@ -80,11 +82,14 @@ class EnvironmentTest extends Test
     /**
      * @test
      */
-    public function middlware_fired_under_maintenance()
+    public function middleware_fired_under_maintenance()
     {
         $this->hostname->save();
-        $this->app->make('config')->set('tenancy.hostname.default', $this->hostname->fqdn);
+        
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
+        
         $identified = $this->app->make(CurrentHostname::class);
+        
         $this->assertNotNull($identified);
 
         $now = Carbon::now();
@@ -98,6 +103,7 @@ class EnvironmentTest extends Test
             $a = $middleware->handle($request, function () {
                 return "ok";
             });
+            
             $this->fail('Middleware didn\'t fire maintenance exception');
         } catch (MaintenanceModeException $e) {
             $this->assertEquals($e->wentDownAt->timestamp, $now->timestamp);
