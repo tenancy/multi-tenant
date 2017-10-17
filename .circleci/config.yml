@@ -15,6 +15,7 @@ jobs:
             - MYSQL_USER: testing
             - MYSQL_PASSWORD: testing
             - MYSQL_ROOT_PASSWORD: testing
+            - MYSQL_ROOT_HOST: "%"
         - image: postgres:latest
           environment:
             - POSTGRES_DB: testing
