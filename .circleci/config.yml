@@ -14,11 +14,23 @@ references:
                 command: sleep 10
             - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
-            - run: DB_CONNECTION=mysql TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: DB_CONNECTION=mysql DB_HOSTNAME=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=mysql DB_HOSTNAME=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
     mariadb: &mariadb
         image: mariadb:latest
+        name: mariadb
+        environment:
+            - MYSQL_DATABASE: testing
+            - MYSQL_USER: testing
+            - MYSQL_PASSWORD: testing
+            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            - MYSQL_ROOT_HOST: "%"
+    mysql: &mysql
+        image: mariadb:latest
+        name: mysql
         environment:
             - MYSQL_DATABASE: testing
             - MYSQL_USER: testing
@@ -44,6 +56,7 @@ jobs:
               environment: *environment
             - *mariadb
             - *pgsql
+            - *mysql
         <<: *steps
     "php-7.1-apache":
         docker:
