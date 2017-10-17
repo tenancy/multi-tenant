@@ -9,11 +9,13 @@ jobs:
           - DB_PASSWORD: testing
           - APP_KEY: deela5kinohw0haekoothahSh8eexach
       - image: mariadb:latest
-          - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
           - MYSQL_DATABASE: testing
           - MYSQL_USER: testing
           - MYSQL_PASSWORD: testing
       - image: postgres:latest
+        environment:
           - POSTGRES_DB: testing
           - POSTGRES_USER: testing
           - POSTGRES_PASSWORD: testing
