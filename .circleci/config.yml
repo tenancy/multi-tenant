@@ -1,40 +1,41 @@
 version: 2
 
-steps: &steps
-    working_directory: ~/repo
-    steps:
-        - checkout
-        - run:
-            command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
-        - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
-        - run: composer install -n --prefer-dist --no-progress -o
-        - run:
-            name: Wait for other docker instances to be up
-            command: sleep 10
-        - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
-        - run: php tests/scripts/setup.php
-        - run: DB_CONNECTION=mysql TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
-        - run: php tests/scripts/setup.php
-        - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
-mariadb: &mariadb
-    - image: mariadb:latest
-      environment:
-        - MYSQL_DATABASE: testing
-        - MYSQL_USER: testing
-        - MYSQL_PASSWORD: testing
-        - MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        - MYSQL_ROOT_HOST: "%"
-pgsql: &pgsql
-    - image: postgres:latest
-      environment:
-        - POSTGRES_DB: testing
-        - POSTGRES_USER: testing
-        - POSTGRES_PASSWORD: testing
-environment: &environment
-    - DB_DATABASE: testing
-    - DB_USERNAME: testing
-    - DB_PASSWORD: testing
-    - APP_KEY: deela5kinohw0haekoothahSh8eexach
+references:
+    steps: &steps
+        working_directory: ~/repo
+        steps:
+            - checkout
+            - run:
+                command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
+            - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+            - run: composer install -n --prefer-dist --no-progress -o
+            - run:
+                name: Wait for other docker instances to be up
+                command: sleep 10
+            - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=mysql TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
+    mariadb: &mariadb
+        - image: mariadb:latest
+          environment:
+            - MYSQL_DATABASE: testing
+            - MYSQL_USER: testing
+            - MYSQL_PASSWORD: testing
+            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            - MYSQL_ROOT_HOST: "%"
+    pgsql: &pgsql
+        - image: postgres:latest
+          environment:
+            - POSTGRES_DB: testing
+            - POSTGRES_USER: testing
+            - POSTGRES_PASSWORD: testing
+    environment: &environment
+        - DB_DATABASE: testing
+        - DB_USERNAME: testing
+        - DB_PASSWORD: testing
+        - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
     "php-7.1-apache":
