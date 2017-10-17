@@ -1,3 +1,28 @@
+.mariadb_image: &mariadb_image
+  - image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE: testing
+      - MYSQL_USER: testing
+      - MYSQL_PASSWORD: testing
+      - MYSQL_ROOT_PASSWORD: testing
+.pgsql_image: &pgsql_image
+  - image: postgres:latest
+    environment:
+      - POSTGRES_DB: testing
+      - POSTGRES_USER: testing
+      - POSTGRES_PASSWORD: testing
+      
+.build_process: &build_process
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: apk add --no-cache mysql-client gd
+      - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
+      - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+      - run: composer install -n --prefer-dist --no-progress -o
+      - run: DB_CONNECTION=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+      - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
+          
 version: 2
 jobs:
   php-7.1-apache:
@@ -8,28 +33,9 @@ jobs:
           - DB_USERNAME: testing
           - DB_PASSWORD: testing
           - APP_KEY: deela5kinohw0haekoothahSh8eexach
-      - image: mariadb:latest
-        environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-          - MYSQL_DATABASE: testing
-          - MYSQL_USER: testing
-          - MYSQL_PASSWORD: testing
-      - image: postgres:latest
-        environment:
-          - POSTGRES_DB: testing
-          - POSTGRES_USER: testing
-          - POSTGRES_PASSWORD: testing
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-      - run: apk add --no-cache mysql-client gd
-      - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
-      - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
-      - run: composer install -n --prefer-dist --no-progress -o
-      - run: DB_CONNECTION=mysql ./vendor/bin/phpunit
-      - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit
+      <<: *mariadb_image
+      <<: *pgsql_image
+      <<: *build_process
 
 workflows:
   version: 2
