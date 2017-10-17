@@ -24,10 +24,11 @@ jobs:
         steps:
             - checkout
             - run:
-                command: apk add --no-cache mysql-client gd
+                command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
 #            - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
+            - run: php tests/scripts/setup.php
 #            - run: DB_CONNECTION=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
 
