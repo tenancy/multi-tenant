@@ -6,7 +6,7 @@ references:
         steps:
             - checkout
             - run:
-                command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
+                command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql php7.1-dom
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
             - run:
@@ -50,9 +50,9 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-7.0-apache":
+    "php-7.1-nginx":
         docker:
-            - image: phpearth/php:7.0-apache
+            - image: phpearth/php:7.0-nginx
               environment: *environment
             - *mariadb
             - *pgsql
