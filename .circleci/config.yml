@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - checkout
-
+      - run: apk add --no-cache mysql-client gd
       - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
       - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
       - run: composer install -n --prefer-dist --no-progress -o
