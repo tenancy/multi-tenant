@@ -31,24 +31,28 @@ if (preg_match(
 )) {
     putenv("BUILD_WEBSERVER={$m['webserver']}");
     putenv("BUILD_PHP_VERSION={$m['php_version']}");
+    $connection = getenv('DB_CONNECTION');
 
     echo <<<EOM
     
     
 Found advanced CI configuration from CIRCLE_JOB environment variable:
-    - Webserver {$m['webserver']}
-    - PHP {$m['php_version']}
-    - Db driver: {$m['db']}
+    - Webserver: {$m['webserver']}
+    - PHP: {$m['php_version']}
+    - Db driver: {$connection}
 
 
 EOM;
 
     foreach ([
-                 "$base_path/vendor/laravel/laravel/config/tenancy.php",
-                 "$base_path/vendor/laravel/laravel/config/webserver.php",
-             ] as $config) {
-        if (file_exists($config)) {
-            @unlink($config);
+            // Marks installation finished
+            "$base_path/vendor/laravel/laravel/tenancy.json",
+            "$base_path/vendor/laravel/laravel/config/tenancy.php",
+            "$base_path/vendor/laravel/laravel/config/webserver.php",
+     ] as $file) {
+        if (file_exists($file)) {
+            echo "Unlinked $file\n";
+            @unlink($file);
         }
     }
 }

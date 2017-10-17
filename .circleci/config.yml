@@ -34,6 +34,7 @@ jobs:
             - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=mysql TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
 
 workflows:
