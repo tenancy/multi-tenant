@@ -25,9 +25,12 @@ jobs:
             - checkout
             - run:
                 command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
-#            - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
+            - run:
+                name: Wait for other docker instances to be up
+                command: sleep 30
+            - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=mysql TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
