@@ -23,7 +23,7 @@ class WebsiteValidator extends Validator
         'customer_id' => ['integer', 'exists:%system%.customers,id'],
     ];
     protected $update = [
-        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid'],
+        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid,%id%'],
         'customer_id' => ['integer', 'exists:%system%.customers,id'],
     ];
 }

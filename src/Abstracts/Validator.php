@@ -111,21 +111,24 @@ abstract class Validator
 
     /**
      * @param array $rules
+     * @param AbstractModel $model
      * @return array
      */
-    protected function replaceVariables(array $rules)
+    protected function replaceVariables(array $rules, AbstractModel $model)
     {
         /** @var Connection $connection */
         $connection = app(Connection::class);
 
-        return collect($rules)->map(function ($ruleSet) use ($connection) {
-            return collect($ruleSet)->map(function ($rule) use ($connection) {
+        return collect($rules)->map(function ($ruleSet) use ($connection, $model) {
+            return collect($ruleSet)->map(function ($rule) use ($connection, $model) {
                 return str_replace([
                     '%system%',
-                    '%tenant%'
+                    '%tenant%',
+                    '%id%'
                 ], [
                     $connection->systemName(),
-                    $connection->tenantName()
+                    $connection->tenantName(),
+                    $model->id
                 ], $rule);
             })->toArray();
         })->toArray();
