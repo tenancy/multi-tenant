@@ -94,7 +94,7 @@ abstract class Validator
         /** @var Factory $validator */
         $factory = app(Factory::class);
 
-        $rules = $this->replaceVariables($rules);
+        $rules = $this->replaceVariables($rules, $model);
 
         /** @var Native $validator */
         $validator = $factory->make(
