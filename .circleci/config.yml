@@ -40,17 +40,17 @@ references:
 jobs:
     "php-7.0-apache":
         docker:
-        - *mariadb
-        - *pgsql
-        - image: phpearth/php:7.0-apache
-          environment: *environment
+            - image: phpearth/php:7.0-apache
+              environment: *environment
+            - *mariadb
+            - *pgsql
         <<: *steps
     "php-7.1-apache":
         docker:
-        - *mariadb
-        - *pgsql
-        - image: phpearth/php:7.1-apache
-          environment: *environment
+            - image: phpearth/php:7.1-apache
+              environment: *environment
+            - *mariadb
+            - *pgsql
         <<: *steps
 
 workflows:
