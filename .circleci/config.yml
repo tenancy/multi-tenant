@@ -1,44 +1,45 @@
+version: 2
+
 .mariadb_image: &mariadb_image
-  - image: mariadb:latest
-    environment:
-      - MYSQL_DATABASE: testing
-      - MYSQL_USER: testing
-      - MYSQL_PASSWORD: testing
-      - MYSQL_ROOT_PASSWORD: testing
+    - image: mariadb:latest
+      environment:
+        - MYSQL_DATABASE: testing
+        - MYSQL_USER: testing
+        - MYSQL_PASSWORD: testing
+        - MYSQL_ROOT_PASSWORD: testing
 .pgsql_image: &pgsql_image
-  - image: postgres:latest
-    environment:
-      - POSTGRES_DB: testing
-      - POSTGRES_USER: testing
-      - POSTGRES_PASSWORD: testing
-      
+    - image: postgres:latest
+      environment:
+        - POSTGRES_DB: testing
+        - POSTGRES_USER: testing
+        - POSTGRES_PASSWORD: testing
+
 .build_process: &build_process
     working_directory: ~/repo
     steps:
-      - checkout
-      - run: apk add --no-cache mysql-client gd
-      - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
-      - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
-      - run: composer install -n --prefer-dist --no-progress -o
-      - run: DB_CONNECTION=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
-      - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
-          
-version: 2
+        - checkout
+        - command: apk add --no-cache mysql-client gd
+        - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
+        - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+        - run: composer install -n --prefer-dist --no-progress -o
+        - run: DB_CONNECTION=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+        - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
+
 jobs:
-  php-7.1-apache:
-    docker:
-      - image: php:7.1-apache
-        environment:
-          - DB_DATABASE: testing
-          - DB_USERNAME: testing
-          - DB_PASSWORD: testing
-          - APP_KEY: deela5kinohw0haekoothahSh8eexach
-      <<: *mariadb_image
-      <<: *pgsql_image
-      <<: *build_process
+    php-7.1-apache:
+        docker:
+        - image: phpearth/php:7.1-apache
+          environment:
+            - DB_DATABASE: testing
+            - DB_USERNAME: testing
+            - DB_PASSWORD: testing
+            - APP_KEY: deela5kinohw0haekoothahSh8eexach
+        <<: *mariadb_image
+        <<: *pgsql_image
+        <<: *build_process
 
 workflows:
-  version: 2
-  test:
-    jobs:
-      - php-7.1-apache
+    version: 2
+    test:
+        jobs:
+            - php-7.1-apache
