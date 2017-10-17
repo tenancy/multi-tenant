@@ -8,19 +8,26 @@ jobs:
           - DB_USERNAME: testing
           - DB_PASSWORD: testing
           - APP_KEY: deela5kinohw0haekoothahSh8eexach
+      - image: mariadb:latest
+          - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          - MYSQL_DATABASE: testing
+          - MYSQL_USER: testing
+          - MYSQL_PASSWORD: testing
+      - image: postgres:latest
+          - POSTGRES_DB: testing
+          - POSTGRES_USER: testing
+          - POSTGRES_PASSWORD: testing
 
     working_directory: ~/repo
 
     steps:
       - checkout
 
-      - run: service mysql start
-      - run: mysql -e "create database if not exists testing;"
-      - run: mysql -e "create or replace user testing@localhost identified by 'testing';"
       - run: mysql -e "grant all privileges on *.* to testing@localhost with grant option;"
       - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
       - run: composer install -n --prefer-dist --no-progress -o
-      - run: ./vendor/bin/phpunit
+      - run: DB_CONNECTION=mysql ./vendor/bin/phpunit
+      - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit
 
 workflows:
   version: 2
