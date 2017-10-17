@@ -26,7 +26,7 @@ version: 2
         - run: DB_CONNECTION=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
 
 jobs:
-    php-7.1-apache:
+    "php-7.1-apache":
         docker:
         - image: phpearth/php:7.1-apache
           environment:
@@ -42,4 +42,4 @@ workflows:
     version: 2
     test:
         jobs:
-            - php-7.1-apache
+            - "php-7.1-apache"
