@@ -75,9 +75,8 @@ class DirectoryGenerator
     public function updated(Events\Updated $event): bool
     {
         $rename = config('tenancy.website.auto-rename-tenant-directory');
-
-        if ($rename && $uuid = Arr::get($event->dirty, 'uuid')) {
-            $stat = $this->filesystem()->move(
+        if ($rename && ($uuid = Arr::get($event->dirty, 'uuid')) && $this->filesystem()->exists($uuid)) {
+            $stat = $this->filesystem()->rename(
                 $uuid,
                 $event->website->uuid
             );

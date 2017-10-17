@@ -12,11 +12,10 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tests\Extend;
+namespace Hyn\Tenancy\Events\Hostnames;
 
-use Hyn\Tenancy\Abstracts\TenantModel;
+use Hyn\Tenancy\Abstracts\HostnameEvent;
 
-class TenantExtend extends TenantModel
+class Deleting extends HostnameEvent
 {
-    protected $table = 'samples';
 }

@@ -58,8 +58,17 @@ class WebsiteRepository implements Contract
     public function findByUuid(string $uuid)
     {
         return $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
-            return $this->website->newQuery()->where('uuid', $uuid)->first();
+            return $this->query()->where('uuid', $uuid)->first();
         });
+    }
+
+    /**
+     * @param string $id
+     * @return Website|null
+     */
+    public function findById(string $id)
+    {
+        return $this->query()->where('id', $id)->first();
     }
 
     /**
@@ -105,14 +114,20 @@ class WebsiteRepository implements Contract
 
         $this->validator->save($website);
 
-        $dirty = $website->getDirty();
+        $dirty = collect(array_keys($website->getDirty()))->mapWithKeys(function ($value, $key) use ($website) {
+            return [ $value => $website->getOriginal($value) ];
+        });
 
         $website->save();
 
         $this->cache->flush("tenancy.website.{$website->uuid}");
 
+        if ($dirty->has('uuid')) {
+            $this->cache->forget("tenancy.website.{$dirty->get('uuid')}");
+        }
+
         $this->emitEvent(
-            new Events\Updated($website, $dirty)
+            new Events\Updated($website, $dirty->toArray())
         );
 
         return $website;

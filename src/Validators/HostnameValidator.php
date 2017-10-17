@@ -19,21 +19,21 @@ use Hyn\Tenancy\Abstracts\Validator;
 class HostnameValidator extends Validator
 {
     protected $create = [
-        'fqdn' => ['required', 'string'],
-        'redirect_to' => ['string', 'url'],
+        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn'],
+        'redirect_to' => ['nullable', 'string', 'url'],
         'force_https' => ['boolean'],
-        'under_maintenance_since' => ['date'],
-        'website_id' => ['integer', 'exists:%system%.websites,id'],
-        'customer_id' => ['integer', 'exists:%system%.customers,id'],
+        'under_maintenance_since' => ['nullable', 'date'],
+        'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
+        'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 
     protected $update = [
         'id' => ['required', 'integer'],
-        'fqdn' => ['required', 'string'],
-        'redirect_to' => ['string', 'url'],
+        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn'],
+        'redirect_to' => ['nullable', 'string', 'url'],
         'force_https' => ['boolean'],
-        'under_maintenance_since' => ['date'],
-        'website_id' => ['integer', 'exists:%system%.websites,id'],
-        'customer_id' => ['integer', 'exists:%system%.customers,id'],
+        'under_maintenance_since' => ['nullable', 'date'],
+        'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
+        'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 }

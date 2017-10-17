@@ -1,3 +1,11 @@
+- 5.0.4
+    - Flushing cache whenever hostname fqdn or website uuid changes.
+- 5.0.3
+    - Added seed command and auto seeding of newly auto-migrated tenants.
+    - Added more strict validation.
+    - Added script to clean tenant and tenancy databases while running local tests.
+    - Fixed an issue with nginx where the media folder was incorrectly mapped.
+    - Fixed issue where tenant hostname was identified using the wrong header.
 - 5.0.2
     - #262, allows using the tenant disk.
     - #260, triggering events in case tenant directories are mutated.

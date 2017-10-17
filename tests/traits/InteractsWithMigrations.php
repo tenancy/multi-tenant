@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Traits;
 
 use Illuminate\Database\Eloquent\Collection;
+use SampleSeeder;
 
 trait InteractsWithMigrations
 {
@@ -43,10 +44,14 @@ trait InteractsWithMigrations
         }
     }
 
+    /**
+     * @param callable|null $callback
+     * @param callable|null $hook
+     */
     protected function seedAndTest(callable $callback = null, callable $hook = null)
     {
         $code = $this->artisan("tenancy:db:seed", [
-            '--class' => 'SampleSeeder',
+            '--class' => SampleSeeder::class,
             '-n' => 1
         ]);
 

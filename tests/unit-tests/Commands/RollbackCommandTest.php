@@ -15,9 +15,9 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Console\Migrations\RollbackCommand;
-use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Models\Website;
 
-class RollbackCommandTest extends Test
+class RollbackCommandTest extends DatabaseCommandTest
 {
     /**
      * @test
@@ -28,5 +28,21 @@ class RollbackCommandTest extends Test
             RollbackCommand::class,
             $this->app->make(RollbackCommand::class)
         );
+    }
+
+    /**
+     * @test
+     */
+    public function runs_rollback_on_tenants()
+    {
+        $this->migrateAndTest('migrate');
+
+        $this->migrateAndTest('migrate:rollback', function (Website $website) {
+            $this->connection->set($website);
+            $this->assertFalse(
+                $this->connection->get()->getSchemaBuilder()->hasTable('samples'),
+                "Connection for {$website->uuid} has table samples"
+            );
+        });
     }
 }

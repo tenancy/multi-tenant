@@ -25,7 +25,7 @@ server {
 
     @if($media)
     location ~* ^/media/(.+)$ {
-        alias {{ $media }}$1;
+        alias {{ $media }}/$1;
     }
     @endif
 

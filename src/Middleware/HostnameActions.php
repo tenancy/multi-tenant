@@ -44,7 +44,7 @@ class HostnameActions
      * @param CurrentHostname $hostname
      * @param Redirector $redirect
      */
-    public function __construct(CurrentHostname $hostname, Redirector $redirect)
+    public function __construct(CurrentHostname $hostname = null, Redirector $redirect)
     {
         $this->hostname = $hostname;
         $this->redirect = $redirect;
@@ -57,7 +57,7 @@ class HostnameActions
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->hostname) {
+        if ($this->hostname != null) {
             if ($this->hostname->under_maintenance_since) {
                 return $this->maintenance($this->hostname);
             }
@@ -105,7 +105,6 @@ class HostnameActions
     protected function maintenance(Hostname $hostname)
     {
         $this->emitEvent(new UnderMaintenance($hostname));
-
         throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp);
     }
 

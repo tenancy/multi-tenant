@@ -15,9 +15,10 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
-use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Models\Website;
+use SampleSeeder;
 
-class SeedCommandTest extends Test
+class SeedCommandTest extends DatabaseCommandTest
 {
     /**
      * @test
@@ -28,5 +29,55 @@ class SeedCommandTest extends Test
             SeedCommand::class,
             $this->app->make(SeedCommand::class)
         );
+    }
+
+    /**
+     * @test
+     */
+    public function runs_seed_on_one_tenant()
+    {
+        /** @var Website $otherWebsite */
+        $otherWebsite = $this->website->replicate();
+        $this->websites->create($otherWebsite);
+
+        $this->migrateAndTest('migrate');
+
+        $this->assertTrue(
+            $this->connection->seed($this->website, SampleSeeder::class),
+            "Seeding command failed {$this->website->uuid}."
+        );
+
+        $this->connection->set($this->website);
+
+        $this->assertGreaterThan(
+            0,
+            $this->connection->get()->table('samples')->count(),
+            "Unable to seed one single tenant {$this->website->uuid}."
+        );
+
+        $this->connection->set($otherWebsite);
+
+        $this->assertEquals(
+            0,
+            $this->connection->get()->table('samples')->count(),
+            "Seeding one tenant also affected another tenant {$otherWebsite->uuid}."
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function runs_seed_on_tenants()
+    {
+        $this->migrateAndTest('migrate');
+
+        $this->seedAndTest(function (Website $website) {
+            $this->connection->set($website);
+
+            $this->assertTrue(
+                $this->connection->get()->table('samples')->count() === 1,
+                "Connection for {$website->uuid} has no sample data seeded"
+            );
+        });
     }
 }

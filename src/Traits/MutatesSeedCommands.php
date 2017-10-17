@@ -16,12 +16,12 @@ namespace Hyn\Tenancy\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Illuminate\Database\Eloquent\Collection;
-use Symfony\Component\Console\Input\InputOption;
+use Hyn\Tenancy\Models\Website;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 trait MutatesSeedCommands
 {
+    use AddWebsiteFilterOnCommand;
     /**
      * @var WebsiteRepository
      */
@@ -37,6 +37,7 @@ trait MutatesSeedCommands
 
         $this->setName('tenancy:' . $this->getName());
         $this->specifyParameters();
+
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
     }
@@ -50,14 +51,24 @@ trait MutatesSeedCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->migrationName());
 
-        $this->websites
-            ->query()
-            ->chunk(10, function (Collection $websites) {
-                $websites->each(function ($website) {
-                    $this->connection->set($website, $this->connection->migrationName());
+        $this->processHandle(function (Website $website) {
+            $this->connection->set($website, $this->connection->migrationName());
 
-                    parent::handle();
-                });
-            });
+            parent::handle();
+
+            $this->connection->purge($this->connection->migrationName());
+        });
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return array_merge([
+            $this->addWebsiteOption()
+        ], parent::getOptions());
     }
 }

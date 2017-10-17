@@ -12,11 +12,10 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tests\Extend;
+namespace Hyn\Tenancy\Events\Websites;
 
-use Hyn\Tenancy\Abstracts\TenantModel;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 
-class TenantExtend extends TenantModel
+class Migrated extends WebsiteEvent
 {
-    protected $table = 'samples';
 }

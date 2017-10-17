@@ -60,6 +60,9 @@ trait InteractsWithTenancy
         $this->hostnames = app(HostnameRepository::class);
 
         $this->connection = app(Connection::class);
+
+        // Keeps our database clean.
+        config(['auto-delete-tenant-database' => true]);
     }
 
     protected function loadHostnames()
@@ -74,23 +77,28 @@ trait InteractsWithTenancy
     protected function setUpHostnames(bool $save = false)
     {
         Hostname::unguard();
+        if (!$this->hostname) {
+            $hostname = Hostname::firstOrNew([
+                'fqdn' => 'local.testing',
+            ]);
 
-        $hostname = new Hostname([
-            'fqdn' => 'local.testing',
-        ]);
+            $this->hostname = $hostname;
+        }
 
-        $this->hostname = $hostname;
+        if (!$this->tenant) {
+            $tenant = Hostname::firstOrNew([
+                'fqdn' => 'tenant.testing',
+            ]);
 
-        $tenant = new Hostname([
-            'fqdn' => 'tenant.testing',
-        ]);
-
-        $this->tenant = $tenant;
-
+            $this->tenant = $tenant;
+        }
         Hostname::reguard();
 
-        if ($save) {
+        if ($save && ! $this->hostname->exists) {
             $this->hostnames->create($this->hostname);
+        }
+
+        if ($save && ! $this->tenant->exists) {
             $this->hostnames->create($this->tenant);
         }
     }
@@ -107,24 +115,21 @@ trait InteractsWithTenancy
         );
     }
 
-    protected function loadWebsites()
-    {
-        $this->website = Website::firstOrFail();
-    }
-
     /**
      * @param bool $save
      * @param bool $connect
      */
     protected function setUpWebsites(bool $save = false, bool $connect = false)
     {
-        $this->website = new Website;
+        if (!$this->website) {
+            $this->website = new Website;
+        }
 
-        if ($save) {
+        if ($save && !$this->website->exists) {
             $this->websites->create($this->website);
         }
 
-        if ($connect) {
+        if ($connect && $this->hostname->website_id !== $this->website->id) {
             $this->hostnames->attach($this->hostname, $this->website);
         }
     }

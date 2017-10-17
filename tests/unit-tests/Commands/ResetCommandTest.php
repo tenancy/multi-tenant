@@ -15,9 +15,9 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Console\Migrations\ResetCommand;
-use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Models\Website;
 
-class ResetCommandTest extends Test
+class ResetCommandTest extends DatabaseCommandTest
 {
     /**
      * @test
@@ -28,5 +28,21 @@ class ResetCommandTest extends Test
             ResetCommand::class,
             $this->app->make(ResetCommand::class)
         );
+    }
+
+    /**
+     * @test
+     */
+    public function runs_reset_on_tenants()
+    {
+        $this->migrateAndTest('migrate');
+
+        $this->migrateAndTest('migrate:reset', function (Website $website) {
+            $this->connection->set($website);
+            $this->assertFalse(
+                $this->connection->get()->getSchemaBuilder()->hasTable('samples'),
+                "Connection for {$website->uuid} has table samples"
+            );
+        });
     }
 }

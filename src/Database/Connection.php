@@ -25,6 +25,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
+use InvalidArgumentException;
 
 class Connection
 {
@@ -106,15 +107,8 @@ class Connection
         return $this->db->connection($this->tenantName());
     }
 
-    /**
-     * @param Hostname|Website $to
-     * @param null $connection
-     * @return bool
-     */
-    public function set($to, $connection = null): bool
+    private function convertWebsiteOrHostnameToWebsite($to)
     {
-        $connection = $connection ?? $this->tenantName();
-
         $website = null;
 
         if ($to instanceof Hostname) {
@@ -124,6 +118,20 @@ class Connection
         if ($to instanceof Website) {
             $website = $to;
         }
+
+        return $website;
+    }
+
+    /**
+     * @param Hostname|Website $to
+     * @param null $connection
+     * @return bool
+     */
+    public function set($to, $connection = null): bool
+    {
+        $connection = $connection ?? $this->tenantName();
+
+        $website = $this->convertWebsiteOrHostnameToWebsite($to);
 
         if ($website) {
             // Sets current connection settings.
@@ -214,14 +222,14 @@ class Connection
      */
     public function migrate($for, string $path = null)
     {
-        $this->set($for, $this->migrationName());
+        $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
         if ($path) {
             $path = realpath($path);
         }
 
         $options = [
-            '--database' => $this->migrationName(),
+            '--website_id' => [$website->id],
             '-n' => 1
         ];
 
@@ -231,10 +239,32 @@ class Connection
 
         $code = $this->artisan->call('tenancy:migrate', $options);
 
-        $this->purge($this->migrationName());
+        return $code === 0;
+    }
+
+    /**
+     * @param Website|Hostname $for
+     * @param string $class
+     * @return bool
+     */
+    public function seed($for, string $class = null)
+    {
+        $website = $this->convertWebsiteOrHostnameToWebsite($for);
+
+        $options = [
+            '--website_id' => [$website->id],
+            '-n' => 1
+        ];
+
+        if ($class) {
+            $options['--class'] = $class;
+        }
+
+        $code = $this->artisan->call('tenancy:db:seed', $options);
 
         return $code === 0;
     }
+
 
     /**
      * @param Website $website

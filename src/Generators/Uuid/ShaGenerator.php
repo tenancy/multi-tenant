@@ -27,7 +27,6 @@ class ShaGenerator implements UuidGenerator
     public function generate(Website $website) : string
     {
         $uuid = Uuid::uuid4()->toString();
-        ;
 
         if (config('tenancy.website.uuid-limit-length-to-32')) {
             return str_replace('-', null, $uuid);

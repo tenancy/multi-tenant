@@ -22,6 +22,7 @@ use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 class HostnameRepository implements Contract
 {
@@ -116,14 +117,20 @@ class HostnameRepository implements Contract
 
         $this->validator->save($hostname);
 
-        $dirty = $hostname->getDirty();
+        $dirty = collect(array_keys($hostname->getDirty()))->mapWithKeys(function ($value, $key) use ($hostname) {
+            return [ $value => $hostname->getOriginal($value) ];
+        });
 
         $hostname->save();
 
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
 
+        if ($dirty->has('fqdn')) {
+            $this->cache->forget("tenancy.hostname.{$dirty->get('fqdn')}");
+        }
+
         $this->emitEvent(
-            new Events\Updated($hostname, $dirty)
+            new Events\Updated($hostname, $dirty->toArray())
         );
 
         return $hostname;

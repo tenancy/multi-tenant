@@ -14,16 +14,13 @@
 
 namespace Hyn\Tenancy\Listeners\Database;
 
-use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
 
-class MigratesTenants
+class SeedsTenants
 {
-    use DispatchesEvents;
     /**
      * @var Connection
      */
@@ -39,23 +36,20 @@ class MigratesTenants
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Websites\Created::class, [$this, 'migrate']);
+        $events->listen(Events\Websites\Migrated::class, [$this, 'seed']);
     }
 
     /**
+     *
      * @param WebsiteEvent $event
      * @return bool
      */
-    public function migrate(WebsiteEvent $event): bool
+    public function seed(WebsiteEvent $event): bool
     {
-        $path = config('tenancy.db.tenant-migrations-path');
-        
-        if ($path && $this->connection->migrate($event->website, $path)) {
-            $this->emitEvent(new Events\Websites\Migrated($event->website));
-            
-            return true;
+        if ($class = config('tenancy.db.tenant-seed-class')) {
+            return $this->connection->seed($event->website, $class);
         }
-        
+
         return true;
     }
 }
