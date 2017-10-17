@@ -52,7 +52,7 @@ references:
 jobs:
     "php-7.1-nginx":
         docker:
-            - image: phpearth/php:7.0-nginx
+            - image: phpearth/php:7.1-nginx
               environment: *environment
             - *mariadb
             - *pgsql
