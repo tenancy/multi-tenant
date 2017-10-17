@@ -43,16 +43,14 @@ jobs:
         - <<: *mariadb
         - <<: *pgsql
         - image: phpearth/php:7.1-apache
-          environment:
-            <<: *environment
+          environment: *environment
         <<: *steps
     "php-7.0-apache":
         docker:
         - <<: *mariadb
         - <<: *pgsql
         - image: phpearth/php:7.0-apache
-          environment:
-            <<: *environment
+          environment: *environment
         <<: *steps
 
 workflows:
