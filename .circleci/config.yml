@@ -18,16 +18,16 @@ references:
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
     mariadb: &mariadb
-        - image: mariadb:latest
-          environment:
+        image: mariadb:latest
+        environment:
             - MYSQL_DATABASE: testing
             - MYSQL_USER: testing
             - MYSQL_PASSWORD: testing
             - MYSQL_ALLOW_EMPTY_PASSWORD: yes
             - MYSQL_ROOT_HOST: "%"
     pgsql: &pgsql
-        - image: postgres:latest
-          environment:
+        image: postgres:latest
+        environment:
             - POSTGRES_DB: testing
             - POSTGRES_USER: testing
             - POSTGRES_PASSWORD: testing
@@ -38,18 +38,18 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-7.1-apache":
-        docker:
-        - *mariadb
-        - *pgsql
-        - image: phpearth/php:7.1-apache
-          environment: *environment
-        <<: *steps
     "php-7.0-apache":
         docker:
         - *mariadb
         - *pgsql
         - image: phpearth/php:7.0-apache
+          environment: *environment
+        <<: *steps
+    "php-7.1-apache":
+        docker:
+        - *mariadb
+        - *pgsql
+        - image: phpearth/php:7.1-apache
           environment: *environment
         <<: *steps
 
