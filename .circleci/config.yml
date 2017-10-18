@@ -5,8 +5,11 @@ references:
         working_directory: ~/repo
         steps:
             - checkout
-            - run: apk add --no-cache mysql-client gd composer
+            - run: apt-get -yqq update
+            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client gd
             - run: docker-php-ext-install pdo_pgsql pdo_mysql
+            - run: curl -sS https://getcomposer.org/installer | php
+            - run: mv composer.phar composer
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
             - run:
@@ -50,25 +53,9 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-7.1-nginx":
-        docker:
-            - image: phpearth/php:7.1-nginx
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-        <<: *steps
     "php-7.1-apache":
         docker:
-            - image: phpearth/php:7.1-apache
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-        <<: *steps
-    "php-7.0-nginx":
-        docker:
-            - image: phpearth/php:7.0-nginx
+            - image: php:7.1-apache
               environment: *environment
             - *mysql
             - *mariadb
@@ -76,7 +63,7 @@ jobs:
         <<: *steps
     "php-7.0-apache":
         docker:
-            - image: phpearth/php:7.0-apache
+            - image: php:7.0-apache
               environment: *environment
             - *mysql
             - *mariadb
@@ -87,5 +74,5 @@ workflows:
     version: 2
     test:
         jobs:
-            - "php-7.1-nginx"
+            - "php-7.0-apache"
             - "php-7.1-apache"
