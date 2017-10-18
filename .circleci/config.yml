@@ -7,9 +7,10 @@ references:
             - checkout
             - run: apt-get -yqq update
             - run: apt-get -yqq install git unzip zip libpq-dev mysql-client
-            - run: docker-php-ext-install pdo_pgsql pdo_mysql
+            - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: curl -sS https://getcomposer.org/installer | php
-            - run: mv composer.phar composer
+            - run: chmod +x composer.phar
+            - run: mv composer.phar /usr/local/bin/composer
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
             - run:
