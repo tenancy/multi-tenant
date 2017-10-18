@@ -1,6 +1,6 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
 [![build status](https://circleci.com/gh/hyn/multi-tenant.svg?style=svg)](https://circleci.com/gh/hyn/multi-tenant)
-[![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/master/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant)
+[![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/5.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)](https://packagist.org/packages/hyn/multi-tenant)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09?branch=4.x)](https://www.codacy.com/app/Luceos/multi-tenant)
 [![Join our Discord server](https://discordapp.com/api/guilds/146267795754057729/embed.png)](https://laravel-tenancy.com/chat)
