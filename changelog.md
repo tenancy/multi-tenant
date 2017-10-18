@@ -1,3 +1,9 @@
+- 5.0.5
+    - Moved to CircleCI for CI, now fully separated from GitLab.
+    - Improved validation of hostnames by allowing nullables.
+    - #284, fixed validation issue when updating hostname or website.
+    - Fixed maintenance mode in HostnameActions middleware.
+    
 - 5.0.4
     - Flushing cache whenever hostname fqdn or website uuid changes.
 - 5.0.3
