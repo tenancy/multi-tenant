@@ -72,7 +72,7 @@ jobs:
         <<: *steps
     "php-7.0-nginx":
         docker:
-            - image: php:7.0-nginx
+            - image: php:7.0-fpm
               environment: *environment
             - *mysql
             - *mariadb
@@ -80,7 +80,7 @@ jobs:
         <<: *steps
     "php-7.1-nginx":
         docker:
-            - image: php:7.1-nginx
+            - image: php:7.1-fpm
               environment: *environment
             - *mysql
             - *mariadb
