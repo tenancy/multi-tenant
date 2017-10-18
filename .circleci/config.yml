@@ -1,0 +1,97 @@
+version: 2
+
+references:
+    steps: &steps
+        working_directory: ~/repo
+        steps:
+            - checkout
+            - run: apt-get -yqq update
+            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client libpng-dev
+            - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
+            - run: curl -sS https://getcomposer.org/installer | php
+            - run: chmod +x composer.phar
+            - run: mv composer.phar /usr/local/bin/composer
+            - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+            - run: composer install -n --prefer-dist --no-progress -o
+            - run:
+                name: Wait for other docker instances to be up
+                command: sleep 10
+            - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=mysql DB_HOSTNAME=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=mysql DB_HOSTNAME=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: php tests/scripts/setup.php
+            - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
+    
+    mysql: &mysql
+        image: mariadb:latest
+        name: mysql
+        environment:
+            - MYSQL_DATABASE: testing
+            - MYSQL_USER: testing
+            - MYSQL_PASSWORD: testing
+            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            - MYSQL_ROOT_HOST: "%"
+    mariadb: &mariadb
+        image: mariadb:latest
+        environment:
+            - MYSQL_DATABASE: testing
+            - MYSQL_USER: testing
+            - MYSQL_PASSWORD: testing
+            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            - MYSQL_ROOT_HOST: "%"
+    pgsql: &pgsql
+        image: postgres:latest
+        environment:
+            - POSTGRES_DB: testing
+            - POSTGRES_USER: testing
+            - POSTGRES_PASSWORD: testing
+    environment: &environment
+        - DB_DATABASE: testing
+        - DB_USERNAME: testing
+        - DB_PASSWORD: testing
+        - APP_KEY: deela5kinohw0haekoothahSh8eexach
+
+jobs:
+    "php-7.0-apache":
+        docker:
+            - image: php:7.0-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.1-apache":
+        docker:
+            - image: php:7.1-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.0-nginx":
+        docker:
+            - image: php:7.0-fpm
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.1-nginx":
+        docker:
+            - image: php:7.1-fpm
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+
+workflows:
+    version: 2
+    test:
+        jobs:
+            - "php-7.0-apache"
+            - "php-7.1-apache"
+            - "php-7.0-nginx"
+            - "php-7.1-nginx"
