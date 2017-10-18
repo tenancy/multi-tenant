@@ -114,7 +114,7 @@ workflows:
             - "php-7.1-apache"
             - "php-7.0-nginx"
             - "php-7.1-nginx"
-            - coverage
+            - coverage:
                 requires:
                     - "php-7.0-apache"
                     - "php-7.1-apache"
