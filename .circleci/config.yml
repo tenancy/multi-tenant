@@ -126,6 +126,9 @@ workflows:
             - "php-7.0-nginx"
             - "php-7.1-nginx"
             - coverage:
+                filters:
+                    branches:
+                        only: /^([0-9]+)\.x$/
                 requires:
                     - "php-7.0-apache"
                     - "php-7.1-apache"
