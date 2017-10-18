@@ -54,6 +54,14 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
+    "php-7.0-apache":
+        docker:
+            - image: php:7.0-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
     "php-7.1-apache":
         docker:
             - image: php:7.1-apache
@@ -62,9 +70,17 @@ jobs:
             - *mariadb
             - *pgsql
         <<: *steps
-    "php-7.0-apache":
+    "php-7.0-nginx":
         docker:
-            - image: php:7.0-apache
+            - image: php:7.0-nginx
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.1-nginx":
+        docker:
+            - image: php:7.1-nginx
               environment: *environment
             - *mysql
             - *mariadb
@@ -77,3 +93,5 @@ workflows:
         jobs:
             - "php-7.0-apache"
             - "php-7.1-apache"
+            - "php-7.0-nginx"
+            - "php-7.1-nginx"
