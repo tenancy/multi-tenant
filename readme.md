@@ -1,6 +1,6 @@
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)]()
-[![build status](https://gitlab.com/hyn-me/multi-tenant/badges/4.x/build.svg)](https://gitlab.com/hyn-me/multi-tenant/commits/4.x)
-[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/4.x)
+[![build status](https://circleci.com/gh/hyn/multi-tenant.svg?style=svg)](https://circleci.com/gh/hyn/multi-tenant)
+[![codecov](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gl/hyn-me/multi-tenant/branch/5.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)]()
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09?branch=4.x)](https://www.codacy.com/app/Luceos/multi-tenant)
 [![Join our Discord server](https://discordapp.com/api/guilds/146267795754057729/embed.png)](https://laravel-tenancy.com/chat)
@@ -102,7 +102,10 @@ This will run the required system database migrations.
 
 ## Support development
 
-If you like this package and the direction it's taking, please consider becoming a patron at [patreon.com/tenancy](http://patreon.com/tenancy). Pledges start as low as $1 giving access to a private discord server for additional support chat.
+Maintaining and extending this package is very time consuming. By becoming a patron at [patreon.com/tenancy](http://patreon.com/tenancy)
+you act as an inspiration and it allows you to become more closely involved.
+
+All of my patrons receive additional benefits!
 
 ---
 
@@ -120,6 +123,7 @@ All changes are covered in the [changelog](changelog.md).
 Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
+- [Discord chat](https://laravel-tenancy.com/chat).
 - The [community on patreon](http://patreon.com/tenancy/community).
 
-Keep informed about news of this package by [signing up for the newsletter](https://confirmsubscription.com/h/i/DB343D4781A9960C).
+Keep informed about news of this package by [signing up for the newsletter](https://laravel-tenancy.com/newsletter/signup).
