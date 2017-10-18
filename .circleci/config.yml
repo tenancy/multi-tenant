@@ -5,8 +5,8 @@ references:
         working_directory: ~/repo
         steps:
             - checkout
-            - run:
-                command: apk add --no-cache mysql-client gd composer php7.1-pdo_mysql php7.1-pdo_pgsql
+            - run: apk add --no-cache mysql-client gd composer
+            - run: docker-php-ext-install pdo_pgsql pdo_mysql
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
             - run:
@@ -19,7 +19,7 @@ references:
             - run: DB_CONNECTION=mysql DB_HOSTNAME=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
-
+    
     mysql: &mysql
         image: mariadb:latest
         name: mysql
@@ -61,6 +61,22 @@ jobs:
     "php-7.1-apache":
         docker:
             - image: phpearth/php:7.1-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.0-nginx":
+        docker:
+            - image: phpearth/php:7.0-nginx
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
+    "php-7.0-apache":
+        docker:
+            - image: phpearth/php:7.0-apache
               environment: *environment
             - *mysql
             - *mariadb
