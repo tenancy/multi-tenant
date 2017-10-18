@@ -29,7 +29,7 @@ class HostnameValidator extends Validator
 
     protected $update = [
         'id' => ['required', 'integer'],
-        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn'],
+        'fqdn' => ['required', 'string', 'unique:%system%.hostnames,fqdn,%id%'],
         'redirect_to' => ['nullable', 'string', 'url'],
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['nullable', 'date'],

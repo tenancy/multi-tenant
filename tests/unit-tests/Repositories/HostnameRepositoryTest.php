@@ -119,6 +119,16 @@ class HostnameRepositoryTest extends Test
     /**
      * @test
      */
+    public function hostname_update()
+    {
+        $this->setUpHostnames(true);
+
+        $this->hostnames->update($this->hostname);
+    }
+
+    /**
+     * @test
+     */
     public function hostname_delete()
     {
         $this->hostnames->delete($this->hostname, false);
