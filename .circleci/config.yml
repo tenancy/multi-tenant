@@ -98,13 +98,14 @@ jobs:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client libpng-dev
+            - run: apt-get -yqq install git unzip zip
             - run: pecl install xdebug
             - run: docker-php-ext-enable xdebug
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
             - run: mv composer.phar /usr/local/bin/composer
             - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
+            - run: composer install -n --prefer-dist --no-progress -o
             - run: php tests/scripts/setup.php
             - run: vendor/bin/phpunit -d memory_limit=1G --coverage-clover=coverage.xml -c ci.phpunit.xml
             - run: bash <(curl -s https://codecov.io/bash)
