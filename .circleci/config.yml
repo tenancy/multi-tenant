@@ -6,7 +6,7 @@ references:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client
+            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client libpng-dev
             - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
