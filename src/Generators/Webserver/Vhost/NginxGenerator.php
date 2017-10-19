@@ -70,13 +70,13 @@ class NginxGenerator implements VhostGenerator, ReloadsServices
      */
     public function reload(): bool
     {
-        $success = null;
-
         if ($this->testConfiguration()) {
-            exec(config('webserver.nginx.paths.actions.reload'), $_, $success);
+            return (new Process(config('webserver.nginx.paths.actions.reload')))
+                ->mustRun()
+                ->isSuccessful();
         }
 
-        return $success;
+        return false;
     }
 
     /**
@@ -84,8 +84,8 @@ class NginxGenerator implements VhostGenerator, ReloadsServices
      */
     public function testConfiguration(): bool
     {
-        exec(config('webserver.nginx.paths.actions.test-config'), $_, $success);
-
-        return $success;
+        return (new Process(config('webserver.nginx.paths.actions.test-config')))
+            ->mustRun()
+            ->isSuccessful();
     }
 }
