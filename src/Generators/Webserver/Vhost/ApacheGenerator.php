@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Website\Directory;
+use Symfony\Component\Process\Process;
 
 class ApacheGenerator implements VhostGenerator, ReloadsServices
 {
@@ -70,13 +71,13 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function reload(): bool
     {
-        $success = null;
-
         if ($this->testConfiguration()) {
-            exec(config('webserver.apache2.paths.actions.reload'), $_, $success);
+            return (new Process(config('webserver.apache2.paths.actions.reload')))
+                ->mustRun()
+                ->isSuccessful();
         }
 
-        return $success;
+        return false;
     }
 
     /**
@@ -84,8 +85,8 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function testConfiguration(): bool
     {
-        exec(config('webserver.apache2.paths.actions.test-config'), $_, $success);
-
-        return $success;
+        return (new Process(config('webserver.apache2.paths.actions.test-config')))
+            ->mustRun()
+            ->isSuccessful();
     }
 }
