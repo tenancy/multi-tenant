@@ -16,15 +16,16 @@ references:
             - run:
                 name: Wait for other docker instances to be up
                 command: sleep 10
-            - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mariadb -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
             - run: |
                 if [ "${BUILD_WEBSERVER}" = "nginx" ]; then
                     apt-get -yqq install nginx
                 fi
-            - run: DB_CONNECTION=mysql DB_HOSTNAME=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: DB_CONNECTION=mysql DB_HOST=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
-            - run: DB_CONNECTION=mysql DB_HOSTNAME=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: DB_CONNECTION=mysql DB_HOST=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
 
@@ -109,7 +110,7 @@ jobs:
             - run:
                 name: Wait for other docker instances to be up
                 command: sleep 10
-            - run: mysql --host=127.0.0.1 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mariadb -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=mysql DB_HOSTNAME=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml --coverage-clover=coverage.xml
             - run: bash <(curl -s https://codecov.io/bash)
