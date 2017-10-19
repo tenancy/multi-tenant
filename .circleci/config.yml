@@ -27,24 +27,22 @@ references:
             - run: DB_CONNECTION=mysql DB_HOSTNAME=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
+
+    mysql_environment: &mysql_environment
+        - MYSQL_DATABASE: testing
+        - MYSQL_USER: testing
+        - MYSQL_PASSWORD: testing
+        - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        - MYSQL_ROOT_HOST: "%"
     
     mysql: &mysql
-        image: mariadb:latest
+        image: mysql:latest
         name: mysql
-        environment:
-            - MYSQL_DATABASE: testing
-            - MYSQL_USER: testing
-            - MYSQL_PASSWORD: testing
-            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
-            - MYSQL_ROOT_HOST: "%"
+        environment: *mysql_environment
     mariadb: &mariadb
         image: mariadb:latest
-        environment:
-            - MYSQL_DATABASE: testing
-            - MYSQL_USER: testing
-            - MYSQL_PASSWORD: testing
-            - MYSQL_ALLOW_EMPTY_PASSWORD: yes
-            - MYSQL_ROOT_HOST: "%"
+        name: mariadb
+        environment: *mysql_environment
     pgsql: &pgsql
         image: postgres:latest
         environment:
