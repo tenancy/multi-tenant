@@ -160,6 +160,9 @@ return [
         /**
          * The tenant migrations to be run during creation of a tenant. Specify a directory
          * to run the migrations from.
+         *
+         * @warn this has to be an absolute path, feel free to use helper methods like
+         * base_path() or migration_path() to set this up.
          */
         'tenant-migrations-path' => false,
 
