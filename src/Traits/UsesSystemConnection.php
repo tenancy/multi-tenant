@@ -12,11 +12,14 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Abstracts;
+namespace Hyn\Tenancy\Traits;
 
-use Hyn\Tenancy\Traits\UsesSystemConnection;
+use Hyn\Tenancy\Database\Connection;
 
-abstract class SystemModel extends AbstractModel
+trait UsesSystemConnection
 {
-    use UsesSystemConnection;
+    public function getConnectionName()
+    {
+        return app(Connection::class)->systemName();
+    }
 }

@@ -14,12 +14,9 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
-use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 
 abstract class TenantModel extends AbstractModel
 {
-    public function getConnectionName()
-    {
-        return app(Connection::class)->tenantName();
-    }
+    use UsesTenantConnection;
 }
