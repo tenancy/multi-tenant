@@ -1,9 +1,13 @@
+- 5.0.6
+    - Fixed code coverage.
+    - Moved logic to set Eloquent model connection to traits.
+    - Refactored some calls to use Symfony Process.
+    - Added warning about absolute path for tenant-migrations-path.
 - 5.0.5
     - Moved to CircleCI for CI, now fully separated from GitLab.
     - Improved validation of hostnames by allowing nullables.
     - #284, fixed validation issue when updating hostname or website.
     - Fixed maintenance mode in HostnameActions middleware.
-    
 - 5.0.4
     - Flushing cache whenever hostname fqdn or website uuid changes.
 - 5.0.3
