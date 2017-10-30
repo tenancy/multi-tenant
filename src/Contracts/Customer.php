@@ -29,13 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 interface Customer
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function websites(): HasMany;
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function hostnames(): HasMany;
 }

@@ -37,17 +37,11 @@ class Hostname extends SystemModel implements HostnameContract
 {
     protected $dates = ['under_maintenance_since'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function website(): BelongsTo
     {
         return $this->belongsTo(config('tenancy.models.website'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(config('tenancy.models.customer'));

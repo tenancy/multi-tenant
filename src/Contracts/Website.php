@@ -30,13 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 interface Website
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function customer(): BelongsTo;
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function hostnames(): HasMany;
 }

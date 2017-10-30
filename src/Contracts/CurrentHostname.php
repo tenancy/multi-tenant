@@ -33,13 +33,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 interface CurrentHostname
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function website(): BelongsTo;
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function customer(): BelongsTo;
 }

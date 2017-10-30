@@ -31,17 +31,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Customer extends SystemModel implements CustomerContract
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function websites(): HasMany
     {
         return $this->hasMany(config('tenancy.models.customer'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function hostnames(): HasMany
     {
         return $this->hasMany(config('tenancy.models.hostname'));
