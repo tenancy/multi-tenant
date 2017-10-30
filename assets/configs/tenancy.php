@@ -177,13 +177,15 @@ return [
 
         /**
          * The tenant migrations to be run during creation of a tenant. Specify a directory
-         * to run the migrations from.
+         * to run the migrations from. If specified these migrations will be executed
+         * whenever a new tenant is created.
+         *
+         * @info set to false to disable auto migrating.
          *
          * @warn this has to be an absolute path, feel free to use helper methods like
          * base_path() or database_path() to set this up.
          */
-        'tenant-migrations-path' => false,
-
+        'tenant-migrations-path' => database_path('migrations/tenant'),
 
         /**
          * Seeds the newly created tenant database based on this Seeder.
@@ -194,6 +196,7 @@ return [
          * @example App\Seeders\AdminSeeder::class
          */
         'tenant-seed-class' => false,
+
         /**
          * Automatically generate a tenant database based on the random id of the
          * website.

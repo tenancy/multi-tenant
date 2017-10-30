@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Builder;
 class HostnameRepository implements Contract
 {
     use DispatchesEvents;
-    
+
     /**
      * @var Hostname
      */

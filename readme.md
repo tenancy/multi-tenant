@@ -115,6 +115,25 @@ All of my patrons receive additional benefits!
 This package is offered under the [MIT license](license.md). In case you're interested at
 contributing, make sure to read the [contributing guidelines](.github/CONTRIBUTING.md).
 
+### Testing
+
+Run tests using (not recommended when using MySQL database driver):
+
+```bash
+vendor/bin/phpunit
+```
+
+Please note this will create an enormous number of tenant databases. You can easily remove these by
+running the bash script to clean the local databases that follow the same naming convention as this
+package:
+
+```bash
+bash tests/scripts/clean-local-dbs.sh
+```
+
+> Please be warned this will reset your current application completely, dropping tenant and system
+databases and removing the tenancy.json file inside the Laravel directory.
+
 ## Changes
 
 All changes are covered in the [changelog](changelog.md).

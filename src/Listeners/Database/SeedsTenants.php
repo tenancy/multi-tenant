@@ -46,7 +46,9 @@ class SeedsTenants
      */
     public function seed(WebsiteEvent $event): bool
     {
-        if ($class = config('tenancy.db.tenant-seed-class')) {
+        $class = config('tenancy.db.tenant-seed-class');
+
+        if ($class && class_exists($class)) {
             return $this->connection->seed($event->website, $class);
         }
 
