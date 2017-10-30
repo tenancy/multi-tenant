@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Events\Hostnames;
 
 use Hyn\Tenancy\Abstracts\HostnameEvent;
-use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Contracts\Hostname;
 
 class Switched extends HostnameEvent
 {

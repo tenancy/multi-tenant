@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Events\Websites;
 
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 
 class Updated extends WebsiteEvent
 {

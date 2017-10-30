@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Tenancy\Contracts\Repositories\CustomerRepository as Contract;
 use Hyn\Tenancy\Events\Customers as Events;
-use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Database\Eloquent\Builder;
 

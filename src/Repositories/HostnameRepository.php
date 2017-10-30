@@ -16,8 +16,8 @@ namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
 use Hyn\Tenancy\Events\Hostnames as Events;
-use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
 use Illuminate\Contracts\Cache\Factory;

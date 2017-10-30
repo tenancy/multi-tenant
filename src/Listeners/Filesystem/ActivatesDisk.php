@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;

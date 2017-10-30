@@ -15,12 +15,12 @@
 namespace Hyn\Tenancy\Middleware;
 
 use Closure;
-use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Events\Hostnames\NoneFound;
 use Hyn\Tenancy\Events\Hostnames\Redirected;
 use Hyn\Tenancy\Events\Hostnames\Secured;
 use Hyn\Tenancy\Events\Hostnames\UnderMaintenance;
-use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\RedirectResponse;
@@ -31,7 +31,7 @@ class HostnameActions
 {
     use DispatchesEvents;
     /**
-     * @var CurrentHostname|Hostname
+     * @var Hostname|Hostname
      */
     protected $hostname;
 
@@ -41,10 +41,10 @@ class HostnameActions
     protected $redirect;
 
     /**
-     * @param CurrentHostname $hostname
+     * @param Hostname $hostname
      * @param Redirector $redirect
      */
-    public function __construct(CurrentHostname $hostname = null, Redirector $redirect)
+    public function __construct(Hostname $hostname = null, Redirector $redirect)
     {
         $this->hostname = $hostname;
         $this->redirect = $redirect;

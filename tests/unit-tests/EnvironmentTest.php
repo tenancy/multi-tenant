@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Tests;
 
 use Carbon\Carbon;
-use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
@@ -41,7 +41,7 @@ class EnvironmentTest extends Test
 
         $this->environment->hostname($this->hostname);
 
-        $identified = $this->app->make(CurrentHostname::class);
+        $identified = $this->app->make(Hostname::class);
 
         $this->assertEquals($this->hostname->fqdn, $identified->fqdn);
     }
@@ -53,7 +53,7 @@ class EnvironmentTest extends Test
     {
         $this->expectsEvents(Identified::class);
 
-        $identified = $this->app->make(CurrentHostname::class);
+        $identified = $this->app->make(Hostname::class);
 
         $this->assertNull($identified);
 
@@ -61,7 +61,7 @@ class EnvironmentTest extends Test
         
         config(['tenancy.hostname.default' => $this->hostname->fqdn]);
 
-        $identified = $this->app->make(CurrentHostname::class);
+        $identified = $this->app->make(Hostname::class);
 
         $this->assertEquals($this->hostname->fqdn, $identified->fqdn);
 
@@ -88,7 +88,7 @@ class EnvironmentTest extends Test
         
         config(['tenancy.hostname.default' => $this->hostname->fqdn]);
         
-        $identified = $this->app->make(CurrentHostname::class);
+        $identified = $this->app->make(Hostname::class);
         
         $this->assertNotNull($identified);
 

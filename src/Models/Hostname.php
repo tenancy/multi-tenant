@@ -16,7 +16,8 @@ namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
-use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
@@ -32,23 +33,23 @@ use Hyn\Tenancy\Contracts\CurrentHostname;
  * @property int $customer_id
  * @property Customer $customer
  */
-class Hostname extends SystemModel implements CurrentHostname
+class Hostname extends SystemModel implements HostnameContract
 {
     protected $dates = ['under_maintenance_since'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function website()
+    public function website(): BelongsTo
     {
-        return $this->belongsTo(Website::class);
+        return $this->belongsTo(config('tenancy.models.website'));
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function customer()
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(config('tenancy.models.customer'));
     }
 }

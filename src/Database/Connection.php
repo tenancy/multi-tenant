@@ -16,8 +16,8 @@ namespace Hyn\Tenancy\Database;
 
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
 use Hyn\Tenancy\Exceptions\ConnectionException;
-use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Console\Kernel;
@@ -126,6 +126,7 @@ class Connection
      * @param Hostname|Website $to
      * @param null $connection
      * @return bool
+     * @throws ConnectionException
      */
     public function set($to, $connection = null): bool
     {

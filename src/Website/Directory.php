@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Website;
 
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;

@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 abstract class FilesystemEvent extends AbstractEvent

@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 
 abstract class DatabaseEvent extends AbstractEvent
 {
@@ -31,6 +31,6 @@ abstract class DatabaseEvent extends AbstractEvent
     public function __construct(array &$config, Website $website = null)
     {
         $this->config = &$config;
-        $this->hostname = &$hostname;
+        $this->website = &$website;
     }
 }
