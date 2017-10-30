@@ -14,6 +14,26 @@
 
 namespace Hyn\Tenancy\Contracts;
 
-interface Hostname extends CurrentHostname
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property int $id
+ * @property string $fqdn
+ * @property string $redirect_to
+ * @property bool $force_https
+ * @property Carbon $under_maintenance_since
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
+ * @property int $website_id
+ * @property Website $website
+ * @property int $customer_id
+ * @property Customer $customer
+ */
+interface Hostname
 {
+    public function website(): BelongsTo;
+
+    public function customer(): BelongsTo;
 }
