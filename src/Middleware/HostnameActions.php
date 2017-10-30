@@ -20,7 +20,6 @@ use Hyn\Tenancy\Events\Hostnames\NoneFound;
 use Hyn\Tenancy\Events\Hostnames\Redirected;
 use Hyn\Tenancy\Events\Hostnames\Secured;
 use Hyn\Tenancy\Events\Hostnames\UnderMaintenance;
-use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\RedirectResponse;
@@ -31,7 +30,7 @@ class HostnameActions
 {
     use DispatchesEvents;
     /**
-     * @var Hostname|Hostname
+     * @var Hostname
      */
     protected $hostname;
 
