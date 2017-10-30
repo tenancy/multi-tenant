@@ -15,8 +15,8 @@
 namespace Hyn\Tenancy\Events\Hostnames;
 
 use Hyn\Tenancy\Abstracts\AbstractEvent;
-use Hyn\Tenancy\Models\Hostname;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Website;
 
 class Attached extends AbstractEvent
 {

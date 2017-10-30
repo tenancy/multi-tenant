@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Generators\Webserver\Vhost;
 
 use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Website\Directory;
 use Symfony\Component\Process\Process;
 

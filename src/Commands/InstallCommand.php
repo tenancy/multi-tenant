@@ -30,6 +30,10 @@ class InstallCommand extends Command
 
     protected function runMigrations()
     {
+        $code = $this->call('vendor:publish', [
+            '--tag' => 'tenancy'
+        ]);
+
         $code = $this->call('migrate', [
             '--database' => $this->getLaravel()->make(Connection::class)->systemName(),
             '--force' => 1,

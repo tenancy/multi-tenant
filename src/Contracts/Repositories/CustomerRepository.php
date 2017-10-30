@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Contracts\Repositories;
 
-use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Contracts\Customer;
 use Illuminate\Database\Eloquent\Builder;
 
 interface CustomerRepository

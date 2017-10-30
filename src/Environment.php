@@ -15,6 +15,9 @@
 namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Customer;
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -37,7 +40,7 @@ class Environment
         if ($this->installed() && config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
-            $this->app->make(CurrentHostname::class);
+            $this->app->make(Hostname::class);
         }
     }
 
@@ -62,7 +65,7 @@ class Environment
     }
 
     /**
-     * @return Models\Customer|null
+     * @return Customer|null
      */
     public function customer()
     {
@@ -74,10 +77,10 @@ class Environment
     /**
      * Get or set the current hostname.
      *
-     * @param Models\Hostname|null $model
-     * @return Models\Hostname|null
+     * @param Hostname|null $model
+     * @return Hostname|null
      */
-    public function hostname(Models\Hostname $model = null)
+    public function hostname(Hostname $model = null)
     {
         if ($model !== null) {
             $this->app->singleton(CurrentHostname::class, function () use ($model) {
@@ -93,7 +96,7 @@ class Environment
     }
 
     /**
-     * @return Models\Website|bool
+     * @return Website|bool
      */
     public function website()
     {

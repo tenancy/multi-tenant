@@ -15,6 +15,22 @@
 use Hyn\Tenancy\Database\Connection;
 
 return [
+    'models' => [
+        /**
+         * For better configuration, you can set the models that are using
+         * in relationships and returned by the environment.
+         * These must all extend SystemModel or have the UsesSystemConnection trait.
+         */
+
+        // Must implement \Hyn\Tenancy\Contracts\Customer
+        'customer' => \Hyn\Tenancy\Models\Customer::class,
+
+        // Must implement \Hyn\Tenancy\Contracts\Hostname
+        'hostname' => \Hyn\Tenancy\Models\Hostname::class,
+
+        // Must implement \Hyn\Tenancy\Contracts\Website
+        'website' => \Hyn\Tenancy\Models\Website::class
+    ],
     'website' => [
         /**
          * Each website has a short random hash that identifies this entity
@@ -162,7 +178,7 @@ return [
          * to run the migrations from.
          *
          * @warn this has to be an absolute path, feel free to use helper methods like
-         * base_path() or migration_path() to set this up.
+         * base_path() or database_path() to set this up.
          */
         'tenant-migrations-path' => false,
 

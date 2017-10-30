@@ -16,6 +16,9 @@ namespace Hyn\Tenancy\Models;
 
 use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -27,21 +30,15 @@ use Hyn\Tenancy\Abstracts\SystemModel;
  * @property Customer $customer
  * @property Hostname[] $hostnames
  */
-class Website extends SystemModel
+class Website extends SystemModel implements WebsiteContract
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function customer()
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(config('tenancy.models.customer'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function hostnames()
+    public function hostnames(): HasMany
     {
-        return $this->hasMany(Hostname::class);
+        return $this->hasMany(config('tenancy.models.hostname'));
     }
 }

@@ -12,19 +12,8 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Abstracts;
+namespace Hyn\Tenancy\Contracts;
 
-use Hyn\Tenancy\Contracts\Hostname;
-
-abstract class HostnameEvent extends AbstractEvent
+interface Hostname extends CurrentHostname
 {
-    /**
-     * @var Hostname
-     */
-    public $hostname;
-
-    public function __construct(Hostname &$hostname = null)
-    {
-        $this->hostname = &$hostname;
-    }
 }

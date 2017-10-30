@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
-use Hyn\Tenancy\Models\Customer;
+use Hyn\Tenancy\Contracts\Customer;
 
 abstract class CustomerEvent extends AbstractEvent
 {

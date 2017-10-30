@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Contracts\Repositories;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Database\Eloquent\Builder;
 
 interface WebsiteRepository

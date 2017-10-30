@@ -12,32 +12,25 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Models;
+namespace Hyn\Tenancy\Contracts;
 
 use Carbon\Carbon;
-use Hyn\Tenancy\Abstracts\SystemModel;
-use Hyn\Tenancy\Contracts\Customer as CustomerContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
- * @property string $name
- * @property string $email
+ * @property string $uuid
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
- * @property Website[] $websites
+ * @property int $customer_id
+ * @property Customer $customer
  * @property Hostname[] $hostnames
  */
-class Customer extends SystemModel implements CustomerContract
+interface Website
 {
-    public function websites(): HasMany
-    {
-        return $this->hasMany(config('tenancy.models.customer'));
-    }
+    public function customer(): BelongsTo;
 
-    public function hostnames(): HasMany
-    {
-        return $this->hasMany(config('tenancy.models.hostname'));
-    }
+    public function hostnames(): HasMany;
 }

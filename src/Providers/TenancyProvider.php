@@ -20,11 +20,19 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Contracts\Customer as CustomerContact;
+use Hyn\Tenancy\Contracts\Hostname as HostnameContact;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 
 class TenancyProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->migrations();
+        $this->registerConfiguration();
+
+        $this->models();
+
         $this->repositories();
 
         $this->app->register(Providers\ConfigurationProvider::class);
@@ -38,9 +46,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\EventProvider::class);
 
         $this->installCommand();
-
-        $this->migrations();
-        $this->registerConfiguration();
     }
 
     public function boot()
@@ -56,6 +61,15 @@ class TenancyProvider extends ServiceProvider
     protected function installCommand()
     {
         $this->commands(InstallCommand::class);
+    }
+
+    protected function models()
+    {
+        $config = $this->app['config']['tenancy.models'];
+
+        $this->app->bind(CustomerContact::class, $config['customer']);
+        $this->app->bind(HostnameContact::class, $config['hostname']);
+        $this->app->bind(WebsiteContract::class, $config['website']);
     }
 
     protected function repositories()
@@ -76,7 +90,9 @@ class TenancyProvider extends ServiceProvider
 
     protected function migrations()
     {
-        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
+        $this->publishes([
+            __DIR__ . '/../../assets/migrations/' => database_path('migrations')
+        ], 'tenancy');
     }
 
     protected function registerConfiguration()
@@ -84,5 +100,10 @@ class TenancyProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
         ], 'tenancy');
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../assets/configs/tenancy.php',
+            'tenancy'
+        );
     }
 }

@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Generators\Uuid;
 
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Ramsey\Uuid\Uuid;
 
 class ShaGenerator implements UuidGenerator
