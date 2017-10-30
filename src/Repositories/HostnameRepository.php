@@ -22,19 +22,21 @@ use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 
 class HostnameRepository implements Contract
 {
     use DispatchesEvents;
+    
     /**
      * @var Hostname
      */
     protected $hostname;
+
     /**
      * @var HostnameValidator
      */
     protected $validator;
+
     /**
      * @var Factory
      */

@@ -1,3 +1,6 @@
+- 5.0.7
+    - Allowing to configure the system models.
+    - Now no longer able to run migrations without --path, --realpath or 'tenancy.db.tenant-migrations-path' configuration.
 - 5.0.6
     - Fixed code coverage.
     - Moved logic to set Eloquent model connection to traits.
