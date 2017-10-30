@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
 use Hyn\Tenancy\Models\Hostname;
@@ -134,7 +134,7 @@ class InstallationTest extends Test
 
         $this->assertEquals(
             $this->hostname->fqdn,
-            $this->app->make(HostnameContract::class)->fqdn
+            $this->app->make(CurrentHostname::class)->fqdn
         );
     }
 
@@ -205,7 +205,7 @@ class InstallationTest extends Test
         $router = $app->make(Router::class);
 
         $router->get('default', function () {
-            return app(HostnameContract::class)->toJson();
+            return app(CurrentHostname::class)->toJson();
         });
     }
 }

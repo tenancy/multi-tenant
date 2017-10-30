@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Tests;
 
 use Carbon\Carbon;
-use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
@@ -41,7 +41,7 @@ class EnvironmentTest extends Test
 
         $this->environment->hostname($this->hostname);
 
-        $identified = $this->app->make(Hostname::class);
+        $identified = $this->app->make(CurrentHostname::class);
 
         $this->assertEquals($this->hostname->fqdn, $identified->fqdn);
     }
@@ -53,15 +53,15 @@ class EnvironmentTest extends Test
     {
         $this->expectsEvents(Identified::class);
 
-        $identified = $this->app->make(Hostname::class);
+        $identified = $this->app->make(CurrentHostname::class);
 
         $this->assertNull($identified);
 
         $this->hostname->save();
-        
+
         config(['tenancy.hostname.default' => $this->hostname->fqdn]);
 
-        $identified = $this->app->make(Hostname::class);
+        $identified = $this->app->make(CurrentHostname::class);
 
         $this->assertEquals($this->hostname->fqdn, $identified->fqdn);
 
@@ -74,7 +74,7 @@ class EnvironmentTest extends Test
     public function we_can_set_current_hostname_to_null_on_hostname_action_middleware()
     {
         $middleware = new HostnameActions(null, app()->make(Redirector::class));
-        
+
         $this->assertNotNull($middleware);
     }
 
@@ -85,11 +85,11 @@ class EnvironmentTest extends Test
     public function middleware_fired_under_maintenance()
     {
         $this->hostname->save();
-        
+
         config(['tenancy.hostname.default' => $this->hostname->fqdn]);
-        
-        $identified = $this->app->make(Hostname::class);
-        
+
+        $identified = $this->app->make(CurrentHostname::class);
+
         $this->assertNotNull($identified);
 
         $now = Carbon::now();
@@ -103,7 +103,7 @@ class EnvironmentTest extends Test
             $a = $middleware->handle($request, function () {
                 return "ok";
             });
-            
+
             $this->fail('Middleware didn\'t fire maintenance exception');
         } catch (MaintenanceModeException $e) {
             $this->assertEquals($e->wentDownAt->timestamp, $now->timestamp);
