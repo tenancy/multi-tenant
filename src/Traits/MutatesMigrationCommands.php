@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Traits;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\Migrations\Migrator;
+use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputOption;
 
 trait MutatesMigrationCommands
@@ -86,9 +87,7 @@ trait MutatesMigrationCommands
             return [$path];
         }
 
-        return array_merge(
-            [$this->getMigrationPath()], $this->migrator->paths()
-        );
+        throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify either path or realpath.");
     }
 
     /**
