@@ -54,6 +54,7 @@ trait MutatesMigrationCommands
 
         $this->processHandle(function ($website) {
             $this->connection->set($website, $this->connection->migrationName());
+            $this->website = $website;
 
             parent::handle();
 
@@ -84,7 +85,7 @@ trait MutatesMigrationCommands
 
         // Tenant migrations path is configured.
         if ($path = config('tenancy.db.tenant-migrations-path')) {
-            return [$path];
+            return [$path, $path . '/' . $this->website->uuid];
         }
 
         throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify either path or realpath.");
