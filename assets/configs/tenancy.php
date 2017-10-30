@@ -17,9 +17,11 @@ use Hyn\Tenancy\Database\Connection;
 return [
     'models' => [
         /**
-         * For better configuration, you can set the models that are using
-         * in relationships and returned by the environment.
-         * These must all extend SystemModel or have the UsesSystemConnection trait.
+         * Specify different models to be used for the global, system database
+         * connection. These are also used in their relationships. Models
+         * used have to implement their respective contracts and
+         * either extend the SystemModel or use the trait
+         * UsesSystemConnection.
          */
 
         // Must implement \Hyn\Tenancy\Contracts\Customer
