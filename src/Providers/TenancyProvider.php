@@ -95,18 +95,9 @@ class TenancyProvider extends ServiceProvider
     protected function bootPublishes()
     {
         $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
-        ], 'tenancy');
-
-        $this->publishes([
+            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php'),
             __DIR__.'/../../assets/migrations/create_customers_table.php' => database_path('migrations/2017_01_01_000000_create_customers_table.php'),
-        ], 'tenancy');
-
-        $this->publishes([
             __DIR__.'/../../assets/migrations/create_websites_table.php' => database_path('migrations/2017_01_01_000002_create_websites_table.php'),
-        ], 'tenancy');
-
-        $this->publishes([
             __DIR__.'/../../assets/migrations/create_hostnames_table.php' => database_path('migrations/2017_01_01_000004_create_hostnames_table.php'),
         ], 'tenancy');
     }
