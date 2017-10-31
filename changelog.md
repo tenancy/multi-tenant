@@ -1,3 +1,5 @@
+- 5.0.8
+    - Facade "Tenancy" resolving the Environment class added.
 - 5.0.7
     - Allowing to configure the system models.
     - Now no longer able to run migrations without --path, --realpath or 'tenancy.db.tenant-migrations-path' configuration.
