@@ -53,6 +53,9 @@
     },
     "extra": {
         "laravel": {
+            "aliases": {
+                "Tenancy": "Hyn\\Tenancy\\Facades\\EnvironmentFacade"
+            },
             "providers": [
                 "Hyn\\Tenancy\\Providers\\TenancyProvider",
                 "Hyn\\Tenancy\\Providers\\WebserverProvider"

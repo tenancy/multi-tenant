@@ -34,6 +34,10 @@ class InstallCommand extends Command
             '--tag' => 'tenancy'
         ]);
 
+        if ($code != 0) {
+            throw new \RuntimeException("Vendor files not published.");
+        }
+
         $code = $this->call('migrate', [
             '--database' => $this->getLaravel()->make(Connection::class)->systemName(),
             '--force' => 1,
