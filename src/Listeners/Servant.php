@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Listeners;
 use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
+use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
@@ -58,33 +59,6 @@ class Servant
     }
 
     /**
-     * @param Events\Websites\Updated $event
-     */
-    public function move(Events\Websites\Updated $event)
-    {
-        if (! $event->website->isDirty('uuid')) {
-            return;
-        }
-
-        $this->each(function ($generator, $service, $config) use ($event) {
-            $path = null;
-
-            if ($generator instanceof SavesToPath) {
-                $original = $event->website->newInstance();
-                $original->setRawAttributes($event->website->getOriginal());
-                $path = $generator->targetPath($original);
-            }
-
-            if ($path) {
-                $filesystem = $this->serviceFilesystem($service, $config);
-                $filesystem->delete($path);
-            }
-        });
-
-        $this->generate($event);
-    }
-
-    /**
      * @param AbstractEvent|Events\Hostnames\Attached|Events\Websites\Created $event
      */
     public function generate(AbstractEvent $event)
@@ -106,6 +80,64 @@ class Servant
                         ->setConfiguration($contents)
                         ->setPath($path)
                 );
+            }
+
+            if ($generator instanceof ReloadsServices) {
+                $generator->reload();
+            }
+        });
+    }
+
+    /**
+     * @param Events\Websites\Updated $event
+     */
+    public function move(Events\Websites\Updated $event)
+    {
+        if (! $event->website->isDirty('uuid')) {
+            return;
+        }
+
+        $this->each(function ($generator, $service, $config) use ($event) {
+            $path = null;
+
+            if ($generator instanceof SavesToPath) {
+                $original = $event->website->newInstance();
+                $original->setRawAttributes($event->website->getOriginal());
+                $path = $generator->targetPath($original);
+            }
+
+            if ($path) {
+                $filesystem = $this->serviceFilesystem($service, $config);
+                $filesystem->delete($path);
+            }
+
+            if ($generator instanceof ReloadsServices) {
+                $generator->reload();
+            }
+        });
+
+        $this->generate($event);
+    }
+
+    /**
+     * @param Events\Websites\Deleted $event
+     */
+    public function delete(Events\Websites\Deleted $event)
+    {
+        $this->each(function ($generator, $service, $config) use ($event) {
+            $path = null;
+
+            if ($generator instanceof SavesToPath) {
+                $path = $generator->targetPath($event->website);
+            }
+
+            if ($path) {
+                $filesystem = $this->serviceFilesystem($service, $config);
+                $filesystem->delete($path);
+            }
+
+            if ($generator instanceof ReloadsServices) {
+                $generator->reload();
             }
         });
     }
@@ -136,25 +168,6 @@ class Servant
     public function serviceFilesystem($service, array $config)
     {
         return $this->filesystemManager->disk(Arr::get($config, 'disk') ?? "tenancy-webserver-$service");
-    }
-
-    /**
-     * @param Events\Websites\Deleted $event
-     */
-    public function delete(Events\Websites\Deleted $event)
-    {
-        $this->each(function ($generator, $service, $config) use ($event) {
-            $path = null;
-
-            if ($generator instanceof SavesToPath) {
-                $path = $generator->targetPath($event->website);
-            }
-
-            if ($path) {
-                $filesystem = $this->serviceFilesystem($service, $config);
-                $filesystem->delete($path);
-            }
-        });
     }
 
     /**
