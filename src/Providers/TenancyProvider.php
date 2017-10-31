@@ -28,42 +28,33 @@ class TenancyProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->migrations();
-        $this->registerConfiguration();
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../assets/configs/tenancy.php',
+            'tenancy'
+        );
 
-        $this->models();
+        $this->registerModels();
 
-        $this->repositories();
+        $this->registerRepositories();
 
-        $this->app->register(Providers\ConfigurationProvider::class);
-        $this->app->register(Providers\PasswordProvider::class);
-        $this->app->register(Providers\ConnectionProvider::class);
-        $this->app->register(Providers\UuidProvider::class);
-        $this->app->register(Providers\BusProvider::class);
-        $this->app->register(Providers\FilesystemProvider::class);
-
-        // Register last.
-        $this->app->register(Providers\EventProvider::class);
-
-        $this->installCommand();
+        $this->registerProviders();
     }
 
     public function boot()
     {
-        // Immediately instantiate the object to work the magic.
-        $environment = $this->app->make(Environment::class);
-        // Now register it into ioc to make it globally available.
-        $this->app->singleton(Environment::class, function () use ($environment) {
-            return $environment;
-        });
+        $this->bootPublishes();
+
+        $this->bootInstallCommand();
+
+        $this->bootEnvironment();
     }
 
-    protected function installCommand()
+    public function provides()
     {
-        $this->commands(InstallCommand::class);
+        return [Environment::class];
     }
 
-    protected function models()
+    protected function registerModels()
     {
         $config = $this->app['config']['tenancy.models'];
 
@@ -72,7 +63,7 @@ class TenancyProvider extends ServiceProvider
         $this->app->bind(WebsiteContract::class, $config['website']);
     }
 
-    protected function repositories()
+    protected function registerRepositories()
     {
         $this->app->singleton(
             Contracts\Repositories\HostnameRepository::class,
@@ -88,22 +79,41 @@ class TenancyProvider extends ServiceProvider
         );
     }
 
-    protected function migrations()
+    protected function registerProviders()
+    {
+        $this->app->register(Providers\ConfigurationProvider::class);
+        $this->app->register(Providers\PasswordProvider::class);
+        $this->app->register(Providers\ConnectionProvider::class);
+        $this->app->register(Providers\UuidProvider::class);
+        $this->app->register(Providers\BusProvider::class);
+        $this->app->register(Providers\FilesystemProvider::class);
+
+        // Register last.
+        $this->app->register(Providers\EventProvider::class);
+    }
+
+    protected function bootPublishes()
     {
         $this->publishes([
+            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php'),
             __DIR__ . '/../../assets/migrations/' => database_path('migrations')
         ], 'tenancy');
     }
 
-    protected function registerConfiguration()
+    protected function bootInstallCommand()
     {
-        $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
-        ], 'tenancy');
+        $this->commands(InstallCommand::class);
+    }
 
-        $this->mergeConfigFrom(
-            __DIR__ . '/../../assets/configs/tenancy.php',
-            'tenancy'
-        );
+    protected function bootEnvironment()
+    {
+        // Immediately instantiate the object to work the magic.
+        $environment = $this->app->make(Environment::class);
+        // Now register it into ioc to make it globally available.
+        $this->app->singleton(Environment::class, function () use ($environment) {
+            return $environment;
+        });
+
+        $this->app->alias(Environment::class, 'tenancy-environment');
     }
 }
