@@ -33,7 +33,7 @@ class Customer extends SystemModel implements CustomerContract
 {
     public function websites(): HasMany
     {
-        return $this->hasMany(config('tenancy.models.customer'));
+        return $this->hasMany(config('tenancy.models.website'));
     }
 
     public function hostnames(): HasMany
