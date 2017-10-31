@@ -56,7 +56,10 @@
             "providers": [
                 "Hyn\\Tenancy\\Providers\\TenancyProvider",
                 "Hyn\\Tenancy\\Providers\\WebserverProvider"
-            ]
+            ],
+            "aliases": {
+                "Tenancy": "Hyn\\Tenancy\\Facades\\TenancyFacade"
+            }
         }
     }
 }
