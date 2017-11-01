@@ -12,7 +12,7 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tests;
+namespace Hyn\Tenancy\Tests\Models;
 
 use Hyn\Tenancy\Tests\Extend\SystemExtend;
 
