@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Models;
 
 use Hyn\Tenancy\Tests\Extend\TenantExtend;
+use Hyn\Tenancy\Tests\Test;
 
 class TenantModelTest extends Test
 {

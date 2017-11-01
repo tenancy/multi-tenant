@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Models;
 
 use Hyn\Tenancy\Tests\Extend\SystemExtend;
+use Hyn\Tenancy\Tests\Test;
 
 class SystemModelTest extends Test
 {
