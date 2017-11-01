@@ -1,3 +1,7 @@
+- 5.0.9
+    - Fixed issue where webserver process wasn't restarted.
+    - Fixed link in readme to packagist.
+    - Fixed relation for Customer.
 - 5.0.8
     - Facade "Tenancy" resolving the Environment class added.
 - 5.0.7
