@@ -33,6 +33,8 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
+
         $this->registerModels();
 
         $this->registerRepositories();
