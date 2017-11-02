@@ -95,8 +95,7 @@ class TenancyProvider extends ServiceProvider
     protected function bootPublishes()
     {
         $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php'),
-            __DIR__ . '/../../assets/migrations/' => database_path('migrations')
+            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
         ], 'tenancy');
     }
 
