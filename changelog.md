@@ -1,7 +1,7 @@
 - 5.0.10
-    - Dropped tenant-migration connection for seeding and migrations.
+    - #306, dropped tenant-migration connection for seeding and migrations.
     - Clean up of code in TenancyProvider and other files.
-    - Undo auto publishing of migrations.
+    - #307, undo auto publishing of migrations.
 - 5.0.9
     - Fixed issue where webserver process wasn't restarted.
     - Fixed link in readme to packagist.
