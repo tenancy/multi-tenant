@@ -1,3 +1,5 @@
+- 5.0.11
+    - Fixed running the migrations.
 - 5.0.10
     - #306, dropped tenant-migration connection for seeding and migrations.
     - Clean up of code in TenancyProvider and other files.
