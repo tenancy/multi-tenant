@@ -75,7 +75,7 @@ class SeedCommandTest extends DatabaseCommandTest
             $this->connection->set($website);
 
             $this->assertTrue(
-                $this->connection->get()->table('samples')->count() === 1,
+                $this->connection->get()->table('samples')->count() === 2,
                 "Connection for {$website->uuid} has no sample data seeded"
             );
         });

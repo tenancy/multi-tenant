@@ -25,7 +25,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
-use InvalidArgumentException;
 
 class Connection
 {
@@ -33,7 +32,6 @@ class Connection
 
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
-    const DEFAULT_MIGRATION_NAME = 'tenant-migration';
 
     const DIVISION_MODE_SEPARATE_DATABASE = 'database';
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
@@ -180,22 +178,6 @@ class Connection
     public function tenantName(): string
     {
         return $this->config->get('tenancy.db.tenant-connection-name', static::DEFAULT_TENANT_NAME);
-    }
-
-    /**
-     * @return \Illuminate\Database\Connection
-     */
-    public function migration()
-    {
-        return $this->db->connection($this->migrationName());
-    }
-
-    /**
-     * @return string
-     */
-    public function migrationName(): string
-    {
-        return $this->config->get('tenancy.db.migration-connection-name', static::DEFAULT_MIGRATION_NAME);
     }
 
     /**

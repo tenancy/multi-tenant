@@ -15,6 +15,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Hyn\Tenancy\Tests\Extend\TenantExtend;
 
 class SampleSeeder extends Seeder
 {
@@ -22,6 +23,10 @@ class SampleSeeder extends Seeder
     {
         DB::table('samples')->insert([
             'name' => Str::random(5)
+        ]);
+
+        TenantExtend::create([
+            'name' => Str::random(6)
         ]);
     }
 }
