@@ -32,6 +32,11 @@ class Connection
 
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
+    
+    /**
+    * @deprecated
+    */
+    const DEFAULT_MIGRATION_NAME = 'tenant-migration';
 
     const DIVISION_MODE_SEPARATE_DATABASE = 'database';
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
