@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
 use Hyn\Tenancy\Contracts\Webserver\VhostGenerator;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Website\Directory;
+use Symfony\Component\Process\Process;
 
 class NginxGenerator implements VhostGenerator, ReloadsServices
 {
