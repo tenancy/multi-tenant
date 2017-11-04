@@ -28,7 +28,8 @@ trait InteractsWithMigrations
     {
         $code = $this->artisan("tenancy:$command", [
             '--realpath' => __DIR__ . '/../migrations',
-            '-n' => 1
+            '-n' => 1,
+            '--force' => true
         ]);
 
         $this->assertEquals(0, $code, "tenancy:$command didn't work out");
@@ -52,7 +53,8 @@ trait InteractsWithMigrations
     {
         $code = $this->artisan("tenancy:db:seed", [
             '--class' => SampleSeeder::class,
-            '-n' => 1
+            '-n' => 1,
+            '--force' => true
         ]);
 
         $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
