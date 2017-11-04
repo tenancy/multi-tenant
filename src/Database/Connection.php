@@ -218,7 +218,8 @@ class Connection
 
         $options = [
             '--website_id' => [$website->id],
-            '-n' => 1
+            '-n' => 1,
+            '--force' => true
         ];
 
         if ($path) {
@@ -241,7 +242,8 @@ class Connection
 
         $options = [
             '--website_id' => [$website->id],
-            '-n' => 1
+            '-n' => 1,
+            '--force' => true
         ];
 
         if ($class) {
