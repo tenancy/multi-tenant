@@ -1,3 +1,9 @@
+- 5.0.13
+    - Fixed issue with overriding configs from tenant directories.
+    - Fixed missing import for Process class in Nginx generator.
+    - Running tests under production allows us to test migrations to be working.
+- 5.0.12
+    - Re-added deprecated migration name to prevent issues on existing installations.
 - 5.0.11
     - Fixed running the migrations.
 - 5.0.10
