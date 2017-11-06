@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
 use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Illuminate\Support\Arr;
 
 class LoadsConfigs extends AbstractTenantDirectoryListener
 {
@@ -54,12 +55,9 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
                 $values = include 'data:text/plain,' . $this->directory->get($file);
             }
 
-            $existing = $this->config->get($key, []);
+            $values = Arr::dot($values, "{$key}.");
 
-            $this->config->set($key, array_merge_recursive(
-                $existing,
-                $values
-            ));
+            $this->config->set($values);
         }
     }
 }

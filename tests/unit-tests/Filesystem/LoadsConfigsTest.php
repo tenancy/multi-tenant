@@ -60,6 +60,30 @@ EOM
     /**
      * @test
      */
+    public function does_not_make_config_array()
+    {
+
+        // Directory should now exists, let's write the config folder.
+        $this->assertTrue($this->directory->makeDirectory('config'));
+
+        // Write a testing config.
+        $this->assertTrue($this->directory->put('config' . DIRECTORY_SEPARATOR . 'app.php', <<<EOM
+<?php
+
+return ['name' => 'bar'];
+EOM
+        ));
+
+        $this->assertTrue($this->directory->exists('config/app.php'));
+
+        $this->activateTenant('local');
+
+        $this->assertEquals('bar', config('app.name'));
+    }
+
+    /**
+     * @test
+     */
     public function blocks_blacklisted_configs()
     {
         // Directory should now exists, let's write the config folder.
