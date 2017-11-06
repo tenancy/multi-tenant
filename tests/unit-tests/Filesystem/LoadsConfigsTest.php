@@ -64,7 +64,6 @@ EOM
      */
     public function does_not_make_config_array()
     {
-
         $this->assertNotEquals('bar', config('app.name'));
         
         // Directory should now exists, let's write the config folder.
@@ -89,7 +88,7 @@ EOM
      * @test
      */
     public function blocks_blacklisted_configs()
-    {        
+    {
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('config'));
 
