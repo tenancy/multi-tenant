@@ -120,6 +120,17 @@ return [
          * @see src/Jobs/HostnameIdentification.php
          */
         'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
+
+        /**
+         * In case you want to have the tenancy environment set up early,
+         * enable this flag. This will run the tenant identification
+         * inside a middleware. This will eager load tenancy.
+         *
+         * A good use case is when you have set "tenant" as the default
+         * database connection.
+         */
+        'early-identification' => false,
+
         /**
          * Abort application execution in case no hostname was identified. This will throw a
          * 404 not found in case the tenant hostname was not resolved.

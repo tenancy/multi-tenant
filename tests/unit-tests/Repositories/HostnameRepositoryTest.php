@@ -123,7 +123,9 @@ class HostnameRepositoryTest extends Test
     {
         $this->setUpHostnames(true);
 
-        $this->hostnames->update($this->hostname);
+        $saved = $this->hostnames->update($this->hostname);
+
+        $this->assertEquals($this->hostname->id, $saved->id);
     }
 
     /**

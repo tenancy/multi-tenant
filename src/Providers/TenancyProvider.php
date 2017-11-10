@@ -19,10 +19,12 @@ use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Hyn\Tenancy\Contracts\Customer as CustomerContact;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContact;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Middleware;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -37,6 +39,8 @@ class TenancyProvider extends ServiceProvider
 
         $this->registerModels();
 
+        $this->registerMiddleware();
+
         $this->registerRepositories();
 
         $this->registerProviders();
@@ -44,8 +48,6 @@ class TenancyProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->bootPublishes();
-
         $this->bootInstallCommand();
 
         $this->bootEnvironment();
@@ -94,13 +96,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\EventProvider::class);
     }
 
-    protected function bootPublishes()
-    {
-        $this->publishes([
-            __DIR__ . '/../../assets/configs/tenancy.php' => config_path('tenancy.php')
-        ], 'tenancy');
-    }
-
     protected function bootInstallCommand()
     {
         $this->commands(InstallCommand::class);
@@ -116,5 +111,14 @@ class TenancyProvider extends ServiceProvider
         });
 
         $this->app->alias(Environment::class, 'tenancy-environment');
+    }
+
+    protected function registerMiddleware()
+    {
+        /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
+        $kernel = $this->app->make(Kernel::class);
+
+        $kernel->prependMiddleware(Middleware\EagerIdentification::class);
+        $kernel->prependMiddleware(Middleware\HostnameActions::class);
     }
 }

@@ -36,7 +36,9 @@ class WebsiteRepositoryTest extends Test
     {
         $this->setUpWebsites(true);
 
-        $this->websites->update($this->website);
+        $saved = $this->websites->update($this->website);
+
+        $this->assertEquals($this->website->id, $saved->id);
     }
 
     /**
