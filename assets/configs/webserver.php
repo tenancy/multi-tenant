@@ -113,7 +113,7 @@ return [
      */
     'nginx' => [
         /**
-         * Whether the integration with Nginx is currently active.
+         * Whether the integration with nginx is currently active.
          */
         'enabled' => false,
 
@@ -123,7 +123,7 @@ return [
         'php-sock' => 'unix:/var/run/php/php7.0-fpm.sock',
 
         /**
-         * Define the ports of your Nginx service.
+         * Define the ports of your nginx service.
          */
         'ports' => [
             /**
@@ -141,7 +141,7 @@ return [
         ],
 
         /**
-         * The generator taking care of hooking into the Apache services and files.
+         * The generator taking care of hooking into the nginx services and files.
          */
         'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\NginxGenerator::class,
 
@@ -168,19 +168,19 @@ return [
             ],
 
             /**
-             * Actions to run to work with the Apache2 service.
+             * Actions to run to work with the Nginx service.
              */
             'actions' => [
                 /**
-                 * Action that asserts Apache2 is installed.
+                 * Action that asserts nginx is installed.
                  */
                 'exists' => '/etc/init.d/nginx',
                 /**
-                 * Action to run to test the apache configuration.
+                 * Action to run to test the nginx configuration.
                  */
                 'test-config' => '/etc/init.d/nginx configtest',
                 /**
-                 * Action to run to reload the apache service.
+                 * Action to run to reload the nginx service.
                  */
                 'reload' => 'systemctl restart nginx'
             ]
