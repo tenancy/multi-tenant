@@ -123,7 +123,7 @@ return [
         'php-sock' => 'unix:/var/run/php/php7.0-fpm.sock',
 
         /**
-         * Define the ports of your Apache service.
+         * Define the ports of your Nginx service.
          */
         'ports' => [
             /**
