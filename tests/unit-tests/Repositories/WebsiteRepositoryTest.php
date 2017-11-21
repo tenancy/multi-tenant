@@ -29,7 +29,7 @@ class WebsiteRepositoryTest extends Test
     {
         parent::__construct();
         $db = getenv('DB_CONNECTION');
-        if (!$db) {
+        if (!$db || $db == 'mysql') {
             $this->tableForUsers = 'mysql.user';
         } else {
             $this->tableForUsers = 'pg_catalog.pg_user';
