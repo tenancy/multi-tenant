@@ -78,6 +78,7 @@ class DatabaseGenerator
     /**
      * @param Events\Websites\Created $event
      * @throws GeneratorFailedException
+     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     public function created(Events\Websites\Created $event)
     {
@@ -97,7 +98,8 @@ class DatabaseGenerator
             new Events\Database\Creating($config, $event->website)
         );
 
-        if (!$this->driver($config)->created($event, $config, $this->connection)) {
+        if (!$this->driver($config)->created($event, $config, $this->connection,
+            config('tenancy.db.generate-sql-user'))) {
             throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
         }
 
@@ -115,7 +117,7 @@ class DatabaseGenerator
     {
         $host = Arr::get($config, 'host');
 
-        if (! in_array($host, ['localhost', '127.0.0.1', '192.168.0.1'])) {
+        if (!in_array($host, ['localhost', '127.0.0.1', '192.168.0.1'])) {
             $config['host'] = '%';
         }
     }
@@ -123,6 +125,7 @@ class DatabaseGenerator
     /**
      * @param Events\Websites\Deleted $event
      * @throws GeneratorFailedException
+     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     public function deleted(Events\Websites\Deleted $event)
     {
@@ -152,6 +155,7 @@ class DatabaseGenerator
     /**
      * @param Events\Websites\Updated $event
      * @throws GeneratorFailedException
+     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     public function updated(Events\Websites\Updated $event)
     {

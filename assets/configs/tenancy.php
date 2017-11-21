@@ -185,6 +185,13 @@ return [
         'password-generator' => Hyn\Tenancy\Generators\Database\DefaultPasswordGenerator::class,
 
         /**
+         * Standard, tenancy will create a SQL-user for you and grant it access to a new created database.
+         * With this setting, you can turn that off. Please note that the user and password of the tenant-connection
+         * will be used to connect to the database if turned off.
+         */
+        'generate-sql-user' => true,
+
+        /**
          * The tenant migrations to be run during creation of a tenant. Specify a directory
          * to run the migrations from. If specified these migrations will be executed
          * whenever a new tenant is created.

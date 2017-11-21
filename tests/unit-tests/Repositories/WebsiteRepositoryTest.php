@@ -20,6 +20,23 @@ class WebsiteRepositoryTest extends Test
 {
 
     /**
+     * The table for the users.
+     * @var null|string
+     */
+    private $tableForUsers = null;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $db = getenv('DB_CONNECTION');
+        if (!$db) {
+            $this->tableForUsers = 'mysql.user';
+        } else {
+            $this->tableForUsers = 'pg_catalog.pg_user';
+        }
+    }
+
+    /**
      * @test
      */
     public function creates_website()
@@ -27,6 +44,32 @@ class WebsiteRepositoryTest extends Test
         $this->websites->create($this->website);
 
         $this->assertTrue($this->website->exists);
+    }
+
+    /**
+     * @test
+     */
+    public function create_website_with_sql_user()
+    {
+        $amount_of_sql_users_before = $this->connection->system()->table($this->tableForUsers)->count();
+        $this->websites->create($this->website);
+        $this->assertTrue($this->website->exists);
+        $amount_of_sql_users_after = $this->connection->system()->table($this->tableForUsers)->count();
+        $this->assertEquals($amount_of_sql_users_before + 1, $amount_of_sql_users_after,
+            'An unexpected amount of SQL-users has been created.');
+    }
+
+    /**
+     * @test
+     */
+    public function create_website_without_sql_user()
+    {
+        config(['tenancy.db.generate-sql-user' => false]);
+        $amount_of_sql_users_before = $this->connection->system()->table($this->tableForUsers)->count();
+        $this->websites->create($this->website);
+        $this->assertTrue($this->website->exists);
+        $amount_of_sql_users_after = $this->connection->system()->table($this->tableForUsers)->count();
+        $this->assertEquals($amount_of_sql_users_before, $amount_of_sql_users_after, 'A SQL-user has been created.');
     }
 
     /**
