@@ -28,11 +28,12 @@ class WebsiteRepositoryTest extends Test
     public function __construct()
     {
         parent::__construct();
+        
         $db = getenv('DB_CONNECTION');
+        $this->tableForUsers = 'pg_catalog.pg_user';
+
         if (!$db || $db == 'mysql') {
             $this->tableForUsers = 'mysql.user';
-        } else {
-            $this->tableForUsers = 'pg_catalog.pg_user';
         }
     }
 
