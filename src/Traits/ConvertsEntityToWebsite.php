@@ -21,7 +21,7 @@ trait ConvertsEntityToWebsite
 {
     /**
      * @param $to
-     * @return Hostname|Website|null
+     * @return Website|null
      */
     protected function convertWebsiteOrHostnameToWebsite($to)
     {
