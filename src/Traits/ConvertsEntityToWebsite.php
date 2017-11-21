@@ -20,19 +20,19 @@ use Hyn\Tenancy\Contracts\Website;
 trait ConvertsEntityToWebsite
 {
     /**
-     * @param $to
+     * @param $entity
      * @return Website|null
      */
-    protected function convertWebsiteOrHostnameToWebsite($to)
+    protected function convertWebsiteOrHostnameToWebsite($entity)
     {
         $website = null;
 
-        if ($to instanceof Hostname) {
-            $website = $to->website;
+        if ($entity instanceof Hostname) {
+            $website = $entity->website;
         }
 
-        if ($to instanceof Website) {
-            $website = $to;
+        if ($entity instanceof Website) {
+            $website = $entity;
         }
 
         return $website;
