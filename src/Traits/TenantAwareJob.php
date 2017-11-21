@@ -35,8 +35,8 @@ trait TenantAwareJob
         /** @var Environment $environment */
         $environment = app(Environment::class);
 
-        if ($environment->hostname()) {
-            $this->tenant_id = $environment->hostname()->id;
+        if ($hostname = $environment->hostname()) {
+            $this->tenant_id = $hostname->id;
         }
 
         $attributes = $this->serializedSleep();
