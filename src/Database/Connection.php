@@ -275,7 +275,7 @@ class Connection
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
                 $clone['database'] = $website->uuid;
-                if (config('tenancy.db.generate-sql-user') === true) {
+                if (config('tenancy.db.generate-database-user') === true) {
                     $clone['username'] = $clone['database'];
                     $clone['password'] = $this->passwordGenerator->generate($website);
                 }
