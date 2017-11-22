@@ -99,7 +99,7 @@ class DatabaseGenerator
         );
 
         if (!$this->driver($config)->created($event, $config, $this->connection,
-            config('tenancy.db.generate-sql-user'))) {
+            config('tenancy.db.generate-database-user'))) {
             throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
         }
 
