@@ -42,12 +42,12 @@ class RecreateCommandTest extends DatabaseCommandTest
         // emit delete event to delete database.
         $this->emitEvent(new Websites\Deleted($this->website));
 
-        if (!$this->connection->get()->getSchemaBuilder()->hasTable('migrations')) {            
+        if (!$this->connection->get()->getSchemaBuilder()->hasTable('migrations')) {
             $artisan->call('tenancy:recreate');
         }
         
         $this->connection->set($this->website);
 
-        $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('migrations'));   
+        $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('migrations'));
     }
 }
