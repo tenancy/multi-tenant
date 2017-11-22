@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
 use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Traits\ConvertsEntityToWebsite;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Console\Kernel;
@@ -28,11 +29,11 @@ use Hyn\Tenancy\Events;
 
 class Connection
 {
-    use DispatchesEvents;
+    use DispatchesEvents, ConvertsEntityToWebsite;
 
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
-    
+
     /**
     * @deprecated
     */
@@ -108,21 +109,6 @@ class Connection
     public function get()
     {
         return $this->db->connection($this->tenantName());
-    }
-
-    private function convertWebsiteOrHostnameToWebsite($to)
-    {
-        $website = null;
-
-        if ($to instanceof Hostname) {
-            $website = $to->website;
-        }
-
-        if ($to instanceof Website) {
-            $website = $to;
-        }
-
-        return $website;
     }
 
     /**
