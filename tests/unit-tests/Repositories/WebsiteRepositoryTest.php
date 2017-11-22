@@ -65,7 +65,7 @@ class WebsiteRepositoryTest extends Test
      */
     public function create_website_without_sql_user()
     {
-        config(['tenancy.db.generate-sql-user' => false]);
+        config(['tenancy.db.generate-database-user' => false]);
         $amount_of_sql_users_before = $this->connection->system()->table($this->tableForUsers)->count();
         $this->websites->create($this->website);
         $this->assertTrue($this->website->exists);
