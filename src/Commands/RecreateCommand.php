@@ -69,7 +69,7 @@ class RecreateCommand extends Command
 
     /**
      * Checks if tenant database exists.
-     * 
+     *
      * @return bool
      */
     protected function tenantDatabaseExists(Website $website) : bool
