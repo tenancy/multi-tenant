@@ -1,3 +1,7 @@
+- 5.0.14
+    - Added ability to identify the tenant early, see tenancy.php > hostname > early-identification.
+    - Ability to make Jobs tenant aware by applying the TenantAwareJob trait, which replaces the SerializesModels trait.
+    - Some minor fixes and house keeping.
 - 5.0.13
     - Fixed issue with overriding configs from tenant directories.
     - Fixed missing import for Process class in Nginx generator.
