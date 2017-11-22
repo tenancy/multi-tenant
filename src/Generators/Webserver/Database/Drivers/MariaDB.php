@@ -59,7 +59,7 @@ class MariaDB implements DatabaseGenerator
     {
         $uuid = Arr::get($event->dirty, 'uuid');
 
-        $this->created(new Created($event->website), $config, $connection, config('tenancy.db.generate-sql-user'));
+        $this->created(new Created($event->website), $config, $connection, config('tenancy.db.generate-database-user'));
 
 //        if (!$connection->system()->statement("RENAME TABLE `$uuid`.`table` TO `{$config['database']}`.`table`")) {
 //            throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");
