@@ -20,7 +20,7 @@ use Hyn\Tenancy\Tests\Extend\JobExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
-class JobTest extends Test
+class TenantAwareJobTest extends Test
 {
     /**
      * @var Environment

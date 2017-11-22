@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Extend;
 
-use Hyn\Tenancy\Traits\TenantAwareJob;
+use Hyn\Tenancy\Queue\TenantAwareJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;

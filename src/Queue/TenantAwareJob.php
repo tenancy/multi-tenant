@@ -12,7 +12,7 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Traits;
+namespace Hyn\Tenancy\Queue;
 
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Hostname;
