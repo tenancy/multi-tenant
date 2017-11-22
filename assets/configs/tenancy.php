@@ -129,7 +129,7 @@ return [
          * A good use case is when you have set "tenant" as the default
          * database connection.
          */
-        'early-identification' => false,
+        'early-identification' => env('TENANCY_EARLY_IDENTIFICATION', false),
 
         /**
          * Abort application execution in case no hostname was identified. This will throw a
