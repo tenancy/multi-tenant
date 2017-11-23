@@ -28,7 +28,7 @@ class RecreateCommandTest extends DatabaseCommandTest
 
     protected function duringSetUp(Application $app)
     {
-        foreach($this->websites as $website) {
+        foreach ($this->websites as $website) {
             $this->websites->delete($website);
         }
 
