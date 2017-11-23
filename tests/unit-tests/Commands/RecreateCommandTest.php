@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use App\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
+use Doctrine\DBAL\Driver\PDOException;
 
 class RecreateCommandTest extends DatabaseCommandTest
 {
@@ -56,9 +57,7 @@ class RecreateCommandTest extends DatabaseCommandTest
         // Save the website instance to the database.
         $this->website->save();
 
-        if (!$this->connection->get()->getSchemaBuilder()->hasTable('migrations')) {
-            $this->artisan->call('tenancy:recreate');
-        }
+        $this->artisan->call('tenancy:recreate');
         
         $this->connection->set($this->website);
 
