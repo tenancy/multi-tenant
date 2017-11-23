@@ -21,7 +21,6 @@ use Hyn\Tenancy\Events\Websites\Deleted;
 use Hyn\Tenancy\Events\Websites\Updated;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 class PostgreSQL implements DatabaseGenerator
 {
@@ -75,12 +74,15 @@ class PostgreSQL implements DatabaseGenerator
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        DB::disconnect('tenant');
+        $connection->get()->disconnect();
 
-        if (!$connection->system()->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"")) {
-            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
-        }
+        $user = function () use ($connection, $config) {
+            return $connection->system()->statement("DROP USER \"{$config['username']}\"");
+        };
+        $delete = function () use ($connection, $config) {
+            return $connection->system()->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
+        };
 
-        return true;
+        return $delete() && $user();
     }
 }
