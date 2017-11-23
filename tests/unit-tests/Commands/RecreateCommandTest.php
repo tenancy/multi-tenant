@@ -57,7 +57,15 @@ class RecreateCommandTest extends DatabaseCommandTest
         // Save the website instance to the database.
         $this->website->save();
 
-        $this->artisan->call('tenancy:recreate');
+        try {
+            if ($this->connection->get()->getSchemaBuilder()->hasTable('migrations')) {
+                return "ok";
+            }
+
+            $this->fail('Command didn\'t fire exception');
+        } catch (PDOException $e) {
+            $this->artisan->call('tenancy:recreate');
+        }
         
         $this->connection->set($this->website);
 
