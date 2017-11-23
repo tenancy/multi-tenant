@@ -48,8 +48,6 @@ class RecreateCommandTest extends DatabaseCommandTest
         $this->connection->set($this->website);
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('migrations'));
-
-        $this->connection->purge();
         
         $this->websites->delete($this->website);
 
