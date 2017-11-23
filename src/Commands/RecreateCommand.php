@@ -79,7 +79,9 @@ class RecreateCommand extends Command
         try {
             $schema = $this->connection->get()->getSchemaBuilder();
 
-            return $schema->hasTable($this->table);
+            if ($schema->hasTable($this->table)) {
+                return true;
+            }
         } catch (\Exception $e) {
             // Surpress exception
         }
