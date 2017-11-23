@@ -14,14 +14,9 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use Hyn\Tenancy\Traits\DispatchesEvents;
-use Hyn\Tenancy\Events\Websites;
-use Hyn\Tenancy\Models\Website;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use App\Console\Kernel;
+use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Foundation\Application;
-use Doctrine\DBAL\Driver\PDOException;
 
 class RecreateCommandTest extends DatabaseCommandTest
 {
@@ -58,14 +53,14 @@ class RecreateCommandTest extends DatabaseCommandTest
         $this->website->save();
 
         try {
-            if ($this->connection->get()->getSchemaBuilder()->hasTable('migrations')) {
-                return "ok";
+            if (!$this->assertFalse($this->connection->get()->getSchemaBuilder()->hasTable('migrations'))) {
+                $this->fail('`migrations` table in tenant db still exists.');
             }
-
-            $this->fail('Command didn\'t fire exception');
-        } catch (PDOException $e) {
-            $this->artisan->call('tenancy:recreate');
+        } catch (\Exception $e) {
+            // Surpress exception
         }
+
+        $this->artisan->call('tenancy:recreate');
         
         $this->connection->set($this->website);
 
