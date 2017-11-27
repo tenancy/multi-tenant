@@ -74,10 +74,15 @@ class PostgreSQL implements DatabaseGenerator
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        if (!$connection->system()->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"")) {
-            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
-        }
+        $connection->get()->disconnect();
 
-        return true;
+        $user = function () use ($connection, $config) {
+            return $connection->system()->statement("DROP USER \"{$config['username']}\"");
+        };
+        $delete = function () use ($connection, $config) {
+            return $connection->system()->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
+        };
+
+        return $delete() && $user();
     }
 }

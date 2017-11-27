@@ -14,17 +14,18 @@
 
 namespace Hyn\Tenancy\Providers;
 
-use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Contracts;
+use Hyn\Tenancy\Middleware;
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Commands\InstallCommand;
+use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Providers\Tenants as Providers;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 use Hyn\Tenancy\Contracts\Customer as CustomerContact;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContact;
-use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Middleware;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -48,7 +49,7 @@ class TenancyProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->bootInstallCommand();
+        $this->bootCommands();
 
         $this->bootEnvironment();
     }
@@ -96,9 +97,10 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\EventProvider::class);
     }
 
-    protected function bootInstallCommand()
+    protected function bootCommands()
     {
         $this->commands(InstallCommand::class);
+        $this->commands(RecreateCommand::class);
     }
 
     protected function bootEnvironment()
