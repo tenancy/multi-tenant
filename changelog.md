@@ -1,3 +1,5 @@
+- 5.0.15
+    - Added an artisan command `tenancy:restore` that restores tenant database/schemas/user/password given that the system database is intact.
 - 5.0.14
     - Added ability to identify the tenant early, see tenancy.php > hostname > early-identification.
     - Ability to make Jobs tenant aware by applying the TenantAwareJob trait, which replaces the SerializesModels trait.
