@@ -28,14 +28,15 @@ class PostgreSQL implements DatabaseGenerator
      * @param Created $event
      * @param array $config
      * @param Connection $connection
+     * @param bool $createUser
      * @return bool
      */
-    public function created(Created $event, array $config, Connection $connection): bool
+    public function created(Created $event, array $config, Connection $connection, bool $createUser): bool
     {
         $connection = $connection->system();
 
-        $user = function () use ($connection, $config) {
-            return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+        $user = function () use ($connection, $config, $createUser) {
+            return $createUser ? $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'") : true;
         };
         $create = function () use ($connection, $config) {
             return $connection->statement("CREATE DATABASE \"{$config['database']}\" WITH OWNER=\"{$config['username']}\"");

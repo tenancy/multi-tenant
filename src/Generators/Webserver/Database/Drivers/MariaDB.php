@@ -29,15 +29,18 @@ class MariaDB implements DatabaseGenerator
      * @param Created $event
      * @param array $config
      * @param Connection $connection
+     * @param bool $createUser
      * @return bool
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function created(Created $event, array $config, Connection $connection): bool
+    public function created(Created $event, array $config, Connection $connection, bool $createUser): bool
     {
         $create = function ($connection) use ($config) {
             return $connection->statement("CREATE DATABASE `{$config['database']}`");
         };
-        $grant = function ($connection) use ($config) {
-            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+        $grant = function ($connection) use ($config, $createUser) {
+            return $createUser ? $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'") : true;
         };
 
         return $connection->system()->transaction(function (IlluminateConnection $connection) use ($create, $grant) {
@@ -56,7 +59,7 @@ class MariaDB implements DatabaseGenerator
     {
         $uuid = Arr::get($event->dirty, 'uuid');
 
-        $this->created(new Created($event->website), $config, $connection);
+        $this->created(new Created($event->website), $config, $connection, config('tenancy.db.generate-database-user'));
 
 //        if (!$connection->system()->statement("RENAME TABLE `$uuid`.`table` TO `{$config['database']}`.`table`")) {
 //            throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");

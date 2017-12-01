@@ -35,8 +35,8 @@ class Connection
     const DEFAULT_TENANT_NAME = 'tenant';
 
     /**
-    * @deprecated
-    */
+     * @deprecated
+     */
     const DEFAULT_MIGRATION_NAME = 'tenant-migration';
 
     const DIVISION_MODE_SEPARATE_DATABASE = 'database';
@@ -260,8 +260,11 @@ class Connection
 
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
-                $clone['username'] = $clone['database'] = $website->uuid;
-                $clone['password'] = $this->passwordGenerator->generate($website);
+                $clone['database'] = $website->uuid;
+                if (config('tenancy.db.generate-database-user') === true) {
+                    $clone['username'] = $clone['database'];
+                    $clone['password'] = $this->passwordGenerator->generate($website);
+                }
                 break;
             case static::DIVISION_MODE_SEPARATE_PREFIX:
                 $clone['prefix'] = sprintf('%d_', $website->id);
