@@ -134,8 +134,6 @@ return [
         /**
          * Abort application execution in case no hostname was identified. This will throw a
          * 404 not found in case the tenant hostname was not resolved.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-hostnameabort-without-identified-hostname
          */
         'abort-without-identified-hostname' => true,
 
@@ -150,8 +148,6 @@ return [
          * configuration setting. In Laravel this is normally configured to 'mysql'.
          * You can set a environment variable to override the default database
          * connection to - for instance - the tenant connection 'tenant'.
-         *
-         * @see https://hyn.readme.io/v3.0/docs/tenancy#section-dbdefault
          */
         'default' => env('TENANCY_DEFAULT_CONNECTION'),
         /**
