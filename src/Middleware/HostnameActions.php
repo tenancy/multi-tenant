@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Middleware;
 
 use Closure;
+use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Events\Hostnames\NoneFound;
 use Hyn\Tenancy\Events\Hostnames\Redirected;
@@ -29,10 +30,6 @@ use Illuminate\Routing\Redirector;
 class HostnameActions
 {
     use DispatchesEvents;
-    /**
-     * @var Hostname
-     */
-    protected $hostname;
 
     /**
      * @var Redirector
@@ -40,12 +37,10 @@ class HostnameActions
     protected $redirect;
 
     /**
-     * @param Hostname $hostname
      * @param Redirector $redirect
      */
-    public function __construct(Hostname $hostname = null, Redirector $redirect)
+    public function __construct(Redirector $redirect)
     {
-        $this->hostname = $hostname;
         $this->redirect = $redirect;
     }
 
@@ -56,17 +51,19 @@ class HostnameActions
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->hostname != null) {
-            if ($this->hostname->under_maintenance_since) {
-                return $this->maintenance($this->hostname);
+        $hostname = app(CurrentHostname::class);
+
+        if ($hostname != null) {
+            if ($hostname->under_maintenance_since) {
+                return $this->maintenance($hostname);
             }
 
-            if ($this->hostname->redirect_to) {
-                return $this->redirect($this->hostname);
+            if ($hostname->redirect_to) {
+                return $this->redirect($hostname);
             }
 
-            if (!$request->secure() && $this->hostname->force_https) {
-                return $this->secure($this->hostname, $request);
+            if (!$request->secure() && $hostname->force_https) {
+                return $this->secure($hostname, $request);
             }
         } elseif ($response = $this->abort($request)) {
             return $response;
