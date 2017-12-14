@@ -18,9 +18,9 @@ use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Hyn\Tenancy\Contracts\Generator\GeneratesConfiguration;
 use Hyn\Tenancy\Contracts\Generator\SavesToPath;
 use Hyn\Tenancy\Contracts\Webserver\ReloadsServices;
+use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
-use Hyn\Tenancy\Events;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -54,7 +54,7 @@ class Servant
             [Events\Websites\Created::class, Events\Hostnames\Attached::class],
             [$this, 'generate']
         );
-        $events->listen(Events\Websites\Updated::class, [$this, 'move']);
+        $events->listen(Events\Websites\Updated::class, [$this, 'touch']);
         $events->listen(Events\Websites\Deleted::class, [$this, 'delete']);
     }
 
@@ -91,32 +91,32 @@ class Servant
     /**
      * @param Events\Websites\Updated $event
      */
-    public function move(Events\Websites\Updated $event)
+    public function touch(Events\Websites\Updated $event)
     {
-        if (! $event->website->isDirty('uuid')) {
-            return;
+        if ($event->website->isDirty('uuid')) {
+            $this->each(function ($generator, $service, $config) use ($event) {
+                $path = null;
+
+                if ($generator instanceof SavesToPath) {
+                    $original = $event->website->newInstance();
+                    $original->setRawAttributes($event->website->getOriginal());
+                    $path = $generator->targetPath($original);
+                }
+
+                if ($path) {
+                    $filesystem = $this->serviceFilesystem($service, $config);
+                    $filesystem->delete($path);
+                }
+
+                if ($generator instanceof ReloadsServices) {
+                    $generator->reload();
+                }
+            });
         }
 
-        $this->each(function ($generator, $service, $config) use ($event) {
-            $path = null;
-
-            if ($generator instanceof SavesToPath) {
-                $original = $event->website->newInstance();
-                $original->setRawAttributes($event->website->getOriginal());
-                $path = $generator->targetPath($original);
-            }
-
-            if ($path) {
-                $filesystem = $this->serviceFilesystem($service, $config);
-                $filesystem->delete($path);
-            }
-
-            if ($generator instanceof ReloadsServices) {
-                $generator->reload();
-            }
-        });
-
-        $this->generate($event);
+        if ($event->website->isDirty()) {
+            $this->generate($event);
+        }
     }
 
     /**
