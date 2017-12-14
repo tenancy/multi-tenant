@@ -1,3 +1,6 @@
+- 5.0.16
+    - Squashed some minor typography issues.
+    - Updating event for website now triggers services to rebuild.
 - 5.0.15
     - Added an artisan command `tenancy:restore` that restores tenant database/schemas/user/password given that the system database is intact.
 - 5.0.14
