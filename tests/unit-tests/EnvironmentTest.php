@@ -73,7 +73,7 @@ class EnvironmentTest extends Test
      */
     public function we_can_set_current_hostname_to_null_on_hostname_action_middleware()
     {
-        $middleware = new HostnameActions(null, app()->make(Redirector::class));
+        $middleware = new HostnameActions(app()->make(Redirector::class));
 
         $this->assertNotNull($middleware);
     }
@@ -97,7 +97,7 @@ class EnvironmentTest extends Test
         $identified->save();
 
         $request = new Request();
-        $middleware = new HostnameActions($identified, app()->make(Redirector::class));
+        $middleware = new HostnameActions(app()->make(Redirector::class));
 
         try {
             $a = $middleware->handle($request, function () {
