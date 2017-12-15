@@ -1,3 +1,5 @@
+- 5.0.17
+    - Fixed auto identification due to incorrect CurrentHostname resolving.
 - 5.0.16
     - Squashed some minor typography issues.
     - Updating event for website now triggers services to rebuild.
