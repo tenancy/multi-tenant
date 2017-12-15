@@ -65,8 +65,8 @@ class HostnameActions
             if (!$request->secure() && $hostname->force_https) {
                 return $this->secure($hostname, $request);
             }
-        } elseif ($response = $this->abort($request)) {
-            return $response;
+        } else {
+            $this->abort($request);
         }
 
         return $next($request);
