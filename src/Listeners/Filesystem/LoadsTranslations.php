@@ -57,7 +57,7 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
                     return $loader->addLoader(new FileLoader(app()->make('files'), $path));
                 }
 
-                $multiLoader = new LanguageFileLoader(app()->make('files'), $path);
+                $multiLoader = new MultiFileLoader(app()->make('files'), $path);
                 $multiLoader->addLoader($loader);
                 $multiLoader->addLoader(new FileLoader(app()->make('files'), $path));
                 return $multiLoader;
