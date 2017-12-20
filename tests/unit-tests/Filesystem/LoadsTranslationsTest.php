@@ -42,7 +42,7 @@ class LoadsTranslationsTest extends Test
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('lang'));
 
-        // Write a testing config.
+        // Write a testing translation file.
         $this->assertTrue($this->directory->put('lang' . DIRECTORY_SEPARATOR . 'ch' . DIRECTORY_SEPARATOR . 'test.php', <<<EOM
 <?php
 
@@ -57,5 +57,34 @@ EOM
         $this->activateTenant('local');
 
         $this->assertEquals('bar', trans('test.foo', [], 'ch'));
+    }
+
+    /**
+     * @test
+     */
+    public function overrides_global_translations()
+    {
+        $original = include base_path('resources/lang/en/passwords.php');
+
+        $this->assertEquals($original['password'], trans('passwords.password', [], 'en'));
+
+        // Directory should now exists, let's write the config folder.
+        $this->assertTrue($this->directory->makeDirectory('lang'));
+
+        // Write a testing translation file.
+        $this->assertTrue($this->directory->put('lang' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . 'passwords.php', <<<EOM
+<?php
+
+return [
+    'password' => 'bar',
+];
+EOM
+        ));
+
+        $this->assertTrue($this->directory->exists('lang/en/passwords.php'));
+
+        $this->activateTenant('local');
+
+        $this->assertEquals('bar', trans('passwords.password', [], 'en'));
     }
 }
