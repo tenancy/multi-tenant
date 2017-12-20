@@ -12,7 +12,7 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tranlsations;
+namespace Hyn\Tenancy\Translations;
 
 use Illuminate\Translation\FileLoader;
 use Illuminate\Contracts\Translation\Loader;
