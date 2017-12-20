@@ -35,7 +35,6 @@ class MultiFileLoader extends FileLoader
     public function __construct(Filesystem $files, $path)
     {
         parent::__construct($files, $path);
-        $this->addLoader(new FileLoader(app()->make('files'), $path));
     }
 
     /**
