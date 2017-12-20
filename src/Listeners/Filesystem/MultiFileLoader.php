@@ -21,6 +21,11 @@ use Illuminate\Filesystem\Filesystem;
 class MultiFileLoader extends FileLoader
 {
     /**
+     * @var \Illuminate\Translation\FileLoader
+     */
+    protected $fileLoaders = [];
+
+    /**
      * Create a new file loader instance.
      *
      * @param  \Illuminate\Filesystem\Filesystem  $files
@@ -34,10 +39,8 @@ class MultiFileLoader extends FileLoader
     }
 
     /**
-     * @var \Illuminate\Translation\FileLoader
+     * @param \Illuminate\Translation\FileLoader $loader
      */
-    protected $fileLoaders = [];
-
     public function addLoader(\Illuminate\Translation\FileLoader $loader)
     {
         $this->fileLoaders[] = $loader;
