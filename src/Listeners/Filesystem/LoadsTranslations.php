@@ -62,6 +62,11 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
                 $multiLoader->addLoader(new FileLoader(app()->make('files'), $path));
                 return $multiLoader;
             });
+            app()->singleton('translator', function ($app) {
+                $translator = new Translator($app['translation.loader'], $app['config']['app.locale']);
+                $translator->setFallback($app['config']['app.fallback_locale']);
+                return $translator;
+            });
         } elseif ($namespace = $this->config->get('tenancy.folders.trans.namespace')) {
             app('translator')->addNamespace($namespace, $path);
         }
