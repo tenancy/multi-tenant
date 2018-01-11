@@ -84,7 +84,7 @@ class HostnameRepository implements Contract
      */
     public function create(Hostname &$hostname): Hostname
     {
-        if ($hostname->exists) {
+        if ($hostname->exists()) {
             return $this->update($hostname);
         }
 
@@ -109,7 +109,7 @@ class HostnameRepository implements Contract
      */
     public function update(Hostname &$hostname): Hostname
     {
-        if (!$hostname->exists) {
+        if (!$hostname->exists()) {
             return $this->create($hostname);
         }
 
