@@ -77,7 +77,7 @@ class WebsiteRepository implements Contract
      */
     public function create(Website &$website): Website
     {
-        if ($website->exists()) {
+        if ($website->exists) {
             return $this->update($website);
         }
 
@@ -104,7 +104,7 @@ class WebsiteRepository implements Contract
      */
     public function update(Website &$website): Website
     {
-        if (!$website->exists()) {
+        if (!$website->exists) {
             return $this->create($website);
         }
 
