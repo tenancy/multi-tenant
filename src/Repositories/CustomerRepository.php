@@ -52,7 +52,7 @@ class CustomerRepository implements Contract
      */
     public function create(Customer &$customer): Customer
     {
-        if ($customer->exists) {
+        if ($customer->exists()) {
             return $this->update($customer);
         }
 
@@ -75,7 +75,7 @@ class CustomerRepository implements Contract
      */
     public function update(Customer &$customer): Customer
     {
-        if (!$customer->exists) {
+        if (!$customer->exists()) {
             return $this->create($customer);
         }
 
