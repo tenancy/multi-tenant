@@ -1,3 +1,5 @@
+- 5.0.18
+    - Fixed repository checking whether object is already persisted.
 - 5.0.17
     - Fixed auto identification due to incorrect CurrentHostname resolving.
 - 5.0.16
