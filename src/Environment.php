@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -49,7 +50,9 @@ class Environment
      */
     public function installed(): bool
     {
-        return file_exists(base_path('tenancy.json'));
+        $connection = $this->app->make(Connection::class)->system();
+
+        return $connection->getSchemaBuilder()->hasTable('hostnames');
     }
 
     /**
