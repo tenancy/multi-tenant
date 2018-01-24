@@ -62,7 +62,7 @@ class Environment
     {
         $this->app->singleton(CurrentHostname::class, function () {
 
-            if ($this->runningInConsole()) {
+            if ($this->runningInConsole() || !$this->installed()) {
                 return null;
             }
 
