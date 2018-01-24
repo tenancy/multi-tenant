@@ -60,14 +60,15 @@ class Environment
      */
     public function identifyHostname()
     {
-        $this->app->singleton(CurrentHostname::class, function () {
-
-            if ($this->runningInConsole() || !$this->installed()) {
+        if ($this->runningInConsole() || !$this->installed()) {
+            $this->app->singleton(CurrentHostname::class, function () {
                 return null;
-            }
-
-            return $this->dispatch(new HostnameIdentification);
-        });
+            });
+        } else {
+            $this->app->singleton(CurrentHostname::class, function () {
+                return $this->dispatch(new HostnameIdentification);
+            });
+        }
     }
 
     /**
