@@ -35,7 +35,7 @@
         <env name="DB_DATABASE" value="tenancy"/>
         <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="APP_ENV" value="production"/>
+        <env name="APP_ENV" value="testing"/>
         <env name="TENANCY_DEFAULT_HOSTNAME" value="local.testing"/>
     </php>
 </phpunit>
