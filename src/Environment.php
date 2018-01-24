@@ -38,7 +38,7 @@ class Environment
     {
         $this->app = $app;
 
-        if (config('tenancy.hostname.auto-identification')) {
+        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
@@ -60,15 +60,13 @@ class Environment
      */
     public function identifyHostname()
     {
-        if ($this->runningInConsole() || !$this->installed()) {
-            $this->app->singleton(CurrentHostname::class, function () {
+        $this->app->singleton(CurrentHostname::class, function () {
+            if ($this->runningInConsole()) {
                 return null;
-            });
-        } else {
-            $this->app->singleton(CurrentHostname::class, function () {
-                return $this->dispatch(new HostnameIdentification);
-            });
-        }
+            }
+
+            return $this->dispatch(new HostnameIdentification);
+        });
     }
 
     /**
@@ -117,6 +115,6 @@ class Environment
      */
     private function runningInConsole()
     {
-        return $this->app->runningInConsole() && $this->app->environment() != 'testing';
+        return $this->app->runningInConsole() && !$this->app->runningUnitTests();
     }
 }
