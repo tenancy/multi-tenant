@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
@@ -132,6 +133,18 @@ trait InteractsWithTenancy
         if ($connect && $this->hostname->website_id !== $this->website->id) {
             $this->hostnames->attach($this->hostname, $this->website);
         }
+    }
+
+    protected function mockHttpRequest()
+    {
+        $this->app->singleton(Environment::class, function ($app) {
+            return new class($app) extends Environment {
+                public function runningInConsole()
+                {
+                    return false;
+                }
+            };
+        });
     }
 
     protected function cleanupTenancy()
