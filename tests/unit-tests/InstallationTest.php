@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
@@ -130,6 +131,7 @@ class InstallationTest extends Test
      */
     public function hostname_identification_returns_default()
     {
+        $this->mockHttpRequest();
         $this->setUpHostnames(true);
 
         $this->assertEquals(
@@ -146,6 +148,7 @@ class InstallationTest extends Test
      */
     public function verify_request()
     {
+        $this->mockHttpRequest();
         $this->setUpHostnames(true);
 
         $response = $this->get('http://localhost/default');
@@ -173,6 +176,7 @@ class InstallationTest extends Test
      */
     public function verify_tenant_request()
     {
+        $this->mockHttpRequest();
         $this->setUpHostnames(true);
 
         $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);

@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -37,7 +38,7 @@ class Environment
     {
         $this->app = $app;
 
-        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
+        if (config('tenancy.hostname.auto-identification')) {
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
         }
@@ -48,7 +49,9 @@ class Environment
      */
     public function installed(): bool
     {
-        return file_exists(base_path('tenancy.json'));
+        $connection = $this->app->make(Connection::class)->system();
+
+        return $connection->getSchemaBuilder()->hasTable('hostnames');
     }
 
     /**
@@ -90,5 +93,13 @@ class Environment
         $hostname = $this->hostname();
 
         return $hostname ? $hostname->website : null;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function runningInConsole()
+    {
+        return $this->app->runningInConsole();
     }
 }
