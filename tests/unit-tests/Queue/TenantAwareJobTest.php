@@ -39,6 +39,8 @@ class TenantAwareJobTest extends Test
      */
     public function serializes_tenant()
     {
+        $this->mockHttpRequest();
+
         $this->app->make(CurrentHostname::class);
 
         $job = new JobExtend();

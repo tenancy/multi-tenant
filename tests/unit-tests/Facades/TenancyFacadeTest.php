@@ -39,6 +39,8 @@ class TenancyFacadeTest extends Test
      */
     public function hostname()
     {
+        $this->mockHttpRequest();
+
         $this->assertEquals($this->hostname->fqdn, Tenancy::hostname()->fqdn);
 
         Tenancy::hostname($this->tenant);
@@ -51,6 +53,8 @@ class TenancyFacadeTest extends Test
      */
     public function website()
     {
+        $this->mockHttpRequest();
+
         $this->assertEquals($this->hostname->website_id, Tenancy::website()->id);
     }
 }
