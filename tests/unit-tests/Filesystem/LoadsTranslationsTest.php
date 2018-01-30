@@ -64,6 +64,25 @@ EOM
      */
     public function overrides_global_translations()
     {
+        $this->saveAndConfirmTenantTranslation();
+
+        $this->assertEquals('bar', trans('passwords.password', [], 'en'));
+    }
+
+    /**
+     * @test
+     */
+    public function creates_namespace_if_not_global_override()
+    {
+        config(['tenancy.folders.trans.override-global' => false]);
+
+        $namespace = config('tenancy.folders.trans.namespace');
+
+        $this->assertEquals('bar', trans($namespace . '::passwords.password', [], 'en'));
+    }
+
+    protected function saveAndConfirmTenantTranslation()
+    {
         $original = include base_path('resources/lang/en/passwords.php');
 
         $this->assertEquals($original['password'], trans('passwords.password', [], 'en'));
@@ -84,7 +103,5 @@ EOM
         $this->assertTrue($this->directory->exists('lang/en/passwords.php'));
 
         $this->activateTenant('local');
-
-        $this->assertEquals('bar', trans('passwords.password', [], 'en'));
     }
 }

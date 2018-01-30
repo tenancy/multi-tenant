@@ -24,7 +24,7 @@ class LoadsPrefixedRoutesTest extends Test
 
     protected function duringSetUp(Application $app)
     {
-        $app['config']->set('tenancy.routes.prefix', 'v1');
+        config(['tenancy.folders.routes.prefix' => 'v1']);
 
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
