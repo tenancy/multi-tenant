@@ -15,32 +15,19 @@
 namespace Hyn\Tenancy\Translations;
 
 use Illuminate\Translation\FileLoader;
-use Illuminate\Contracts\Translation\Loader;
-use Illuminate\Filesystem\Filesystem;
 
 class MultiFileLoader extends FileLoader
 {
     /**
-     * @var \Illuminate\Translation\FileLoader
+     * @var FileLoader
      */
     protected $fileLoaders = [];
 
     /**
-     * Create a new file loader instance.
-     *
-     * @param  \Illuminate\Filesystem\Filesystem  $files
-     * @param  string  $path
-     * @return void
+     * @param FileLoader $loader
+     * @return $this
      */
-    public function __construct(Filesystem $files, $path)
-    {
-        parent::__construct($files, $path);
-    }
-
-    /**
-     * @param \Illuminate\Translation\FileLoader $loader
-     */
-    public function addLoader(\Illuminate\Translation\FileLoader $loader)
+    public function addLoader(FileLoader $loader)
     {
         $this->fileLoaders[] = $loader;
         return $this;
