@@ -20,9 +20,11 @@ use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Hostnames\Switched;
+use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\QueryException;
 
 class Environment
 {
@@ -37,7 +39,9 @@ class Environment
     {
         $this->app = $app;
 
-        if (config('tenancy.hostname.auto-identification')) {
+        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
+            // Resolves current hostname, even if set in env variable.
+            $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
         }
@@ -48,9 +52,23 @@ class Environment
      */
     public function installed(): bool
     {
+        /** @var \Illuminate\Database\Connection $connection */
         $connection = $this->app->make(Connection::class)->system();
 
-        return $connection->getSchemaBuilder()->hasTable('hostnames');
+        try {
+            return $connection->getSchemaBuilder()->hasTable('hostnames');
+        } catch (QueryException $e) {
+            return false;
+        }
+    }
+
+    public function identifyHostname()
+    {
+        $this->app->singleton(CurrentHostname::class, function () {
+            $hostname = $this->dispatch(new HostnameIdentification);
+
+            return $hostname;
+        });
     }
 
     /**
@@ -92,13 +110,5 @@ class Environment
         $hostname = $this->hostname();
 
         return $hostname ? $hostname->website : null;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function runningInConsole()
-    {
-        return $this->app->runningInConsole();
     }
 }

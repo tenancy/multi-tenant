@@ -33,11 +33,13 @@ class HostnameIdentification
     {
         $hostname = env('TENANCY_CURRENT_HOSTNAME');
 
-        if (!$hostname) {
+        if (!$hostname && $request->getHost()) {
             $hostname = $request->getHost();
         }
 
-        $hostname = $hostnameRepository->findByHostname($hostname);
+        if ($hostname) {
+            $hostname = $hostnameRepository->findByHostname($hostname);
+        }
 
         if (!$hostname) {
             $hostname = $hostnameRepository->getDefault();
