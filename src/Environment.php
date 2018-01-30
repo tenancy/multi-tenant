@@ -39,7 +39,6 @@ class Environment
         $this->app = $app;
 
         if (config('tenancy.hostname.auto-identification')) {
-            $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
         }
@@ -53,20 +52,6 @@ class Environment
         $connection = $this->app->make(Connection::class)->system();
 
         return $connection->getSchemaBuilder()->hasTable('hostnames');
-    }
-
-    /**
-     * Auto identification of the tenant hostname to use.
-     */
-    public function identifyHostname()
-    {
-        $this->app->singleton(CurrentHostname::class, function () {
-            if ($this->runningInConsole()) {
-                return null;
-            }
-
-            return $this->dispatch(new HostnameIdentification);
-        });
     }
 
     /**
