@@ -23,7 +23,7 @@ trait TenantAwareJob
     /**
      * @var int The hostname ID of the previously active tenant.
      */
-    protected $tenant_id;
+    protected $hostname_id;
 
     use SerializesModels {
         __sleep as serializedSleep;
@@ -36,7 +36,7 @@ trait TenantAwareJob
         $environment = app(Environment::class);
 
         if ($hostname = $environment->hostname()) {
-            $this->tenant_id = $hostname->id;
+            $this->hostname_id = $hostname->id;
         }
 
         $attributes = $this->serializedSleep();
@@ -46,12 +46,12 @@ trait TenantAwareJob
 
     public function __wakeup()
     {
-        if (isset($this->tenant_id)) {
+        if (isset($this->hostname_id)) {
 
             /** @var Environment $environment */
             $environment = app(Environment::class);
 
-            $environment->hostname(Hostname::find($this->tenant_id));
+            $environment->hostname(Hostname::find($this->hostname_id));
         }
 
         $this->serializedWakeup();
