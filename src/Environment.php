@@ -20,7 +20,6 @@ use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Hostnames\Switched;
-use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
