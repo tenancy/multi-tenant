@@ -27,7 +27,7 @@ trait InteractsWithRoutes
         /** @var Directory $directory */
         $directory = $this->app->make(Directory::class);
         $directory->setWebsite($this->website);
-        
+
         if (!$uri) {
             $uri = $path;
         }
@@ -42,7 +42,7 @@ EOM
 
         $this->assertTrue($directory->exists('routes.php'));
 
-        $this->activateTenant();
+        $this->activateTenant('local');
 
         /** @var Router $router */
         $router = $this->app->make('router');

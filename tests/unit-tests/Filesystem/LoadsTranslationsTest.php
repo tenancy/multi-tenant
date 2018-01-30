@@ -64,6 +64,8 @@ EOM
      */
     public function overrides_global_translations()
     {
+        $this->assertFalse(config('tenancy.folders.trans.override-global'));
+
         $this->saveAndConfirmTenantTranslation();
 
         $this->assertEquals('bar', trans('passwords.password', [], 'en'));
@@ -75,6 +77,8 @@ EOM
     public function creates_namespace_if_not_global_override()
     {
         config(['tenancy.folders.trans.override-global' => false]);
+
+        $this->assertFalse(config('tenancy.folders.trans.override-global'));
 
         $namespace = config('tenancy.folders.trans.namespace');
 
