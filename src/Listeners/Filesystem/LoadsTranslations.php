@@ -51,7 +51,7 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
      */
     protected function readLanguageFiles(string $path)
     {
-        if ($this->config->get('tenancy.folders.trans.override-global')) {
+        if (config('tenancy.folders.trans.override-global')) {
             app()->extend('translation.loader', function ($loader) use ($path) {
                 if ($loader instanceof MultiFileLoader) {
                     return $loader->addLoader(new FileLoader(app()->make('files'), $path));
@@ -67,7 +67,7 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
                 $translator->setFallback($app['config']['app.fallback_locale']);
                 return $translator;
             });
-        } elseif ($namespace = $this->config->get('tenancy.folders.trans.namespace')) {
+        } elseif ($namespace = config('tenancy.folders.trans.namespace')) {
             app('translator')->addNamespace($namespace, $path);
         }
     }

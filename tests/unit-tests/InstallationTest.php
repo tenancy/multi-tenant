@@ -133,6 +133,8 @@ class InstallationTest extends Test
     {
         $this->setUpHostnames(true);
 
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
+
         $this->assertEquals(
             $this->hostname->fqdn,
             $this->app->make(CurrentHostname::class)->fqdn
@@ -148,6 +150,8 @@ class InstallationTest extends Test
     public function verify_request()
     {
         $this->setUpHostnames(true);
+
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
 
         $response = $this->get('http://localhost/default');
 

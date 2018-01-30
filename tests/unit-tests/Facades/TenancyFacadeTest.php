@@ -24,6 +24,7 @@ class TenancyFacadeTest extends Test
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
     }
 
     /**

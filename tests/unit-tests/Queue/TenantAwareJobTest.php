@@ -31,6 +31,7 @@ class TenantAwareJobTest extends Test
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
+        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
         $this->environment = $app->make(Environment::class);
     }
 

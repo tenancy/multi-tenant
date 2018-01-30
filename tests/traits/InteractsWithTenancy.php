@@ -68,10 +68,13 @@ trait InteractsWithTenancy
 
     protected function getReplicatedHostname(): Hostname
     {
-        /** @var Hostname $tenant */
-        $tenant = $this->hostname->replicate();
-        $tenant->fqdn = 'tenant.testing';
-        return $tenant;
+        Hostname::unguard();
+        $tenant = Hostname::firstOrNew([
+            'fqdn' => 'tenant.testing',
+        ]);
+        Hostname::reguard();
+
+        return $this->hostnames->create($tenant);
     }
 
     /**
