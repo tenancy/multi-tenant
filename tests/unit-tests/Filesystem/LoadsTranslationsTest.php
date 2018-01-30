@@ -54,7 +54,7 @@ EOM
 
         $this->assertTrue($this->directory->exists('lang/ch/test.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertEquals('bar', trans('test.foo', [], 'ch'));
     }
@@ -106,6 +106,6 @@ EOM
 
         $this->assertTrue($this->directory->exists('lang/en/passwords.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
     }
 }

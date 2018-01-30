@@ -51,8 +51,6 @@ class EnvironmentTest extends Test
      */
     public function identifies_hostname()
     {
-        $this->mockHttpRequest();
-
         $this->expectsEvents(Identified::class);
 
         $identified = $this->app->make(CurrentHostname::class);
@@ -86,8 +84,6 @@ class EnvironmentTest extends Test
      */
     public function middleware_fired_under_maintenance()
     {
-        $this->mockHttpRequest();
-
         $this->hostname->save();
 
         config(['tenancy.hostname.default' => $this->hostname->fqdn]);

@@ -40,7 +40,7 @@ class LoadsConfigsTest extends Test
     public function reads_additional_config()
     {
         $this->assertNull(config('test.foo'));
-        
+
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('config'));
 
@@ -54,7 +54,7 @@ EOM
 
         $this->assertTrue($this->directory->exists('config/test.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertEquals('bar', config('test.foo'));
     }
@@ -65,7 +65,7 @@ EOM
     public function does_not_make_config_array()
     {
         $this->assertNotEquals('bar', config('app.name'));
-        
+
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('config'));
 
@@ -79,7 +79,7 @@ EOM
 
         $this->assertTrue($this->directory->exists('config/app.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertEquals('bar', config('app.name'));
     }
@@ -102,7 +102,7 @@ EOM
 
         $this->assertTrue($this->directory->exists('config/database.php'));
 
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertNull(config('database.foo'));
     }

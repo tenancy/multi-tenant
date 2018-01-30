@@ -30,7 +30,7 @@ class TenantModelTest extends Test
 
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertEquals($model->getConnection(), $this->connection->get());
     }

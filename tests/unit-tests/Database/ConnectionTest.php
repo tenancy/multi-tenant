@@ -37,7 +37,7 @@ class ConnectionTest extends Test
     public function hostname_identification_switches_connection()
     {
         $this->setUpHostnames(true);
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $failsWithoutWebsite = false;
 
@@ -59,7 +59,7 @@ class ConnectionTest extends Test
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
         $this->assertTrue($this->connection->system() instanceof DatabaseConnection, 'System connection fails once tenant connection is set up.');
@@ -77,7 +77,7 @@ class ConnectionTest extends Test
 
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
-        $this->activateTenant('local');
+        $this->activateTenant();
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
     }

@@ -39,8 +39,6 @@ class TenantAwareJobTest extends Test
      */
     public function serializes_tenant()
     {
-        $this->mockHttpRequest();
-
         $this->app->make(CurrentHostname::class);
 
         $job = new JobExtend();
@@ -48,7 +46,7 @@ class TenantAwareJobTest extends Test
         $attributes = serialize($job);
 
         // switch to other
-        $this->environment->hostname($this->tenant);
+        $this->environment->hostname($this->getReplicatedHostname());
 
         /** @var CurrentHostname $identified */
         $identified = $this->app->make(CurrentHostname::class);

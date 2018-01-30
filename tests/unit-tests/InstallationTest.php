@@ -131,7 +131,6 @@ class InstallationTest extends Test
      */
     public function hostname_identification_returns_default()
     {
-        $this->mockHttpRequest();
         $this->setUpHostnames(true);
 
         $this->assertEquals(
@@ -148,40 +147,11 @@ class InstallationTest extends Test
      */
     public function verify_request()
     {
-        $this->mockHttpRequest();
         $this->setUpHostnames(true);
 
         $response = $this->get('http://localhost/default');
 
         $response->assertJsonFragment(['fqdn' => $this->hostname->fqdn]);
-    }
-
-    /**
-     * @test
-     * @depends verify_request
-     */
-    public function save_tenant_hostname()
-    {
-        $this->setUpHostnames();
-
-        $this->hostnames->create($this->tenant);
-
-        $this->assertTrue($this->tenant->exists);
-    }
-
-    /**
-     * @test
-     * @depends save_tenant_hostname
-     * @covers \Hyn\Tenancy\Jobs\HostnameIdentification
-     */
-    public function verify_tenant_request()
-    {
-        $this->mockHttpRequest();
-        $this->setUpHostnames(true);
-
-        $response = $this->get('http://tenant.testing/default', ['host' => $this->tenant->fqdn]);
-
-        $response->assertJsonFragment(['fqdn' => $this->tenant->fqdn]);
     }
 
     /**

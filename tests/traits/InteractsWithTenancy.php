@@ -32,11 +32,6 @@ trait InteractsWithTenancy
     protected $hostname;
 
     /**
-     * @var Hostname
-     */
-    protected $tenant;
-
-    /**
      * @var Website
      */
     protected $website;
@@ -69,7 +64,14 @@ trait InteractsWithTenancy
     protected function loadHostnames()
     {
         $this->hostname = Hostname::where('fqdn', 'local.testing')->firstOrFail();
-        $this->tenant = Hostname::where('fqdn', 'tenant.testing')->firstOrFail();
+    }
+
+    protected function getReplicatedHostname(): Hostname
+    {
+        /** @var Hostname $tenant */
+        $tenant = $this->hostname->replicate();
+        $tenant->fqdn = 'tenant.testing';
+        return $tenant;
     }
 
     /**
@@ -85,34 +87,17 @@ trait InteractsWithTenancy
 
             $this->hostname = $hostname;
         }
-
-        if (!$this->tenant) {
-            $tenant = Hostname::firstOrNew([
-                'fqdn' => 'tenant.testing',
-            ]);
-
-            $this->tenant = $tenant;
-        }
         Hostname::reguard();
 
         if ($save && ! $this->hostname->exists) {
             $this->hostnames->create($this->hostname);
         }
-
-        if ($save && ! $this->tenant->exists) {
-            $this->hostnames->create($this->tenant);
-        }
     }
 
-    /**
-     * @param string $tenant
-     */
-    protected function activateTenant(string $tenant = null)
+    protected function activateTenant()
     {
-        $hostname = $tenant == 'tenant' ? $this->tenant : $this->hostname;
-
         $this->emitEvent(
-            new Identified($hostname)
+            new Identified($this->hostname)
         );
     }
 
@@ -135,21 +120,9 @@ trait InteractsWithTenancy
         }
     }
 
-    protected function mockHttpRequest()
-    {
-        $this->app->singleton(Environment::class, function ($app) {
-            return new class($app) extends Environment {
-                public function runningInConsole()
-                {
-                    return false;
-                }
-            };
-        });
-    }
-
     protected function cleanupTenancy()
     {
-        foreach (['website', 'hostname', 'tenant'] as $property) {
+        foreach (['website', 'hostname'] as $property) {
             if ($this->{$property} && $this->{$property}->exists) {
                 $this->{$property}->delete();
             }
