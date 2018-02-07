@@ -73,6 +73,14 @@ jobs:
             - *mariadb
             - *pgsql
         <<: *steps
+    "php-7.2-apache":
+        docker:
+            - image: php:7.2-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+        <<: *steps
     "php-7.0-nginx":
         docker:
             - image: php:7.0-fpm
@@ -84,14 +92,6 @@ jobs:
     "php-7.1-nginx":
         docker:
             - image: php:7.1-fpm
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-        <<: *steps
-    "php-7.2-nginx":
-        docker:
-            - image: php:7.2-fpm
               environment: *environment
             - *mysql
             - *mariadb
