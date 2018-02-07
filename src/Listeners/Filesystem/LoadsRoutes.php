@@ -49,7 +49,7 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
         /** @var Router $router */
         $router = app('router');
 
-        $prefix = $this->config->get('tenancy.routes.prefix', '');
+        $prefix = config('tenancy.folders.routes.prefix', '');
 
         $router->group(['prefix' => $prefix], function ($router) use ($path) {
             return $this->directory->getRequire($path);
