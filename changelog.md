@@ -2,6 +2,7 @@
     - Removed need for tenancy.json in laravel docroot, it now checks database.
     - Updated terminology in TenantAwareJob, $tenant_id is now $hostname_id.
     - Improved translation file loading for tenants. Override global now properly works.
+    - Fixed issue with prefixed routes, which have never worked.
 - 5.0.17
     - Fixed auto identification due to incorrect CurrentHostname resolving.
 - 5.0.16
