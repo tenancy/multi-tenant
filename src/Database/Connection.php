@@ -209,7 +209,8 @@ class Connection
         ];
 
         if ($path) {
-            $options['--realpath'] = $path;
+            $options['--path'] = $path;
+            $options['--realpath'] = true;
         }
 
         $code = $this->artisan->call('tenancy:migrate', $options);

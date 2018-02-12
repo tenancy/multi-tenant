@@ -27,7 +27,8 @@ trait InteractsWithMigrations
     protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null)
     {
         $code = $this->artisan("tenancy:$command", [
-            '--realpath' => __DIR__ . '/../migrations',
+            '--realpath' => true,
+            '--path' => __DIR__ . '/../migrations',
             '-n' => 1,
             '--force' => true
         ]);
