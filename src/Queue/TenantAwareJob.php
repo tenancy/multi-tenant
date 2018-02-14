@@ -35,7 +35,9 @@ trait TenantAwareJob
         /** @var Environment $environment */
         $environment = app(Environment::class);
 
-        if ($hostname = $environment->hostname()) {
+        $hostname = $environment->hostname();
+
+        if ($hostname && !$this->hostname_id) {
             $this->hostname_id = $hostname->id;
         }
 
@@ -55,5 +57,18 @@ trait TenantAwareJob
         }
 
         $this->serializedWakeup();
+    }
+
+    /**
+     * Manually override the hostname to be used.
+     *
+     * @param Hostname|int $hostname
+     * @return $this
+     */
+    public function onHostname($hostname)
+    {
+        $this->hostname_id = $hostname instanceof Hostname ? $hostname->id : $hostname;
+
+        return $this;
     }
 }

@@ -38,7 +38,7 @@ class TenantAwareJobTest extends Test
     /**
      * @test
      */
-    public function serializes_tenant()
+    public function serializes_current_tenant()
     {
         $this->app->make(CurrentHostname::class);
 
@@ -60,5 +60,28 @@ class TenantAwareJobTest extends Test
         $restored = $this->environment->hostname();
 
         $this->assertNotEquals($identified->fqdn, $restored->fqdn);
+    }
+
+    /**
+     * @test
+     */
+    public function serializes_manual_tenant()
+    {
+        $this->app->make(CurrentHostname::class);
+
+        $hostname = $this->getReplicatedHostname();
+
+        $job = (new JobExtend())->onHostname($hostname);
+
+        $attributes = serialize($job);
+
+        /** @var JobExtend $job */
+        $job = unserialize($attributes);
+
+        $this->assertInstanceOf(JobExtend::class, $job);
+
+        $restored = $this->environment->hostname();
+
+        $this->assertEquals($hostname->fqdn, $restored->fqdn);
     }
 }
