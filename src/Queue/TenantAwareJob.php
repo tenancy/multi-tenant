@@ -37,7 +37,7 @@ trait TenantAwareJob
 
         $hostname = $environment->hostname();
 
-        if (isset($hostname) && !isset($this->hostname_id)) {
+        if ($hostname && !$this->hostname_id) {
             $this->hostname_id = $hostname->id;
         }
 
@@ -62,7 +62,8 @@ trait TenantAwareJob
     /**
      * Manually override the hostname to be used.
      *
-     * @param mixed $hostname
+     * @param Hostname|int $hostname
+     * @return $this
      */
     public function onHostname($hostname)
     {

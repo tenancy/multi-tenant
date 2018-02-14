@@ -69,9 +69,9 @@ class TenantAwareJobTest extends Test
     {
         $this->app->make(CurrentHostname::class);
 
-        $manualHostname = $this->getReplicatedHostname();
+        $hostname = $this->getReplicatedHostname();
 
-        $job = (new JobExtend())->onHostname($manualHostname);
+        $job = (new JobExtend())->onHostname($hostname);
 
         $attributes = serialize($job);
 
@@ -82,6 +82,6 @@ class TenantAwareJobTest extends Test
 
         $restored = $this->environment->hostname();
 
-        $this->assertEquals($manualHostname->fqdn, $restored->fqdn);
+        $this->assertEquals($hostname->fqdn, $restored->fqdn);
     }
 }
