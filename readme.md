@@ -144,6 +144,6 @@ Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
 - [Discord chat](https://laravel-tenancy.com/chat).
-- The [community on patreon](http://patreon.com/tenancy/community).
+- The [community on patreon](http://patreon.com/luceos/community).
 
 Keep informed about news of this package by [signing up for the newsletter](https://laravel-tenancy.com/newsletter/signup).
