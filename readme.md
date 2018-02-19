@@ -103,10 +103,8 @@ This will run the required system database migrations.
 
 ## Support development
 
-Maintaining and extending this package is very time consuming. By becoming a patron at [patreon.com/tenancy](http://patreon.com/tenancy)
-you act as an inspiration and it allows you to become more closely involved.
-
-All of my patrons receive additional benefits!
+Maintaining and extending tenancy is very time consuming. By backing the project on [Open Collective](https://opencollective.com/tenancy), you'll reduce the need for us to pick up client work and focus our efforts on
+this package.
 
 ---
 
@@ -144,6 +142,5 @@ Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
 - [Discord chat](https://laravel-tenancy.com/chat).
-- The [community on patreon](http://patreon.com/luceos/community).
 
 Keep informed about news of this package by [signing up for the newsletter](https://laravel-tenancy.com/newsletter/signup).
