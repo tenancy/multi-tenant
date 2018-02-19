@@ -17,11 +17,11 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
+use Illuminate\Database\DatabaseManager;
 
 trait InteractsWithTenancy
 {
@@ -125,9 +125,10 @@ trait InteractsWithTenancy
 
     protected function cleanupTenancy()
     {
-        foreach (['website', 'hostname'] as $property) {
+        foreach (['hostname', 'website'] as $property) {
             if ($this->{$property} && $this->{$property}->exists) {
-                $this->{$property}->delete();
+                $repo = str_plural($property);
+                $this->{$repo}->delete($this->{$property});
             }
         }
     }
