@@ -68,9 +68,8 @@ trait MutatesMigrationCommands
      */
     protected function getMigrationPaths()
     {
-
         if ($this->input->hasOption('path') && $this->option('path')) {
-           return parent::getMigrationPaths();
+            return parent::getMigrationPaths();
         }
 
         // Tenant migrations path is configured.
