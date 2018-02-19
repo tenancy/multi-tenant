@@ -133,6 +133,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/tenancy/sponsor/8/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/tenancy/sponsor/9/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/9/avatar.svg"></a>
 
+
 ---
 
 ## License and contributing
@@ -169,6 +170,5 @@ Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
 - [Discord chat](https://laravel-tenancy.com/chat).
-- The [community on patreon](http://patreon.com/luceos/community).
 
 Keep informed about news of this package by [signing up for the newsletter](https://laravel-tenancy.com/newsletter/signup).
