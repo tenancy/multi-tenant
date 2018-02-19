@@ -1,3 +1,5 @@
+[![Backers on Open Collective](https://opencollective.com/tenancy/backers/badge.svg)](#backers) 
+[![Sponsors on Open Collective](https://opencollective.com/tenancy/sponsors/badge.svg)](#sponsors) 
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)](https://packagist.org/packages/hyn/multi-tenant)
 [![build status](https://circleci.com/gh/hyn/multi-tenant.svg?style=svg)](https://circleci.com/gh/hyn/multi-tenant)
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/5.x)
@@ -101,10 +103,36 @@ php artisan tenancy:install
 ```
 This will run the required system database migrations.
 
-## Support development
+---
 
-Maintaining and extending tenancy is very time consuming. By backing the project on [Open Collective](https://opencollective.com/tenancy), you'll reduce the need for us to pick up client work and focus our efforts on
-this package.
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/tenancy/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tenancy#backer)]
+
+<a href="https://opencollective.com/tenancy#backers" target="_blank"><img src="https://opencollective.com/tenancy/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tenancy#sponsor)]
+
+<a href="https://opencollective.com/tenancy/sponsor/0/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/1/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/2/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/3/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/4/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/5/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/6/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/7/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/8/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/tenancy/sponsor/9/website" target="_blank"><img src="https://opencollective.com/tenancy/sponsor/9/avatar.svg"></a>
+
 
 ---
 
