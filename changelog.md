@@ -3,6 +3,9 @@
     - Updated terminology in TenantAwareJob, $tenant_id is now $hostname_id.
     - Improved translation file loading for tenants. Override global now properly works.
     - Fixed issue with prefixed routes, which have never worked.
+    - Moved to Laravel 5.6 support for this version.
+    - Added onHostname to specify the hostname on job creation.
+    - Fix tests to use repositories so databases will be deleted.
 - 5.0.17
     - Fixed auto identification due to incorrect CurrentHostname resolving.
 - 5.0.16
