@@ -105,7 +105,7 @@ return [
         /**
          * The php sock to be used.
          */
-        'php-sock' => 'unix:/var/run/php/php7.0-fpm.sock',
+        'php-sock' => 'unix:/var/run/php/php7.1-fpm.sock',
 
         /**
          * Define the ports of your nginx service.

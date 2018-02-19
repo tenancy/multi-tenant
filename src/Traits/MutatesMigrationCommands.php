@@ -68,18 +68,9 @@ trait MutatesMigrationCommands
      */
     protected function getMigrationPaths()
     {
-        // Here, we will check to see if a path option has been defined. If it has we will
-        // use the path relative to the root of the installation folder so our database
-        // migrations may be run for any customized path from within the application.
-        if ($this->input->hasOption('path') && $this->option('path')) {
-            return collect($this->option('path'))->map(function ($path) {
-                return $this->laravel->basePath() . '/' . $path;
-            })->all();
-        }
 
-        // Real path option is given.
-        if (!is_null($realPath = $this->input->getOption('realpath'))) {
-            return [$realPath];
+        if ($this->input->hasOption('path') && $this->option('path')) {
+           return parent::getMigrationPaths();
         }
 
         // Tenant migrations path is configured.
@@ -87,7 +78,7 @@ trait MutatesMigrationCommands
             return [$path];
         }
 
-        throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify either path or realpath.");
+        throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify a path.");
     }
 
     /**
@@ -97,9 +88,6 @@ trait MutatesMigrationCommands
      */
     protected function getOptions()
     {
-        return array_merge([
-            $this->addWebsiteOption(),
-            ['realpath', null, InputOption::VALUE_OPTIONAL, 'The absolute path to migration files.', null],
-        ], parent::getOptions());
+        return array_merge([$this->addWebsiteOption()], parent::getOptions());
     }
 }
