@@ -81,11 +81,7 @@ class Directory implements Filesystem
      */
     public function path(string $path = null, $local = false): string
     {
-        $prefix = sprintf(
-            "%s%s",
-            $this->getWebsite()->uuid,
-            DIRECTORY_SEPARATOR
-        );
+        $prefix = "{$this->getWebsite()->uuid}/";
 
         if ($path === null) {
             $path = '';
