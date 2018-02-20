@@ -6,6 +6,7 @@
     - Moved to Laravel 5.6 support for this version.
     - Added onHostname to specify the hostname on job creation.
     - Fix tests to use repositories so databases will be deleted.
+    - Fixed apache config having an incorrect alias.
 - 5.0.17
     - Fixed auto identification due to incorrect CurrentHostname resolving.
 - 5.0.16
