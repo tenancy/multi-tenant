@@ -8,7 +8,7 @@
 
     @if($media)
         # media directory
-        alias "/media/" "{{ $media . DIRECTORY_SEPARATOR }}"
+        alias "/media/" "{{ $media }}/"
     @endif
 
     # allow cross domain loading of resources
