@@ -27,6 +27,8 @@ class MediaController
 
     public function __invoke(string $path)
     {
+        $path = "media/$path";
+
         if ($this->directory->exists($path)) {
             return new BinaryFileResponse(
                 $this->directory->get($path)
