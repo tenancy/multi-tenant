@@ -42,9 +42,7 @@ class MediaController
         $path = "media/$path";
 
         if ($this->directory->exists($path)) {
-            return new BinaryFileResponse(
-                $this->directory->get($path)
-            );
+            return $this->directory->get($path);
         }
 
         return abort(404);
