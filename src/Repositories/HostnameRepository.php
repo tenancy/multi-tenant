@@ -179,7 +179,7 @@ class HostnameRepository implements Contract
         $website->load('hostnames');
 
         $this->cache->forget("tenancy.hostname.{$hostname->fqdn}");
-        $this->cache->flush("tenancy.website.{$website->uuid}");
+        $this->cache->forget("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Attached($hostname, $website)
@@ -194,7 +194,7 @@ class HostnameRepository implements Contract
      */
     public function detach(Hostname &$hostname): Hostname
     {
-        $this->cache->flush("tenancy.website.{$hostname->website->uuid}");
+        $this->cache->forget("tenancy.website.{$hostname->website->uuid}");
 
         $hostname->website()->dissociate();
 
