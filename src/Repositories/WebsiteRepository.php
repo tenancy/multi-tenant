@@ -89,7 +89,7 @@ class WebsiteRepository implements Contract
 
         $website->save();
 
-        $this->cache->flush("tenancy.website.{$website->uuid}");
+        $this->cache->forget("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Created($website)
@@ -120,7 +120,7 @@ class WebsiteRepository implements Contract
 
         $website->save();
 
-        $this->cache->flush("tenancy.website.{$website->uuid}");
+        $this->cache->forget("tenancy.website.{$website->uuid}");
 
         if ($dirty->has('uuid')) {
             $this->cache->forget("tenancy.website.{$dirty->get('uuid')}");
@@ -148,7 +148,7 @@ class WebsiteRepository implements Contract
 
         $hard ? $website->forceDelete() : $website->delete();
 
-        $this->cache->flush("tenancy.website.{$website->uuid}");
+        $this->cache->forget("tenancy.website.{$website->uuid}");
 
         $this->emitEvent(
             new Events\Deleted($website)
