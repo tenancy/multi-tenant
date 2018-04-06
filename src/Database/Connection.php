@@ -252,7 +252,7 @@ class Connection
     {
         $clone = config(sprintf(
             'database.connections.%s',
-            $this->systemName()
+            $website->managed_by_database_connection ?? $this->systemName()
         ));
 
         $mode = config('tenancy.db.tenant-division-mode');

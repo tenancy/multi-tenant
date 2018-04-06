@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
  * @property int $customer_id
+ * @property string $managed_by_database_connection
  * @property Customer $customer
  * @property Hostname[] $hostnames
  */
