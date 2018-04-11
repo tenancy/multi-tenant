@@ -35,7 +35,7 @@ class PostgreSQL implements DatabaseGenerator
         $connection = $connection->system();
 
         $user = function () use ($connection, $config) {
-            if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection, $config['username']) ) {
+            if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection, $config['username'])) {
                 return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
             }
 
