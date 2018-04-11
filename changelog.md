@@ -4,6 +4,7 @@
     - Now using configured `tenancy.db.tenant-seed-class` for seed related commands.
     - MySQL/MariaDB user creation and deletion fixed.
     - Made configurable whether to auto create and delete tenant database users.
+    - Fixed Content-Type on fallback Media Controller.
 - 5.1.2
     - Changing flush to forget on cache. Thus preventing the full Laravel cache from being flushed.
 - 5.1.1
