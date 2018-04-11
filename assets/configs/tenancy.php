@@ -212,6 +212,16 @@ return [
         'auto-create-tenant-database' => true,
 
         /**
+         * Automatically generate the user needed to access the database.
+         *
+         * @info Useful in case you use root or another predefined user to access the
+         *       tenant database.
+         *
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-database-user' => true,
+
+        /**
          * Automatically rename the tenant database when the random id of the
          * website changes. This should not be too common, but in case it happens
          * we automatically want to move databases accordingly.
@@ -227,6 +237,13 @@ return [
          * @info set to true to enable.
          */
         'auto-delete-tenant-database' => false,
+
+        /**
+         * Automatically delete the user needed to access the tenant database.
+         *
+         * @info set to false to disable.
+         */
+        'auto-delete-tenant-database-user' => false,
     ],
     'folders' => [
         'config' => [

@@ -34,7 +34,11 @@ class MariaDB implements DatabaseGenerator
     public function created(Created $event, array $config, Connection $connection): bool
     {
         $user = function ($connection) use ($config) {
-            return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+            if (config('tenancy.db.auto-create-tenant-database-user')) {
+                return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+            }
+
+            return true;
         };
         $create = function ($connection) use ($config) {
             return $connection->statement("CREATE DATABASE `{$config['database']}`");
@@ -73,14 +77,22 @@ class MariaDB implements DatabaseGenerator
      * @param array $config
      * @param Connection $connection
      * @return bool
-     * @throws GeneratorFailedException
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        if (!$connection->system()->statement("DROP DATABASE IF EXISTS `{$config['database']}`")) {
-            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
-        }
+        $user = function ($connection) use ($config) {
+            if (config('tenancy.db.auto-delete-tenant-database-user')) {
+                return $connection->statement("DROP USER IF EXISTS `{$config['username']}`@'{$config['host']}'");
+            }
 
-        return true;
+            return true;
+        };
+        $delete = function ($connection) use ($config) {
+            return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
+        };
+
+        return $connection->system()->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
+            return $delete($connection) && $user($connection);
+        });
     }
 }

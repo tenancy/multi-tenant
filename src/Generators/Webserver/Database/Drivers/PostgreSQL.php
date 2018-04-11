@@ -35,7 +35,11 @@ class PostgreSQL implements DatabaseGenerator
         $connection = $connection->system();
 
         $user = function () use ($connection, $config) {
-            return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+            if (config('tenancy.db.auto-create-tenant-database-user')) {
+                return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+            }
+
+            return true;
         };
         $create = function () use ($connection, $config) {
             return $connection->statement("CREATE DATABASE \"{$config['database']}\" WITH OWNER=\"{$config['username']}\"");
@@ -77,7 +81,11 @@ class PostgreSQL implements DatabaseGenerator
         $connection->get()->disconnect();
 
         $user = function () use ($connection, $config) {
-            return $connection->system()->statement("DROP USER \"{$config['username']}\"");
+            if (config('tenancy.db.auto-delete-tenant-database-user')) {
+                return $connection->system()->statement("DROP USER \"{$config['username']}\"");
+            }
+
+            return true;
         };
         $delete = function () use ($connection, $config) {
             return $connection->system()->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
