@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Controllers;
 
 use Hyn\Tenancy\Website\Directory;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class MediaController
@@ -42,7 +42,8 @@ class MediaController
         $path = "media/$path";
 
         if ($this->directory->exists($path)) {
-            return $this->directory->get($path);
+            return response($this->directory->get($path))
+                ->header('Content-Type', Storage::disk('tenant')->mimeType($path));
         }
 
         return abort(404);
