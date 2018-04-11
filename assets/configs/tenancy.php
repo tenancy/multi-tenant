@@ -193,9 +193,10 @@ return [
         'tenant-migrations-path' => database_path('migrations/tenant'),
 
         /**
-         * Seeds the newly created tenant database based on this Seeder.
+         * The default Seeder class used on newly created databases and while
+         * running artisan commands that fire seeding.
          *
-         * @info requires tenant-migrations-path to be in use.
+         * @info requires tenant-migrations-path in order to seed newly created websites.
          *
          * @warn specify a valid fully qualified class name.
          * @example App\Seeders\AdminSeeder::class
