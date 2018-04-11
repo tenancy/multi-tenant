@@ -35,7 +35,9 @@ class PostgreSQL implements DatabaseGenerator
         $connection = $connection->system();
 
         $user = function () use ($connection, $config) {
-            if (config('tenancy.db.auto-create-tenant-database-user')) {
+            $exists = $connection->statement("SELECT 1 FROM pg_roles WHERE rolname=\"{$config['username']}\"");
+
+            if (!$exists && config('tenancy.db.auto-create-tenant-database-user')) {
                 return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
             }
 
@@ -78,8 +80,6 @@ class PostgreSQL implements DatabaseGenerator
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        $connection->get()->disconnect();
-
         $user = function () use ($connection, $config) {
             if (config('tenancy.db.auto-delete-tenant-database-user')) {
                 return $connection->system()->statement("DROP USER \"{$config['username']}\"");

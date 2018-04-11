@@ -27,7 +27,7 @@ references:
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=mysql DB_HOST=mysql LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml
             - run: php tests/scripts/setup.php
-            - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql TENANCY_DATABASE_AUTO_DELETE=true TENANCY_DATABASE_AUTO_DELETE_USER=true ./vendor/bin/phpunit -c ci.phpunit.xml
+            - run: DB_CONNECTION=pgsql TENANCY_SYSTEM_CONNECTION_NAME=pgsql ./vendor/bin/phpunit -c ci.phpunit.xml
 
     mysql_environment: &mysql_environment
         - MYSQL_DATABASE: testing
