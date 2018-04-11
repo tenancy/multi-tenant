@@ -1,3 +1,5 @@
+- 5.1.5
+    - Fixes issue with tenants not being created properly on different database servers.
 - 5.1.3 & 5.1.4
     - Fixed typo in nginx vhost file.
     - Fixed the tenancy:db:refresh command.
