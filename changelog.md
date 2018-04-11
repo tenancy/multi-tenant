@@ -1,4 +1,4 @@
-- 5.1.3
+- 5.1.3 & 5.1.4
     - Fixed typo in nginx vhost file.
     - Fixed the tenancy:db:refresh command.
     - Now using configured `tenancy.db.tenant-seed-class` for seed related commands.
