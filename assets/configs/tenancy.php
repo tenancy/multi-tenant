@@ -236,14 +236,16 @@ return [
          *
          * @info set to true to enable.
          */
-        'auto-delete-tenant-database' => false,
+        'auto-delete-tenant-database' => env('TENANCY_DATABASE_AUTO_DELETE', false),
 
         /**
          * Automatically delete the user needed to access the tenant database.
          *
          * @info set to false to disable.
+         * @warn for postgresql it might be wise to enable this as we can't check whether a user exists before
+         *       creating them.
          */
-        'auto-delete-tenant-database-user' => false,
+        'auto-delete-tenant-database-user' => env('TENANCY_DATABASE_AUTO_DELETE_USER', false),
     ],
     'folders' => [
         'config' => [

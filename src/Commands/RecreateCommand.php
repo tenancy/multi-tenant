@@ -14,14 +14,11 @@
 
 namespace Hyn\Tenancy\Commands;
 
-use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Console\Command;
 use Hyn\Tenancy\Database\Connection;
-use Illuminate\Database\QueryException;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Events\Websites as Events;
-use Hyn\Tenancy\Traits\UsesSystemConnection;
 
 class RecreateCommand extends Command
 {
@@ -49,7 +46,15 @@ class RecreateCommand extends Command
     protected $table = 'migrations';
 
     /**
+     * @var Connection
+     */
+    protected $connection;
+
+    /**
      * Execute the console command.
+     *
+     * @param Connection $connection
+     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     public function handle(Connection $connection)
     {
@@ -70,7 +75,9 @@ class RecreateCommand extends Command
     /**
      * Checks if tenant database exists.
      *
+     * @param Website $website
      * @return bool
+     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     protected function tenantDatabaseExists(Website $website) : bool
     {
