@@ -34,7 +34,7 @@ class MariaDB implements DatabaseGenerator
     public function created(Created $event, array $config, Connection $connection): bool
     {
         $user = function ($connection) use ($config) {
-            if (config('tenancy.db.auto-create-tenant-database-user')) {
+            if (config('tenancy.db.auto-create-tenant-database-user', true)) {
                 return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
             }
 
@@ -81,7 +81,7 @@ class MariaDB implements DatabaseGenerator
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
         $user = function ($connection) use ($config) {
-            if (config('tenancy.db.auto-delete-tenant-database-user')) {
+            if (config('tenancy.db.auto-delete-tenant-database-user', false)) {
                 return $connection->statement("DROP USER IF EXISTS `{$config['username']}`@'{$config['host']}'");
             }
 
