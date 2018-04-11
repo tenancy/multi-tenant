@@ -50,6 +50,10 @@ trait MutatesSeedCommands
 
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
+        
+        if (! $this->option('class')) {
+            $this->input->setOption('class', config('tenancy.db.tenant-seed-class'));
+        }
 
         $this->processHandle(function (Website $website) {
             $this->connection->set($website);

@@ -30,12 +30,13 @@ class RefreshCommand extends BaseCommand
             return;
         }
 
-        $force = true;
         $database = $this->connection->tenantName();
+
+        $this->input->setOption('force', $force = true);
         $website_id = $this->option('website_id');
         $realpath = $this->option('realpath');
         $path = $this->input->getOption('path');
-        $step = $this->input->getOption('step') ?: 0;
+        $step = $this->input->getOption('step') ?? 0;
 
         if ($step > 0) {
             $this->call('tenancy:migrate:rollback', [
@@ -67,8 +68,8 @@ class RefreshCommand extends BaseCommand
         if ($this->needsSeeding()) {
             $this->call('tenancy:db:seed', [
                 '--database' => $database,
-                '--class' => $this->option('seeder') ?: 'DatabaseSeeder',
-                '--force' => $this->option('force'),
+                '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
+                '--force' => $force,
             ]);
         }
     }
