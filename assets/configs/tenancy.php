@@ -216,6 +216,7 @@ return [
          *
          * @info Useful in case you use root or another predefined user to access the
          *       tenant database.
+         * @info Only creates in case tenant databases are set to be created.
          *
          * @info set to false to disable.
          */
@@ -241,9 +242,8 @@ return [
         /**
          * Automatically delete the user needed to access the tenant database.
          *
-         * @info set to false to disable.
-         * @warn for postgresql it might be wise to enable this as we can't check whether a user exists before
-         *       creating them.
+         * @info Set to false to disable.
+         * @info Only deletes in case tenant database is set to be deleted.
          */
         'auto-delete-tenant-database-user' => env('TENANCY_DATABASE_AUTO_DELETE_USER', false),
     ],
