@@ -1,5 +1,5 @@
 #
-#   Auto generated Apache configuration
+#   Auto generated Nginx configuration
 #       @author: hyn/multi-tenant
 #       @see: http://laravel-tenancy.com
 #       @time: {{ date('H:i:s d-m-Y') }}
