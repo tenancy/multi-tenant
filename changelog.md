@@ -1,3 +1,11 @@
+- 5.1.3
+    - Fixed typo in nginx vhost file.
+    - Fixed the tenancy:db:refresh command.
+    - Now using configured `tenancy.db.tenant-seed-class` for seed related commands.
+- 5.1.2
+    - Changing flush to forget on cache. Thus preventing the full Laravel cache from being flushed.
+- 5.1.1
+    - Added a fallback media handler. In case you're not using the packaged apache or nginx vhost configurations.
 - 5.1.0
     - Removed need for tenancy.json in laravel docroot, it now checks database.
     - Updated terminology in TenantAwareJob, $tenant_id is now $hostname_id.
