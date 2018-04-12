@@ -17,7 +17,6 @@ namespace Hyn\Tenancy\Models;
 use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -42,10 +41,5 @@ class Website extends SystemModel implements WebsiteContract
     public function hostnames(): HasMany
     {
         return $this->hasMany(config('tenancy.models.hostname'));
-    }
-
-    public function getConnectionName()
-    {
-        return $this->managed_by_database_connection ?? app(Connection::class)->systemName();
     }
 }
