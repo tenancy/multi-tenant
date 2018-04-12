@@ -50,6 +50,9 @@ class MultiDatabaseTest extends Test
         // make sure the Website model still uses the regular system name.
         $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
 
-        $this->assertEquals($this->getConnection('secondary')->getDatabaseName(), $this->website->uuid);
+        $this->assertTrue(in_array(
+            $this->website->uuid,
+            $this->getConnection('secondary')->getDoctrineSchemaManager()->listDatabases()
+        ));
     }
 }

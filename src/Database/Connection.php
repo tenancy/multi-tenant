@@ -148,7 +148,7 @@ class Connection
     /**
      * Gets the system connection.
      *
-     * @param null $for The hostname or website for which to retrieve a system connection.
+     * @param Hostname|Website|null $for The hostname or website for which to retrieve a system connection.
      * @return \Illuminate\Database\Connection
      */
     public function system($for = null)
