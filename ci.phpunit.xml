@@ -29,6 +29,7 @@
         </whitelist>
     </filter>
     <php>
+        <env name="IN_CI" value="1"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="APP_ENV" value="testing"/>
         <env name="DB_USERNAME" value="root"/>
