@@ -25,7 +25,7 @@ class MultiDatabaseTest extends Test
         // let's configure secondary database
         $systemName = $app['config']->get('tenancy.db.system-connection-name');
         $config = $app['config']->get("database.connections.$systemName", []);
-        $config['host'] = "{$systemName}2";
+        $config['host'] = "{$config['host']}2";
         $app['config']->set("database.connections.secondary", $config);
 
         $this->setUpWebsites();
@@ -49,5 +49,7 @@ class MultiDatabaseTest extends Test
 
         // make sure the Website model still uses the regular system name.
         $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
+
+        $this->assertEquals($this->getConnection('secondary')->getDatabaseName(), $this->website->uuid);
     }
 }
