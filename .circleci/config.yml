@@ -40,7 +40,7 @@ references:
         image: mysql:latest
         name: mysql
         environment: *mysql_environment
-    mysql2: &mysql
+    mysql2: &mysql2
         image: mysql:latest
         name: mysql2
         environment: *mysql_environment
