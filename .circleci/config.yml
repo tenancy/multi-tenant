@@ -40,6 +40,10 @@ references:
         image: mysql:latest
         name: mysql
         environment: *mysql_environment
+    mysql: &mysql
+        image: mysql:latest
+        name: mysql2
+        environment: *mysql_environment
     mariadb: &mariadb
         image: mariadb:latest
         name: mariadb
