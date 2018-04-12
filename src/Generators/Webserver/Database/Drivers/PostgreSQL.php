@@ -47,9 +47,9 @@ class PostgreSQL implements DatabaseGenerator
             return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
         };
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
-            return $user($connection) && $create($connection) && $grant($connection);
-        });
+        $connection = $connection->system($event->website);
+
+        return $user($connection) && $create($connection) && $grant($connection);
     }
 
     protected function userExists($connection, string $username): bool
@@ -98,8 +98,8 @@ class PostgreSQL implements DatabaseGenerator
             return $connection->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
         };
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
-            return $delete($connection) && $user($connection);
-        });
+        $connection = $connection->system($event->website);
+
+        return $delete($connection) && $user($connection);
     }
 }
