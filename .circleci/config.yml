@@ -142,6 +142,7 @@ jobs:
                 name: Wait for other docker instances to be up
                 command: sleep 10
             - run: mysql --host=mariadb -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
             - run: DB_CONNECTION=mysql DB_HOST=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml --coverage-clover=coverage.xml
             - run: bash <(curl -s https://codecov.io/bash)
