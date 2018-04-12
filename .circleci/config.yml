@@ -18,6 +18,8 @@ references:
                 command: sleep 10
             - run: mysql --host=mariadb -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: mysql --host=mysql2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: php tests/scripts/setup.php
             - run: |
                 if [ "${BUILD_WEBSERVER}" = "nginx" ]; then
