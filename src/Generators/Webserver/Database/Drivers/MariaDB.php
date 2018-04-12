@@ -47,7 +47,7 @@ class MariaDB implements DatabaseGenerator
             return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
         };
 
-        return $connection->system()->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
+        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
             return $user($connection) && $create($connection) && $grant($connection);
         });
     }
@@ -65,7 +65,7 @@ class MariaDB implements DatabaseGenerator
 
         $this->created(new Created($event->website), $config, $connection);
 
-//        if (!$connection->system()->statement("RENAME TABLE `$uuid`.`table` TO `{$config['database']}`.`table`")) {
+//        if (!$connection->system($event->website)->statement("RENAME TABLE `$uuid`.`table` TO `{$config['database']}`.`table`")) {
 //            throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");
 //        }
 
@@ -91,7 +91,7 @@ class MariaDB implements DatabaseGenerator
             return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
         };
 
-        return $connection->system()->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
+        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
             return $delete($connection) && $user($connection);
         });
     }

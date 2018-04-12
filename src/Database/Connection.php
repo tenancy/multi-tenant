@@ -148,11 +148,18 @@ class Connection
     /**
      * Gets the system connection.
      *
+     * @param null $for The hostname or website for which to retrieve a system connection.
      * @return \Illuminate\Database\Connection
      */
-    public function system()
+    public function system($for = null)
     {
-        return $this->db->connection($this->systemName());
+        $website = $this->convertWebsiteOrHostnameToWebsite($for);
+
+        return $this->db->connection(
+            $website && $website->managed_by_database_connection ?
+                $website->managed_by_database_connection :
+                $this->systemName()
+        );
     }
 
     /**
