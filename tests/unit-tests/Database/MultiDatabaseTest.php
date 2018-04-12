@@ -30,6 +30,9 @@ class MultiDatabaseTest extends Test
         $this->setUpWebsites();
     }
 
+    /**
+     * @test
+     */
     public function allow_writing_to_secondary_database()
     {
         $this->website->managed_by_database_connection = 'mysql2';
