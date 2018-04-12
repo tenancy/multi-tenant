@@ -1,3 +1,5 @@
+- 5.1.7
+    - Fixes a multi database issue where the secondary connection would not be used properly for setting up databases.
 - 5.1.6
     - Fixes a multi database issue where the Website would be created on the secondary system database.
 - 5.1.5
