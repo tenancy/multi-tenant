@@ -48,7 +48,17 @@ references:
         image: mariadb:latest
         name: mariadb
         environment: *mysql_environment
+    mariadb2: &mariadb2
+        image: mariadb:latest
+        name: mariadb
+        environment: *mysql_environment
     pgsql: &pgsql
+        image: postgres:latest
+        environment:
+            - POSTGRES_DB: testing
+            - POSTGRES_USER: testing
+            - POSTGRES_PASSWORD: testing
+    pgsql2: &pgsql2
         image: postgres:latest
         environment:
             - POSTGRES_DB: testing
@@ -66,43 +76,51 @@ jobs:
             - image: php:7.1-apache
               environment: *environment
             - *mysql
-            - *mysql2
             - *mariadb
             - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
         <<: *steps
     "php-7.2-apache":
         docker:
             - image: php:7.2-apache
               environment: *environment
             - *mysql
-            - *mysql2
             - *mariadb
             - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
         <<: *steps
     "php-7.1-nginx":
         docker:
             - image: php:7.1-fpm
               environment: *environment
             - *mysql
-            - *mysql2
             - *mariadb
             - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
         <<: *steps
     "php-7.2-nginx":
         docker:
             - image: php:7.2-fpm
               environment: *environment
             - *mysql
-            - *mysql2
             - *mariadb
             - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
         <<: *steps
     coverage:
         docker:
             - image: php:7.1
               environment: *environment
             - *mariadb
-            - *mysql2
+            - *mariadb2
         working_directory: ~/repo
         steps:
             - checkout

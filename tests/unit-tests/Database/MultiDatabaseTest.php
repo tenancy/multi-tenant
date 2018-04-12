@@ -22,10 +22,11 @@ class MultiDatabaseTest extends Test
 {
     protected function duringSetUp(Application $app)
     {
-        // let's configure mysql2
-        $config = $app['config']->get('database.connections.mysql', []);
-        $config['host'] = 'mysql2';
-        $app['config']->set('database.connections.mysql2', $config);
+        // let's configure secondary database
+        $systemName = $app['config']->get('tenancy.db.system-connection-name');
+        $config = $app['config']->get("database.connections.$systemName", []);
+        $config['host'] = "{$systemName}2";
+        $app['config']->set("database.connections.secondary", $config);
 
         $this->setUpWebsites();
     }
@@ -39,12 +40,12 @@ class MultiDatabaseTest extends Test
             return $this->markTestSkipped("Cant access secondary database for testing");
         }
 
-        $this->website->managed_by_database_connection = 'mysql2';
+        $this->website->managed_by_database_connection = 'secondary';
 
         $this->websites->create($this->website);
 
         $this->assertTrue($this->website->exists);
-        $this->assertEquals('mysql2', $this->website->managed_by_database_connection);
+        $this->assertEquals('secondary', $this->website->managed_by_database_connection);
 
         // make sure the Website model still uses the regular system name.
         $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
