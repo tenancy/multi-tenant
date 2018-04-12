@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -33,8 +34,11 @@ class MultiDatabaseTest extends Test
     {
         $this->website->managed_by_database_connection = 'mysql2';
 
-        $this->website->save();
-
         $this->assertTrue($this->website->save());
+
+        $this->assertEquals('mysql2', $this->website->managed_by_database_connection);
+
+        // make sure the Website model still uses the regular system name.
+        $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
     }
 }
