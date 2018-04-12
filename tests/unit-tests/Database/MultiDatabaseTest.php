@@ -41,8 +41,9 @@ class MultiDatabaseTest extends Test
 
         $this->website->managed_by_database_connection = 'mysql2';
 
-        $this->assertTrue($this->websites->create($this->website));
+        $this->websites->create($this->website);
 
+        $this->assertTrue($this->website->exists);
         $this->assertEquals('mysql2', $this->website->managed_by_database_connection);
 
         // make sure the Website model still uses the regular system name.
