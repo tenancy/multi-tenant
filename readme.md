@@ -37,12 +37,12 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
-- Laravel 5.5.
-- Linux based OS preferred.
-- PHP 7.
+- Latest Laravel.
+- PHP 7+.
 - Apache or Nginx.
+- MySQL, MariaDB or PostgreSQL.
 
-Please read the full [requirements in the documentation](https://laravel-tenancy.com/documentation/introduction/requirements).
+Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.x/requirements).
 
 ## Installation
 
