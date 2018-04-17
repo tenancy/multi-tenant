@@ -1,3 +1,5 @@
+- 5.1.8
+    - Removed all directory separators, this is unnecessary as the filesystem driver takes care of that.
 - 5.1.7
     - Fixes a multi database issue where the secondary connection would not be used properly for setting up databases.
 - 5.1.6
