@@ -21,9 +21,9 @@ for different clients or start-ups building the next software as a
 
 Offers:
 
-- Integration with all Long Term Support versions of Laravel, which includes 5.5.
+- Integration with the awesome Laravel framework.
 - Event driven, extensible architecture.  
-- Close integration into the webserver.
+- Close - optional - integration into the web server.
 - The ability to add tenant specific configs, code, routes etc.
 
 Database separation methods:
@@ -37,7 +37,7 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
-- Latest Laravel.
+- Latest stable and LTS Laravel versions.
 - PHP 7+.
 - Apache or Nginx.
 - MySQL, MariaDB or PostgreSQL.
@@ -137,10 +137,16 @@ contributing, make sure to read the [contributing guidelines](.github/CONTRIBUTI
 
 ### Testing
 
-Run tests using (not recommended when using MySQL database driver):
+Run tests using:
 
 ```bash
 vendor/bin/phpunit
+```
+
+If using MySQL, use:
+
+```bash
+LIMIT_UUID_LENGTH_32=1 vendor/bin/phpunit
 ```
 
 Please note this will create an enormous number of tenant databases. You can easily remove these by
@@ -164,5 +170,4 @@ Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
 - [Discord chat](https://laravel-tenancy.com/chat).
-
-Keep informed about news of this package by [signing up for the newsletter](https://laravel-tenancy.com/newsletter/signup).
+- [Twitter](http://twitter.com/laraveltenancy).
