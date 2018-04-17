@@ -43,7 +43,7 @@ class LoadsVendorTest extends Test
         $this->assertTrue($this->directory->makeDirectory('vendor'));
 
         // Write a testing config.
-        $this->assertTrue($this->directory->put('vendor' . DIRECTORY_SEPARATOR . 'autoload.php', <<<EOM
+        $this->assertTrue($this->directory->put('vendor/autoload.php', <<<EOM
 <?php
 
 namespace Test\Vendor;

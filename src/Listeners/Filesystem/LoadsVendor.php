@@ -25,7 +25,7 @@ class LoadsVendor extends AbstractTenantDirectoryListener
     /**
      * @var string
      */
-    protected $path = 'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+    protected $path = 'vendor/autoload.php';
 
     /**
      * @param HostnameEvent $event

@@ -43,7 +43,7 @@ class LoadsTranslationsTest extends Test
         $this->assertTrue($this->directory->makeDirectory('lang'));
 
         // Write a testing translation file.
-        $this->assertTrue($this->directory->put('lang' . DIRECTORY_SEPARATOR . 'ch' . DIRECTORY_SEPARATOR . 'test.php', <<<EOM
+        $this->assertTrue($this->directory->put('lang/ch/test.php', <<<EOM
 <?php
 
 return [
@@ -99,7 +99,7 @@ EOM
         $this->assertTrue($this->directory->makeDirectory('lang'));
 
         // Write a testing translation file.
-        $this->assertTrue($this->directory->put('lang' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . 'passwords.php', <<<EOM
+        $this->assertTrue($this->directory->put('lang/en/passwords.php', <<<EOM
 <?php
 
 return [
