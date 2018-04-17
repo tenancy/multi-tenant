@@ -1,3 +1,5 @@
+- 5.1.9
+    - Added Macroable trait for easier extending to Environment, Directory and Connection.
 - 5.1.8
     - Removed all directory separators, this is unnecessary as the filesystem driver takes care of that.
 - 5.1.7
