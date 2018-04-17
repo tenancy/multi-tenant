@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
+use Hyn\Tenancy\Tests\Extend\NonExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
 
@@ -80,5 +81,25 @@ class ConnectionTest extends Test
         $this->activateTenant();
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
+    }
+
+    /**
+     * @test
+     */
+    public function override_to_tenant_connection()
+    {
+        config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
+
+        $this->assertEquals($this->connection->tenantName(), (new NonExtend())->getConnectionName());
+    }
+
+    /**
+     * @test
+     */
+    public function override_to_system_connection()
+    {
+        config(['tenancy.db.force-system-connection-of-models' => [NonExtend::class]]);
+
+        $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnectionName());
     }
 }

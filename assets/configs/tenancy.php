@@ -246,6 +246,19 @@ return [
          * @info Only deletes in case tenant database is set to be deleted.
          */
         'auto-delete-tenant-database-user' => env('TENANCY_DATABASE_AUTO_DELETE_USER', false),
+
+        /**
+         * Define a list of classes that you wish to force onto the tenant or system connection.
+         * The connection will be forced when the Model has booted.
+         *
+         * @info Useful for overriding the connection of third party packages.
+         */
+        'force-tenant-connection-of-models' => [
+//            \App\User::class
+        ],
+        'force-system-connection-of-models' => [
+//            \App\User::class
+        ],
     ],
     'folders' => [
         'config' => [

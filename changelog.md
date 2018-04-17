@@ -1,5 +1,6 @@
 - 5.1.9
     - Added Macroable trait for easier extending to Environment, Directory and Connection.
+    - Added two new configuration items `tenancy.db.force-tenant-connection-of-models` and `tenancy.db.force-system-connection-of-models` to force models from third party packages you have little control over onto the tenant or system connection.
 - 5.1.8
     - Removed all directory separators, this is unnecessary as the filesystem driver takes care of that.
 - 5.1.7
