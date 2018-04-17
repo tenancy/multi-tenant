@@ -20,10 +20,12 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\Macroable;
 use League\Flysystem\Adapter\Local;
 
 class Directory implements Filesystem
 {
+    use Macroable;
     /**
      * @var array
      */

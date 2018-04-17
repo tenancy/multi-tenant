@@ -25,10 +25,11 @@ use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Traits\Macroable;
 
 class Environment
 {
-    use DispatchesJobs, DispatchesEvents;
+    use DispatchesJobs, DispatchesEvents, Macroable;
 
     /**
      * @var Application

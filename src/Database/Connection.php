@@ -26,10 +26,11 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
+use Illuminate\Support\Traits\Macroable;
 
 class Connection
 {
-    use DispatchesEvents, ConvertsEntityToWebsite;
+    use DispatchesEvents, ConvertsEntityToWebsite, Macroable;
 
     const DEFAULT_SYSTEM_NAME = 'system';
     const DEFAULT_TENANT_NAME = 'tenant';
