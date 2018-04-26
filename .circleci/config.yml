@@ -40,12 +40,12 @@ references:
     
     mysql: &mysql
         image: mysql:latest
-        command: [––default-authentication-plugin=mysql_native_password]
+        command: ["/docker-entrypoint.sh ––default-authentication-plugin=mysql_native_password"]
         name: mysql
         environment: *mysql_environment
     mysql2: &mysql2
         image: mysql:latest
-        command: [––default-authentication-plugin=mysql_native_password]
+        command: ["/docker-entrypoint.sh ––default-authentication-plugin=mysql_native_password"]
         name: mysql2
         environment: *mysql_environment
     mariadb: &mariadb
