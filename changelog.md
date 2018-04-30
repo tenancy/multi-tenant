@@ -1,3 +1,6 @@
+- 5.1.10
+    - Added support for MySQL 8 in our tests.
+    - Moved CurrentHostname resolving to its own Service Provider so that it will be properly loaded on request.
 - 5.1.9
     - Added Macroable trait for easier extending to Environment, Directory and Connection.
     - Added two new configuration items `tenancy.db.force-tenant-connection-of-models` and `tenancy.db.force-system-connection-of-models` to force models from third party packages you have little control over onto the tenant or system connection.
