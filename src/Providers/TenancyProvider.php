@@ -56,7 +56,7 @@ class TenancyProvider extends ServiceProvider
 
     public function provides()
     {
-        return [Environment::class, Contracts\CurrentHostname::class];
+        return [Environment::class];
     }
 
     protected function registerModels()
