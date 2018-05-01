@@ -1,5 +1,6 @@
 [![Backers on Open Collective](https://opencollective.com/tenancy/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/tenancy/sponsors/badge.svg)](#sponsors) 
+[![Sponsors on Open Collective](https://opencollective.com/tenancy/sponsors/badge.svg)](#sponsors) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhyn%2Fmulti-tenant.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhyn%2Fmulti-tenant?ref=badge_shield)
+
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)](https://packagist.org/packages/hyn/multi-tenant)
 [![build status](https://circleci.com/gh/hyn/multi-tenant.svg?style=svg)](https://circleci.com/gh/hyn/multi-tenant)
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/5.x)
@@ -134,6 +135,9 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 This package is offered under the [MIT license](license.md). In case you're interested at
 contributing, make sure to read the [contributing guidelines](.github/CONTRIBUTING.md).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhyn%2Fmulti-tenant.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhyn%2Fmulti-tenant?ref=badge_large)
 
 ### Testing
 
