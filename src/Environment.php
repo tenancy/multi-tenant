@@ -24,7 +24,6 @@ use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Traits\Macroable;
 
 class Environment
@@ -36,13 +35,21 @@ class Environment
      */
     protected $app;
 
+    /**
+     * @var bool
+     */
+    protected $installed;
+
     public function __construct(Application $app)
     {
         $this->app = $app;
 
         if ($this->installed() && config('tenancy.hostname.auto-identification')) {
+            $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
+        } elseif($this->installed() && !$this->app->bound(CurrentHostname::class)) {
+            $this->app->singleton(CurrentHostname::class, null);
         }
     }
 
@@ -51,14 +58,27 @@ class Environment
      */
     public function installed(): bool
     {
-        /** @var \Illuminate\Database\Connection $connection */
-        $connection = $this->app->make(Connection::class)->system();
+        $isInstalled = function (): bool {
+            /** @var \Illuminate\Database\Connection $connection */
+            $connection = $this->app->make(Connection::class)->system();
 
-        try {
-            return $connection->getSchemaBuilder()->hasTable('hostnames');
-        } catch (QueryException $e) {
-            return false;
-        }
+            try {
+                $tableExists = $connection->getSchemaBuilder()->hasTable('hostnames');
+            } finally {
+                return $tableExists ?? false;
+            }
+        };
+
+        return $this->installed ?? $this->installed = $isInstalled();
+    }
+
+    public function identifyHostname()
+    {
+        $this->app->singleton(CurrentHostname::class, function () {
+            $hostname = $this->dispatch(new HostnameIdentification());
+
+            return $hostname;
+        });
     }
 
     /**
@@ -74,19 +94,19 @@ class Environment
     /**
      * Get or set the current hostname.
      *
-     * @param Hostname|null $model
+     * @param Hostname|null $hostname
      * @return Hostname|null
      */
-    public function hostname(Hostname $model = null)
+    public function hostname(Hostname $hostname = null)
     {
-        if ($model !== null) {
-            $this->app->singleton(CurrentHostname::class, function () use ($model) {
-                return $model;
+        if ($hostname !== null) {
+            $this->app->singleton(CurrentHostname::class, function () use ($hostname) {
+                return $hostname;
             });
 
-            $this->emitEvent(new Switched($model));
+            $this->emitEvent(new Switched($hostname));
 
-            return $model;
+            return $hostname;
         }
 
         return $this->app->make(CurrentHostname::class);

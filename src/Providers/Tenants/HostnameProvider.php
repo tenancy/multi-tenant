@@ -15,14 +15,12 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Jobs\HostnameIdentification;
-use Hyn\Tenancy\Traits\DispatchesJobs;
+use Hyn\Tenancy\Environment;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class HostnameProvider extends ServiceProvider
 {
-    use DispatchesJobs;
-
     public $defer = true;
 
     public function provides()
@@ -30,12 +28,8 @@ class HostnameProvider extends ServiceProvider
         return [CurrentHostname::class];
     }
 
-    public function register()
+    public function boot(Application $app)
     {
-        $this->app->singleton(CurrentHostname::class, function () {
-            $hostname = $this->dispatch(new HostnameIdentification());
-
-            return $hostname;
-        });
+        $app->make(Environment::class);
     }
 }
