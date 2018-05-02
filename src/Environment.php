@@ -48,7 +48,7 @@ class Environment
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $this->app->make(CurrentHostname::class);
-        } elseif($this->installed() && !$this->app->bound(CurrentHostname::class)) {
+        } elseif ($this->installed() && !$this->app->bound(CurrentHostname::class)) {
             $this->app->singleton(CurrentHostname::class, null);
         }
     }
