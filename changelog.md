@@ -1,3 +1,6 @@
+- 5.1.11
+    - Fixed an issue with CurrentHostname resolving introduced in 5.1.10.
+    - Reduced queries to system database when not yet installed.
 - 5.1.10
     - Added support for MySQL 8 in our tests.
     - Moved CurrentHostname resolving to its own Service Provider so that it will be properly loaded on request.
