@@ -1,3 +1,5 @@
+- 5.1.12
+    - Re-introduced the ability to use tenant views.
 - 5.1.11
     - Fixed an issue with CurrentHostname resolving introduced in 5.1.10.
     - Reduced queries to system database when not yet installed.
