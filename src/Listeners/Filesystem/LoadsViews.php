@@ -53,7 +53,6 @@ class LoadsViews extends AbstractTenantDirectoryListener
             } else {
                 $this->addToNamespace($namespace);
             }
-
         } else {
             throw new FilesystemException("$this->path is not available locally, cannot include");
         }
