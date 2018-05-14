@@ -49,6 +49,8 @@ class EventProvider extends ServiceProvider
         Listeners\Filesystem\LoadsTranslations::class,
         // Loads custom vendor folder for tenant.
         Listeners\Filesystem\LoadsVendor::class,
+        // Loads custom views folder for tenant.
+        Listeners\Filesystem\LoadsViews::class,
         // Activates a disk to be used in filesystem actions.
         Listeners\Filesystem\ActivatesDisk::class,
     ];

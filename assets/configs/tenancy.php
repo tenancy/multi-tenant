@@ -316,6 +316,26 @@ return [
              * Mounts the assets directory with (static) files for public use.
              */
             'enabled' => true,
+        ],
+        'views' => [
+            /**
+             * Adds the vendor directory of the tenant inside the application.
+             */
+            'enabled' => true,
+
+            /**
+             * Specify a namespace to use with which to load the views.
+             *
+             * @eg setting `tenant` will allow you to use `tenant::some.blade.php`
+             * @info set to null to add to the global namespace.
+             */
+            'namespace' => null,
+
+            /**
+             * If `namespace` is set to null (thus using the global namespace)
+             * make it override the global views. Disable to
+             */
+            'override-global' => true,
         ]
     ]
 ];
