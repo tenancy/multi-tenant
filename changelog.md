@@ -1,3 +1,6 @@
+- 5.1.13
+    - Patched the PostgreSQL driver when in CLI.
+    - Now registering website uuid on set tenant connection.
 - 5.1.12
     - Re-introduced the ability to use tenant views.
 - 5.1.11
