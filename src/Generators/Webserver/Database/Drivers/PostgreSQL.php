@@ -85,7 +85,11 @@ class PostgreSQL implements DatabaseGenerator
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        $connection->get()->disconnect();
+        $existing = $connection->configuration();
+
+        if (Arr::get($existing, 'uuid') === $event->website->uuid) {
+            $connection->get()->disconnect();
+        }
 
         $user = function (IlluminateConnection $connection) use ($config) {
             if (config('tenancy.db.auto-delete-tenant-database-user') && $this->userExists($connection, $config['username'])) {

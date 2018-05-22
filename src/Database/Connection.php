@@ -26,6 +26,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
 use Hyn\Tenancy\Events;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 
 class Connection
@@ -124,6 +125,8 @@ class Connection
 
         $website = $this->convertWebsiteOrHostnameToWebsite($to);
 
+        $existing = $this->configuration($connection);
+
         if ($website) {
             // Sets current connection settings.
             $this->config->set(
@@ -132,6 +135,9 @@ class Connection
             );
         }
 
+        if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
+            return true;
+        }
         // Purges the old connection.
         $this->db->purge(
             $connection
@@ -144,6 +150,16 @@ class Connection
         }
 
         return true;
+    }
+
+    public function configuration(string $connection = null): array
+    {
+        $connection = $connection ?? $this->tenantName();
+
+        return $this->config->get(
+            sprintf('database.connections.%s', $connection),
+            []
+        );
     }
 
     /**
@@ -266,6 +282,9 @@ class Connection
         $mode = config('tenancy.db.tenant-division-mode');
 
         $this->emitEvent(new Events\Database\ConfigurationLoading($mode, $clone, $this));
+
+        // Even though username/password mutate, let's store website UUID so we can match it up.
+        $clone['uuid'] = $website->uuid;
 
         switch ($mode) {
             case static::DIVISION_MODE_SEPARATE_DATABASE:
