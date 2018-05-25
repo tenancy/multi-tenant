@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Providers\Tenants;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Database\Console;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class ConnectionProvider extends ServiceProvider
 {

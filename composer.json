@@ -15,6 +15,11 @@
             "name": "Daniël Klabbers",
             "email": "daniel+hyn@klabbers.email",
             "homepage": "https://luceos.com"
+        },
+        {
+            "name": "Mark Boychuk",
+            "email": "boychuk.m.n@gmail.com",
+            "homepage": "https://www.linkedin.com/in/mark-boychuk-52114a130/"
         }
     ],
     "support": {
@@ -27,12 +32,12 @@
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
         "ramsey/uuid": "^3.5",
-        "laravel/framework": "5.6.*"
+        "laravel/lumen-framework": "5.6.*"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",
         "symfony/dom-crawler": "~3.1",
-        "laravel/laravel": "5.6.*",
+        "laravel/lumen": "5.6.*",
         "mockery/mockery": "^0.9.9"
     },
     "autoload": {

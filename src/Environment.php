@@ -23,8 +23,8 @@ use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\Lumen\Application;
 
 class Environment
 {
@@ -44,12 +44,14 @@ class Environment
     {
         $this->app = $app;
 
-        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
-            $this->identifyHostname();
-            // Identifies the current hostname, sets the binding using the native resolving strategy.
-            $this->app->make(CurrentHostname::class);
-        } elseif ($this->installed() && !$this->app->bound(CurrentHostname::class)) {
-            $this->app->singleton(CurrentHostname::class, null);
+        if ($this->installed()) {
+            if (config('tenancy.hostname.auto-identification')) {
+                $this->identifyHostname();
+                // Identifies the current hostname, sets the binding using the native resolving strategy.
+                $this->app->make(CurrentHostname::class);
+            } else if (!$this->app->bound(CurrentHostname::class)) {
+                $this->app->singleton(CurrentHostname::class, null);
+            }
         }
     }
 
@@ -75,9 +77,7 @@ class Environment
     public function identifyHostname()
     {
         $this->app->singleton(CurrentHostname::class, function () {
-            $hostname = $this->dispatch(new HostnameIdentification());
-
-            return $hostname;
+            return $this->dispatch(new HostnameIdentification());
         });
     }
 

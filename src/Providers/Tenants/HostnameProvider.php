@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 use Illuminate\Support\ServiceProvider;
 
 class HostnameProvider extends ServiceProvider

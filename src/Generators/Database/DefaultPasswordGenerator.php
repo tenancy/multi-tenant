@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Generators\Database;
 
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
 use Hyn\Tenancy\Contracts\Website;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class DefaultPasswordGenerator implements PasswordGenerator
 {
