@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Repositories;
 use Hyn\Tenancy\Contracts\Repositories\CustomerRepository;
 use Hyn\Tenancy\Models\Customer;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class CustomerRepositoryTest extends Test
 {

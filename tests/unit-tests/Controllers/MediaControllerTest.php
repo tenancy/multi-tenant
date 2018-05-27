@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Controllers;
 use Hyn\Tenancy\Controllers\MediaController;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Website\Directory;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class MediaControllerTest extends Test
 {

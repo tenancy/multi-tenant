@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Filesystem;
 
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithRoutes;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class LoadsRoutesTest extends Test
 {

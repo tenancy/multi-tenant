@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 
 use App\Console\Kernel;
 use Hyn\Tenancy\Traits\DispatchesEvents;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class RecreateCommandTest extends DatabaseCommandTest
 {

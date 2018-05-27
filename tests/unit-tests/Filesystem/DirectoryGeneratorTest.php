@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Filesystem;
 
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 class DirectoryGeneratorTest extends Test

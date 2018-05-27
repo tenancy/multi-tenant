@@ -20,7 +20,7 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Events\Hostnames\Switched;
 use Hyn\Tenancy\Middleware\HostnameActions;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;

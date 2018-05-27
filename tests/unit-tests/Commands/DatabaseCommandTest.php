@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 abstract class DatabaseCommandTest extends Test
 {

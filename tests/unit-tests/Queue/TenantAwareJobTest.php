@@ -18,7 +18,7 @@ use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Tests\Extend\JobExtend;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class TenantAwareJobTest extends Test
 {
