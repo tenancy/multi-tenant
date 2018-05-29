@@ -15,8 +15,8 @@
 namespace Hyn\Tenancy\Repositories;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository as Contract;
-use Hyn\Tenancy\Events\Websites as Events;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Events\Websites as Events;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\WebsiteValidator;
 use Illuminate\Contracts\Cache\Factory;
@@ -26,7 +26,7 @@ class WebsiteRepository implements Contract
 {
     use DispatchesEvents;
     /**
-     * @var Website
+     * @var Website|\Illuminate\Database\Eloquent\Model
      */
     protected $website;
     /**
@@ -40,9 +40,9 @@ class WebsiteRepository implements Contract
 
     /**
      * WebsiteRepository constructor.
-     * @param Website $website
-     * @param WebsiteValidator $validator
-     * @param Factory $cache
+     * @param Website                                        $website
+     * @param WebsiteValidator                               $validator
+     * @param Factory|\Illuminate\Contracts\Cache\Repository $cache
      */
     public function __construct(Website $website, WebsiteValidator $validator, Factory $cache)
     {
@@ -72,10 +72,10 @@ class WebsiteRepository implements Contract
     }
 
     /**
-     * @param Website $website
+     * @param Website|\Illuminate\Database\Eloquent\Model $website
      * @return Website
      */
-    public function create(Website &$website): Website
+    public function create(Website $website): Website
     {
         if ($website->exists) {
             return $this->update($website);
@@ -99,10 +99,10 @@ class WebsiteRepository implements Contract
     }
 
     /**
-     * @param Website $website
+     * @param Website|\Illuminate\Database\Eloquent\Model $website
      * @return Website
      */
-    public function update(Website &$website): Website
+    public function update(Website $website): Website
     {
         if (!$website->exists) {
             return $this->create($website);
@@ -134,11 +134,12 @@ class WebsiteRepository implements Contract
     }
 
     /**
-     * @param Website $website
-     * @param bool $hard
+     * @param Website|\Illuminate\Database\Eloquent\Model $website
+     * @param bool                                        $hard
      * @return Website
+     * @throws \Exception
      */
-    public function delete(Website &$website, $hard = false): Website
+    public function delete(Website $website, $hard = false): Website
     {
         $this->emitEvent(
             new Events\Deleting($website)

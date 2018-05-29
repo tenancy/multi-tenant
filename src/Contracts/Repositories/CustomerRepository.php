@@ -29,20 +29,20 @@ interface CustomerRepository
      * @param Customer $customer
      * @return Customer
      */
-    public function create(Customer &$customer): Customer;
+    public function create(Customer $customer): Customer;
 
     /**
      * @param Customer $customer
      * @return Customer
      */
-    public function update(Customer &$customer): Customer;
+    public function update(Customer $customer): Customer;
 
     /**
      * @param Customer $customer
      * @param bool $hard
      * @return Customer
      */
-    public function delete(Customer &$customer, $hard = false): Customer;
+    public function delete(Customer $customer, $hard = false): Customer;
 
     /**
      * @warn Only use for querying.

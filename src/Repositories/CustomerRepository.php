@@ -14,9 +14,9 @@
 
 namespace Hyn\Tenancy\Repositories;
 
+use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Contracts\Repositories\CustomerRepository as Contract;
 use Hyn\Tenancy\Events\Customers as Events;
-use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -24,7 +24,7 @@ class CustomerRepository implements Contract
 {
     use DispatchesEvents;
     /**
-     * @var Customer
+     * @var Customer|\Illuminate\Database\Eloquent\Model
      */
     protected $customer;
 
@@ -47,10 +47,10 @@ class CustomerRepository implements Contract
     }
 
     /**
-     * @param Customer $customer
+     * @param Customer|\Illuminate\Database\Eloquent\Model $customer
      * @return Customer
      */
-    public function create(Customer &$customer): Customer
+    public function create(Customer $customer): Customer
     {
         if ($customer->exists) {
             return $this->update($customer);
@@ -70,10 +70,10 @@ class CustomerRepository implements Contract
     }
 
     /**
-     * @param Customer $customer
+     * @param Customer|\Illuminate\Database\Eloquent\Model $customer
      * @return Customer
      */
-    public function update(Customer &$customer): Customer
+    public function update(Customer $customer): Customer
     {
         if (!$customer->exists) {
             return $this->create($customer);
@@ -93,11 +93,12 @@ class CustomerRepository implements Contract
     }
 
     /**
-     * @param Customer $customer
-     * @param bool $hard
+     * @param Customer|\Illuminate\Database\Eloquent\Model $customer
+     * @param bool                                         $hard
      * @return Customer
+     * @throws \Exception
      */
-    public function delete(Customer &$customer, $hard = false): Customer
+    public function delete(Customer $customer, $hard = false): Customer
     {
         $this->emitEvent(
             new Events\Deleting($customer)

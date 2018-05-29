@@ -45,7 +45,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
 
             // Blacklisted; skip.
-            if (in_array($key, $this->config->get('tenancy.folders.config.blacklist', []))) {
+            if (\\in_array($key, $this->config->get('tenancy.folders.config.blacklist', []), true)) {
                 continue;
             }
 

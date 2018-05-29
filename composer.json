@@ -1,5 +1,5 @@
 {
-    "name": "hyn/multi-tenant",
+    "name": "marko298/multi-tenant",
     "description": "Run multiple websites using the same laravel installation while keeping tenant specific data separated for fully independant multi-domain setups.",
     "keywords": [
         "laravel",
@@ -32,13 +32,12 @@
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
         "ramsey/uuid": "^3.5",
-        "laravel/lumen": "5.6.*"
+        "laravel/lumen-framework": "5.6.*"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "~7.0",
         "symfony/dom-crawler": "~3.1",
-        "laravel/lumen-framework": "5.6.*",
         "mockery/mockery": "^0.9.9"
     },
     "autoload": {

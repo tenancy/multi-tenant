@@ -153,8 +153,8 @@ class Servant
     {
         $filesystem = $this->serviceFilesystem($service, $config);
 
-        if (!$filesystem->exists(dirname($path)) && dirname($path) != '.') {
-            $filesystem->makeDirectory(dirname($path));
+        if (!$filesystem->exists(\dirname($path)) && \dirname($path) !== '.') {
+            $filesystem->makeDirectory(\dirname($path));
         }
 
         return $filesystem->put($path, $contents);

@@ -17,7 +17,6 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
 use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
-use Illuminate\Routing\Router;
 
 class LoadsRoutes extends AbstractTenantDirectoryListener
 {
@@ -46,7 +45,7 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
      */
     public function loadRoutes($path)
     {
-        /** @var Router $router */
+        /** @var \Laravel\Lumen\Routing\Router $router */
         $router = app('router');
 
         $prefix = config('tenancy.folders.routes.prefix', '');

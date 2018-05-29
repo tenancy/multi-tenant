@@ -40,15 +40,15 @@ class OverridesConnection
         $class = Str::replaceFirst('eloquent.booted: ', null, $event);
 
         // Somehow on booting/booted the argument is an array.
-        if (is_array($model)) {
+        if (\is_array($model)) {
             $model = array_first($model);
         }
 
-        if (in_array($class, config('tenancy.db.force-tenant-connection-of-models', []))) {
+        if (\in_array($class, config('tenancy.db.force-tenant-connection-of-models', []), true)) {
             $model->setConnection($this->connection->tenantName());
         }
 
-        if (in_array($class, config('tenancy.db.force-system-connection-of-models', []))) {
+        if (\in_array($class, config('tenancy.db.force-system-connection-of-models', []), true)) {
             $model->setConnection($this->connection->systemName());
         }
     }

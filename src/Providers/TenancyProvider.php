@@ -14,18 +14,17 @@
 
 namespace Hyn\Tenancy\Providers;
 
-use Hyn\Tenancy\Contracts;
-use Hyn\Tenancy\Middleware;
-use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Repositories;
-use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Support\ServiceProvider;
 use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
-use Hyn\Tenancy\Providers\Tenants as Providers;
-use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Contracts\Customer as CustomerContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Middleware;
+use Hyn\Tenancy\Providers\Tenants as Providers;
+use Hyn\Tenancy\Repositories;
+use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -118,10 +117,12 @@ class TenancyProvider extends ServiceProvider
 
     protected function registerMiddleware()
     {
-        /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
-        $kernel = $this->app->make(Kernel::class);
+        /** @var \Laravel\Lumen\Application $app */
+        $app = $this->app;
 
-        $kernel->prependMiddleware(Middleware\EagerIdentification::class);
-        $kernel->prependMiddleware(Middleware\HostnameActions::class);
+        $app->middleware([
+            Middleware\EagerIdentification::class,
+            Middleware\HostnameActions::class,
+        ]);
     }
 }
