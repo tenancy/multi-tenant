@@ -15,6 +15,8 @@
 use Hyn\Tenancy\Database\Connection;
 
 return [
+    'is_tenant_system' => true,
+
     'models' => [
         /**
          * Specify different models to be used for the global, system database
