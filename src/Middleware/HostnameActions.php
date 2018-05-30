@@ -51,22 +51,24 @@ class HostnameActions
      */
     public function handle(Request $request, Closure $next)
     {
-        $hostname = app(CurrentHostname::class);
+        if (config('tenancy.is_tenant_system')) {
+            $hostname = app(CurrentHostname::class);
 
-        if ($hostname != null) {
-            if ($hostname->under_maintenance_since) {
-                return $this->maintenance($hostname);
-            }
+            if ($hostname != null) {
+                if ($hostname->under_maintenance_since) {
+                    return $this->maintenance($hostname);
+                }
 
-            if ($hostname->redirect_to) {
-                return $this->redirect($hostname);
-            }
+                if ($hostname->redirect_to) {
+                    return $this->redirect($hostname);
+                }
 
-            if (!$request->secure() && $hostname->force_https) {
-                return $this->secure($hostname, $request);
+                if (!$request->secure() && $hostname->force_https) {
+                    return $this->secure($hostname, $request);
+                }
+            } else {
+                $this->abort($request);
             }
-        } else {
-            $this->abort($request);
         }
 
         return $next($request);
