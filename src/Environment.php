@@ -43,13 +43,16 @@ class Environment
     public function __construct(Application $app)
     {
         $this->app = $app;
+    }
 
-        if ($this->installed()) {
-            if (config('tenancy.hostname.auto-identification')) {
-                $this->identifyHostname();
-                // Identifies the current hostname, sets the binding using the native resolving strategy.
-                $this->app->make(CurrentHostname::class);
-            } else if (!$this->app->bound(CurrentHostname::class)) {
+    public function boot()
+    {
+        if (config('tenancy.hostname.auto-identification')) {
+            $this->identifyHostname();
+            // Identifies the current hostname, sets the binding using the native resolving strategy.
+            $this->app->make(CurrentHostname::class);
+        } else {
+            if (!$this->app->bound(CurrentHostname::class)) {
                 $this->app->singleton(CurrentHostname::class, null);
             }
         }

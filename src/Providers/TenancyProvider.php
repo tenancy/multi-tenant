@@ -103,7 +103,7 @@ class TenancyProvider extends ServiceProvider
         $this->commands(RecreateCommand::class);
     }
 
-    protected function bootEnvironment()
+    protected function registerEnvironment()
     {
         // Immediately instantiate the object to work the magic.
         $environment = $this->app->make(Environment::class);
@@ -113,6 +113,11 @@ class TenancyProvider extends ServiceProvider
         });
 
         $this->app->alias(Environment::class, 'tenancy-environment');
+    }
+
+    protected function bootEnvironment()
+    {
+        $this->app->make(Environment::class)->boot();
     }
 
     protected function registerMiddleware()
