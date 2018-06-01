@@ -126,8 +126,8 @@ class TenancyProvider extends ServiceProvider
         $app = $this->app;
 
         $app->middleware([
-            Middleware\EagerIdentification::class,
-            Middleware\HostnameActions::class,
+//            Middleware\EagerIdentification::class,
+Middleware\HostnameActions::class,
         ]);
     }
 }

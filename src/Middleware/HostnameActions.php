@@ -38,7 +38,7 @@ class HostnameActions
     {
         $hostname = app(CurrentHostname::class);
 
-        if ($hostname != null) {
+        if ($hostname !== null) {
             if ($hostname->under_maintenance_since) {
                 return $this->maintenance($hostname);
             }
