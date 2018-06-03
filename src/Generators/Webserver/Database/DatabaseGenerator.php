@@ -136,6 +136,8 @@ class DatabaseGenerator
 
         $config = $this->connection->generateConfigurationArray($event->website);
 
+        $this->configureHost($config);
+
         $this->emitEvent(
             new Events\Database\Deleting($config, $event->website)
         );
@@ -170,6 +172,8 @@ class DatabaseGenerator
         }
 
         $config = $this->connection->generateConfigurationArray($event->website);
+
+        $this->configureHost($config);
 
         $this->emitEvent(
             new Events\Database\Renaming($config, $event->website)
