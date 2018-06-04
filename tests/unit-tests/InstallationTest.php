@@ -16,7 +16,6 @@ namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Website\UuidGenerator;
-use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Generators\Uuid\ShaGenerator;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;

@@ -3,6 +3,21 @@
 In order to match our coding style, make sure you:
  - adhere to the editorconfig; common IDE's have support natively or through addons.
  - adhere to PSR-2.
+ 
+# Repository branches
+
+In order to keep track of local branches, we use the following format:
+
+```
+<initials>/<issueId>-<short description>
+```
+
+So for instance:
+```
+dk/483-drop-customer
+```
+
+Feel free to drop the issueId reference for smaller tasks/commits.
 
 # Contributor License Agreement
 
