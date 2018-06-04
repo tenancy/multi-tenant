@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
 use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class LoadsConfigs extends AbstractTenantDirectoryListener
 {
@@ -41,6 +42,10 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->directory->files($path) as $file) {
+            if (! Str::endsWith($file, '.php')) {
+                continue;
+            }
+
             $key = basename($file, '.php');
 
 

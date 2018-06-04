@@ -21,7 +21,6 @@ use Hyn\Tenancy\Events\Hostnames\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
-use Illuminate\Database\DatabaseManager;
 
 trait InteractsWithTenancy
 {

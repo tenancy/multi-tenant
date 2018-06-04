@@ -1,3 +1,9 @@
+- 5.1.14
+    - #481, HostnameActions middleware now sets `app.url` configuration key to the tenant if enabled.
+    - #478, fixes an issue of no `$host` when deleting websites.
+    - #474, seed command now takes configured seed class as default.
+    - #477, when loading config files, only use .php files.
+    - #440, whenever Hostname is modified outside of repository, flush cache.
 - 5.1.13
     - Patched the PostgreSQL driver when in CLI.
     - Now registering website uuid on set tenant connection.

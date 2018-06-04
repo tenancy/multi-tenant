@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 
 use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 use Hyn\Tenancy\Models\Website;
+use Illuminate\Contracts\Console\Kernel;
 use SampleSeeder;
 
 class SeedCommandTest extends DatabaseCommandTest
@@ -49,6 +50,9 @@ class SeedCommandTest extends DatabaseCommandTest
 
         $this->connection->set($this->website);
 
+        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
+        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+
         $this->assertGreaterThan(
             0,
             $this->connection->get()->table('samples')->count(),
@@ -67,16 +71,46 @@ class SeedCommandTest extends DatabaseCommandTest
     /**
      * @test
      */
+    public function runs_configured_seed()
+    {
+        $this->migrateAndTest('migrate');
+
+        config(['tenancy.db.tenant-seed-class' => SampleSeeder::class]);
+
+        // We need to register the command anew to have it pick up the seeder class override from the config.
+        // This also means we cannot declare the seed class dynamically during runtime.
+        $this->app[Kernel::class]->registerCommand(new SeedCommand($this->app['db']));
+
+        $this->artisan('tenancy:db:seed', [
+            '-n' => 1,
+            '--force' => true
+        ]);
+
+        $this->connection->set($this->website);
+
+        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
+        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+    }
+
+    /**
+     * @test
+     */
     public function runs_seed_on_tenants()
     {
+        $this->connection->set($this->website);
+
+        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+
         $this->migrateAndTest('migrate');
 
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website);
 
-            $this->assertTrue(
-                $this->connection->get()->table('samples')->count() === 2,
-                "Connection for {$website->uuid} has no sample data seeded"
+            $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+
+            $this->assertEquals(
+                2, $this->connection->get()->table('samples')->count(),
+                "Connection for {$website->uuid} has incorrect sample data"
             );
         });
     }

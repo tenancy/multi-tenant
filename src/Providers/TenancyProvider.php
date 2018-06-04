@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Contracts;
+use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Repositories;
@@ -66,6 +67,8 @@ class TenancyProvider extends ServiceProvider
         $this->app->bind(CustomerContract::class, $config['customer']);
         $this->app->bind(HostnameContract::class, $config['hostname']);
         $this->app->bind(WebsiteContract::class, $config['website']);
+
+        forward_static_call([$config['hostname'], 'observe'], FlushHostnameCache::class);
     }
 
     protected function registerRepositories()

@@ -141,6 +141,15 @@ return [
          * Time to cache hostnames in minutes. Set to false to disable.
          */
         'cache' => 10,
+
+        /**
+         * Automatically update the app.url configured inside Laravel to match
+         * the tenant FQDN whenever a hostname/tenant was identified.
+         *
+         * This will resolve issues with password reset mails etc using the
+         * correct domain.
+         */
+        'update-app-url' => false,
     ],
     'db' => [
         /**
