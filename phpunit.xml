@@ -13,13 +13,9 @@
         <testsuite name="Installation Test Suite">
             <file>./tests/unit-tests/InstallationTest.php</file>
         </testsuite>
-        <testsuite name="Website Test Suite">
-            <file>./tests/unit-tests/WebsiteTest.php</file>
-        </testsuite>
         <testsuite name="Continued Test Suite">
             <directory suffix=".php">./tests/unit-tests/</directory>
             <exclude>./tests/unit-tests/InstallationTest.php</exclude>
-            <exclude>./tests/unit-tests/WebsiteTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
