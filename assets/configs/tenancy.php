@@ -24,9 +24,6 @@ return [
          * UsesSystemConnection.
          */
 
-        // Must implement \Hyn\Tenancy\Contracts\Customer
-        'customer' => \Hyn\Tenancy\Models\Customer::class,
-
         // Must implement \Hyn\Tenancy\Contracts\Hostname
         'hostname' => \Hyn\Tenancy\Models\Hostname::class,
 

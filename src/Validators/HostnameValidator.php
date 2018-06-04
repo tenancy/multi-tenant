@@ -24,7 +24,6 @@ class HostnameValidator extends Validator
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['nullable', 'date'],
         'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
-        'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 
     protected $update = [
@@ -34,6 +33,5 @@ class HostnameValidator extends Validator
         'force_https' => ['boolean'],
         'under_maintenance_since' => ['nullable', 'date'],
         'website_id' => ['nullable', 'integer', 'exists:%system%.websites,id'],
-        'customer_id' => ['nullable', 'integer', 'exists:%system%.customers,id'],
     ];
 }

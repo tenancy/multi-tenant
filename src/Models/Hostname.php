@@ -30,8 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $deleted_at
  * @property int $website_id
  * @property Website $website
- * @property int $customer_id
- * @property Customer $customer
  */
 class Hostname extends SystemModel implements HostnameContract
 {
@@ -40,10 +38,5 @@ class Hostname extends SystemModel implements HostnameContract
     public function website(): BelongsTo
     {
         return $this->belongsTo(config('tenancy.models.website'));
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(config('tenancy.models.customer'));
     }
 }
