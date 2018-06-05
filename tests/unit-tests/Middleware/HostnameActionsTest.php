@@ -104,7 +104,6 @@ class HostnameActionsTest extends Test
             $middleware->handle($request, function () {
                 return static::RESPONSE;
             });
-
         } catch (Exception $e) {
             $this->assertInstanceOf(NotFoundHttpException::class, $e);
         }
