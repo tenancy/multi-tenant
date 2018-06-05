@@ -167,7 +167,7 @@ return [
                 /**
                  * Action to run to reload the nginx service.
                  */
-                'reload' => 'systemctl restart nginx'
+                'reload' => 'systemctl reload nginx'
             ]
         ]
     ]
