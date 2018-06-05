@@ -1,0 +1,101 @@
+<?php
+
+namespace Hyn\Tenancy\Tests\Middleware;
+
+use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Middleware\HostnameActions;
+use Hyn\Tenancy\Tests\Test;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Carbon;
+
+class HostnameActionsTest extends Test
+{
+    const RESPONSE = 'ok';
+
+    /**
+     * @test
+     */
+    public function sets_app_url()
+    {
+        $this->hostname->save();
+
+        $current = config('app.url');
+
+        $this->assertNotEquals($current, "http://{$this->hostname->fqdn}");
+
+        $this->middleware($this->hostname);
+
+        $this->assertEquals($current, config('app.url'));
+
+        config(['tenancy.hostname.update-app-url' => true]);
+
+        $this->middleware($this->hostname);
+
+        $this->assertEquals("http://{$this->hostname->fqdn}", config('app.url'));
+    }
+
+    /**
+     * @test
+     */
+    public function under_maintenance()
+    {
+        $this->hostname->under_maintenance_since = Carbon::now();
+        $this->hostname->save();
+
+        try {
+            $this->middleware($this->hostname);
+
+            $this->fail('Middleware didn\'t fire maintenance exception');
+        } catch (MaintenanceModeException $e) {
+            $this->assertEquals($e->wentDownAt->timestamp, $this->hostname->under_maintenance_since->timestamp);
+        }
+
+        $this->hostname->under_maintenance_since = null;
+        $this->hostname->save();
+
+        // Rebind the updated model.
+        $this->app->bind(CurrentHostname::class, function () { return $this->hostname; });
+
+        $this->assertEquals(static::RESPONSE, $this->middleware($this->hostname));
+    }
+
+    /**
+     * @test
+     */
+    public function middleware_allows_empty_hostname()
+    {
+        $middleware = new HostnameActions(app()->make(Redirector::class));
+
+        $this->assertNotNull($middleware);
+    }
+
+    protected function middleware(Hostname $set = null)
+    {
+        config(['tenancy.hostname.default' => optional($set)->fqdn]);
+
+        $identified = $this->app->make(CurrentHostname::class);
+
+        if ($set) {
+            $this->assertNotNull($identified);
+        } else {
+            $this->assertNull($identified);
+        }
+
+        $request = new Request();
+        $middleware = new HostnameActions(app()->make(Redirector::class));
+
+        return $middleware->handle($request, function () {
+            return static::RESPONSE;
+        });
+    }
+
+
+    protected function duringSetUp(Application $app)
+    {
+        $this->setUpHostnames();
+    }
+}
