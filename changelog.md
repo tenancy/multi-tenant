@@ -1,3 +1,5 @@
+- 5.1.15
+    - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
     - #481, HostnameActions middleware now sets `app.url` configuration key to the tenant if enabled.
     - #478, fixes an issue of no `$host` when deleting websites.
