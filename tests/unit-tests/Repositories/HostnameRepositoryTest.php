@@ -91,20 +91,6 @@ class HostnameRepositoryTest extends Test
     /**
      * @test
      */
-    public function validation_customer_id()
-    {
-        try {
-            $this->hostname->customer_id = null;
-            $this->hostnames->update($this->hostname);
-            $this->assertNull($this->hostname->customer_id);
-        } catch (ModelValidationException $e) {
-            $this->fail("The validation should not fail, message: {$e->getMessage()}");
-        }
-    }
-
-    /**
-     * @test
-     */
     public function validation_website_id()
     {
         try {

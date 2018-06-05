@@ -25,7 +25,6 @@ use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Contracts\Customer as CustomerContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 
 class TenancyProvider extends ServiceProvider
@@ -64,7 +63,6 @@ class TenancyProvider extends ServiceProvider
     {
         $config = $this->app['config']['tenancy.models'];
 
-        $this->app->bind(CustomerContract::class, $config['customer']);
         $this->app->bind(HostnameContract::class, $config['hostname']);
         $this->app->bind(WebsiteContract::class, $config['website']);
 
@@ -80,10 +78,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->singleton(
             Contracts\Repositories\WebsiteRepository::class,
             Repositories\WebsiteRepository::class
-        );
-        $this->app->singleton(
-            Contracts\Repositories\CustomerRepository::class,
-            Repositories\CustomerRepository::class
         );
     }
 

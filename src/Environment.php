@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Contracts\Customer;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
@@ -79,16 +78,6 @@ class Environment
 
             return $hostname;
         });
-    }
-
-    /**
-     * @return Customer|null
-     */
-    public function customer()
-    {
-        $hostname = $this->hostname();
-
-        return $hostname ? $hostname->customer : null;
     }
 
     /**

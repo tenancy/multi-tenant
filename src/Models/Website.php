@@ -26,18 +26,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
- * @property int $customer_id
  * @property string $managed_by_database_connection
- * @property Customer $customer
  * @property Hostname[] $hostnames
  */
 class Website extends SystemModel implements WebsiteContract
 {
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(config('tenancy.models.customer'));
-    }
-
     public function hostnames(): HasMany
     {
         return $this->hasMany(config('tenancy.models.hostname'));
