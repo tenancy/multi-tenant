@@ -51,7 +51,9 @@ class HostnameActions
      */
     public function handle(Request $request, Closure $next)
     {
-        $hostname = app(CurrentHostname::class);
+        if (config('tenancy.hostname.auto-identification')) {
+            $hostname = app(CurrentHostname::class);
+        }
 
         if ($hostname != null) {
             $this->setAppUrl($request, $hostname);
