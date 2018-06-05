@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Middleware;
 
+use Exception;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Middleware\HostnameActions;
@@ -23,6 +24,7 @@ use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HostnameActionsTest extends Test
 {
@@ -87,6 +89,27 @@ class HostnameActionsTest extends Test
         $this->assertNotNull($middleware);
     }
 
+    /**
+     * @test
+     */
+    public function auto_identification_false()
+    {
+        config(['tenancy.hostname.auto-identification' => false]);
+
+        try {
+            $middleware = new HostnameActions(app()->make(Redirector::class));
+
+            $request = new Request();
+
+            $middleware->handle($request, function () {
+                return static::RESPONSE;
+            });
+
+        } catch (Exception $e) {
+            $this->assertInstanceOf(NotFoundHttpException::class, $e);
+        }
+    }
+
     protected function middleware(Hostname $set = null)
     {
         config(['tenancy.hostname.default' => optional($set)->fqdn]);
@@ -106,7 +129,6 @@ class HostnameActionsTest extends Test
             return static::RESPONSE;
         });
     }
-
 
     protected function duringSetUp(Application $app)
     {
