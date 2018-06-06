@@ -31,18 +31,17 @@ class HostnameIdentification
      */
     public function handle(Request $request, HostnameRepository $hostnameRepository)
     {
-        $hostname       = env('TENANCY_CURRENT_HOSTNAME');
-        $check_base_url = env('TENANCY_SKIP_IF_EQUAL_TO_BASE_URL');
+        $hostname = env('TENANCY_CURRENT_HOSTNAME');
+        $skip_url = config('tenancy.hostname.skip-urls', []);
 
         if (!$hostname && $request->getHost()) {
             $hostname = $request->getHost();
         }
 
         if (
-            $check_base_url
-            && ($default_name = config('url_base'))
-            && $default_name === $hostname
-        ) {
+            \is_array($skip_url)
+            && !empty($skip_url)
+            && \in_array($hostname, $skip_url, true)) {
             $this->emitEvent(new Identified());
             return null;
         }

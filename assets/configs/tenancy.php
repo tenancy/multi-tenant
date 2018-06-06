@@ -129,7 +129,7 @@ return [
          * A good use case is when you have set "tenant" as the default
          * database connection.
          */
-        'early-identification' => env('TENANCY_EARLY_IDENTIFICATION', false),
+        'early-identification'              => env('TENANCY_EARLY_IDENTIFICATION', false),
 
         /**
          * Abort application execution in case no hostname was identified. This will throw a
@@ -140,7 +140,14 @@ return [
         /**
          * Time to cache hostnames in minutes. Set to false to disable.
          */
-        'cache' => 10,
+        'cache'                             => 10,
+
+        /**
+         * Urls that are not in tenant (will skip identification)
+         */
+        'skip-urls'                         => [
+
+        ],
     ],
     'db' => [
         /**
