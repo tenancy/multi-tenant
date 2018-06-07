@@ -74,9 +74,7 @@ class Environment
     public function identifyHostname()
     {
         $this->app->singleton(CurrentHostname::class, function () {
-            $hostname = $this->dispatch(new HostnameIdentification());
-
-            return $hostname;
+            return $this->dispatch(new HostnameIdentification());
         });
     }
 

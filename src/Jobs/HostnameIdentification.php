@@ -14,9 +14,9 @@
 
 namespace Hyn\Tenancy\Jobs;
 
+use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Events\Hostnames\Identified;
-use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Http\Request;
 
