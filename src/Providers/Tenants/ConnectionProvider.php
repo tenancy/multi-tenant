@@ -47,7 +47,7 @@ class ConnectionProvider extends ServiceProvider
             return new Console\Migrations\RefreshCommand($app->make('migrator'));
         });
         $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
-            return new Console\Migrations\RefreshCommand($app->make('migrator'));
+            return new Console\Migrations\FreshCommand($app->make('migrator'));
         });
         $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
             return new Console\Seeds\SeedCommand($app['db']);
