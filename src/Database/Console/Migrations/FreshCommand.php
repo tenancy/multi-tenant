@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nitishkumar
- * Date: 12/6/18
- * Time: 12:13 PM
- */
 
 namespace Hyn\Tenancy\Database\Console\Migrations;
 
