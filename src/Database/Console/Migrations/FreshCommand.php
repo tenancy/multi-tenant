@@ -4,6 +4,7 @@ namespace Hyn\Tenancy\Database\Console\Migrations;
 
 use Hyn\Tenancy\Traits\MutatesMigrationCommands;
 use Illuminate\Database\Console\Migrations\FreshCommand as BaseCommand;
+
 class FreshCommand extends BaseCommand
 {
     use MutatesMigrationCommands;
@@ -13,7 +14,7 @@ class FreshCommand extends BaseCommand
      */
     public function handle()
     {
-        if (!$this->confirmToProcess()) {
+        if (!$this->confirmToProceed()) {
             return;
         }
 
