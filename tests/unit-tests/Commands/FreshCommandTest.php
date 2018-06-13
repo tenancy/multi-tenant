@@ -27,9 +27,9 @@ class FreshCommandTest extends DatabaseCommandTest
 
         $this->migrateAndTest('migrate:fresh', function (Website $website) {
             $this->connection->set($website);
-            $this->assertTrue(
+            $this->assertFalse(
                 $this->connection->get()->getSchemaBuilder()->hasTable('samples'),
-                "Connection for {$website->uuid} has no table samples"
+                "Connection for {$website->uuid} has table samples"
             );
         });
     }

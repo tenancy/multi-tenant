@@ -24,7 +24,7 @@ class FreshCommand extends BaseCommand
         $path = $this->input->getOption('path');
 
         $this->dropAllTables(
-            $database = $this->input->getOption('database')
+            $database = $this->connection->tenantName()
         );
 
         $this->info('Dropped all tables related to tenant successfully');
