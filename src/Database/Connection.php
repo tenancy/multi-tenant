@@ -136,6 +136,10 @@ class Connection
         }
 
         if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
+            $this->emitEvent(
+                new Events\Database\ConnectionSet($website, $connection, false)
+            );
+
             return true;
         }
         // Purges the old connection.
@@ -148,6 +152,10 @@ class Connection
                 $connection
             );
         }
+
+        $this->emitEvent(
+            new Events\Database\ConnectionSet($website, $connection)
+        );
 
         return true;
     }
