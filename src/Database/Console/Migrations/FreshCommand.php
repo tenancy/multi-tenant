@@ -14,42 +14,44 @@ class FreshCommand extends BaseCommand
      */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
-            return;
-        }
+        try {
+            if (!$this->confirmToProceed()) {
+                return;
+            }
 
-        $this->input->setOption('force', $force = true);
-        $website_id = $this->option('website_id');
-        $realpath = $this->option('realpath');
-        $path = $this->input->getOption('path');
+            $this->input->setOption('force', $force = true);
+            $website_id = $this->option('website_id');
+            $realpath = $this->option('realpath');
+            $path = $this->input->getOption('path');
 
-        $this->dropAllTables(
-            $database = $this->connection->tenantName()
-        );
+            $website = $this->websites->query()->where('id', $website_id)->firstOrFail();
+            $this->connection->set($website);
 
-        $this->info('Dropped all tables related to tenant successfully');
+            $this->dropAllTables(
+                $database = $this->connection->tenantName()
+            );
 
-        $this->call('tenancy:migrate', [
-            '--database' => $database,
-            '--realpath' => $realpath,
-            '--website_id' => $website_id,
-            '--path' => $path,
-            '--force' => $force,
-        ]);
+            $this->info('Dropped all tables related to tenant successfully');
 
-        if ($this->needsSeeding()) {
-            $this->call('tenancy:db:seed', [
+            $this->call('tenancy:migrate', [
                 '--database' => $database,
-                '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
+                '--realpath' => $realpath,
+                '--website_id' => $website_id,
+                '--path' => $path,
                 '--force' => $force,
             ]);
-        }
-    }
 
-    private function dropAllTables($database)
-    {
-        $this->laravel['system']->connection($database)
-            ->getSchemaBuilder()
-            ->dropAllTables();
+            if ($this->needsSeeding()) {
+                $this->call('tenancy:db:seed', [
+                    '--database' => $database,
+                    '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
+                    '--force' => $force,
+                ]);
+            }
+        }
+        catch (\Exception $e)
+        {
+            sprintf($e->getMessage());
+        }
     }
 }
