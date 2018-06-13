@@ -1,3 +1,5 @@
+- 5.1.16
+    - #489, fixes hostname actions when tenant hasn't been identified yet.
 - 5.1.15
     - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
