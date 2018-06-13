@@ -45,4 +45,11 @@ class FreshCommand extends BaseCommand
             ]);
         }
     }
+
+    private function dropAllTables($database)
+    {
+        $this->laravel['system']->connection($database)
+            ->getSchemaBuilder()
+            ->dropAllTables();
+    }
 }
