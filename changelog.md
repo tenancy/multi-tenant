@@ -1,3 +1,5 @@
+- 5.1.17
+    - #503, adds event when connection is set.
 - 5.1.16
     - #489, fixes hostname actions when tenant hasn't been identified yet.
 - 5.1.15
