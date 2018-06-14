@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -25,6 +25,7 @@ use Hyn\Tenancy\Traits\DispatchesEvents;
 trait InteractsWithTenancy
 {
     use DispatchesEvents;
+
     /**
      * @var Hostname
      */
@@ -39,6 +40,7 @@ trait InteractsWithTenancy
      * @var HostnameRepository
      */
     protected $hostnames;
+
     /**
      * @var WebsiteRepository
      */
@@ -65,15 +67,15 @@ trait InteractsWithTenancy
         $this->hostname = Hostname::where('fqdn', 'local.testing')->firstOrFail();
     }
 
-    protected function getReplicatedHostname(): Hostname
+    protected function getReplicatedWebsite(): Website
     {
-        Hostname::unguard();
-        $tenant = Hostname::firstOrNew([
-            'fqdn' => 'tenant.testing',
+        Website::unguard();
+        $tenant = Website::firstOrNew([
+            'uuid' => 'tenant.testing',
         ]);
-        Hostname::reguard();
+        Website::reguard();
 
-        return $this->hostnames->create($tenant);
+        return $this->websites->create($tenant);
     }
 
     /**
@@ -99,7 +101,7 @@ trait InteractsWithTenancy
     protected function activateTenant()
     {
         $this->emitEvent(
-            new Identified($this->hostname)
+            new Identified($this->website)
         );
     }
 

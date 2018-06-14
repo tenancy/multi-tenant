@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
+use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Tests\Extend\NonExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
@@ -38,7 +39,7 @@ class ConnectionTest extends Test
     public function hostname_identification_switches_connection()
     {
         $this->setUpHostnames(true);
-        $this->activateTenant();
+        $this->app->make(CurrentHostname::class);
 
         $failsWithoutWebsite = false;
 

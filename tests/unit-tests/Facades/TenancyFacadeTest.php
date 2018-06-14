@@ -38,21 +38,23 @@ class TenancyFacadeTest extends Test
     /**
      * @test
      */
-    public function hostname()
+    public function website()
     {
-        $this->assertEquals($this->hostname->fqdn, Tenancy::hostname()->fqdn);
+        Tenancy::identifyHostname();
 
-        $tenant = $this->getReplicatedHostname();
-        Tenancy::hostname($tenant);
+        $this->assertEquals($this->website->uuid, Tenancy::tenant()->uuid);
 
-        $this->assertEquals($tenant->fqdn, Tenancy::hostname()->fqdn);
+        $tenant = $this->getReplicatedWebsite();
+        Tenancy::tenant($tenant);
+
+        $this->assertEquals($tenant->uuid, Tenancy::tenant()->uuid);
     }
 
     /**
      * @test
      */
-    public function website()
+    public function hostname()
     {
-        $this->assertEquals($this->hostname->website_id, Tenancy::website()->id);
+        $this->assertEquals($this->hostname->fqdn, Tenancy::hostname()->fqdn);
     }
 }

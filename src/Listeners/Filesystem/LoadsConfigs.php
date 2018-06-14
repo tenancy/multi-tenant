@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -29,9 +29,9 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected $path = 'config';
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      */
-    public function load(HostnameEvent $event)
+    public function load(WebsiteEvent $event)
     {
         $this->readConfigurationFiles($this->path);
     }
