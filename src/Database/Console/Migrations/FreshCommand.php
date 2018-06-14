@@ -16,45 +16,38 @@ class FreshCommand extends BaseCommand
      */
     public function handle()
     {
-        try {
-            if (!$this->confirmToProceed()) {
-                return;
-            }
+        if (!$this->confirmToProceed()) {
+            return;
+        }
 
-            $this->input->setOption('force', $force = true);
-            $website_id = $this->option('website_id');
-            $realpath = $this->option('realpath');
-            $path = $this->input->getOption('path');
+        $this->input->setOption('force', $force = true);
+        $website_id = $this->option('website_id');
+        $realpath = $this->option('realpath');
+        $path = $this->input->getOption('path');
 
-            $website = $this->websites->query()->where('id', $website_id)->firstOrFail();
+        $website = $this->websites->query()->where('id', $website_id)->firstOrFail();
 
-            $this->connection->set($website);
+        $this->connection->set($website);
 
-            $this->dropAllTables(
-                $database = $this->connection->tenantName()
-            );
+        $this->dropAllTables(
+            $database = $this->connection->tenantName()
+        );
 
-            $this->info('Dropped all tables related to tenant successfully');
+        $this->call('tenancy:migrate', [
+            '--database' => $database,
+            '--realpath' => $realpath,
+            '--website_id' => $website_id,
+            '--path' => $path,
+            '--force' => $force,
+        ]);
 
-            $this->call('tenancy:migrate', [
+        if ($this->needsSeeding()) {
+            $this->call('tenancy:db:seed', [
                 '--database' => $database,
-                '--realpath' => $realpath,
-                '--website_id' => $website_id,
-                '--path' => $path,
+                '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
                 '--force' => $force,
             ]);
+        }
 
-            if ($this->needsSeeding()) {
-                $this->call('tenancy:db:seed', [
-                    '--database' => $database,
-                    '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
-                    '--force' => $force,
-                ]);
-            }
-        }
-        catch (ConnectionException $e)
-        {
-            sprintf('The tenancy website_id=%d does not exist.', $website_id);
-        }
     }
 }

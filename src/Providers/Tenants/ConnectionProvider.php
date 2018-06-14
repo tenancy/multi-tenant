@@ -34,6 +34,9 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrationCommands()
     {
+        $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
+            return new Console\Migrations\FreshCommand($app->make('migrator'));
+        });
         $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
             return new Console\Migrations\MigrateCommand($app->make('migrator'));
         });
@@ -46,19 +49,16 @@ class ConnectionProvider extends ServiceProvider
         $this->app->singleton(Console\Migrations\RefreshCommand::class, function (Application $app) {
             return new Console\Migrations\RefreshCommand($app->make('migrator'));
         });
-        $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
-            return new Console\Migrations\FreshCommand($app->make('migrator'));
-        });
         $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
             return new Console\Seeds\SeedCommand($app['db']);
         });
 
         $this->commands([
+            Console\Migrations\FreshCommand::class,
             Console\Migrations\MigrateCommand::class,
             Console\Migrations\RollbackCommand::class,
             Console\Migrations\ResetCommand::class,
             Console\Migrations\RefreshCommand::class,
-            Console\Migrations\FreshCommand::class,
             Console\Seeds\SeedCommand::class
         ]);
     }
