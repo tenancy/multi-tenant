@@ -54,7 +54,7 @@ class FreshCommand extends BaseCommand
         }
         catch (ConnectionException $e)
         {
-            throw new RuntimeException(sprintf('The tenancy website_id=%d does not exist.', $website_id));
+            sprintf('The tenancy website_id=%d does not exist.', $website_id);
         }
     }
 }
