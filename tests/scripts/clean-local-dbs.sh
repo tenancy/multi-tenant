@@ -26,3 +26,22 @@ if [ -f "vendor/laravel/laravel/config/tenancy.php" ]; then
     rm vendor/laravel/laravel/config/tenancy.php
     echo "Removed tenancy.php configuration file from the vendor folder"
 fi
+if [ -f "vendor/laravel/laravel/database/migrations/2017_01_01_000000_tenancy_customers.php" ]; then
+    rm vendor/laravel/laravel/database/migrations/2017_01_01_000000_tenancy_customers.php
+    echo "Removed migration file from the vendor folder"
+fi
+
+if [ -f "vendor/laravel/laravel/database/migrations/2017_01_01_000003_tenancy_websites.php" ]; then
+    rm vendor/laravel/laravel/database/migrations/2017_01_01_000003_tenancy_websites.php
+    echo "Removed migration file from the vendor folder"
+fi
+
+if [ -f "vendor/laravel/laravel/database/migrations/2017_01_01_000005_tenancy_hostnames.php" ]; then
+    rm vendor/laravel/laravel/database/migrations/2017_01_01_000005_tenancy_hostnames.php
+    echo "Removed migration file from the vendor folder"
+fi
+
+if [ -f "vendor/laravel/laravel/database/migrations/2018_04_06_000001_tenancy_websites_needs_db_host.php" ]; then
+    rm vendor/laravel/laravel/database/migrations/2018_04_06_000001_tenancy_websites_needs_db_host.php
+    echo "Removed migration file from the vendor folder"
+fi

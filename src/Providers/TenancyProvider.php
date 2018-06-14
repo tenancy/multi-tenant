@@ -36,7 +36,10 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
-        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
+        $this->publishes(
+            [__DIR__ . '/../../assets/migrations' => database_path('migrations')],
+            'tenancy'
+        );
 
         $this->registerModels();
 
@@ -97,7 +100,6 @@ class TenancyProvider extends ServiceProvider
 
     protected function bootCommands()
     {
-        $this->commands(InstallCommand::class);
         $this->commands(RecreateCommand::class);
     }
 
