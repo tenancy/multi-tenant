@@ -25,7 +25,7 @@ class FreshCommand extends BaseCommand
         $realpath = $this->option('realpath');
         $path = $this->input->getOption('path');
 
-        $website = $this->websites->query()->where('id', $website_id)->firstOrFail();
+        $website = $this->websites->query()->findOrFail($website_id);
 
         $this->connection->set($website);
 
