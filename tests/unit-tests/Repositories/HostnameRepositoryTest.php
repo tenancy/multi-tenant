@@ -25,9 +25,8 @@ class HostnameRepositoryTest extends Test
      */
     public function connect_hostname_to_website()
     {
-        $this->websites->create($this->website);
-
-        $this->hostnames->attach($this->hostname, $this->website);
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
 
         $this->assertEquals($this->website->id, $this->hostname->website_id);
     }
@@ -119,9 +118,17 @@ class HostnameRepositoryTest extends Test
      */
     public function hostname_delete()
     {
-        $this->hostnames->delete($this->hostname, false);
-        $this->assertFalse($this->hostname->exists);
+        $this->setUpHostnames(true);
+
+        $this->hostnames->delete($this->hostname);
+
+        $this->assertTrue($this->hostname->exists);
+        $this->assertNotNull($this->hostname->deleted_at);
         $this->assertFalse($this->hostnames->query()->where('id', $this->hostname->id)->exists());
+
+        $this->hostnames->delete($this->hostname, true);
+
+        $this->assertFalse($this->hostname->exists);
     }
 
 

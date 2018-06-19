@@ -65,38 +65,12 @@ class InstallationTest extends Test
      */
     public function publishes_vendor_files()
     {
-        $codeConfig = $this->artisan('vendor:publish', [
-            '--provider' => Providers\ConfigurationProvider::class,
-            '-n' => 1
-        ]);
-
-        $codeMigrations = $this->artisan('vendor:publish', [
-            '--provider' => TenancyProvider::class,
-            '-n' => 1
-        ]);
-
-        $this->assertEquals(0, $codeMigrations + $codeConfig, 'Publishing vendor files failed');
-
         $this->assertFileExists(config_path('tenancy.php'));
         $this->assertFileExists(database_path('migrations/2017_01_01_000003_tenancy_websites.php'));
     }
 
     /**
      * @test
-     * @depends publishes_vendor_files
-     */
-    public function reset_command_works()
-    {
-        $code = $this->artisan('migrate:reset', [
-            '-n' => 1
-        ]);
-
-        $this->assertEquals(0, $code, 'Resetting migrations didn\'t work out');
-    }
-
-    /**
-     * @test
-     * @depends reset_command_works
      */
     public function migration_succeeded()
     {

@@ -48,6 +48,7 @@ class TenancyFacadeTest extends Test
         Tenancy::tenant($tenant);
 
         $this->assertEquals($tenant->uuid, Tenancy::tenant()->uuid);
+        $this->assertNotEquals($this->website->uuid, Tenancy::tenant()->uuid);
     }
 
     /**
