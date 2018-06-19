@@ -44,13 +44,12 @@ class Environment
     {
         $this->app = $app;
 
-        $this->app->instance(Tenant::class, null);
-        $this->app->instance(CurrentHostname::class, null);
+        $this->defaults();
 
         if ($this->installed() && config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
-            $this->app->make(CurrentHostname::class);
+            $app->make(CurrentHostname::class);
         }
     }
 
@@ -59,9 +58,11 @@ class Environment
         $isInstalled = function (): bool {
             /** @var \Illuminate\Database\Connection $connection */
             $connection = $this->app->make(Connection::class)->system();
+            /** @var string $table */
+            $table = $this->app->make(Website::class)->getTable();
 
             try {
-                $tableExists = $connection->getSchemaBuilder()->hasTable('hostnames');
+                $tableExists = $connection->getSchemaBuilder()->hasTable($table);
             } finally {
                 return $tableExists ?? false;
             }
@@ -125,5 +126,13 @@ class Environment
         }
 
         return $this->app->make(Tenant::class);
+    }
+
+    protected function defaults()
+    {
+        $empty = function () { return null; };
+
+        $this->app->singleton(Tenant::class, $empty);
+        $this->app->singleton(CurrentHostname::class, $empty);
     }
 }
