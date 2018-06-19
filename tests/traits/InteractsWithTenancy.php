@@ -37,6 +37,13 @@ trait InteractsWithTenancy
     protected $website;
 
     /**
+     * Replicated tenant Website.
+     *
+     * @var Website
+     */
+    protected $tenant;
+
+    /**
      * @var HostnameRepository
      */
     protected $hostnames;
@@ -51,15 +58,40 @@ trait InteractsWithTenancy
      */
     protected $connection;
 
+    /**
+     * Created websites, so we can destroy databases after a test.
+     *
+     * @var array|Website[]
+     */
+    protected $tenants = [];
+
     protected function setUpTenancy()
     {
-        $this->websites = app(WebsiteRepository::class);
+        $this->websites  = app(WebsiteRepository::class);
         $this->hostnames = app(HostnameRepository::class);
 
         $this->connection = app(Connection::class);
 
-        // Keeps our database clean.
-        config(['auto-delete-tenant-database' => true]);
+        $this->connection->system()->beginTransaction();
+
+        $this->handleTenantDestruction();
+    }
+
+    protected function handleTenantDestruction()
+    {
+        Website::created(function (Website $website) {
+            $this->tenants[$website->uuid] = $website;
+        });
+        Website::updating(function (Website $website) {
+            if ($website->isDirty('uuid')) {
+                $this->tenants[$website->getOriginal('uuid')] = Website::unguarded(function () use ($website) {
+                    return new Website($website->getOriginal());
+                });
+            }
+        });
+        Website::deleting(function (Website $website) {
+            array_forget($this->tenants, $website->uuid);
+        });
     }
 
     protected function loadHostnames()
@@ -69,13 +101,15 @@ trait InteractsWithTenancy
 
     protected function getReplicatedWebsite(): Website
     {
-        Website::unguard();
-        $tenant = Website::firstOrNew([
-            'uuid' => 'tenant.testing',
-        ]);
-        Website::reguard();
+        $this->tenant = Website::unguarded(function () {
+            return Website::firstOrNew([
+                'uuid' => 'tenant.testing'
+            ]);
+        });
 
-        return $this->websites->create($tenant);
+        $this->websites->create($this->tenant);
+
+        return $this->tenant;
     }
 
     /**
@@ -93,16 +127,21 @@ trait InteractsWithTenancy
         }
         Hostname::reguard();
 
-        if ($save && ! $this->hostname->exists) {
+        if ($save && !$this->hostname->exists) {
             $this->hostnames->create($this->hostname);
         }
     }
 
     protected function activateTenant()
     {
+        $this->rollbackTenant();
+
         $this->emitEvent(
             new Identified($this->website)
         );
+
+        // Start global tenant transaction.
+        $this->connection->get()->beginTransaction();
     }
 
     /**
@@ -124,13 +163,35 @@ trait InteractsWithTenancy
         }
     }
 
+    protected function rollbackTenant()
+    {
+        if ($this->connection->exists() && $this->connection->get()->transactionLevel() > 0) {
+            $this->connection->get()->rollBack();
+        }
+    }
+
     protected function cleanupTenancy()
     {
-        foreach (['hostname', 'website'] as $property) {
-            if ($this->{$property} && $this->{$property}->exists) {
-                $repo = str_plural($property);
-                $this->{$repo}->delete($this->{$property});
+        foreach ([
+                     'websites' => ['website', 'tenant'],
+                     'hostname'
+                 ] as $repository => $set) {
+            if (!is_array($set)) {
+                $repository = str_plural($set);
+                $set = (array)$set;
             }
+
+            collect($set)->each(function (string $property) use ($repository) {
+                if (optional($this->{$property})->exists) {
+                    $this->{$repository}->delete($this->{$property}, true);
+                }
+            });
         }
+
+        foreach ($this->tenants as $tenant) {
+            $this->websites->delete($tenant, true);
+        }
+
+        $this->connection->system()->rollback();
     }
 }
