@@ -172,6 +172,10 @@ trait InteractsWithTenancy
 
     protected function cleanupTenancy()
     {
+        if ($this->connection->exists()) {
+            $this->connection->get()->disconnect();
+        }
+
         foreach ([
                      'websites' => ['website', 'tenant'],
                      'hostname'
@@ -193,5 +197,6 @@ trait InteractsWithTenancy
         }
 
         $this->connection->system()->rollback();
+        $this->connection->system()->disconnect();
     }
 }
