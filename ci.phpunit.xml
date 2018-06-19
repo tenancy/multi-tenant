@@ -31,6 +31,8 @@
         <env name="DB_PASSWORD" value="root"/>
         <env name="DB_USERNAME" value="root"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE" value="1"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE_USER" value="1"/>
         <env name="TENANCY_DEFAULT_HOSTNAME" value="local.testing"/>
     </php>
 </phpunit>
