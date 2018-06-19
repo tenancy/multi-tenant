@@ -130,7 +130,9 @@ class Environment
 
     protected function defaults()
     {
-        $empty = function () { return null; };
+        $empty = function () {
+            return null;
+        };
 
         $this->app->singleton(Tenant::class, $empty);
         $this->app->singleton(CurrentHostname::class, $empty);
