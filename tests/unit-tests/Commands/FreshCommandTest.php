@@ -33,4 +33,17 @@ class FreshCommandTest extends DatabaseCommandTest
             );
         });
     }
+
+    public function runs_fresh_with_seeding_on_tenants()
+    {
+        $this->seedAndTest('migrate');
+
+        $this->seedAndTest('migrate:fresh', function (Website $website) {
+            $this->connection->set($website);
+            $this->assertTrue(
+                $this->connection->get()->getSchemaBuilder()->hasTable('samples'),
+                "Connection for {$website->uuid} has no table samples"
+            );
+        });
+    }
 }
