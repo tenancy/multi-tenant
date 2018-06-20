@@ -18,7 +18,6 @@ use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Hyn\Tenancy\Contracts\Website;
-use Hyn\Tenancy\Website\Directory;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Filesystem\FilesystemManager;
@@ -28,18 +27,12 @@ use InvalidArgumentException;
 class ActivatesDisk
 {
     /**
-     * @var Directory
-     */
-    protected $directory;
-
-    /**
      * @var FilesystemManager
      */
     private $filesystem;
 
-    public function __construct(Directory $directory, Factory $filesystem)
+    public function __construct(Factory $filesystem)
     {
-        $this->directory = $directory;
         $this->filesystem = $filesystem;
     }
 

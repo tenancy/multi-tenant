@@ -58,11 +58,17 @@ abstract class AbstractTenantDirectoryListener
      */
     protected $requiresPath = true;
 
+    /**
+     * @var bool
+     */
+    protected $tenantFilesystemEnabled;
+
     public function __construct(Filesystem $filesystem, Repository $config, Directory $directory)
     {
         $this->filesystem = $filesystem;
         $this->config = $config;
         $this->directory = $directory;
+        $this->tenantFilesystemEnabled = $config->get('tenancy.website.disk') !== false;
     }
 
     /**
@@ -70,7 +76,7 @@ abstract class AbstractTenantDirectoryListener
      */
     public function subscribe(Dispatcher $events)
     {
-        if ($this->config->get("{$this->configBaseKey}.enabled")) {
+        if ($this->tenantFilesystemEnabled && $this->config->get("{$this->configBaseKey}.enabled")) {
             $events->listen([Identified::class, Switched::class], [$this, 'proxy']);
         }
     }
