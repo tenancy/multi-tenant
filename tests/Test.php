@@ -40,13 +40,6 @@ class Test extends TestCase
         WebserverProvider::class
     ];
 
-    /**
-     * Creates the application.
-     *
-     * Needs to be implemented by subclasses.
-     *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
     public function createApplication()
     {
         $appPaths = [];
@@ -55,6 +48,8 @@ class Test extends TestCase
         }
         $appPaths[] = realpath(__DIR__ . '/..');
         $appPaths[] = realpath(__DIR__ . '/../vendor/laravel/laravel');
+
+        $app = false;
 
         foreach ($appPaths as $path) {
             $path = "$path/bootstrap/app.php";
