@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Middleware;
 use Exception;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Middleware\HostnameActions;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
@@ -111,7 +112,7 @@ class HostnameActionsTest extends Test
 
     protected function middleware(Hostname $set = null)
     {
-        config(['tenancy.hostname.default' => optional($set)->fqdn]);
+        app(Environment::class)->hostname($set);
 
         $identified = $this->app->make(CurrentHostname::class);
 

@@ -23,6 +23,8 @@ trait InteractsWithMigrations
 {
     protected function migrateSystem()
     {
+        $this->connection->system()->getSchemaBuilder()->dropAllTables();
+
         // publish configuration files
         $this->artisan('vendor:publish', [
             '--provider' => ConfigurationProvider::class,

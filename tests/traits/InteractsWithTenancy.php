@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
@@ -72,7 +73,9 @@ trait InteractsWithTenancy
 
         $this->connection = app(Connection::class);
 
-        $this->connection->system()->beginTransaction();
+        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
+            $this->connection->system()->beginTransaction();
+        }
 
         $this->handleTenantDestruction();
     }
@@ -89,7 +92,7 @@ trait InteractsWithTenancy
                 });
             }
         });
-        Website::deleting(function (Website $website) {
+        Website::deleted(function (Website $website) {
             array_forget($this->tenants, $website->uuid);
         });
     }
@@ -134,11 +137,8 @@ trait InteractsWithTenancy
 
     protected function activateTenant()
     {
-        $this->rollbackTenant();
-
-        $this->emitEvent(
-            new Identified($this->website)
-        );
+        app(Environment::class)->identifyHostname();
+        app(Environment::class)->hostname();
 
         // Start global tenant transaction.
         $this->connection->get()->beginTransaction();
@@ -172,31 +172,22 @@ trait InteractsWithTenancy
 
     protected function cleanupTenancy()
     {
-        if ($this->connection->exists()) {
-            $this->connection->get()->disconnect();
-        }
+        $this->connection->purge();
 
-        foreach ([
-                     'websites' => ['website', 'tenant'],
-                     'hostname'
-                 ] as $repository => $set) {
-            if (!is_array($set)) {
-                $repository = str_plural($set);
-                $set = (array)$set;
-            }
+        collect($this->tenants)
+            ->merge(compact('website', 'tenant'))
+            ->filter()
+            ->each(function ($website) {
+                $this->connection->set($website);
+                $this->connection->purge();
 
-            collect($set)->each(function (string $property) use ($repository) {
-                if (optional($this->{$property})->exists) {
-                    $this->{$repository}->delete($this->{$property}, true);
-                }
+                $this->websites->delete($website, true);
             });
+
+        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
+            $this->connection->system()->rollback();
         }
 
-        foreach ($this->tenants as $tenant) {
-            $this->websites->delete($tenant, true);
-        }
-
-        $this->connection->system()->rollback();
         $this->connection->system()->disconnect();
     }
 }
