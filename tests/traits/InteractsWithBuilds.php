@@ -23,7 +23,7 @@ trait InteractsWithBuilds
 
     public function identifyBuild()
     {
-        $name = env('CI_JOB_NAME');
+        $name = env('CIRCLE_JOB');
 
         if ($name && preg_match(
             '/^(?<webserver>[a-z]+)\-(?<php_version>[0-9\.]+)\-(?<db>[a-z]+)$/',
