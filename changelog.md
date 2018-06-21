@@ -1,4 +1,5 @@
 - 5.2.0
+    - The tenancy:install command has been removed.
     - #483, dropped Customer object.
     - Added Tenant contract and assigning it to Website when identified.
     - Tests now reset state; deleting tenant databases.
