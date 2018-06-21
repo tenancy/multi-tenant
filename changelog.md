@@ -9,6 +9,7 @@
     - #502, allowing `routes/tenants.php` to override or replace global routes whenever a tenant is identified (required auto identification).
     - System models are now soft deleting (which was the intention).
     - Added a `Connection::exists` method to allow checking whether a connection has been set up.
+    - Dropped all references to old/unused SSL features.
 - 5.1.15
     - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
