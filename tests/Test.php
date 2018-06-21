@@ -52,10 +52,13 @@ class Test extends TestCase
         $app = false;
 
         foreach ($appPaths as $path) {
-            $path = "$path/bootstrap/app.php";
-            if (file_exists($path)) {
+            $boot = "$path/bootstrap/app.php";
+            if (file_exists($boot)) {
                 /** @var Application $app */
-                $app = require $path;
+                $app = require $boot;
+
+                $this->pathIdentified($path);
+
                 break;
             }
         }
@@ -112,6 +115,11 @@ class Test extends TestCase
      * @param Application $app
      */
     protected function duringSetUp(Application $app)
+    {
+        // ..
+    }
+
+    protected function pathIdentified(string $path)
     {
         // ..
     }

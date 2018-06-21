@@ -64,7 +64,8 @@ return [
          * files for this particular website.
          *
          * @info If not set, will revert to the default filesystem.
-         * @info If set to false will disable all tenant specific filesystem operations.
+         * @info If set to false will disable all tenant specific filesystem auto magic
+         *       like the config, vendor overrides.
          */
         'disk' => null,
 
@@ -206,9 +207,10 @@ return [
          * @info requires tenant-migrations-path in order to seed newly created websites.
          *
          * @warn specify a valid fully qualified class name.
-         * @example App\Seeders\AdminSeeder::class
          */
         'tenant-seed-class' => false,
+//      eg an admin seeder under `app/Seeders/AdminSeeder.php`:
+//        'tenant-seed-class' => App\Seeders\AdminSeeder::class,
 
         /**
          * Automatically generate a tenant database based on the random id of the
@@ -261,12 +263,39 @@ return [
          * @info Useful for overriding the connection of third party packages.
          */
         'force-tenant-connection-of-models' => [
-//            \App\User::class
+//            App\User::class
         ],
         'force-system-connection-of-models' => [
-//            \App\User::class
+//            App\User::class
         ],
     ],
+
+    /**
+     * Global tenant specific routes.
+     * Making it easier to distinguish between landing and tenant routing.
+     *
+     * @info only works with `tenancy.hostname.auto-identification`.
+     */
+    'routes' => [
+        /**
+         * Routes file to load whenever a tenant was identified.
+         *
+         * @info Set to false or null to disable.
+         */
+        'path' => base_path('routes/tenants.php'),
+
+        /**
+         * Set to true to flush all global routes before setting the routes from the
+         * tenants.php routes file.
+         */
+        'replace-global' => false,
+    ],
+
+    /**
+     * Folders configuration specific per tenant.
+     * The following section relates to configuration to files inside the tenancy/<uuid>
+     * tenant directory.
+     */
     'folders' => [
         'config' => [
             /**

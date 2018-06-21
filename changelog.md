@@ -1,3 +1,12 @@
+- 5.2.0
+    - #483, dropped Customer object.
+    - Added Tenant contract and assigning it to Website when identified.
+    - Tests now reset state; deleting tenant databases.
+    - clean-local-dbs bash script no longer throws errors
+    - FindById in WebsiteRepository now allows string and int, which is possible for eloquent models.
+    - #399, tenant filesystem disk no longer automatically instantiated.
+    - #399, allowing local-only tenant overrides like config and vendor to be disabled by setting `tenancy.website.disk` to false.
+    - Allowing `routes/tenants.php` file which is auto loaded whenever a tenant is identified.
 - 5.1.15
     - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
