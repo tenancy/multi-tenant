@@ -6,7 +6,9 @@
     - FindById in WebsiteRepository now allows string and int, which is possible for eloquent models.
     - #399, tenant filesystem disk no longer automatically instantiated.
     - #399, allowing local-only tenant overrides like config and vendor to be disabled by setting `tenancy.website.disk` to false.
-    - Allowing `routes/tenants.php` file which is auto loaded whenever a tenant is identified.
+    - #502, allowing `routes/tenants.php` to override or replace global routes whenever a tenant is identified (required auto identification).
+    - System models are now soft deleting (which was the intention).
+    - Added a `Connection::exists` method to allow checking whether a connection has been set up.
 - 5.1.15
     - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
