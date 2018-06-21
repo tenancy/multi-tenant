@@ -64,6 +64,7 @@ return [
          * files for this particular website.
          *
          * @info If not set, will revert to the default filesystem.
+         * @info If set to false will disable all tenant specific filesystem operations.
          */
         'disk' => null,
 

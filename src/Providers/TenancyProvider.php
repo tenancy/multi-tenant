@@ -36,7 +36,10 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
-        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
+        $this->publishes(
+            [__DIR__ . '/../../assets/migrations' => database_path('migrations')],
+            'tenancy'
+        );
 
         $this->registerModels();
 
@@ -88,7 +91,11 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\ConnectionProvider::class);
         $this->app->register(Providers\UuidProvider::class);
         $this->app->register(Providers\BusProvider::class);
-        $this->app->register(Providers\FilesystemProvider::class);
+
+        if ($this->app['config']->get('tenancy.website.disk') !== false) {
+            $this->app->register(Providers\FilesystemProvider::class);
+        }
+
         $this->app->register(Providers\HostnameProvider::class);
 
         // Register last.
@@ -97,7 +104,6 @@ class TenancyProvider extends ServiceProvider
 
     protected function bootCommands()
     {
-        $this->commands(InstallCommand::class);
         $this->commands(RecreateCommand::class);
     }
 

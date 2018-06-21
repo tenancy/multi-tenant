@@ -18,7 +18,6 @@ use Illuminate\Contracts\Foundation\Application;
 
 class WebsiteRepositoryTest extends Test
 {
-
     /**
      * @test
      */
@@ -47,7 +46,14 @@ class WebsiteRepositoryTest extends Test
      */
     public function deletes_website()
     {
+        $this->setUpWebsites(true);
+
         $this->websites->delete($this->website);
+
+        $this->assertTrue($this->website->exists);
+        $this->assertNotNull($this->website->deleted_at);
+
+        $this->websites->delete($this->website, true);
 
         $this->assertFalse($this->website->exists);
     }

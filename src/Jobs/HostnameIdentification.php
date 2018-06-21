@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Jobs;
 
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Http\Request;
 
@@ -45,7 +45,13 @@ class HostnameIdentification
             $hostname = $hostnameRepository->getDefault();
         }
 
-        $this->emitEvent(new Identified($hostname));
+        $this->emitEvent(new Events\Hostnames\Identified($hostname));
+
+        if (optional($hostname)->website) {
+            $this->emitEvent(new Events\Websites\Identified($hostname->website));
+        } else {
+            $this->emitEvent(new Events\Websites\NoneFound($request));
+        }
 
         return $hostname;
     }

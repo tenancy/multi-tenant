@@ -108,9 +108,22 @@ class Connection
      *
      * @return \Illuminate\Database\Connection
      */
-    public function get()
+    public function get(): \Illuminate\Database\Connection
     {
         return $this->db->connection($this->tenantName());
+    }
+
+    /**
+     * Checks whether a connection has been set up.
+     *
+     * @param string|null $connection
+     * @return bool
+     */
+    public function exists(string $connection = null): bool
+    {
+        $connection = $connection ?? $this->tenantName();
+
+        return Arr::has($this->db->getConnections(), $connection);
     }
 
     /**
@@ -136,6 +149,10 @@ class Connection
         }
 
         if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
+            $this->emitEvent(
+                new Events\Database\ConnectionSet($website, $connection, false)
+            );
+
             return true;
         }
         // Purges the old connection.
@@ -148,6 +165,10 @@ class Connection
                 $connection
             );
         }
+
+        $this->emitEvent(
+            new Events\Database\ConnectionSet($website, $connection)
+        );
 
         return true;
     }
@@ -168,7 +189,7 @@ class Connection
      * @param Hostname|Website|null $for The hostname or website for which to retrieve a system connection.
      * @return \Illuminate\Database\Connection
      */
-    public function system($for = null)
+    public function system($for = null): \Illuminate\Database\Connection
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
@@ -218,7 +239,7 @@ class Connection
      * @param string|null $path
      * @return bool
      */
-    public function migrate($for, string $path = null)
+    public function migrate($for, string $path = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
@@ -247,7 +268,7 @@ class Connection
      * @param string $class
      * @return bool
      */
-    public function seed($for, string $class = null)
+    public function seed($for, string $class = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 

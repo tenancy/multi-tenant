@@ -17,20 +17,18 @@ namespace Hyn\Tenancy\Tests;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithBuilds;
+use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
 use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
 use Schema;
 
-/**
- * Class Test
- * @package Hyn\Tenancy\Tests
- */
 class Test extends TestCase
 {
-    use InteractsWithTenancy,
-        InteractsWithBuilds;
+    use InteractsWithBuilds,
+        InteractsWithMigrations,
+        InteractsWithTenancy;
 
     /**
      * Service providers to load during this test.
@@ -42,13 +40,6 @@ class Test extends TestCase
         WebserverProvider::class
     ];
 
-    /**
-     * Creates the application.
-     *
-     * Needs to be implemented by subclasses.
-     *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
     public function createApplication()
     {
         $appPaths = [];
@@ -57,6 +48,8 @@ class Test extends TestCase
         }
         $appPaths[] = realpath(__DIR__ . '/..');
         $appPaths[] = realpath(__DIR__ . '/../vendor/laravel/laravel');
+
+        $app = false;
 
         foreach ($appPaths as $path) {
             $path = "$path/bootstrap/app.php";
@@ -79,16 +72,24 @@ class Test extends TestCase
             }
         }
 
-        $this->setSchemaLength($app);
+        $this->setSchemaLength();
 
         $this->identifyBuild();
+
         $this->setUpTenancy();
-        $this->duringSetUp($app);
 
         return $app;
     }
 
-    protected function setSchemaLength($app)
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->migrateSystem();
+        $this->duringSetUp($this->app);
+    }
+
+    protected function setSchemaLength()
     {
         Schema::defaultStringLength(191);
     }

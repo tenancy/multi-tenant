@@ -14,8 +14,9 @@
 
 namespace Hyn\Tenancy\Queue;
 
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Models\Hostname;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
 trait TenantAwareJob
@@ -23,7 +24,7 @@ trait TenantAwareJob
     /**
      * @var int The hostname ID of the previously active tenant.
      */
-    protected $hostname_id;
+    protected $website_id;
 
     use SerializesModels {
         __sleep as serializedSleep;
@@ -35,10 +36,8 @@ trait TenantAwareJob
         /** @var Environment $environment */
         $environment = app(Environment::class);
 
-        $hostname = $environment->hostname();
-
-        if ($hostname && !$this->hostname_id) {
-            $this->hostname_id = $hostname->id;
+        if (!$this->website_id && $website = $environment->tenant()) {
+            $this->website_id = $website->getKey();
         }
 
         $attributes = $this->serializedSleep();
@@ -48,12 +47,15 @@ trait TenantAwareJob
 
     public function __wakeup()
     {
-        if (isset($this->hostname_id)) {
+        if (isset($this->website_id)) {
 
             /** @var Environment $environment */
             $environment = app(Environment::class);
 
-            $environment->hostname(Hostname::find($this->hostname_id));
+            /** @var Website $website */
+            $website = app(Website::class);
+
+            $environment->tenant($website->find($this->website_id));
         }
 
         $this->serializedWakeup();
@@ -62,12 +64,12 @@ trait TenantAwareJob
     /**
      * Manually override the hostname to be used.
      *
-     * @param Hostname|int $hostname
+     * @param Website|int $website
      * @return $this
      */
-    public function onHostname($hostname)
+    public function onTenant($website)
     {
-        $this->hostname_id = $hostname instanceof Hostname ? $hostname->id : $hostname;
+        $this->website_id = $website instanceof Model ? $website->getKey() : $website;
 
         return $this;
     }

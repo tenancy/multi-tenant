@@ -38,8 +38,7 @@ class SeedCommandTest extends DatabaseCommandTest
     public function runs_seed_on_one_tenant()
     {
         /** @var Website $otherWebsite */
-        $otherWebsite = $this->website->replicate();
-        $this->websites->create($otherWebsite);
+        $otherWebsite = $this->getReplicatedWebsite();
 
         $this->migrateAndTest('migrate');
 

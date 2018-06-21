@@ -70,6 +70,7 @@ class DatabaseGenerator
                 break;
             case 'mysql':
                 return new Drivers\MariaDB;
+                break;
             default:
                 throw new GeneratorFailedException("Could not generate database for driver $driver");
         }

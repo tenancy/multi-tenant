@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
 use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
 use Illuminate\Contracts\View\Factory;
 
@@ -35,10 +36,10 @@ class LoadsViews extends AbstractTenantDirectoryListener
     protected $viewsPath;
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
-    public function load(HostnameEvent $event)
+    public function load(WebsiteEvent $event)
     {
         if ($this->directory->isLocal()) {
 

@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Queue;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Tenant;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Tests\Extend\JobExtend;
 use Hyn\Tenancy\Tests\Test;
@@ -31,8 +32,9 @@ class TenantAwareJobTest extends Test
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
-        config(['tenancy.hostname.default' => $this->hostname->fqdn]);
+
         $this->environment = $app->make(Environment::class);
+        $this->activateTenant();
     }
 
     /**
@@ -47,31 +49,31 @@ class TenantAwareJobTest extends Test
         $attributes = serialize($job);
 
         // switch to other
-        $this->environment->hostname($this->getReplicatedHostname());
+        $this->environment->tenant($this->getReplicatedWebsite());
 
-        /** @var CurrentHostname $identified */
-        $identified = $this->app->make(CurrentHostname::class);
+        /** @var Tenant $identified */
+        $identified = $this->app->make(Tenant::class);
 
         /** @var JobExtend $job */
         $job = unserialize($attributes);
 
         $this->assertInstanceOf(JobExtend::class, $job);
 
-        $restored = $this->environment->hostname();
+        $restored = $this->environment->tenant();
 
-        $this->assertNotEquals($identified->fqdn, $restored->fqdn);
+        $this->assertNotEquals($identified->uuid, $restored->uuid);
     }
 
     /**
      * @test
      */
-    public function serializes_manual_tenant()
+    public function serializes_tenant_manually()
     {
         $this->app->make(CurrentHostname::class);
 
-        $hostname = $this->getReplicatedHostname();
+        $replicated = $this->getReplicatedWebsite();
 
-        $job = (new JobExtend())->onHostname($hostname);
+        $job = (new JobExtend())->onTenant($replicated);
 
         $attributes = serialize($job);
 
@@ -80,8 +82,8 @@ class TenantAwareJobTest extends Test
 
         $this->assertInstanceOf(JobExtend::class, $job);
 
-        $restored = $this->environment->hostname();
+        $restored = $this->environment->tenant();
 
-        $this->assertEquals($hostname->fqdn, $restored->fqdn);
+        $this->assertEquals($replicated->uuid, $restored->uuid);
     }
 }

@@ -31,9 +31,8 @@ class MediaControllerTest extends Test
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
         $this->directory = $app->make(Directory::class);
-        $this->directory->setWebsite($this->website);
 
-        $app['router']->get('/media/{path}', MediaController::class)->where('path', '.+')->name('tenant.media');
+        $app['router']->get('/media/{path}', MediaController::class)->where('path', '.+');
     }
 
     /**
@@ -41,14 +40,17 @@ class MediaControllerTest extends Test
      */
     public function request_file_via_controller()
     {
-        $this->directory->put('media/test', 'foo');
+        $this->directory->setWebsite($this->website);
+        $this->assertTrue($this->directory->put('media/test', 'foo'));
 
         $this->activateTenant();
 
-        $response = $this->get('/media/test');
+        $response = $this->get('http://'. $this->hostname->fqdn . '/media/test');
 
         $response->assertSuccessful();
 
         $response->assertSeeText('foo');
+
+        $this->directory->delete('media/test');
     }
 }

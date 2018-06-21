@@ -24,13 +24,16 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="APP_ENV" value="production"/>
-        <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value=""/>
+        <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="DB_DATABASE" value="tenancy"/>
-        <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="LIMIT_UUID_LENGTH_32" value="1"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE" value="1"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE_USER" value="1"/>
         <env name="TENANCY_DEFAULT_HOSTNAME" value="local.testing"/>
+        <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
     </php>
 </phpunit>
