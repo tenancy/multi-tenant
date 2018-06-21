@@ -2,6 +2,7 @@
     - The tenancy:install command has been removed.
     - #483, dropped Customer object.
     - Added Tenant contract and assigning it to Website when identified.
+    - The TenantAwareJob now uses `onTenant()` and the `website_id`.
     - Tests now reset state; deleting tenant databases.
     - clean-local-dbs bash script no longer throws errors
     - FindById in WebsiteRepository now allows string and int, which is possible for eloquent models.
