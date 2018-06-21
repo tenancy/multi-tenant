@@ -34,6 +34,9 @@ class FreshCommandTest extends DatabaseCommandTest
         });
     }
 
+    /**
+     * @test
+     */
     public function runs_fresh_with_seeding_on_tenants()
     {
         $this->seedAndTest('migrate');
