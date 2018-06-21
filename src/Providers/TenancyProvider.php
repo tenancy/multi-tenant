@@ -91,15 +91,12 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\ConnectionProvider::class);
         $this->app->register(Providers\UuidProvider::class);
         $this->app->register(Providers\BusProvider::class);
-
-        if ($this->app['config']->get('tenancy.website.disk') !== false) {
-            $this->app->register(Providers\FilesystemProvider::class);
-        }
-
+        $this->app->register(Providers\FilesystemProvider::class);
         $this->app->register(Providers\HostnameProvider::class);
 
         // Register last.
         $this->app->register(Providers\EventProvider::class);
+        $this->app->register(Providers\RouteProvider::class);
     }
 
     protected function bootCommands()

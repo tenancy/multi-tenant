@@ -76,6 +76,8 @@ class Test extends TestCase
 
         $this->identifyBuild();
 
+        $this->beforeSetUp($app);
+
         $this->setUpTenancy();
 
         return $app;
@@ -92,6 +94,16 @@ class Test extends TestCase
     protected function setSchemaLength()
     {
         Schema::defaultStringLength(191);
+    }
+
+    /**
+     * Allows implementation in a test.
+     *
+     * @param Application $app
+     */
+    protected function beforeSetUp(Application $app)
+    {
+        // ..
     }
 
     /**

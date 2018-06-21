@@ -17,12 +17,10 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Events\Websites\Switched;
-use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 
 class ActivatesDisk
 {
@@ -50,27 +48,10 @@ class ActivatesDisk
     public function activate(WebsiteEvent $event)
     {
         if ($event->website) {
-            $this->filesystem->set('tenant', $this->resolve($event->website));
-        }
-    }
+            $config = config('filesystems.disks.' . (config('tenancy.website.disk') ?? 'tenancy-default'));
+            Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$event->website->uuid);
 
-    /**
-     * Resolve the given disk.
-     *
-     * @param Website $website
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function resolve(Website $website)
-    {
-        $config = config('filesystems.disks.' . (config('tenancy.website.disk') ?? 'tenancy-default'));
-        Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$website->uuid);
-
-        $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
-
-        if (method_exists($this->filesystem, $driverMethod)) {
-            return $this->filesystem->{$driverMethod}($config);
-        } else {
-            throw new InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
+            config(['filesystems.disks.tenant' => $config]);
         }
     }
 }
