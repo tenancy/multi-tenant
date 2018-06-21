@@ -37,7 +37,6 @@ class RouteProvider extends RouteServiceProvider
             $hostname = $this->app->make(CurrentHostname::class);
 
             if ($hostname && file_exists($path)) {
-
                 if ($config->get('tenancy.routes.replace-global')) {
                     $router->setRoutes(new RouteCollection());
                 }
