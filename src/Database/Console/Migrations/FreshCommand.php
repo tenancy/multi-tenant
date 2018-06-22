@@ -2,8 +2,7 @@
 
 namespace Hyn\Tenancy\Database\Console\Migrations;
 
-use http\Exception\RuntimeException;
-use Hyn\Tenancy\Exceptions\ConnectionException;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\MutatesMigrationCommands;
 use Illuminate\Database\Console\Migrations\FreshCommand as BaseCommand;
 
@@ -20,34 +19,52 @@ class FreshCommand extends BaseCommand
             return;
         }
 
-        $this->input->setOption('force', $force = true);
-        $website_id = $this->option('website_id');
-        $realpath = $this->option('realpath');
-        $path = $this->input->getOption('path');
+        $this->input->setOption('force', true);
+        $this->input->setOption('database', $this->connection->tenantName());
 
-        $website = $this->websites->query()->findOrFail($website_id);
+        $this->processHandle(function (Website $website) {
+            $this->connection->set($website);
 
-        $this->connection->set($website);
+            $this->dropAllTables(
+                $database = $this->connection->tenantName()
+            );
 
-        $this->dropAllTables(
-            $database = $this->connection->tenantName()
-        );
-
-        $this->call('tenancy:migrate', [
-            '--database' => $database,
-            '--realpath' => $realpath,
-            '--website_id' => $website_id,
-            '--path' => $path,
-            '--force' => $force,
-        ]);
-
-        if ($this->needsSeeding()) {
-            $this->call('tenancy:db:seed', [
+            $this->call('tenancy:migrate', [
                 '--database' => $database,
-                '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
-                '--force' => $force,
+                '--website_id' => [$website->id],
+                '--path' => $this->option('path'),
+                '--realpath' => $this->option('realpath'),
+                '--force' => 1,
             ]);
+
+            if ($this->needsSeeding()) {
+                $this->call('tenancy:db:seed', [
+                    '--database' => $database,
+                    '--website_id' => [$website->id],
+                    '--class' => $this->option('seeder'),
+                    '--force' => 1,
+                ]);
+            }
+
+            $this->connection->purge();
+        });
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        foreach ($options = parent::getOptions() as $option) {
+            if ($option[0] === 'seeder') {
+                $option[4] = config('tenancy.db.tenant-seed-class', null);
+            }
         }
 
+        return array_merge($options, [
+            $this->addWebsiteOption()
+        ]);
     }
 }

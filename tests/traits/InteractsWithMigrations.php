@@ -43,19 +43,21 @@ trait InteractsWithMigrations
             '--force' => 1
         ]);
     }
+
     /**
-     * @param string $command
+     * @param string        $command
      * @param callable|null $callback
      * @param callable|null $hook
+     * @param array         $commandOptions
      */
-    protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null)
+    protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null, array $commandOptions = [])
     {
-        $code = $this->artisan("tenancy:$command", [
+        $code = $this->artisan("tenancy:$command", array_merge([
             '--realpath' => true,
             '--path' => __DIR__ . '/../migrations',
             '--no-interaction' => 1,
             '--force' => true
-        ]);
+        ], $commandOptions));
 
         $this->assertEquals(0, $code, "tenancy:$command didn't work out");
 
