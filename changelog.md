@@ -1,3 +1,21 @@
+- 5.2.0
+    - The tenancy:install command has been removed.
+    - #483, dropped Customer object.
+    - Added Tenant contract and assigning it to Website when identified.
+    - The TenantAwareJob now uses `onTenant()` and the `website_id`.
+    - Tests now reset state; deleting tenant databases.
+    - clean-local-dbs bash script no longer throws errors
+    - FindById in WebsiteRepository now allows string and int, which is possible for eloquent models.
+    - #399, tenant filesystem disk no longer automatically instantiated.
+    - #399, allowing local-only tenant overrides like config and vendor to be disabled by setting `tenancy.website.disk` to false.
+    - #502, allowing `routes/tenants.php` to override or replace global routes whenever a tenant is identified (required auto identification).
+    - System models are now soft deleting (which was the intention).
+    - Added a `Connection::exists` method to allow checking whether a connection has been set up.
+    - Dropped all references to old/unused SSL features.
+- 5.1.17
+    - #503, adds event when connection is set.
+- 5.1.16
+    - #489, fixes hostname actions when tenant hasn't been identified yet.
 - 5.1.15
     - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
 - 5.1.14
