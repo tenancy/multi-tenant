@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Events\Database;
 
 use Hyn\Tenancy\Abstracts\AbstractEvent;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 
 class ConnectionSet extends AbstractEvent
 {
