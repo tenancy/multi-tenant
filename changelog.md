@@ -12,6 +12,7 @@
     - System models are now soft deleting (which was the intention).
     - Added a `Connection::exists` method to allow checking whether a connection has been set up.
     - Dropped all references to old/unused SSL features.
+    - Added `tenancy:migrate:fresh` command.
 - 5.1.17
     - #503, adds event when connection is set.
 - 5.1.16
