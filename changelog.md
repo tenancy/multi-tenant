@@ -1,3 +1,6 @@
+- 5.2.1
+    - #532, fixed tenant routes.php overriding global ones.
+    - Now allowing tenant routes with manual identification if it happens early in the request cycle (register of sp or middlewares).
 - 5.2.0
     - The tenancy:install command has been removed.
     - #483, dropped Customer object.
