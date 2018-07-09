@@ -38,7 +38,6 @@ class RouteProvider extends ServiceProvider
 
             if ($hostname && file_exists($path)) {
                 if ($config->get('tenancy.routes.replace-global')) {
-
                     $this->app->booted(function () use ($config, $router, $path) {
                         if ($config->get('tenancy.routes.replace-global')) {
                             $router->setRoutes(new RouteCollection());
