@@ -37,15 +37,13 @@ class RouteProvider extends ServiceProvider
             $hostname = $this->app->make(CurrentHostname::class);
 
             if ($hostname && file_exists($path)) {
-                if ($config->get('tenancy.routes.replace-global')) {
-                    $this->app->booted(function () use ($config, $router, $path) {
-                        if ($config->get('tenancy.routes.replace-global')) {
-                            $router->setRoutes(new RouteCollection());
-                        }
+                $this->app->booted(function () use ($config, $router, $path) {
+                    if ($config->get('tenancy.routes.replace-global')) {
+                        $router->setRoutes(new RouteCollection());
+                    }
 
-                        $router->middleware([])->group($path);
-                    });
-                }
+                    $router->middleware([])->group($path);
+                });
             }
         }
     }
