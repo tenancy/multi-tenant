@@ -48,10 +48,15 @@ class ActivatesDisk
     public function activate(WebsiteEvent $event)
     {
         if ($event->website) {
-            $config = config('filesystems.disks.' . (config('tenancy.website.disk') ?? 'tenancy-default'));
+            $disk = config('tenancy.website.disk') ?? 'tenancy-default';
+
+            $config = config('filesystems.disks.' . $disk);
             Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$event->website->uuid);
 
             config(['filesystems.disks.tenant' => $config]);
+
+            // Force flush the manager to resolve the disk anew when requested.
+            $this->filesystem->set('tenant', null);
         }
     }
 }
