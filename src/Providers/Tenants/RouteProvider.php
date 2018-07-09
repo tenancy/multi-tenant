@@ -32,7 +32,7 @@ class RouteProvider extends ServiceProvider
         /** @var Router $router */
         $router = $this->app->make(Router::class);
 
-        if ($path && $config->get('tenancy.hostname.auto-identification')) {
+        if ($path) {
             /** @var Hostname $hostname */
             $hostname = $this->app->make(CurrentHostname::class);
 

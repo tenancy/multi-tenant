@@ -274,7 +274,9 @@ return [
      * Global tenant specific routes.
      * Making it easier to distinguish between landing and tenant routing.
      *
-     * @info only works with `tenancy.hostname.auto-identification`.
+     * @info only works with `tenancy.hostname.auto-identification` or identification happening
+     *       before the application is booted (eg inside middleware or the register method of
+     *       service providers).
      */
     'routes' => [
         /**
