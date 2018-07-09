@@ -24,8 +24,8 @@ trait TenantAwareConnection
     
         if ($hostname) {
             return app(Connection::class)->tenantName();
-        } else {
-            return app(Connection::class)->systemName();
         }
+
+        return app(Connection::class)->systemName();
     }
 }
