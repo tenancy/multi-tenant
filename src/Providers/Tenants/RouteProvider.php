@@ -17,20 +17,20 @@ namespace Hyn\Tenancy\Providers\Tenants;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Models\Hostname;
 use Illuminate\Config\Repository;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
+use Illuminate\Support\ServiceProvider;
 
-class RouteProvider extends RouteServiceProvider
+class RouteProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadRoutes();
-    }
-
-    public function map(Repository $config, Router $router)
-    {
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
         $path = $config->get('tenancy.routes.path');
+
+        /** @var Router $router */
+        $router = $this->app->make(Router::class);
 
         if ($path && $config->get('tenancy.hostname.auto-identification')) {
             /** @var Hostname $hostname */
@@ -38,10 +38,15 @@ class RouteProvider extends RouteServiceProvider
 
             if ($hostname && file_exists($path)) {
                 if ($config->get('tenancy.routes.replace-global')) {
-                    $router->setRoutes(new RouteCollection());
-                }
 
-                $router->middleware([])->group($path);
+                    $this->app->booted(function () use ($config, $router, $path) {
+                        if ($config->get('tenancy.routes.replace-global')) {
+                            $router->setRoutes(new RouteCollection());
+                        }
+
+                        $router->middleware([])->group($path);
+                    });
+                }
             }
         }
     }
