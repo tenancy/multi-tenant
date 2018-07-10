@@ -1,3 +1,5 @@
+- 5.2.3
+    - #540, fixed issue where hostname identification was attempted inside cli/artisan.
 - 5.2.2
     - Fixes an issue with disk resolving, once the tenant disk has been configured it would be stored in the manager. Any additional tenant identifications would not set the disk.
 - 5.2.1
