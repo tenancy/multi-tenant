@@ -46,7 +46,10 @@ class Environment
 
         $this->defaults();
 
-        if ($this->installed() && config('tenancy.hostname.auto-identification')) {
+        if ($this->installed() &&
+            (! $app->runningInConsole() || $app->runningUnitTests()) &&
+            config('tenancy.hostname.auto-identification'))
+        {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.
             $app->make(CurrentHostname::class);

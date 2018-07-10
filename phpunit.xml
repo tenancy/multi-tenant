@@ -24,7 +24,7 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_ENV" value="production"/>
+        <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="DB_DATABASE" value="tenancy"/>
         <env name="DB_PASSWORD" value=""/>
