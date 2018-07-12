@@ -68,8 +68,7 @@ class ConnectionProvider extends ServiceProvider
 
     public function overrideConnectionResolvers()
     {
-        foreach(['system', 'tenant'] as $type) {
-
+        foreach (['system', 'tenant'] as $type) {
             $models = config("tenancy.db.force-$type-connection-of-models", []);
 
             if (count($models)) {
