@@ -1,3 +1,5 @@
+- 5.2.4
+    - #400, fixed issue where instantiating a model again would not override its connection to system or tenant if configured.
 - 5.2.3
     - #540, fixed issue where hostname identification was attempted inside cli/artisan.
 - 5.2.2
