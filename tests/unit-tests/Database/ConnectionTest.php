@@ -94,7 +94,9 @@ class ConnectionTest extends Test
     {
         config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
 
+        // Run the connection provider again to read this new model.
         (new ConnectionProvider($this->app))->overrideConnectionResolvers();
+
         (new NonExtend())->getConnection()->getConfig();
     }
 
@@ -105,6 +107,7 @@ class ConnectionTest extends Test
     {
         config(['tenancy.db.force-system-connection-of-models' => [NonExtend::class]]);
 
+        // Run the connection provider again to read this new model.
         (new ConnectionProvider($this->app))->overrideConnectionResolvers();
 
         $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnection()->getName());
