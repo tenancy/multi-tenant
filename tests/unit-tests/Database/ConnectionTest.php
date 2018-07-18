@@ -19,6 +19,7 @@ use Hyn\Tenancy\Providers\Tenants\ConnectionProvider;
 use Hyn\Tenancy\Tests\Extend\NonExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
+use Illuminate\Database\ConnectionResolverInterface;
 
 class ConnectionTest extends Test
 {
@@ -111,5 +112,22 @@ class ConnectionTest extends Test
         (new ConnectionProvider($this->app))->overrideConnectionResolvers();
 
         $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnection()->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function overriding_model_to_tenant_does_not_set_global_connection()
+    {
+        /** @var ConnectionResolverInterface $resolver */
+        $resolver = $this->app['db'];
+
+        $this->assertEquals(config('database.default'), $resolver->getDefaultConnection());
+
+        config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
+        // Run the connection provider again to read this new model.
+        (new ConnectionProvider($this->app))->overrideConnectionResolvers();
+
+        $this->assertEquals(config('database.default'), $resolver->getDefaultConnection());
     }
 }
