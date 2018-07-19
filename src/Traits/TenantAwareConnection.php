@@ -20,12 +20,13 @@ trait TenantAwareConnection
 {
     public function getConnectionName()
     {
-        $hostname = app(\Hyn\Tenancy\Contracts\CurrentHostname::class);
-    
-        if ($hostname) {
-            return app(Connection::class)->tenantName();
+        /** @var Connection $connection */
+        $connection = app(Connection::class);
+
+        if ($connection->exists()) {
+            return $connection->tenantName();
         }
 
-        return app(Connection::class)->systemName();
+        return $connection->systemName();
     }
 }
