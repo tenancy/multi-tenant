@@ -31,8 +31,6 @@ class Resolver implements ConnectionResolverInterface
     {
         $this->connection = $connection;
 
-        $connectionResolver->setDefaultConnection($connection);
-
         $this->connectionResolver = $connectionResolver;
     }
 

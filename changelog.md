@@ -1,5 +1,6 @@
 - 5.2.6
     - #549, setting uuid before sending to repository no longer would override the uuid.
+    - Superfluous code removed that might have set the default connection to tenant in edge cases.
 - 5.2.5
     - #376, early identification is now default for new installations.
     - #448, fixed recreate command in edge cases where users or databases already existed or configuration was wrong.
