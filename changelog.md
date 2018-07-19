@@ -1,5 +1,6 @@
 - 5.2.5
     - #376, early identification is now default for new installations.
+    - #448, fixed recreate command in edge cases where users or databases already existed or configuration was wrong.
     - #460, allowing disabling webserver reload and forcing the configtest.
     - #524, added tenant aware logger.
     - #534, added tenant aware connection trait, which makes Eloquent models use the tenant connection if it exists, otherwise the system connection.
