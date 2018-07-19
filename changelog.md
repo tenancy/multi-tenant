@@ -1,4 +1,5 @@
 - 5.2.5
+    - #460, allowing disabling webserver reload and forcing the configtest.
     - #524, added tenant aware logger.
     - #534, added tenant aware connection trait, which makes Eloquent models use the tenant connection if it exists, otherwise the system connection.
 - 5.2.4
