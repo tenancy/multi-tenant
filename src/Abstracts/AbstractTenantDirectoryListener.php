@@ -65,9 +65,9 @@ abstract class AbstractTenantDirectoryListener
 
     public function __construct(Filesystem $filesystem, Repository $config, Directory $directory)
     {
-        $this->filesystem = $filesystem;
-        $this->config = $config;
-        $this->directory = $directory;
+        $this->filesystem              = $filesystem;
+        $this->config                  = $config;
+        $this->directory               = $directory;
         $this->tenantFilesystemEnabled = $config->get('tenancy.website.disk') !== false;
     }
 

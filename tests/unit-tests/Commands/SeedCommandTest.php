@@ -81,8 +81,8 @@ class SeedCommandTest extends DatabaseCommandTest
         $this->app[Kernel::class]->registerCommand(new SeedCommand($this->app['db']));
 
         $this->artisan('tenancy:db:seed', [
-            '-n' => 1,
-            '--force' => true
+            '-n'      => 1,
+            '--force' => true,
         ]);
 
         $this->connection->set($this->website);

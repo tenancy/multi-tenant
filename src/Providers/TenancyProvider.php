@@ -14,16 +14,16 @@
 
 namespace Hyn\Tenancy\Providers;
 
+use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Contracts;
+use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
-use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Support\ServiceProvider;
-use Hyn\Tenancy\Commands\RecreateCommand;
-use Hyn\Tenancy\Providers\Tenants as Providers;
-use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 
 class TenancyProvider extends ServiceProvider
 {

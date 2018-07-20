@@ -15,8 +15,8 @@
 namespace Hyn\Tenancy\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 trait MutatesSeedCommands

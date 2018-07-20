@@ -45,7 +45,7 @@ class MediaControllerTest extends Test
 
         $this->activateTenant();
 
-        $response = $this->get('http://'. $this->hostname->fqdn . '/media/test');
+        $response = $this->get('http://' . $this->hostname->fqdn . '/media/test');
 
         $response->assertSuccessful();
 

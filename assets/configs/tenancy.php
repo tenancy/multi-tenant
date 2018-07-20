@@ -15,7 +15,7 @@
 use Hyn\Tenancy\Database\Connection;
 
 return [
-    'models' => [
+    'models'   => [
         /**
          * Specify different models to be used for the global, system database
          * connection. These are also used in their relationships. Models
@@ -30,7 +30,7 @@ return [
         // Must implement \Hyn\Tenancy\Contracts\Website
         'website' => \Hyn\Tenancy\Models\Website::class
     ],
-    'website' => [
+    'website'  => [
         /**
          * Each website has a short random hash that identifies this entity
          * to the application. By default this id is randomized and fully
@@ -109,7 +109,7 @@ return [
          *
          * @warn this must be a FQDN, these have no protocol or path!
          */
-        'default' => env('TENANCY_DEFAULT_HOSTNAME'),
+        'default'                           => env('TENANCY_DEFAULT_HOSTNAME'),
         /**
          * The package is able to identify the requested hostname by itself,
          * disable to get full control (and responsibility) over hostname
@@ -118,7 +118,7 @@ return [
          *
          * @see src/Jobs/HostnameIdentification.php
          */
-        'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
+        'auto-identification'               => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
 
         /**
          * In case you want to have the tenancy environment set up early,
@@ -128,7 +128,7 @@ return [
          * A good use case is when you have set "tenant" as the default
          * database connection.
          */
-        'early-identification' => env('TENANCY_EARLY_IDENTIFICATION', true),
+        'early-identification'              => env('TENANCY_EARLY_IDENTIFICATION', true),
 
         /**
          * Abort application execution in case no hostname was identified. This will throw a
@@ -155,9 +155,9 @@ return [
          * This will resolve issues with password reset mails etc using the
          * correct domain.
          */
-        'update-app-url' => false,
+        'update-app-url'                    => false,
     ],
-    'db' => [
+    'db'       => [
         /**
          * The default connection to use; this overrules the Laravel database.default
          * configuration setting. In Laravel this is normally configured to 'mysql'.
@@ -284,13 +284,13 @@ return [
      *       before the application is booted (eg inside middleware or the register method of
      *       service providers).
      */
-    'routes' => [
+    'routes'   => [
         /**
          * Routes file to load whenever a tenant was identified.
          *
          * @info Set to false or null to disable.
          */
-        'path' => base_path('routes/tenants.php'),
+        'path'           => base_path('routes/tenants.php'),
 
         /**
          * Set to true to flush all global routes before setting the routes from the
@@ -304,7 +304,7 @@ return [
      * The following section relates to configuration to files inside the tenancy/<uuid>
      * tenant directory.
      */
-    'folders' => [
+    'folders'  => [
         'config' => [
             /**
              * Merge configuration files from the config directory

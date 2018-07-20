@@ -26,13 +26,13 @@ trait InteractsWithBuilds
         $name = env('CIRCLE_JOB');
 
         if ($name && preg_match(
-            '/^php\-(?<php_version>[0-9\.]+)\-(?<webserver>[a-z]+)$/',
+                '/^php\-(?<php_version>[0-9\.]+)\-(?<webserver>[a-z]+)$/',
             $name,
             $m
         )) {
-            $this->buildWebserver = $m['webserver'];
+            $this->buildWebserver  = $m['webserver'];
             $this->buildPhpVersion = $m['php_version'];
-            $this->buildDb = env('DB_HOST');
+            $this->buildDb         = env('DB_HOST');
         }
     }
 }

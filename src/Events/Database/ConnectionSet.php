@@ -40,8 +40,8 @@ class ConnectionSet extends AbstractEvent
 
     public function __construct(Website $website = null, string $connection, bool $purged = true)
     {
-        $this->website = $website;
+        $this->website    = $website;
         $this->connection = $connection;
-        $this->purged = $purged;
+        $this->purged     = $purged;
     }
 }

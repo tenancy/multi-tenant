@@ -53,6 +53,26 @@ class HostnameActionsTest extends Test
         $this->assertEquals("http://{$this->hostname->fqdn}", config('app.url'));
     }
 
+    protected function middleware(Hostname $set = null)
+    {
+        app(Environment::class)->hostname($set);
+
+        $identified = $this->app->make(CurrentHostname::class);
+
+        if ($set) {
+            $this->assertNotNull($identified);
+        } else {
+            $this->assertNull($identified);
+        }
+
+        $request    = new Request();
+        $middleware = new HostnameActions(app()->make(Redirector::class));
+
+        return $middleware->handle($request, function () {
+            return static::RESPONSE;
+        });
+    }
+
     /**
      * @test
      */
@@ -108,26 +128,6 @@ class HostnameActionsTest extends Test
         } catch (Exception $e) {
             $this->assertInstanceOf(NotFoundHttpException::class, $e);
         }
-    }
-
-    protected function middleware(Hostname $set = null)
-    {
-        app(Environment::class)->hostname($set);
-
-        $identified = $this->app->make(CurrentHostname::class);
-
-        if ($set) {
-            $this->assertNotNull($identified);
-        } else {
-            $this->assertNull($identified);
-        }
-
-        $request = new Request();
-        $middleware = new HostnameActions(app()->make(Redirector::class));
-
-        return $middleware->handle($request, function () {
-            return static::RESPONSE;
-        });
     }
 
     protected function duringSetUp(Application $app)

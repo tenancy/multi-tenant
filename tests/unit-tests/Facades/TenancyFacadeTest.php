@@ -14,9 +14,9 @@
 
 namespace Hyn\Tenancy\Tests\Facades;
 
+use Hyn\Tenancy\Facades\TenancyFacade as Tenancy;
 use Hyn\Tenancy\Tests\Test;
 use Laravel\Lumen\Application;
-use Hyn\Tenancy\Facades\TenancyFacade as Tenancy;
 
 class TenancyFacadeTest extends Test
 {

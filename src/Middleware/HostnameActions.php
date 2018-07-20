@@ -115,7 +115,7 @@ class HostnameActions
     {
         if (config('tenancy.hostname.update-app-url', false)) {
             config([
-                'app.url' => sprintf('%s://%s', $request->getScheme(), $hostname->fqdn)
+                'app.url' => sprintf('%s://%s', $request->getScheme(), $hostname->fqdn),
             ]);
         }
     }

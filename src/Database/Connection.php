@@ -15,9 +15,10 @@
 namespace Hyn\Tenancy\Database;
 
 use Hyn\Tenancy\Contracts\Database\PasswordGenerator;
-use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Events;
+use Hyn\Tenancy\Exceptions\ConnectionException;
 use Hyn\Tenancy\Traits\ConvertsEntityToWebsite;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Config\Repository as Config;
@@ -25,7 +26,6 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\DatabaseManager;
-use Hyn\Tenancy\Events;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Macroable;
 

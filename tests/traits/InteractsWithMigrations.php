@@ -27,20 +27,20 @@ trait InteractsWithMigrations
 
         // publish configuration files
         $this->artisan('vendor:publish', [
-            '--provider' => ConfigurationProvider::class,
-            '--no-interaction' => 1
+            '--provider'       => ConfigurationProvider::class,
+            '--no-interaction' => 1,
         ]);
 
         // publish migrations
         $this->artisan('vendor:publish', [
-            '--provider' => TenancyProvider::class,
-            '--no-interaction' => 1
+            '--provider'       => TenancyProvider::class,
+            '--no-interaction' => 1,
         ]);
 
         // refresh database
         $this->artisan('migrate:fresh', [
             '--no-interaction' => 1,
-            '--force' => 1
+            '--force'          => 1,
         ]);
     }
 
@@ -53,10 +53,10 @@ trait InteractsWithMigrations
     protected function migrateAndTest(string $command, callable $callback = null, callable $hook = null, array $commandOptions = [])
     {
         $code = $this->artisan("tenancy:$command", array_merge([
-            '--realpath' => true,
-            '--path' => __DIR__ . '/../migrations',
+            '--realpath'       => true,
+            '--path'           => __DIR__ . '/../migrations',
             '--no-interaction' => 1,
-            '--force' => true
+            '--force'          => true,
         ], $commandOptions));
 
         $this->assertEquals(0, $code, "tenancy:$command didn't work out");
@@ -79,9 +79,9 @@ trait InteractsWithMigrations
     protected function seedAndTest(callable $callback = null, callable $hook = null)
     {
         $code = $this->artisan("tenancy:db:seed", [
-            '--class' => SampleSeeder::class,
+            '--class'          => SampleSeeder::class,
             '--no-interaction' => 1,
-            '--force' => true
+            '--force'          => true,
         ]);
 
         $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");

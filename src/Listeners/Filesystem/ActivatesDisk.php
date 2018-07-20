@@ -51,7 +51,7 @@ class ActivatesDisk
             $disk = config('tenancy.website.disk') ?? 'tenancy-default';
 
             $config = config('filesystems.disks.' . $disk);
-            Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$event->website->uuid);
+            Arr::set($config, 'root', Arr::get($config, 'root') . '/' . $event->website->uuid);
 
             config(['filesystems.disks.tenant' => $config]);
 

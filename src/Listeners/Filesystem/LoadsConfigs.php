@@ -44,7 +44,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->directory->files($path) as $file) {
-            if (! Str::endsWith($file, '.php')) {
+            if (!Str::endsWith($file, '.php')) {
                 continue;
             }
 

@@ -14,11 +14,11 @@
 
 namespace Hyn\Tenancy\Commands;
 
-use Hyn\Tenancy\Models\Website;
-use Illuminate\Console\Command;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Events\Websites as Events;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Traits\DispatchesEvents;
+use Illuminate\Console\Command;
 
 class RecreateCommand extends Command
 {

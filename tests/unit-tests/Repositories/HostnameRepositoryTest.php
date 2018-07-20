@@ -15,8 +15,8 @@
 namespace Hyn\Tenancy\Tests;
 
 use Hyn\Tenancy\Exceptions\ModelValidationException;
-use Laravel\Lumen\Application;
 use Illuminate\Support\Arr;
+use Laravel\Lumen\Application;
 
 class HostnameRepositoryTest extends Test
 {
