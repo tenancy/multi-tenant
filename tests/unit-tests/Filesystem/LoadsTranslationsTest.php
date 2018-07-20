@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Filesystem;
 
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Website\Directory;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class LoadsTranslationsTest extends Test
 {

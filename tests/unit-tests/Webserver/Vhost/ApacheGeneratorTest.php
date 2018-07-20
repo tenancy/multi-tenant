@@ -19,7 +19,7 @@ use Hyn\Tenancy\Listeners\Servant;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Website\Directory;
 use Illuminate\Contracts\Filesystem\Filesystem;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class ApacheGeneratorTest extends Test
 {

@@ -82,7 +82,7 @@ return [
                 /**
                  * Action to run to test the apache configuration.
                  *
-                 * @set to a boolean to force the response of the test command.
+                 * @set  to a boolean to force the response of the test command.
                  * @info true succeeds, false fails
                  */
                 'test-config' => 'apache2ctl -t',
@@ -164,7 +164,7 @@ return [
                 /**
                  * Action that asserts nginx is installed.
                  */
-                'exists' => '/etc/init.d/nginx',
+                'exists'      => '/etc/init.d/nginx',
                 /**
                  * Action to run to test the nginx configuration.
                  *
@@ -177,7 +177,7 @@ return [
                  *
                  * @info set to null to disable reloading.
                  */
-                'reload' => '/etc/init.d/nginx reload'
+                'reload'      => '/etc/init.d/nginx reload',
             ]
         ]
     ]

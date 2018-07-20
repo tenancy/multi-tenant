@@ -27,7 +27,7 @@ class RouteProvider extends ServiceProvider
     {
         /** @var Repository $config */
         $config = $this->app->make(Repository::class);
-        $path = $config->get('tenancy.routes.path');
+        $path   = $config->get('tenancy.routes.path');
 
         /** @var Router $router */
         $router = $this->app->make(Router::class);

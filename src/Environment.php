@@ -23,8 +23,8 @@ use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\Lumen\Application;
 
 class Environment
 {
@@ -47,7 +47,7 @@ class Environment
         $this->defaults();
 
         if ($this->installed() &&
-            (! $app->runningInConsole() || $app->runningUnitTests()) &&
+            (!$app->runningInConsole() || $app->runningUnitTests()) &&
             config('tenancy.hostname.auto-identification')) {
             $this->identifyHostname();
             // Identifies the current hostname, sets the binding using the native resolving strategy.

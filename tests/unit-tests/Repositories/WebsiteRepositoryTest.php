@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class WebsiteRepositoryTest extends Test
 {

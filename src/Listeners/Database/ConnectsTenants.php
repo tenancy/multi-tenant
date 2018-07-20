@@ -16,8 +16,8 @@ namespace Hyn\Tenancy\Listeners\Database;
 
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Database\Connection;
-use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class ConnectsTenants
 {
@@ -46,7 +46,7 @@ class ConnectsTenants
      * @param WebsiteEvent $event
      * @return bool
      */
-    public function switch(WebsiteEvent $event) : bool
+    public function switch(WebsiteEvent $event): bool
     {
         return $this->connection->set($event->website);
     }

@@ -23,24 +23,6 @@ use Symfony\Component\HttpFoundation\Request as FoundationRequest;
 
 class RouteProviderTest extends Test
 {
-    protected function pathIdentified(string $path)
-    {
-        file_put_contents("$path/routes/tenants.php", <<<EOM
-<?php
-
-\Route::get('/', function () { return 'bar'; })->name('tenant');
-
-EOM
-        );
-    }
-
-    protected function duringSetUp(Application $app)
-    {
-        $this->setUpHostnames(true);
-        $this->setUpWebsites(true, true);
-        $this->activateTenant();
-    }
-
     /**
      * @test
      */
@@ -49,6 +31,20 @@ EOM
         $this->overrideGlobalRoute();
 
         $this->assertEquals(2, $this->app['router']->getRoutes()->count());
+    }
+
+    /**
+     * Create a fake request to send to the router matching logic.
+     */
+    protected function overrideGlobalRoute()
+    {
+        $request = Request::createFromBase(FoundationRequest::create("http://{$this->hostname->fqdn}"));
+        $this->assertEquals($this->hostname->fqdn, $request->getHost());
+
+        /** @var Route $route */
+        $route = $this->app['router']->getRoutes()->match($request);
+
+        $this->assertEquals('tenant', $route->getName());
     }
 
     /**
@@ -66,18 +62,22 @@ EOM
         $this->assertEquals(1, $this->app['router']->getRoutes()->count());
     }
 
-    /**
-     * Create a fake request to send to the router matching logic.
-     */
-    protected function overrideGlobalRoute()
+    protected function pathIdentified(string $path)
     {
-        $request = Request::createFromBase(FoundationRequest::create("http://{$this->hostname->fqdn}"));
-        $this->assertEquals($this->hostname->fqdn, $request->getHost());
+        file_put_contents("$path/routes/tenants.php", <<<EOM
+<?php
 
-        /** @var Route $route */
-        $route = $this->app['router']->getRoutes()->match($request);
+\Route::get('/', function () { return 'bar'; })->name('tenant');
 
-        $this->assertEquals('tenant', $route->getName());
+EOM
+        );
+    }
+
+    protected function duringSetUp(Application $app)
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
     }
 
     protected function tearDown()

@@ -42,19 +42,19 @@ class FreshCommand extends BaseCommand
             );
 
             $this->call('tenancy:migrate', [
-                '--database' => $database,
+                '--database'   => $database,
                 '--website_id' => [$website->id],
-                '--path' => $this->option('path'),
-                '--realpath' => $this->option('realpath'),
-                '--force' => 1,
+                '--path'       => $this->option('path'),
+                '--realpath'   => $this->option('realpath'),
+                '--force'      => 1,
             ]);
 
             if ($this->needsSeeding()) {
                 $this->call('tenancy:db:seed', [
-                    '--database' => $database,
+                    '--database'   => $database,
                     '--website_id' => [$website->id],
-                    '--class' => $this->option('seeder'),
-                    '--force' => 1,
+                    '--class'      => $this->option('seeder'),
+                    '--force'      => 1,
                 ]);
             }
 
@@ -76,7 +76,7 @@ class FreshCommand extends BaseCommand
         }
 
         return array_merge($options, [
-            $this->addWebsiteOption()
+            $this->addWebsiteOption(),
         ]);
     }
 }

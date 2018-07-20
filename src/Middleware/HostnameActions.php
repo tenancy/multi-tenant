@@ -22,27 +22,12 @@ use Hyn\Tenancy\Events\Hostnames\Redirected;
 use Hyn\Tenancy\Events\Hostnames\Secured;
 use Hyn\Tenancy\Events\Hostnames\UnderMaintenance;
 use Hyn\Tenancy\Traits\DispatchesEvents;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 
 class HostnameActions
 {
     use DispatchesEvents;
-
-    /**
-     * @var Redirector
-     */
-    protected $redirect;
-
-    /**
-     * @param Redirector $redirect
-     */
-    public function __construct(Redirector $redirect)
-    {
-        $this->redirect = $redirect;
-    }
 
     /**
      * @param Request $request
@@ -55,7 +40,7 @@ class HostnameActions
             ? app(CurrentHostname::class)
             : null;
 
-        if ($hostname != null) {
+        if ($hostname !== null) {
             $this->setAppUrl($request, $hostname);
 
             if ($hostname->under_maintenance_since) {
@@ -84,19 +69,19 @@ class HostnameActions
     {
         $this->emitEvent(new Redirected($hostname));
 
-        return $this->redirect->away($hostname->redirect_to);
+        return redirect($hostname->redirect_to);
     }
 
     /**
      * @param Hostname $hostname
-     * @param Request $request
+     * @param Request  $request
      * @return RedirectResponse
      */
     protected function secure(Hostname $hostname, Request $request)
     {
         $this->emitEvent(new Secured($hostname));
 
-        return $this->redirect->secure($request->path());
+        return redirect($request->path(), 302, true);
     }
 
     /**
@@ -105,7 +90,7 @@ class HostnameActions
     protected function maintenance(Hostname $hostname)
     {
         $this->emitEvent(new UnderMaintenance($hostname));
-        throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp);
+        return app()->abort(503, "The application is down for maintenance since {$hostname->under_maintenance_since->timestamp}.");
     }
 
     /**
@@ -130,7 +115,7 @@ class HostnameActions
     {
         if (config('tenancy.hostname.update-app-url', false)) {
             config([
-                'app.url' => sprintf('%s://%s', $request->getScheme(), $hostname->fqdn)
+                'app.url' => sprintf('%s://%s', $request->getScheme(), $hostname->fqdn),
             ]);
         }
     }

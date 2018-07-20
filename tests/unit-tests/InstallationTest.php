@@ -21,10 +21,10 @@ use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Providers\WebserverProvider;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\QueryException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
+use Laravel\Lumen\Application;
 
 class InstallationTest extends Test
 {

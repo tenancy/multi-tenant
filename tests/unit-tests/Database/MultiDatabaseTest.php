@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Database;
 
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Tests\Test;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class MultiDatabaseTest extends Test
 {

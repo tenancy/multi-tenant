@@ -34,18 +34,18 @@ interface WebsiteRepository
      * @param Website $website
      * @return Website
      */
-    public function create(Website &$website): Website;
+    public function create(Website $website): Website;
     /**
      * @param Website $website
      * @return Website
      */
-    public function update(Website &$website): Website;
+    public function update(Website $website): Website;
     /**
      * @param Website $website
      * @param bool $hard
      * @return Website
      */
-    public function delete(Website &$website, $hard = false): Website;
+    public function delete(Website $website, $hard = false): Website;
 
     /**
      * @warn Only use for querying.

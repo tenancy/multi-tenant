@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Tests\Website;
 
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Website\Directory;
-use Illuminate\Contracts\Foundation\Application;
+use Laravel\Lumen\Application;
 
 class DirectoryTest extends Test
 {

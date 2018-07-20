@@ -58,8 +58,8 @@ class FreshCommandTest extends DatabaseCommandTest
                 "Connection for {$website->uuid} has no table samples"
             );
         }, null, [
-            '--seed' => 1,
-            '--seeder' => SampleSeeder::class
+            '--seed'   => 1,
+            '--seeder' => SampleSeeder::class,
         ]);
     }
 

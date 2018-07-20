@@ -14,25 +14,25 @@
 
 namespace Hyn\Tenancy\Logging;
 
-use Monolog\Logger;
-use Illuminate\Support\Carbon;
 use Hyn\Tenancy\Website\Directory;
+use Illuminate\Support\Carbon;
 use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 class TenantAwareLogger
 {
     /**
      * Create a custom Monolog instance and pipe logs to the tenant directory.
      *
-     * @param  array  $config
+     * @param  array $config
      * @return \Monolog\Logger
      */
     public function __invoke(array $config)
     {
-        $log = new Logger('tenant');
-        $level = $log->toMonologLevel($config['level'] ?: 'debug');
+        $log             = new Logger('tenant');
+        $level           = $log->toMonologLevel($config['level'] ?: 'debug');
         $tenantDirectory = app(Directory::class);
-        $directoryPath = $tenantDirectory->getWebsite() ? 'app/tenancy/tenants/' . $tenantDirectory->path() : null;
+        $directoryPath   = $tenantDirectory->getWebsite() ? 'app/tenancy/tenants/' . $tenantDirectory->path() : null;
 
         $logPath = storage_path($directoryPath . 'logs/' . $config['level'] . '_' . Carbon::now()->toDateString() . '.log');
         $log->pushHandler(new StreamHandler($logPath, $level));

@@ -30,6 +30,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
     /**
      * @param WebsiteEvent $event
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function load(WebsiteEvent $event)
     {
@@ -38,11 +39,12 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
     /**
      * @param string $path
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->directory->files($path) as $file) {
-            if (! Str::endsWith($file, '.php')) {
+            if (!Str::endsWith($file, '.php')) {
                 continue;
             }
 
@@ -50,13 +52,14 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
 
 
             // Blacklisted; skip.
-            if (in_array($key, $this->config->get('tenancy.folders.config.blacklist', []))) {
+            if (\in_array($key, $this->config->get('tenancy.folders.config.blacklist', []), true)) {
                 continue;
             }
 
             if ($this->directory->isLocal()) {
                 $values = $this->directory->getRequire($file);
             } else {
+                /** @noinspection PhpIncludeInspection */
                 $values = include 'data:text/plain,' . $this->directory->get($file);
             }
 

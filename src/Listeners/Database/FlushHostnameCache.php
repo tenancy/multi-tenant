@@ -33,7 +33,7 @@ class FlushHostnameCache
     {
         if ($hostname->isDirty([
             'under_maintenance_since', 'website_id', 'force_https',
-            'redirect_to', 'fqdn'
+            'redirect_to', 'fqdn',
         ])) {
             $this->flush($hostname);
         }

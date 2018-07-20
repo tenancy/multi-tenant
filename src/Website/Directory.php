@@ -14,8 +14,8 @@
 
 namespace Hyn\Tenancy\Website;
 
-use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Environment;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
@@ -369,7 +369,7 @@ class Directory implements Filesystem
         if ($this->isLocal() && method_exists($this->local, $name)) {
             $arguments[0] = $this->path($arguments[0], true);
 
-            return call_user_func_array([$this->local, $name], $arguments);
+            return \call_user_func_array([$this->local, $name], $arguments);
         }
     }
 }

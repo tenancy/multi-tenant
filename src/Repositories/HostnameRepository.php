@@ -14,10 +14,10 @@
 
 namespace Hyn\Tenancy\Repositories;
 
-use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
-use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Repositories\HostnameRepository as Contract;
 use Hyn\Tenancy\Contracts\Website;
+use Hyn\Tenancy\Events\Hostnames as Events;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Validators\HostnameValidator;
 use Illuminate\Contracts\Cache\Factory;
@@ -28,7 +28,7 @@ class HostnameRepository implements Contract
     use DispatchesEvents;
 
     /**
-     * @var Hostname
+     * @var Hostname|\Illuminate\Database\Eloquent\Model
      */
     protected $hostname;
 
@@ -38,21 +38,21 @@ class HostnameRepository implements Contract
     protected $validator;
 
     /**
-     * @var Factory
+     * @var Factory|\Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
     /**
      * HostnameRepository constructor.
-     * @param Hostname $hostname
+     * @param Hostname          $hostname
      * @param HostnameValidator $validator
-     * @param Factory $cache
+     * @param Factory           $cache
      */
     public function __construct(Hostname $hostname, HostnameValidator $validator, Factory $cache)
     {
-        $this->hostname = $hostname;
+        $this->hostname  = $hostname;
         $this->validator = $validator;
-        $this->cache = $cache;
+        $this->cache     = $cache;
     }
 
     /**
@@ -79,10 +79,10 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param Hostname $hostname
+     * @param Hostname|\Illuminate\Database\Eloquent\Model $hostname
      * @return Hostname
      */
-    public function create(Hostname &$hostname): Hostname
+    public function create(Hostname $hostname): Hostname
     {
         if ($hostname->exists) {
             return $this->update($hostname);
@@ -104,10 +104,10 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param Hostname $hostname
+     * @param Hostname|\Illuminate\Database\Eloquent\Model $hostname
      * @return Hostname
      */
-    public function update(Hostname &$hostname): Hostname
+    public function update(Hostname $hostname): Hostname
     {
         if (!$hostname->exists) {
             return $this->create($hostname);
@@ -120,7 +120,7 @@ class HostnameRepository implements Contract
         $this->validator->save($hostname);
 
         $dirty = collect(array_keys($hostname->getDirty()))->mapWithKeys(function ($value, $key) use ($hostname) {
-            return [ $value => $hostname->getOriginal($value) ];
+            return [$value => $hostname->getOriginal($value)];
         });
 
         $hostname->save();
@@ -139,11 +139,12 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param Hostname $hostname
-     * @param bool $hard
+     * @param Hostname|\Illuminate\Database\Eloquent\Model $hostname
+     * @param bool                                         $hard
      * @return Hostname
+     * @throws \Exception
      */
-    public function delete(Hostname &$hostname, $hard = false): Hostname
+    public function delete(Hostname $hostname, $hard = false): Hostname
     {
         $this->emitEvent(
             new Events\Deleting($hostname)
@@ -167,11 +168,11 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param Hostname $hostname
-     * @param Website $website
+     * @param Hostname|\Illuminate\Database\Eloquent\Model $hostname
+     * @param Website|\Illuminate\Database\Eloquent\Model  $website
      * @return Hostname
      */
-    public function attach(Hostname &$hostname, Website &$website): Hostname
+    public function attach(Hostname $hostname, Website $website): Hostname
     {
         $website->hostnames()->save($hostname);
 
@@ -189,10 +190,10 @@ class HostnameRepository implements Contract
     }
 
     /**
-     * @param Hostname $hostname
+     * @param Hostname|\Illuminate\Database\Eloquent\Model $hostname
      * @return Hostname
      */
-    public function detach(Hostname &$hostname): Hostname
+    public function detach(Hostname $hostname): Hostname
     {
         $this->cache->forget("tenancy.website.{$hostname->website->uuid}");
 
