@@ -70,6 +70,7 @@ class DatabaseGenerator
                 break;
             case 'mysql':
                 return new Drivers\MariaDB;
+                break;
             default:
                 throw new GeneratorFailedException("Could not generate database for driver $driver");
         }
@@ -136,6 +137,8 @@ class DatabaseGenerator
 
         $config = $this->connection->generateConfigurationArray($event->website);
 
+        $this->configureHost($config);
+
         $this->emitEvent(
             new Events\Database\Deleting($config, $event->website)
         );
@@ -170,6 +173,8 @@ class DatabaseGenerator
         }
 
         $config = $this->connection->generateConfigurationArray($event->website);
+
+        $this->configureHost($config);
 
         $this->emitEvent(
             new Events\Database\Renaming($config, $event->website)

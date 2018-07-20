@@ -28,12 +28,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $deleted_at
  * @property int $website_id
  * @property Website $website
- * @property int $customer_id
- * @property Customer $customer
  */
 interface Hostname
 {
     public function website(): BelongsTo;
-
-    public function customer(): BelongsTo;
 }

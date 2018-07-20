@@ -81,10 +81,15 @@ return [
                 'exists' => '/etc/init.d/apache2',
                 /**
                  * Action to run to test the apache configuration.
+                 *
+                 * @set to a boolean to force the response of the test command.
+                 * @info true succeeds, false fails
                  */
                 'test-config' => 'apache2ctl -t',
                 /**
                  * Action to run to reload the apache service.
+                 *
+                 * @info set to null to disable reloading.
                  */
                 'reload' => 'apache2ctl graceful'
             ]
@@ -162,12 +167,17 @@ return [
                 'exists' => '/etc/init.d/nginx',
                 /**
                  * Action to run to test the nginx configuration.
+                 *
+                 * @info set to a boolean to force the response of the test command.
+                 *  true succeeds, false fails
                  */
                 'test-config' => '/etc/init.d/nginx configtest',
                 /**
                  * Action to run to reload the nginx service.
+                 *
+                 * @info set to null to disable reloading.
                  */
-                'reload' => 'systemctl restart nginx'
+                'reload' => '/etc/init.d/nginx reload'
             ]
         ]
     ]

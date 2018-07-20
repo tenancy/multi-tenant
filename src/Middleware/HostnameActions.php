@@ -36,9 +36,13 @@ class HostnameActions
      */
     public function handle(Request $request, Closure $next)
     {
-        $hostname = app(CurrentHostname::class);
+        $hostname = config('tenancy.hostname.auto-identification')
+            ? app(CurrentHostname::class)
+            : null;
 
         if ($hostname !== null) {
+            $this->setAppUrl($request, $hostname);
+
             if ($hostname->under_maintenance_since) {
                 return $this->maintenance($hostname);
             }
@@ -98,6 +102,21 @@ class HostnameActions
         if (config('tenancy.hostname.abort-without-identified-hostname')) {
             $this->emitEvent(new NoneFound($request));
             return abort(404);
+        }
+    }
+
+    /**
+     * Forces the app.url configuration to the tenant hostname domain.
+     *
+     * @param Request  $request
+     * @param Hostname $hostname
+     */
+    protected function setAppUrl(Request $request, Hostname $hostname)
+    {
+        if (config('tenancy.hostname.update-app-url', false)) {
+            config([
+                'app.url' => sprintf('%s://%s', $request->getScheme(), $hostname->fqdn)
+            ]);
         }
     }
 }

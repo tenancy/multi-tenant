@@ -12,10 +12,8 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Events\Customers;
+namespace Hyn\Tenancy\Contracts;
 
-use Hyn\Tenancy\Abstracts\CustomerEvent;
-
-class Updated extends CustomerEvent
+interface Tenant extends Website
 {
 }

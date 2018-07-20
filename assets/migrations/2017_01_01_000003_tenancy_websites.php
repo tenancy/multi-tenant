@@ -26,12 +26,9 @@ class TenancyWebsites extends AbstractMigration
             $table->bigIncrements('id');
 
             $table->string('uuid');
-            $table->bigInteger('customer_id')->unsigned()->nullable();
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 

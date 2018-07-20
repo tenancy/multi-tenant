@@ -1,3 +1,48 @@
+- 5.2.6
+    - #549, setting uuid before sending to repository no longer would override the uuid.
+    - Superfluous code removed that might have set the default connection to tenant in edge cases.
+- 5.2.5
+    - #376, early identification is now default for new installations.
+    - #448, fixed recreate command in edge cases where users or databases already existed or configuration was wrong.
+    - #460, allowing disabling webserver reload and forcing the configtest.
+    - #524, added tenant aware logger.
+    - #534, added tenant aware connection trait, which makes Eloquent models use the tenant connection if it exists, otherwise the system connection.
+- 5.2.4
+    - #400, fixed issue where instantiating a model again would not override its connection to system or tenant if configured.
+- 5.2.3
+    - #540, fixed issue where hostname identification was attempted inside cli/artisan.
+- 5.2.2
+    - Fixes an issue with disk resolving, once the tenant disk has been configured it would be stored in the manager. Any additional tenant identifications would not set the disk.
+- 5.2.1
+    - #532, fixed tenant routes.php overriding global ones.
+    - Now allowing tenant routes with manual identification if it happens early in the request cycle (register of sp or middlewares).
+- 5.2.0
+    - The tenancy:install command has been removed.
+    - #483, dropped Customer object.
+    - Added Tenant contract and assigning it to Website when identified.
+    - The TenantAwareJob now uses `onTenant()` and the `website_id`.
+    - Tests now reset state; deleting tenant databases.
+    - clean-local-dbs bash script no longer throws errors
+    - FindById in WebsiteRepository now allows string and int, which is possible for eloquent models.
+    - #399, tenant filesystem disk no longer automatically instantiated.
+    - #399, allowing local-only tenant overrides like config and vendor to be disabled by setting `tenancy.website.disk` to false.
+    - #502, allowing `routes/tenants.php` to override or replace global routes whenever a tenant is identified (required auto identification).
+    - System models are now soft deleting (which was the intention).
+    - Added a `Connection::exists` method to allow checking whether a connection has been set up.
+    - Dropped all references to old/unused SSL features.
+    - Added `tenancy:migrate:fresh` command.
+- 5.1.17
+    - #503, adds event when connection is set.
+- 5.1.16
+    - #489, fixes hostname actions when tenant hasn't been identified yet.
+- 5.1.15
+    - #485, setting app.url from previous release now fixed due to missing %s in sprintf.
+- 5.1.14
+    - #481, HostnameActions middleware now sets `app.url` configuration key to the tenant if enabled.
+    - #478, fixes an issue of no `$host` when deleting websites.
+    - #474, seed command now takes configured seed class as default.
+    - #477, when loading config files, only use .php files.
+    - #440, whenever Hostname is modified outside of repository, flush cache.
 - 5.1.13
     - Patched the PostgreSQL driver when in CLI.
     - Now registering website uuid on set tenant connection.

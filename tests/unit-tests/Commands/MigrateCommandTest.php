@@ -36,8 +36,7 @@ class MigrateCommandTest extends DatabaseCommandTest
     public function runs_migrate_on_one_tenant()
     {
         /** @var Website $otherWebsite */
-        $otherWebsite = $this->website->replicate();
-        $this->websites->create($otherWebsite);
+        $otherWebsite = $this->getReplicatedWebsite();
 
         $this->connection->migrate($this->website, __DIR__ . '/../../migrations');
 
@@ -56,8 +55,7 @@ class MigrateCommandTest extends DatabaseCommandTest
     public function runs_migrate_on_one_tenant_by_configuration()
     {
         /** @var Website $otherWebsite */
-        $otherWebsite = $this->website->replicate();
-        $this->websites->create($otherWebsite);
+        $otherWebsite = $this->getReplicatedWebsite();
 
         config(['tenancy.db.tenant-migrations-path' => realpath(__DIR__ . '/../../migrations')]);
 

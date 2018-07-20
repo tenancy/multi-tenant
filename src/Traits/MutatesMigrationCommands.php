@@ -18,7 +18,6 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\Migrations\Migrator;
 use InvalidArgumentException;
-use Symfony\Component\Console\Input\InputOption;
 
 trait MutatesMigrationCommands
 {

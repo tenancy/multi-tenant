@@ -14,32 +14,23 @@
 
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
-use Hyn\Tenancy\Abstracts\HostnameEvent;
-use Hyn\Tenancy\Events\Hostnames\Identified;
-use Hyn\Tenancy\Events\Hostnames\Switched;
-use Hyn\Tenancy\Contracts\Website;
-use Hyn\Tenancy\Website\Directory;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
+use Hyn\Tenancy\Events\Websites\Identified;
+use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Arr;
-use InvalidArgumentException;
 
 class ActivatesDisk
 {
-    /**
-     * @var Directory
-     */
-    protected $directory;
-
     /**
      * @var FilesystemManager
      */
     private $filesystem;
 
-    public function __construct(Directory $directory, Factory $filesystem)
+    public function __construct(Factory $filesystem)
     {
-        $this->directory = $directory;
         $this->filesystem = $filesystem;
     }
 
@@ -52,32 +43,20 @@ class ActivatesDisk
     }
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      */
-    public function activate(HostnameEvent $event)
+    public function activate(WebsiteEvent $event)
     {
-        if ($event->hostname && $event->hostname->website) {
-            $this->filesystem->set('tenant', $this->resolve($event->hostname->website));
-        }
-    }
+        if ($event->website) {
+            $disk = config('tenancy.website.disk') ?? 'tenancy-default';
 
-    /**
-     * Resolve the given disk.
-     *
-     * @param Website $website
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
-     */
-    protected function resolve(Website $website)
-    {
-        $config = config('filesystems.disks.' . (config('tenancy.website.disk') ?? 'tenancy-default'));
-        Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$website->uuid);
+            $config = config('filesystems.disks.' . $disk);
+            Arr::set($config, 'root', Arr::get($config, 'root') . '/' .$event->website->uuid);
 
-        $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
+            config(['filesystems.disks.tenant' => $config]);
 
-        if (method_exists($this->filesystem, $driverMethod)) {
-            return $this->filesystem->{$driverMethod}($config);
-        } else {
-            throw new InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
+            // Force flush the manager to resolve the disk anew when requested.
+            $this->filesystem->set('tenant', null);
         }
     }
 }

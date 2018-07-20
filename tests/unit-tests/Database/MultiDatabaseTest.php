@@ -37,7 +37,7 @@ class MultiDatabaseTest extends Test
     public function allow_writing_to_secondary_database()
     {
         if (! env('IN_CI')) {
-            return $this->markTestSkipped("Cant access secondary database for testing");
+            return $this->markTestSkipped("Can't access secondary database for testing");
         }
 
         $this->website->managed_by_database_connection = 'secondary';

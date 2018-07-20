@@ -2,12 +2,6 @@ server {
 
     listen {{ array_get($config, 'ports.http', 80) }};
 
-    @if(isset($ssl))
-    listen {{ array_get($config, 'ports.https', 443) }} ssl;
-    ssl_certificate_key {{ $ssl->pathKey }};
-    ssl_certificate {{ $ssl->pathPem }};
-    @endif
-
     # server hostnames
     server_name {{ $hostname->fqdn }};
 

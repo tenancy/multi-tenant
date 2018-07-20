@@ -71,8 +71,8 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function reload(): bool
     {
-        if ($this->testConfiguration()) {
-            return (new Process(config('webserver.apache2.paths.actions.reload')))
+        if ($this->testConfiguration() && $reload = config('webserver.apache2.paths.actions.reload')) {
+            return (new Process($reload))
                 ->mustRun()
                 ->isSuccessful();
         }
@@ -85,7 +85,13 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
      */
     public function testConfiguration(): bool
     {
-        return (new Process(config('webserver.apache2.paths.actions.test-config')))
+        $test = config('webserver.apache2.paths.actions.test-config');
+
+        if (is_bool($test)) {
+            return $test;
+        }
+
+        return (new Process($test))
             ->mustRun()
             ->isSuccessful();
     }

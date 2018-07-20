@@ -128,7 +128,7 @@ abstract class Validator
                 ], [
                     $connection->systemName(),
                     $connection->tenantName(),
-                    $model->getKey(),
+                    $model->getKey()
                 ], $rule);
             })->toArray();
         })->toArray();

@@ -54,7 +54,7 @@ class WebsiteUuidGeneration
      */
     public function addUuid(Creating $event)
     {
-        if ($this->config->get('tenancy.website.disable-random-id') !== true) {
+        if (! $event->website->uuid && $this->config->get('tenancy.website.disable-random-id') !== true) {
             $event->website->uuid = $this->generator->generate($event->website);
         }
     }

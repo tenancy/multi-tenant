@@ -17,15 +17,16 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Hostnames\Identified;
+use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
-use Illuminate\Database\DatabaseManager;
 
 trait InteractsWithTenancy
 {
     use DispatchesEvents;
+
     /**
      * @var Hostname
      */
@@ -37,9 +38,17 @@ trait InteractsWithTenancy
     protected $website;
 
     /**
+     * Replicated tenant Website.
+     *
+     * @var Website
+     */
+    protected $tenant;
+
+    /**
      * @var HostnameRepository
      */
     protected $hostnames;
+
     /**
      * @var WebsiteRepository
      */
@@ -50,15 +59,42 @@ trait InteractsWithTenancy
      */
     protected $connection;
 
+    /**
+     * Created websites, so we can destroy databases after a test.
+     *
+     * @var array|Website[]
+     */
+    protected $tenants = [];
+
     protected function setUpTenancy()
     {
-        $this->websites = app(WebsiteRepository::class);
+        $this->websites  = app(WebsiteRepository::class);
         $this->hostnames = app(HostnameRepository::class);
 
         $this->connection = app(Connection::class);
 
-        // Keeps our database clean.
-        config(['auto-delete-tenant-database' => true]);
+        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
+            $this->connection->system()->beginTransaction();
+        }
+
+        $this->handleTenantDestruction();
+    }
+
+    protected function handleTenantDestruction()
+    {
+        Website::created(function (Website $website) {
+            $this->tenants[$website->uuid] = $website;
+        });
+        Website::updating(function (Website $website) {
+            if ($website->isDirty('uuid')) {
+                $this->tenants[$website->getOriginal('uuid')] = Website::unguarded(function () use ($website) {
+                    return new Website($website->getOriginal());
+                });
+            }
+        });
+        Website::deleted(function (Website $website) {
+            array_forget($this->tenants, $website->uuid);
+        });
     }
 
     protected function loadHostnames()
@@ -66,15 +102,17 @@ trait InteractsWithTenancy
         $this->hostname = Hostname::where('fqdn', 'local.testing')->firstOrFail();
     }
 
-    protected function getReplicatedHostname(): Hostname
+    protected function getReplicatedWebsite(): Website
     {
-        Hostname::unguard();
-        $tenant = Hostname::firstOrNew([
-            'fqdn' => 'tenant.testing',
-        ]);
-        Hostname::reguard();
+        $this->tenant = Website::unguarded(function () {
+            return Website::firstOrNew([
+                'uuid' => 'tenant.testing'
+            ]);
+        });
 
-        return $this->hostnames->create($tenant);
+        $this->websites->create($this->tenant);
+
+        return $this->tenant;
     }
 
     /**
@@ -92,16 +130,18 @@ trait InteractsWithTenancy
         }
         Hostname::reguard();
 
-        if ($save && ! $this->hostname->exists) {
+        if ($save && !$this->hostname->exists) {
             $this->hostnames->create($this->hostname);
         }
     }
 
     protected function activateTenant()
     {
-        $this->emitEvent(
-            new Identified($this->hostname)
-        );
+        app(Environment::class)->identifyHostname();
+        app(Environment::class)->hostname();
+
+        // Start global tenant transaction.
+        $this->connection->get()->beginTransaction();
     }
 
     /**
@@ -123,13 +163,31 @@ trait InteractsWithTenancy
         }
     }
 
+    protected function rollbackTenant()
+    {
+        if ($this->connection->exists() && $this->connection->get()->transactionLevel() > 0) {
+            $this->connection->get()->rollBack();
+        }
+    }
+
     protected function cleanupTenancy()
     {
-        foreach (['hostname', 'website'] as $property) {
-            if ($this->{$property} && $this->{$property}->exists) {
-                $repo = str_plural($property);
-                $this->{$repo}->delete($this->{$property});
-            }
+        $this->connection->purge();
+
+        collect($this->tenants)
+            ->merge(compact('website', 'tenant'))
+            ->filter()
+            ->each(function ($website) {
+                $this->connection->set($website);
+                $this->connection->purge();
+
+                $this->websites->delete($website, true);
+            });
+
+        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
+            $this->connection->system()->rollback();
         }
+
+        $this->connection->system()->disconnect();
     }
 }

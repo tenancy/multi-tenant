@@ -12,10 +12,10 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Events\Customers;
+namespace Hyn\Tenancy\Events\Websites;
 
-use Hyn\Tenancy\Abstracts\CustomerEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 
-class Updating extends CustomerEvent
+class Identified extends WebsiteEvent
 {
 }

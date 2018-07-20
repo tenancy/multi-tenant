@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
 use Hyn\Tenancy\Translations\MultiFileLoader;
 use Illuminate\Translation\FileLoader;
@@ -34,10 +34,10 @@ class LoadsTranslations extends AbstractTenantDirectoryListener
     protected $path = 'lang';
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      * @throws FilesystemException
      */
-    public function load(HostnameEvent $event)
+    public function load(WebsiteEvent $event)
     {
         if ($this->directory->isLocal()) {
             $this->readLanguageFiles($this->directory->path($this->path, true));

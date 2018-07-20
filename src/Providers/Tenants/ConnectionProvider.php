@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Database\Console;
+use Hyn\Tenancy\Database\Resolver;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
 
@@ -25,6 +26,8 @@ class ConnectionProvider extends ServiceProvider
     {
         $this->app->singleton(Connection::class);
         $this->registerMigrationCommands();
+
+        $this->overrideConnectionResolvers();
     }
 
     /**
@@ -34,6 +37,9 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrationCommands()
     {
+        $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
+            return new Console\Migrations\FreshCommand($app->make('migrator'));
+        });
         $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
             return new Console\Migrations\MigrateCommand($app->make('migrator'));
         });
@@ -51,11 +57,32 @@ class ConnectionProvider extends ServiceProvider
         });
 
         $this->commands([
+            Console\Migrations\FreshCommand::class,
             Console\Migrations\MigrateCommand::class,
             Console\Migrations\RollbackCommand::class,
             Console\Migrations\ResetCommand::class,
             Console\Migrations\RefreshCommand::class,
             Console\Seeds\SeedCommand::class
         ]);
+    }
+
+    public function overrideConnectionResolvers()
+    {
+        foreach (['system', 'tenant'] as $type) {
+            $models = config("tenancy.db.force-$type-connection-of-models", []);
+
+            if (count($models)) {
+                $resolver = new Resolver(
+                    $this->app->make(Connection::class)->{$type . 'Name'}(),
+                    $this->app['db']
+                );
+
+                foreach ($models as $class) {
+                    if (class_exists($class)) {
+                        forward_static_call([$class, 'setConnectionResolver'], $resolver);
+                    }
+                }
+            }
+        }
     }
 }

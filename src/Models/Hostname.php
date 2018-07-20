@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Hyn\Tenancy\Abstracts\SystemModel;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -30,20 +31,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $deleted_at
  * @property int $website_id
  * @property Website $website
- * @property int $customer_id
- * @property Customer $customer
  */
 class Hostname extends SystemModel implements HostnameContract
 {
+    use SoftDeletes;
+
     protected $dates = ['under_maintenance_since'];
 
     public function website(): BelongsTo
     {
         return $this->belongsTo(config('tenancy.models.website'));
-    }
-
-    public function customer(): BelongsTo
-    {
-        return $this->belongsTo(config('tenancy.models.customer'));
     }
 }

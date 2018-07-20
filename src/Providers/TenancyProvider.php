@@ -14,17 +14,16 @@
 
 namespace Hyn\Tenancy\Providers;
 
-use Hyn\Tenancy\Commands\InstallCommand;
-use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Contracts;
-use Hyn\Tenancy\Contracts\Customer as CustomerContract;
-use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
-use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
-use Hyn\Tenancy\Providers\Tenants as Providers;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Providers\Tenants as Providers;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -35,7 +34,10 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
-        $this->loadMigrationsFrom(realpath(__DIR__ . '/../../assets/migrations'));
+        $this->publishes(
+            [__DIR__ . '/../../assets/migrations' => database_path('migrations')],
+            'tenancy'
+        );
 
         $this->registerModels();
 
@@ -62,9 +64,10 @@ class TenancyProvider extends ServiceProvider
     {
         $config = $this->app['config']['tenancy.models'];
 
-        $this->app->bind(CustomerContract::class, $config['customer']);
         $this->app->bind(HostnameContract::class, $config['hostname']);
         $this->app->bind(WebsiteContract::class, $config['website']);
+
+        forward_static_call([$config['hostname'], 'observe'], FlushHostnameCache::class);
     }
 
     protected function registerRepositories()
@@ -76,10 +79,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->singleton(
             Contracts\Repositories\WebsiteRepository::class,
             Repositories\WebsiteRepository::class
-        );
-        $this->app->singleton(
-            Contracts\Repositories\CustomerRepository::class,
-            Repositories\CustomerRepository::class
         );
     }
 
@@ -95,11 +94,11 @@ class TenancyProvider extends ServiceProvider
 
         // Register last.
         $this->app->register(Providers\EventProvider::class);
+        $this->app->register(Providers\RouteProvider::class);
     }
 
     protected function bootCommands()
     {
-        $this->commands(InstallCommand::class);
         $this->commands(RecreateCommand::class);
     }
 

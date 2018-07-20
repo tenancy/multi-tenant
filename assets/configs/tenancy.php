@@ -24,9 +24,6 @@ return [
          * UsesSystemConnection.
          */
 
-        // Must implement \Hyn\Tenancy\Contracts\Customer
-        'customer' => \Hyn\Tenancy\Models\Customer::class,
-
         // Must implement \Hyn\Tenancy\Contracts\Hostname
         'hostname' => \Hyn\Tenancy\Models\Hostname::class,
 
@@ -67,6 +64,8 @@ return [
          * files for this particular website.
          *
          * @info If not set, will revert to the default filesystem.
+         * @info If set to false will disable all tenant specific filesystem auto magic
+         *       like the config, vendor overrides.
          */
         'disk' => null,
 
@@ -129,7 +128,7 @@ return [
          * A good use case is when you have set "tenant" as the default
          * database connection.
          */
-        'early-identification'              => env('TENANCY_EARLY_IDENTIFICATION', false),
+        'early-identification' => env('TENANCY_EARLY_IDENTIFICATION', true),
 
         /**
          * Abort application execution in case no hostname was identified. This will throw a
@@ -148,6 +147,15 @@ return [
         'skip-urls'                         => [
 
         ],
+
+        /**
+         * Automatically update the app.url configured inside Laravel to match
+         * the tenant FQDN whenever a hostname/tenant was identified.
+         *
+         * This will resolve issues with password reset mails etc using the
+         * correct domain.
+         */
+        'update-app-url' => false,
     ],
     'db' => [
         /**
@@ -267,6 +275,35 @@ return [
 //            \App\User::class
         ],
     ],
+
+    /**
+     * Global tenant specific routes.
+     * Making it easier to distinguish between landing and tenant routing.
+     *
+     * @info only works with `tenancy.hostname.auto-identification` or identification happening
+     *       before the application is booted (eg inside middleware or the register method of
+     *       service providers).
+     */
+    'routes' => [
+        /**
+         * Routes file to load whenever a tenant was identified.
+         *
+         * @info Set to false or null to disable.
+         */
+        'path' => base_path('routes/tenants.php'),
+
+        /**
+         * Set to true to flush all global routes before setting the routes from the
+         * tenants.php routes file.
+         */
+        'replace-global' => false,
+    ],
+
+    /**
+     * Folders configuration specific per tenant.
+     * The following section relates to configuration to files inside the tenancy/<uuid>
+     * tenant directory.
+     */
     'folders' => [
         'config' => [
             /**

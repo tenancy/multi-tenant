@@ -41,7 +41,7 @@ class MariaDB implements DatabaseGenerator
             return true;
         };
         $create = function ($connection) use ($config) {
-            return $connection->statement("CREATE DATABASE `{$config['database']}`");
+            return $connection->statement("CREATE DATABASE IF NOT EXISTS `{$config['database']}`");
         };
         $grant = function ($connection) use ($config) {
             return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");

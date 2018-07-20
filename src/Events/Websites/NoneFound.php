@@ -12,19 +12,24 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Abstracts;
+namespace Hyn\Tenancy\Events\Websites;
 
-use Hyn\Tenancy\Contracts\Customer;
+use Hyn\Tenancy\Abstracts\AbstractEvent;
+use Illuminate\Http\Request;
 
-abstract class CustomerEvent extends AbstractEvent
+class NoneFound extends AbstractEvent
 {
     /**
-     * @var Customer
+     * @var Request|null
      */
-    public $customer;
+    public $request;
 
-    public function __construct(Customer &$customer)
+    /**
+     * NoneFound constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request = null)
     {
-        $this->customer = &$customer;
+        $this->request = $request;
     }
 }

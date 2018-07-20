@@ -27,7 +27,7 @@ class RecreateCommandTest extends DatabaseCommandTest
         $this->cleanupTenancy();
 
         $this->artisan = app(Kernel::class);
-        
+
         parent::duringSetUp($app);
     }
 
@@ -35,7 +35,6 @@ class RecreateCommandTest extends DatabaseCommandTest
     public function can_recreate_deleted_tenant_database()
     {
         config([
-            'tenancy.db.auto-delete-tenant-database' => true,
             'tenancy.db.tenant-migrations-path' => __DIR__ . '/../../migrations'
         ]);
 
@@ -44,8 +43,8 @@ class RecreateCommandTest extends DatabaseCommandTest
         $this->connection->set($this->website);
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('migrations'));
-        
-        $this->websites->delete($this->website);
+
+        $this->websites->delete($this->website, true);
 
         $this->assertFalse($this->website->exists);
 
@@ -61,7 +60,7 @@ class RecreateCommandTest extends DatabaseCommandTest
         }
 
         $this->artisan->call('tenancy:recreate');
-        
+
         $this->connection->set($this->website);
 
         $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('migrations'));

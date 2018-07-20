@@ -12,10 +12,11 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Events\Customers;
+namespace Hyn\Tenancy\Tests\Extend;
 
-use Hyn\Tenancy\Abstracts\CustomerEvent;
+use Hyn\Tenancy\Traits\TenantAwareConnection;
 
-class Creating extends CustomerEvent
+class AwareExtend extends TenantExtend
 {
+    use TenantAwareConnection;
 }

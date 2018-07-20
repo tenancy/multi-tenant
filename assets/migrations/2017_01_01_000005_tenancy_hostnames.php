@@ -30,13 +30,11 @@ class TenancyHostnames extends AbstractMigration
             $table->boolean('force_https')->default(false);
             $table->timestamp('under_maintenance_since')->nullable();
             $table->bigInteger('website_id')->unsigned()->nullable();
-            $table->bigInteger('customer_id')->unsigned()->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('website_id')->references('id')->on('websites')->onDelete('set null');
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

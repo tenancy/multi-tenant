@@ -15,8 +15,9 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class LoadsConfigs extends AbstractTenantDirectoryListener
 {
@@ -28,10 +29,10 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected $path = 'config';
 
     /**
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function load(HostnameEvent $event)
+    public function load(WebsiteEvent $event)
     {
         $this->readConfigurationFiles($this->path);
     }
@@ -43,6 +44,10 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
     protected function readConfigurationFiles(string $path)
     {
         foreach ($this->directory->files($path) as $file) {
+            if (! Str::endsWith($file, '.php')) {
+                continue;
+            }
+
             $key = basename($file, '.php');
 
 

@@ -14,6 +14,8 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
+use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Providers\Tenants\ConnectionProvider;
 use Hyn\Tenancy\Tests\Extend\NonExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
@@ -38,7 +40,7 @@ class ConnectionTest extends Test
     public function hostname_identification_switches_connection()
     {
         $this->setUpHostnames(true);
-        $this->activateTenant();
+        $this->app->make(CurrentHostname::class);
 
         $failsWithoutWebsite = false;
 
@@ -85,12 +87,17 @@ class ConnectionTest extends Test
 
     /**
      * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Database [tenant] not configured.
      */
     public function override_to_tenant_connection()
     {
         config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
 
-        $this->assertEquals($this->connection->tenantName(), (new NonExtend())->getConnectionName());
+        // Run the connection provider again to read this new model.
+        (new ConnectionProvider($this->app))->overrideConnectionResolvers();
+
+        (new NonExtend())->getConnection()->getConfig();
     }
 
     /**
@@ -100,6 +107,9 @@ class ConnectionTest extends Test
     {
         config(['tenancy.db.force-system-connection-of-models' => [NonExtend::class]]);
 
-        $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnectionName());
+        // Run the connection provider again to read this new model.
+        (new ConnectionProvider($this->app))->overrideConnectionResolvers();
+
+        $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnection()->getName());
     }
 }

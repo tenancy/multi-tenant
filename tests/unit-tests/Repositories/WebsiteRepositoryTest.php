@@ -18,7 +18,6 @@ use Laravel\Lumen\Application;
 
 class WebsiteRepositoryTest extends Test
 {
-
     /**
      * @test
      */
@@ -47,9 +46,28 @@ class WebsiteRepositoryTest extends Test
      */
     public function deletes_website()
     {
+        $this->setUpWebsites(true);
+
         $this->websites->delete($this->website);
 
+        $this->assertTrue($this->website->exists);
+        $this->assertNotNull($this->website->deleted_at);
+
+        $this->websites->delete($this->website, true);
+
         $this->assertFalse($this->website->exists);
+    }
+
+    /**
+     * @test
+     */
+    public function setting_custom_uuid()
+    {
+        $this->website->uuid = 'foo';
+
+        $website = $this->websites->create($this->website);
+
+        $this->assertEquals('foo', $website->uuid);
     }
 
     protected function duringSetUp(Application $app)

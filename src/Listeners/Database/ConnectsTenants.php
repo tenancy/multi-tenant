@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Listeners\Database;
 
-use Hyn\Tenancy\Abstracts\HostnameEvent;
+use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Hyn\Tenancy\Events;
@@ -36,18 +36,18 @@ class ConnectsTenants
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(Events\Hostnames\Identified::class, [$this, 'switch']);
-        $events->listen(Events\Hostnames\Switched::class, [$this, 'switch']);
+        $events->listen(Events\Websites\Identified::class, [$this, 'switch']);
+        $events->listen(Events\Websites\Switched::class, [$this, 'switch']);
     }
 
     /**
      * Reacts to this service when we switch the active tenant website.
      *
-     * @param HostnameEvent $event
+     * @param WebsiteEvent $event
      * @return bool
      */
-    public function switch(HostnameEvent $event) : bool
+    public function switch(WebsiteEvent $event) : bool
     {
-        return $this->connection->set($event->hostname);
+        return $this->connection->set($event->website);
     }
 }

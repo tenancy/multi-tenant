@@ -26,24 +26,25 @@ use Illuminate\Support\Arr;
 class PostgreSQL implements DatabaseGenerator
 {
     /**
-     * @param Created $event
-     * @param array $config
+     * @param Created    $event
+     * @param array      $config
      * @param Connection $connection
      * @return bool
      */
     public function created(Created $event, array $config, Connection $connection): bool
     {
-        $user = function (IlluminateConnection $connection) use ($config) {
-            if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection, $config['username'])) {
+        $user   = function (IlluminateConnection $connection) use ($config) {
+            if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection,
+                    $config['username'])) {
                 return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
             }
 
             return true;
         };
         $create = function (IlluminateConnection $connection) use ($config) {
-            return $connection->statement("CREATE DATABASE \"{$config['database']}\" WITH OWNER=\"{$config['username']}\"");
+            return $connection->statement("CREATE DATABASE \"{$config['database']}\"");
         };
-        $grant = function (IlluminateConnection $connection) use ($config) {
+        $grant  = function (IlluminateConnection $connection) use ($config) {
             return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
         };
 
@@ -55,13 +56,13 @@ class PostgreSQL implements DatabaseGenerator
     protected function userExists($connection, string $username): bool
     {
         return $connection->table('pg_roles')
-            ->where('rolname', $username)
-            ->count() > 0;
+                ->where('rolname', $username)
+                ->count() > 0;
     }
 
     /**
-     * @param Updated $event
-     * @param array $config
+     * @param Updated    $event
+     * @param array      $config
      * @param Connection $connection
      * @return bool
      * @throws GeneratorFailedException
@@ -78,8 +79,8 @@ class PostgreSQL implements DatabaseGenerator
     }
 
     /**
-     * @param Deleted $event
-     * @param array $config
+     * @param Deleted    $event
+     * @param array      $config
      * @param Connection $connection
      * @return bool
      */
@@ -91,19 +92,40 @@ class PostgreSQL implements DatabaseGenerator
             $connection->get()->disconnect();
         }
 
+        $flush = function (IlluminateConnection $connection) use ($config) {
+            $connection
+                ->table('pg_stat_activity')
+                ->select($connection->raw('pg_terminate_backend(pid)'))
+                ->where('datname', $config['database'])
+                ->where('pid', '<>', $connection->raw('pg_backend_pid()'))
+                ->get();
+
+            return true;
+        };
+
         $user = function (IlluminateConnection $connection) use ($config) {
-            if (config('tenancy.db.auto-delete-tenant-database-user') && $this->userExists($connection, $config['username'])) {
+            if (config('tenancy.db.auto-delete-tenant-database-user') && $this->userExists($connection,
+                    $config['username'])) {
                 return $connection->statement("DROP USER \"{$config['username']}\"");
             }
 
             return true;
         };
+
+        $grant = function (IlluminateConnection $connection) use ($config) {
+            if ($this->userExists($connection, $config['username'])) {
+                return $connection->statement("DROP OWNED BY \"{$config['username']}\"");
+            }
+
+            return true;
+        };
+
         $delete = function (IlluminateConnection $connection) use ($config) {
             return $connection->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
         };
 
         $connection = $connection->system($event->website);
 
-        return $delete($connection) && $user($connection);
+        return $flush($connection) && $grant($connection) && $delete($connection) && $user($connection);
     }
 }

@@ -26,10 +26,10 @@ interface WebsiteRepository
     public function findByUuid(string $uuid);
 
     /**
-     * @param string $id
+     * @param string|int $id
      * @return Website|null
      */
-    public function findById(string $id);
+    public function findById($id);
     /**
      * @param Website $website
      * @return Website

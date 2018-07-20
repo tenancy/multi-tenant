@@ -77,13 +77,12 @@ class RecreateCommand extends Command
      *
      * @param Website $website
      * @return bool
-     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
      */
     protected function tenantDatabaseExists(Website $website) : bool
     {
-        $this->connection->set($website);
-
         try {
+            $this->connection->set($website);
+
             $schema = $this->connection->get()->getSchemaBuilder();
 
             if ($schema->hasTable($this->table)) {

@@ -42,7 +42,7 @@ Database separation methods:
 - Apache or Nginx.
 - MySQL, MariaDB or PostgreSQL.
 
-Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.x/requirements).
+Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.2/requirements).
 
 ## Installation
 
@@ -86,7 +86,7 @@ Register the service provider in your `config/app.php`:
 
 ### Deploy configuration
 
-First publish the configuration files so you can modify it to your needs:
+First publish the configuration and migration files so you can modify it to your needs:
 
 ```bash
 php artisan vendor:publish --tag tenancy
@@ -99,8 +99,9 @@ Open the `config/tenancy.php` and `config/webserver.php` file and modify to your
 Now run:
 
 ```bash
-php artisan tenancy:install
+php artisan migrate --database=system
 ```
+
 This will run the required system database migrations.
 
 ---
@@ -149,15 +150,8 @@ If using MySQL, use:
 LIMIT_UUID_LENGTH_32=1 vendor/bin/phpunit
 ```
 
-Please note this will create an enormous number of tenant databases. You can easily remove these by
-running the bash script to clean the local databases that follow the same naming convention as this
-package:
 
-```bash
-bash tests/scripts/clean-local-dbs.sh
-```
-
-> Please be warned this will reset your current application completely, dropping tenant and system
+> Please be warned running tests will reset your current application completely, dropping tenant and system
 databases and removing the tenancy.json file inside the Laravel directory.
 
 ## Changes

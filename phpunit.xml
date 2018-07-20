@@ -8,19 +8,14 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="true"
 >
     <testsuites>
         <testsuite name="Installation Test Suite">
             <file>./tests/unit-tests/InstallationTest.php</file>
         </testsuite>
-        <testsuite name="Website Test Suite">
-            <file>./tests/unit-tests/WebsiteTest.php</file>
-        </testsuite>
         <testsuite name="Continued Test Suite">
             <directory suffix=".php">./tests/unit-tests/</directory>
             <exclude>./tests/unit-tests/InstallationTest.php</exclude>
-            <exclude>./tests/unit-tests/WebsiteTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
@@ -29,13 +24,16 @@
         </whitelist>
     </filter>
     <php>
+        <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
-        <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value=""/>
         <env name="DB_DATABASE" value="tenancy"/>
-        <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_USERNAME" value="root"/>
+        <env name="LIMIT_UUID_LENGTH_32" value="1"/>
         <env name="QUEUE_DRIVER" value="sync"/>
-        <env name="APP_ENV" value="production"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE" value="1"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE_USER" value="1"/>
         <env name="TENANCY_DEFAULT_HOSTNAME" value="local.testing"/>
+        <env name="TENANCY_SYSTEM_CONNECTION_NAME" value="mysql"/>
     </php>
 </phpunit>
