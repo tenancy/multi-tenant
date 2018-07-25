@@ -14,18 +14,17 @@
 
 namespace Hyn\Tenancy\Providers;
 
+use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Contracts;
+use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Hyn\Tenancy\Contracts\Website as WebsiteContract;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
-use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
-use Hyn\Tenancy\Commands\InstallCommand;
-use Hyn\Tenancy\Commands\RecreateCommand;
-use Hyn\Tenancy\Providers\Tenants as Providers;
-use Hyn\Tenancy\Contracts\Website as WebsiteContract;
-use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -47,7 +46,11 @@ class TenancyProvider extends ServiceProvider
 
         $this->registerRepositories();
 
+        $this->registerDefaults();
+
         $this->registerProviders();
+
+        $this->registerEnviroment();
     }
 
     public function boot()
@@ -99,12 +102,17 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\RouteProvider::class);
     }
 
-    protected function bootCommands()
+    public function registerDefaults()
     {
-        $this->commands(RecreateCommand::class);
+        $empty = function () {
+            return null;
+        };
+
+        $this->app->singleton(Contracts\Tenant::class, $empty);
+        $this->app->singleton(Contracts\CurrentHostname::class, $empty);
     }
 
-    protected function bootEnvironment()
+    public function registerEnviroment()
     {
         // Immediately instantiate the object to work the magic.
         $environment = $this->app->make(Environment::class);
@@ -114,6 +122,16 @@ class TenancyProvider extends ServiceProvider
         });
 
         $this->app->alias(Environment::class, 'tenancy-environment');
+    }
+
+    protected function bootCommands()
+    {
+        $this->commands(RecreateCommand::class);
+    }
+
+    protected function bootEnvironment()
+    {
+        $this->app->make(Environment::class)->boot();
     }
 
     protected function registerMiddleware()

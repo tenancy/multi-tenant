@@ -46,6 +46,8 @@ EOM
      */
     public function overrides_global_route()
     {
+        $this->app->call([new RouteProvider($this->app), 'boot']);
+
         $this->overrideGlobalRoute();
 
         $this->assertEquals(2, $this->app['router']->getRoutes()->count());
