@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Database\Console\Migrations;
 
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Traits\MutatesMigrationCommands;
 use Illuminate\Database\Console\Migrations\FreshCommand as BaseCommand;
 
