@@ -79,7 +79,7 @@ class Environment
             /** @var Hostname $hostname */
             $hostname = $this->dispatch(new HostnameIdentification());
 
-            optional($hostname)->website ? $this->tenant($hostname->website) : null;
+            $this->tenant(optional($hostname)->website);
 
             return $hostname;
         });
