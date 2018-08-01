@@ -43,11 +43,11 @@ class TenancyProvider extends ServiceProvider
 
         $this->registerModels();
 
-        $this->registerMiddleware();
-
         $this->registerRepositories();
 
         $this->registerProviders();
+
+        $this->registerMiddleware();
     }
 
     public function boot()
@@ -55,11 +55,6 @@ class TenancyProvider extends ServiceProvider
         $this->bootCommands();
 
         $this->bootEnvironment();
-    }
-
-    public function provides()
-    {
-        return [Environment::class];
     }
 
     protected function registerModels()
