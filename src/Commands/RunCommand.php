@@ -17,7 +17,7 @@ use Hyn\Tenancy\Models\Website;
 
 class RunCommand extends Command
 {
-    protected $signature = 'tenancy:run {tenantcommand}
+    protected $signature = 'tenancy:run {command}
         {--tenant= : The tenant(s) to apply on; use {all|5,8}}
         {--arguments= : Arguments for the delegated command} 
         {--options= : Options to pass on to the delegated command}
@@ -25,10 +25,10 @@ class RunCommand extends Command
 
     protected $description = 'Run another artisan command in a tenant configuration';
 
-    public function fire()
+    public function handle()
     {
         $websites = $this->getWebsitesFromOption();
-        $newArgv = ['artisan', $this->argument('tenantcommand')];
+        $newArgv = ['artisan', $this->argument('command')];
         if ($arguments = $this->option('arguments')) {
             $newArgv = array_merge($newArgv, explode(' ', trim($arguments)));
         }
@@ -37,7 +37,6 @@ class RunCommand extends Command
         }
         $this->output->progressStart(count($websites));
         foreach ($websites as $website) {
-            putenv('TENANT=' . $website->id);
             $tenantApp = require base_path('bootstrap') . '/app.php';
             $kernel = $tenantApp->make(Kernel::class);
             $status = $kernel->handle(
@@ -58,11 +57,19 @@ class RunCommand extends Command
     {
         $repository = app(WebsiteRepository::class);
         if ($this->option('tenant') == 'all') {
-            return Website::all();
+            return $repository->query()->all();
         }
+
+        $tenantOptionArr = explode(',', $this->option('tenant'));
+
+        if (count($tenantOptionArr) == 0)
+        {
+            throw new \InvalidArgumentException("The tenant option must be specified!");
+        }
+
         return $repository
             ->query()
-            ->whereIn('id', explode(',', $this->option('tenant')))
+            ->whereIn('id', $tenantOptionArr)
             ->get();
     }
 }
