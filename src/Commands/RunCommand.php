@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Hyn\Tenancy\Models\Website;
 
 class RunCommand extends Command
 {
@@ -57,10 +58,10 @@ class RunCommand extends Command
     {
         $repository = app(WebsiteRepository::class);
         if ($this->option('tenant') == 'all') {
-            return $repository->all();
+            return Website::all();
         }
         return $repository
-            ->queryBuilder()
+            ->query()
             ->whereIn('id', explode(',', $this->option('tenant')))
             ->get();
     }
