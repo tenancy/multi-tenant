@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Providers;
 
+use Hyn\Tenancy\Commands\RunCommand;
 use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
@@ -102,6 +103,7 @@ class TenancyProvider extends ServiceProvider
     protected function bootCommands()
     {
         $this->commands(RecreateCommand::class);
+        $this->commands(RunCommand::class);
     }
 
     protected function bootEnvironment()
