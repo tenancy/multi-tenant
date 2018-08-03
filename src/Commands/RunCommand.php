@@ -27,7 +27,7 @@ class RunCommand extends Command
     public function fire()
     {
         $websites = $this->getWebsitesFromOption();
-        $newArgv = array('artisan', $this->argument('tenantcommand'));
+        $newArgv = ['artisan', $this->argument('tenantcommand')];
         if ($arguments = $this->option('arguments')) {
             $newArgv = array_merge($newArgv, explode(' ', trim($arguments)));
         }
@@ -58,11 +58,10 @@ class RunCommand extends Command
         $repository = app(WebsiteRepository::class);
         if ($this->option('tenant') == 'all') {
             return $repository->all();
-        } else {
-            return $repository
-                ->queryBuilder()
-                ->whereIn('id', explode(',', $this->option('tenant')))
-                ->get();
         }
+        return $repository
+            ->queryBuilder()
+            ->whereIn('id', explode(',', $this->option('tenant')))
+            ->get();
     }
 }
