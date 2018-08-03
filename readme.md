@@ -42,7 +42,7 @@ Database separation methods:
 - Apache or Nginx.
 - MySQL, MariaDB or PostgreSQL.
 
-Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.x/requirements).
+Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.2/requirements).
 
 ## Installation
 

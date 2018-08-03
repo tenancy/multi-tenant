@@ -58,6 +58,18 @@ class WebsiteRepositoryTest extends Test
         $this->assertFalse($this->website->exists);
     }
 
+    /**
+     * @test
+     */
+    public function setting_custom_uuid()
+    {
+        $this->website->uuid = 'foo';
+
+        $website = $this->websites->create($this->website);
+
+        $this->assertEquals('foo', $website->uuid);
+    }
+
     protected function duringSetUp(Application $app)
     {
         $this->setUpWebsites();

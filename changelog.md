@@ -1,3 +1,21 @@
+- 5.2.6
+    - #549, setting uuid before sending to repository no longer would override the uuid.
+    - Superfluous code removed that might have set the default connection to tenant in edge cases.
+- 5.2.5
+    - #376, early identification is now default for new installations.
+    - #448, fixed recreate command in edge cases where users or databases already existed or configuration was wrong.
+    - #460, allowing disabling webserver reload and forcing the configtest.
+    - #524, added tenant aware logger.
+    - #534, added tenant aware connection trait, which makes Eloquent models use the tenant connection if it exists, otherwise the system connection.
+- 5.2.4
+    - #400, fixed issue where instantiating a model again would not override its connection to system or tenant if configured.
+- 5.2.3
+    - #540, fixed issue where hostname identification was attempted inside cli/artisan.
+- 5.2.2
+    - Fixes an issue with disk resolving, once the tenant disk has been configured it would be stored in the manager. Any additional tenant identifications would not set the disk.
+- 5.2.1
+    - #532, fixed tenant routes.php overriding global ones.
+    - Now allowing tenant routes with manual identification if it happens early in the request cycle (register of sp or middlewares).
 - 5.2.0
     - The tenancy:install command has been removed.
     - #483, dropped Customer object.

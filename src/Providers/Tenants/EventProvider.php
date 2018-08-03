@@ -35,8 +35,6 @@ class EventProvider extends ServiceProvider
         Listeners\Database\SeedsTenants::class,
         // Sets the connection used to manage tenant.
         Listeners\Database\FillsConnectionUsed::class,
-        // Forces the connection on configured models.
-        Listeners\Database\OverridesConnection::class,
         // Manages the directories for the tenants.
         Generators\Filesystem\DirectoryGenerator::class,
         // Sets the uuid value on a website based on tenancy configuration.

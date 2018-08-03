@@ -59,7 +59,7 @@ EOM
         config(['tenancy.routes.replace-global' => true]);
 
         // Refresh routes with above configuration now set.
-        $this->app->call([new RouteProvider($this->app), 'map']);
+        $this->app->call([new RouteProvider($this->app), 'boot']);
 
         $this->overrideGlobalRoute();
 

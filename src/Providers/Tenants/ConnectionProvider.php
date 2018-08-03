@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Database\Console;
+use Hyn\Tenancy\Database\Resolver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -25,6 +26,8 @@ class ConnectionProvider extends ServiceProvider
     {
         $this->app->singleton(Connection::class);
         $this->registerMigrationCommands();
+
+        $this->overrideConnectionResolvers();
     }
 
     /**
@@ -61,5 +64,25 @@ class ConnectionProvider extends ServiceProvider
             Console\Migrations\RefreshCommand::class,
             Console\Seeds\SeedCommand::class
         ]);
+    }
+
+    public function overrideConnectionResolvers()
+    {
+        foreach (['system', 'tenant'] as $type) {
+            $models = config("tenancy.db.force-$type-connection-of-models", []);
+
+            if (count($models)) {
+                $resolver = new Resolver(
+                    $this->app->make(Connection::class)->{$type . 'Name'}(),
+                    $this->app['db']
+                );
+
+                foreach ($models as $class) {
+                    if (class_exists($class)) {
+                        forward_static_call([$class, 'setConnectionResolver'], $resolver);
+                    }
+                }
+            }
+        }
     }
 }
