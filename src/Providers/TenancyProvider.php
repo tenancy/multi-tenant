@@ -14,7 +14,6 @@
 
 namespace Hyn\Tenancy\Providers;
 
-use Hyn\Tenancy\Commands\RunCommand;
 use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Middleware;
@@ -24,6 +23,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Commands\RunCommand;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;

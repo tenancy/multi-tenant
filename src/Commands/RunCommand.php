@@ -13,12 +13,11 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Hyn\Tenancy\Models\Website;
 
 class RunCommand extends Command
 {
     protected $signature = 'tenancy:run {command}
-        {--tenant= : The tenant(s) to apply on; use {all|5,8}}
+        {--tenant=* : The tenant(s) to apply on}
         {--arguments= : Arguments for the delegated command} 
         {--options= : Options to pass on to the delegated command}
     ';
