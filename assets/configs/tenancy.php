@@ -205,6 +205,7 @@ return [
          * running artisan commands that fire seeding.
          *
          * @info requires tenant-migrations-path in order to seed newly created websites.
+         * @info seeds stored in `database/seeds/tenants` need to be configured in your composer.json classmap.
          *
          * @warn specify a valid fully qualified class name.
          */
