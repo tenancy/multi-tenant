@@ -207,6 +207,7 @@ class Directory implements Filesystem
                     return $this->path($path);
                 })
                 ->values()
+                ->all()
         );
     }
 
