@@ -30,6 +30,17 @@ return [
         // Must implement \Hyn\Tenancy\Contracts\Website
         'website' => \Hyn\Tenancy\Models\Website::class
     ],
+    'middlewares' => [
+        /**
+         * The eager identification middleware.
+         */
+        'eager-identification' => \Hyn\Tenancy\Middleware\EagerIdentification::class,
+
+        /**
+         * The hostname actions middleware (redirects, https, maintenance).
+         */
+        'hostname-actions' => \Hyn\Tenancy\Middleware\HostnameActions::class,
+    ],
     'website' => [
         /**
          * Each website has a short random hash that identifies this entity

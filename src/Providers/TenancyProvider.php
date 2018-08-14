@@ -16,7 +16,6 @@ namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
-use Hyn\Tenancy\Middleware;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Contracts\Http\Kernel;
@@ -113,10 +112,12 @@ class TenancyProvider extends ServiceProvider
 
     protected function registerMiddleware()
     {
+        $config = $this->app['config']['tenancy.middlewares'];
+
         /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
         $kernel = $this->app->make(Kernel::class);
 
-        $kernel->prependMiddleware(Middleware\EagerIdentification::class);
-        $kernel->prependMiddleware(Middleware\HostnameActions::class);
+        $kernel->prependMiddleware($config['eager-identification']);
+        $kernel->prependMiddleware($config['hostname-actions']);
     }
 }
