@@ -30,16 +30,16 @@ return [
         // Must implement \Hyn\Tenancy\Contracts\Website
         'website' => \Hyn\Tenancy\Models\Website::class
     ],
+    /**
+     * The package middlewares. Removing a middleware here will disable it.
+     * You can of course extend/replace them or add your own.
+     */
     'middlewares' => [
-        /**
-         * The eager identification middleware.
-         */
-        'eager-identification' => \Hyn\Tenancy\Middleware\EagerIdentification::class,
+        // The eager identification middleware.
+        \Hyn\Tenancy\Middleware\EagerIdentification::class,
 
-        /**
-         * The hostname actions middleware (redirects, https, maintenance).
-         */
-        'hostname-actions' => \Hyn\Tenancy\Middleware\HostnameActions::class,
+        // The hostname actions middleware (redirects, https, maintenance).
+        \Hyn\Tenancy\Middleware\HostnameActions::class,
     ],
     'website' => [
         /**
