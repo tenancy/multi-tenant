@@ -31,10 +31,10 @@ return [
         'website' => \Hyn\Tenancy\Models\Website::class
     ],
     /**
-     * The package middlewares. Removing a middleware here will disable it.
+     * The package middleware. Removing a middleware here will disable it.
      * You can of course extend/replace them or add your own.
      */
-    'middlewares' => [
+    'middleware' => [
         // The eager identification middleware.
         \Hyn\Tenancy\Middleware\EagerIdentification::class,
 

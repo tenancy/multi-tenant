@@ -112,13 +112,13 @@ class TenancyProvider extends ServiceProvider
 
     protected function registerMiddleware()
     {
-        $middlewares = $this->app['config']['tenancy.middlewares'];
+        $middleware = $this->app['config']['tenancy.middleware'];
 
         /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
         $kernel = $this->app->make(Kernel::class);
 
-        foreach ($middlewares as $middleware) {
-            $kernel->prependMiddleware($middleware);
+        foreach ($middleware as $mw) {
+            $kernel->prependMiddleware($mw);
         }
     }
 }
