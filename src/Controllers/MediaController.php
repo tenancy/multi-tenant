@@ -44,7 +44,7 @@ class MediaController
         if ($this->directory->exists($path)) {
             $mimetype = Storage::disk('tenant')->mimeType($path);
 
-            if (config('tenancy.mimes')){
+            if (config('tenancy.mimes')) {
                 // Unfortunately, some shared hoster have limited mime type support, so we need to improve that by our self.
                 $fileextension = pathinfo($path)['extension'];
 
