@@ -49,7 +49,9 @@ class SeedsTenants
         $class = config('tenancy.db.tenant-seed-class');
 
         if ($class && class_exists($class)) {
-            return $this->connection->seed($event->website, $class);
+            if(! $this->connection->seed($event->website, $class)) {
+                logs()->error("Failed seeding database for tenant ({$event->website->id}) {$event->website->uuid}.");
+            }
         }
 
         return true;
