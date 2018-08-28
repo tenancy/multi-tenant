@@ -12,9 +12,9 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-use Hyn\Tenancy\Abstracts\AbstractMigration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Hyn\Tenancy\Abstracts\AbstractMigration;
 
 class TenancyWebsites extends AbstractMigration
 {
@@ -22,7 +22,7 @@ class TenancyWebsites extends AbstractMigration
 
     public function up()
     {
-        Schema::create('websites', function (Blueprint $table) {
+        Schema::connection('system')->create('websites', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('uuid');
@@ -34,6 +34,6 @@ class TenancyWebsites extends AbstractMigration
 
     public function down()
     {
-        Schema::dropIfExists('websites');
+        Schema::connection('system')->dropIfExists('websites');
     }
 }
