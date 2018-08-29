@@ -35,7 +35,7 @@ class TenantAwareLogger
         $directoryPath = $tenantDirectory->getWebsite() ? 'app/tenancy/tenants/' . $tenantDirectory->path() : null;
 
         $logPath = storage_path($directoryPath . 'logs/' . $config['level'] . '_' . Carbon::now()->toDateString() . '.log');
-        $log->pushHandler(new StreamHandler($logPath, $level));
+        $log->pushHandler(new StreamHandler($logPath, $level, false));
 
         return $log;
     }
