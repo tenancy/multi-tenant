@@ -60,9 +60,9 @@ class DirectoryGenerator
                 $this->emitEvent(
                     new DirectoryCreated($event->website, $this->filesystem())
                 );
+            } else {
+                logs()->error("Failed creating directory for tenant ({$event->website->id}) {$event->website->uuid}.");
             }
-
-            return $stat;
         }
 
         return true;
@@ -86,9 +86,9 @@ class DirectoryGenerator
                     (new DirectoryRenamed($event->website, $this->filesystem()))
                         ->setOld($uuid)
                 );
+            } else {
+                logs()->error("Failed updating directory for tenant ({$event->website->id}) {$event->website->uuid}.");
             }
-
-            return $stat;
         }
 
         return true;
@@ -109,9 +109,9 @@ class DirectoryGenerator
                 $this->emitEvent(
                     new DirectoryDeleted($event->website, $this->filesystem())
                 );
+            } else {
+                logs()->error("Failed deleting directory for tenant ({$event->website->id}) {$event->website->uuid}.");
             }
-
-            return $stat;
         }
 
         return true;

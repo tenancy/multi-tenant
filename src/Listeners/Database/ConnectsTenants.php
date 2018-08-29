@@ -44,10 +44,11 @@ class ConnectsTenants
      * Reacts to this service when we switch the active tenant website.
      *
      * @param WebsiteEvent $event
-     * @return bool
      */
-    public function switch(WebsiteEvent $event) : bool
+    public function switch(WebsiteEvent $event)
     {
-        return $this->connection->set($event->website);
+        if (! $this->connection->set($event->website)) {
+            logs()->error("Failed switching database for tenant ({$event->website->id}) {$event->website->uuid}.");
+        }
     }
 }
