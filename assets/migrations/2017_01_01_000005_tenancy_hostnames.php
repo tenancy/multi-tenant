@@ -12,6 +12,7 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
+use Hyn\Tenancy\Database\Connection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Hyn\Tenancy\Abstracts\AbstractMigration;
@@ -22,7 +23,7 @@ class TenancyHostnames extends AbstractMigration
 
     public function up()
     {
-        Schema::connection('system')->create('hostnames', function (Blueprint $table) {
+        Schema::connection(app(Connection::class)->systemName())->create('hostnames', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->string('fqdn')->unique();

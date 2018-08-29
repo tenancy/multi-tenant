@@ -12,6 +12,7 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
+use Hyn\Tenancy\Database\Connection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Hyn\Tenancy\Abstracts\AbstractMigration;
@@ -22,7 +23,7 @@ class TenancyWebsitesNeedsDbHost extends AbstractMigration
 
     public function up()
     {
-        Schema::connection('system')->table('websites', function (Blueprint $table) {
+        Schema::connection(app(Connection::class)->systemName())->table('websites', function (Blueprint $table) {
             $table->string('managed_by_database_connection')
                 ->nullable()
                 ->comment('References the database connection key in your database.php');
