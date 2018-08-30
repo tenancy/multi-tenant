@@ -383,7 +383,7 @@ return [
 
             /**
              * If `namespace` is set to null (thus using the global namespace)
-             * make it override the global views. Disable to
+             * make it override the global views. Disable by setting to false.
              */
             'override-global' => true,
         ]

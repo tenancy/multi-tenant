@@ -1,3 +1,9 @@
+- 5.2.7
+    - #579, allow configuring the middlewares used by the package
+    - Fixed issue with seed command not using the configured seed class.
+    - #577, fixed Directory class having invalid return value (Collection should be array).
+    - Minor tenancy.php configuration phpdoc changes for clarification and/or fixing.
+    - #564, fixed FreshCommand not using Website contract but Model.
 - 5.2.6
     - #549, setting uuid before sending to repository no longer would override the uuid.
     - Superfluous code removed that might have set the default connection to tenant in edge cases.
