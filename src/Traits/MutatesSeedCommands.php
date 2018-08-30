@@ -67,9 +67,11 @@ trait MutatesSeedCommands
      */
     protected function getOptions()
     {
-        foreach ($options = parent::getOptions() as $option) {
+        foreach ($options = parent::getOptions() as $i => $option) {
             if ($option[0] === 'class') {
                 $option[4] = config('tenancy.db.tenant-seed-class', false) ?: $option[4];
+
+                $options[$i] = $option;
             }
         }
 
