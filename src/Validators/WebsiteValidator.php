@@ -19,18 +19,19 @@ use Illuminate\Support\Str;
 
 class WebsiteValidator extends Validator
 {
-    protected $websites;
     protected $create;
     protected $update;
 
     public function __construct()
     {
-        $this->websites = str_replace('\\', '', Str::snake(Str::plural(class_basename(config('tenancy.models.website')))));
+        $class = config('tenancy.models.website');
+        $table = with(new $class)->getTable();
+
         $this->create = [
-            'uuid' => ['required', 'string', "unique:%system%.{$this->websites},uuid"],
+            'uuid' => ['required', 'string', "unique:%system%.{$table},uuid"],
         ];
         $this->update = [
-            'uuid' => ['required', 'string', "unique:%system%.{$this->websites},uuid,%id%"],
+            'uuid' => ['required', 'string', "unique:%system%.{$table},uuid,%id%"],
         ];
     }
 }
