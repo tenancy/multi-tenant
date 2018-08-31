@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Validators;
 
 use Hyn\Tenancy\Abstracts\Validator;
-use Illuminate\Support\Str;
 
 class WebsiteValidator extends Validator
 {
