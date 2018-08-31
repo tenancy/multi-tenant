@@ -15,13 +15,22 @@
 namespace Hyn\Tenancy\Validators;
 
 use Hyn\Tenancy\Abstracts\Validator;
+use Illuminate\Support\Str;
 
 class WebsiteValidator extends Validator
 {
-    protected $create = [
-        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid'],
-    ];
-    protected $update = [
-        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid,%id%'],
-    ];
+    protected $websites;
+    protected $create;
+    protected $update;
+
+    public function __construct()
+    {
+        $this->websites = str_replace('\\', '', Str::snake(Str::plural(class_basename(config('tenancy.models.website')))));
+        $this->create = [
+            'uuid' => ['required', 'string', "unique:%system%.{$this->websites},uuid"],
+        ];
+        $this->update = [
+            'uuid' => ['required', 'string', "unique:%system%.{$this->websites},uuid,%id%"],
+        ];
+    }
 }
