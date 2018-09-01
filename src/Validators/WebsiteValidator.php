@@ -18,10 +18,19 @@ use Hyn\Tenancy\Abstracts\Validator;
 
 class WebsiteValidator extends Validator
 {
-    protected $create = [
-        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid'],
-    ];
-    protected $update = [
-        'uuid' => ['required', 'string', 'unique:%system%.websites,uuid,%id%'],
-    ];
+    protected $create;
+    protected $update;
+
+    public function __construct()
+    {
+        $class = config('tenancy.models.website');
+        $table = with(new $class)->getTable();
+
+        $this->create = [
+            'uuid' => ['required', 'string', "unique:%system%.{$table},uuid"],
+        ];
+        $this->update = [
+            'uuid' => ['required', 'string', "unique:%system%.{$table},uuid,%id%"],
+        ];
+    }
 }
