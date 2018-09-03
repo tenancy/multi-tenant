@@ -41,7 +41,8 @@ class PostgreSQL implements DatabaseGenerator
             $this->grantPrivileges($connection, $config);
     }
 
-    protected function createUser (IlluminateConnection $connection, array $config) {
+    protected function createUser(IlluminateConnection $connection, array $config)
+    {
         if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection,
                 $config['username'])) {
             return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
@@ -50,11 +51,13 @@ class PostgreSQL implements DatabaseGenerator
         return true;
     }
 
-    protected function createDatabase (IlluminateConnection $connection, array $config) {
+    protected function createDatabase(IlluminateConnection $connection, array $config)
+    {
         return $connection->statement("CREATE DATABASE \"{$config['database']}\"");
     }
 
-    protected function grantPrivileges (IlluminateConnection $connection, array $config) {
+    protected function grantPrivileges(IlluminateConnection $connection, array $config)
+    {
         return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
     }
 
@@ -106,7 +109,7 @@ class PostgreSQL implements DatabaseGenerator
             $this->dropUser($connection, $config);
     }
 
-    protected function flushConnection (IlluminateConnection $connection, array $config)
+    protected function flushConnection(IlluminateConnection $connection, array $config)
     {
         $connection
             ->table('pg_stat_activity')
@@ -118,7 +121,7 @@ class PostgreSQL implements DatabaseGenerator
         return true;
     }
 
-    protected function dropPriviliges (IlluminateConnection $connection, array $config)
+    protected function dropPriviliges(IlluminateConnection $connection, array $config)
     {
         if ($this->userExists($connection, $config['username'])) {
             return $connection->statement("DROP OWNED BY \"{$config['username']}\"");
@@ -127,12 +130,12 @@ class PostgreSQL implements DatabaseGenerator
         return true;
     }
 
-    protected function dropDatabase (IlluminateConnection $connection, array $config)
+    protected function dropDatabase(IlluminateConnection $connection, array $config)
     {
         return $connection->statement("DROP DATABASE IF EXISTS \"{$config['database']}\"");
     }
 
-    protected function dropUser (IlluminateConnection $connection, array $config)
+    protected function dropUser(IlluminateConnection $connection, array $config)
     {
         if (config('tenancy.db.auto-delete-tenant-database-user') && $this->userExists($connection,
                 $config['username'])) {

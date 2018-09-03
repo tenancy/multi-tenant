@@ -15,8 +15,6 @@
 namespace Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Websites\Created;
-use Hyn\Tenancy\Events\Websites\Deleted;
 use Hyn\Tenancy\Events\Websites\Updated;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
 use Illuminate\Database\Connection as IlluminateConnection;
@@ -24,11 +22,13 @@ use Illuminate\Support\Arr;
 
 class PostgresSchema extends PostgreSQL
 {
-    protected function createDatabase (IlluminateConnection $connection, array $config) {
+    protected function createDatabase(IlluminateConnection $connection, array $config)
+    {
         return $connection->statement("CREATE SCHEMA \"{$config['schema']}\"");
     }
 
-    protected function grantPrivileges (IlluminateConnection $connection, array $config) {
+    protected function grantPrivileges(IlluminateConnection $connection, array $config)
+    {
         return $connection->statement("GRANT ALL PRIVILEGES ON SCHEMA \"{$config['schema']}\" TO \"{$config['username']}\"");
     }
 
@@ -50,7 +50,7 @@ class PostgresSchema extends PostgreSQL
         return true;
     }
 
-    protected function dropDatabase (IlluminateConnection $connection, array $config)
+    protected function dropDatabase(IlluminateConnection $connection, array $config)
     {
         return $connection->statement("DROP SCHEMA IF EXISTS \"{$config['schema']}\"");
     }
