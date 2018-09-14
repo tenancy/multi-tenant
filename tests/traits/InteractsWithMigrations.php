@@ -60,11 +60,7 @@ trait InteractsWithMigrations
             '--force' => true
         ], $commandOptions));
 
-        if ($code instanceof PendingCommand) {
-            $code->assertExitCode(0);
-        } else {
-            $this->assertEquals(0, $code, "tenancy:$command didn't work out");
-        }
+        $this->assertEquals(0, $code, "tenancy:$command didn't work out");
 
         if ($hook) {
             $hook();
@@ -89,11 +85,7 @@ trait InteractsWithMigrations
             '--force' => true
         ]);
 
-        if ($code instanceof PendingCommand) {
-            $code->assertExitCode(0);
-        } else {
-            $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
-        }
+        $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
 
         if ($hook) {
             $hook();
