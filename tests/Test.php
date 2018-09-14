@@ -40,6 +40,8 @@ class Test extends TestCase
         WebserverProvider::class
     ];
 
+    public $mockConsoleOutput = false;
+
     public function createApplication()
     {
         $appPaths = [];
