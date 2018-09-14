@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\PendingCommand;
 use SampleSeeder;
 
 trait InteractsWithMigrations
@@ -59,7 +60,11 @@ trait InteractsWithMigrations
             '--force' => true
         ], $commandOptions));
 
-        $this->assertEquals(0, $code, "tenancy:$command didn't work out");
+        if ($code instanceof PendingCommand) {
+            $code->assertExitCode(0);
+        } else {
+            $this->assertEquals(0, $code, "tenancy:$command didn't work out");
+        }
 
         if ($hook) {
             $hook();
@@ -84,7 +89,11 @@ trait InteractsWithMigrations
             '--force' => true
         ]);
 
-        $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
+        if ($code instanceof PendingCommand) {
+            $code->assertExitCode(0);
+        } else {
+            $this->assertEquals(0, $code, "tenancy:db:seed didn't work out");
+        }
 
         if ($hook) {
             $hook();
