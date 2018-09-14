@@ -17,6 +17,8 @@ namespace Hyn\Tenancy\Website;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Filesystem\FileExistsException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
@@ -372,5 +374,21 @@ class Directory implements Filesystem
 
             return call_user_func_array([$this->local, $name], $arguments);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function readStream($path)
+    {
+        return $this->filesystem->readStream($this->path($path));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function writeStream($path, $resource, array $options = [])
+    {
+        return $this->filesystem->writeStream($this->path($path), $resource, $options);
     }
 }
