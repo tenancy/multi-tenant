@@ -33,8 +33,10 @@ class MariaDB implements DatabaseGenerator
      */
     public function created(Created $event, array $config, Connection $connection): bool
     {
-        $user = function ($connection) use ($config) {
-            if (config('tenancy.db.auto-create-tenant-database-user', true)) {
+        $createUser = config('tenancy.db.auto-create-tenant-database-user', true);
+
+        $user = function ($connection) use ($config, $createUser) {
+            if ($createUser) {
                 return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
             }
 
@@ -45,8 +47,12 @@ class MariaDB implements DatabaseGenerator
             DEFAULT CHARACTER SET {$config['charset']}
             DEFAULT COLLATE {$config['collation']}");
         };
-        $grant = function ($connection) use ($config) {
-            return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
+        $grant = function ($connection) use ($config, $createUser) {
+            if ($createUser) {
+                return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
+            }
+
+            return true;
         };
 
         return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
