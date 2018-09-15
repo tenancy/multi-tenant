@@ -72,8 +72,8 @@ trait MutatesMigrationCommands
         }
 
         // Tenant migrations path is configured.
-        if ($path = config('tenancy.db.tenant-migrations-path')) {
-            return [$path];
+        if (($path = config('tenancy.db.tenant-migrations-path')) && ! empty($path)) {
+            return (array) $path;
         }
 
         throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify a path.");
