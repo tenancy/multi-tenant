@@ -66,8 +66,8 @@ class DatabaseGenerator
 
         switch ($driver) {
             case 'pgsql':
-                return $this->mode === Connection::DIVISION_MODE_SEPARATE_SCHEMA 
-                    ? new Drivers\PostgresSchema 
+                return $this->mode === Connection::DIVISION_MODE_SEPARATE_SCHEMA
+                    ? new Drivers\PostgresSchema
                     : new Drivers\PostgreSQL;
                 break;
             case 'mysql':
