@@ -66,7 +66,9 @@ class DatabaseGenerator
 
         switch ($driver) {
             case 'pgsql':
-                return new Drivers\PostgreSQL;
+                return $this->mode === Connection::DIVISION_MODE_SEPARATE_SCHEMA 
+                    ? new Drivers\PostgresSchema 
+                    : new Drivers\PostgreSQL;
                 break;
             case 'mysql':
                 return new Drivers\MariaDB;
@@ -86,7 +88,10 @@ class DatabaseGenerator
             return;
         }
 
-        if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+        if (!in_array($this->mode, [
+            Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SCHEMA,
+        ])) {
             return;
         }
 
@@ -131,7 +136,10 @@ class DatabaseGenerator
             return;
         }
 
-        if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+        if (!in_array($this->mode, [
+            Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SCHEMA,
+        ])) {
             return;
         }
 
@@ -162,7 +170,10 @@ class DatabaseGenerator
             return;
         }
 
-        if ($this->mode !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+        if (!in_array($this->mode, [
+            Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SCHEMA,
+        ])) {
             return;
         }
 
@@ -181,7 +192,7 @@ class DatabaseGenerator
         );
 
         if (!$this->driver($config)->updated($event, $config, $this->connection)) {
-            throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
+            throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");
         }
 
         $this->emitEvent(

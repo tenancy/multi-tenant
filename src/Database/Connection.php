@@ -45,6 +45,11 @@ class Connection
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
 
     /**
+     * Allows division by schema. Postges only.
+     */
+    const DIVISION_MODE_SEPARATE_SCHEMA = 'schema';
+
+    /**
      * Allows manually setting the configuration during event callbacks.
      */
     const DIVISION_MODE_BYPASS = 'bypass';
@@ -314,6 +319,10 @@ class Connection
                 break;
             case static::DIVISION_MODE_SEPARATE_PREFIX:
                 $clone['prefix'] = sprintf('%d_', $website->id);
+                break;
+            case static::DIVISION_MODE_SEPARATE_SCHEMA:
+                $clone['username'] = $clone['schema'] = $website->uuid;
+                $clone['password'] = $this->passwordGenerator->generate($website);
                 break;
             case static::DIVISION_MODE_BYPASS:
                 break;

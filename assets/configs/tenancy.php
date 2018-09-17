@@ -184,8 +184,11 @@ return [
         /**
          * The tenant division mode specifies to what database websites will be
          * connecting. The default setup is to use a new database per tenant.
+         * If using PostgreSQL, a new schema per tenant in the same database can
+         * be setup, by optionally setting division mode to 'schema'.
          * In case you prefer to use the same database with a table prefix,
          * set the mode to 'prefix'.
+         * To implement a custom division mode, set this to 'bypass'.
          *
          * @see src/Database/Connection.php
          */
