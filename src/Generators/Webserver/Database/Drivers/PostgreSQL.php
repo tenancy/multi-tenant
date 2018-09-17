@@ -35,16 +35,21 @@ class PostgreSQL implements DatabaseGenerator
     {
         $connection = $connection->system($event->website);
 
-        return
-            $this->createUser($connection, $config) &&
-            $this->createDatabase($connection, $config) &&
-            $this->grantPrivileges($connection, $config);
+        $createUser = config('tenancy.db.auto-create-tenant-database-user');
+
+        if ($createUser) {
+            return
+                $this->createUser($connection, $config) &&
+                $this->createDatabase($connection, $config) &&
+                $this->grantPrivileges($connection, $config);
+        } else {
+            return $this->createDatabase($connection, $config);
+        }   
     }
 
     protected function createUser(IlluminateConnection $connection, array $config)
     {
-        if (config('tenancy.db.auto-create-tenant-database-user') && !$this->userExists($connection,
-                $config['username'])) {
+        if (!$this->userExists($connection, $config['username'])) {
             return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
         }
 
