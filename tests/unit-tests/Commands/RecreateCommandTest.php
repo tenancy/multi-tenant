@@ -14,7 +14,6 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use App\Console\Kernel;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -25,8 +24,6 @@ class RecreateCommandTest extends DatabaseCommandTest
     protected function duringSetUp(Application $app)
     {
         $this->cleanupTenancy();
-
-        $this->artisan = app(Kernel::class);
 
         parent::duringSetUp($app);
     }
@@ -59,7 +56,7 @@ class RecreateCommandTest extends DatabaseCommandTest
             // Surpress exception
         }
 
-        $this->artisan->call('tenancy:recreate');
+        $this->artisan('tenancy:recreate');
 
         $this->connection->set($this->website);
 

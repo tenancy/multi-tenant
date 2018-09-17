@@ -17,6 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\PendingCommand;
 use SampleSeeder;
 
 trait InteractsWithMigrations

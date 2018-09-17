@@ -44,7 +44,7 @@ class PostgreSQL implements DatabaseGenerator
                 $this->grantPrivileges($connection, $config);
         } else {
             return $this->createDatabase($connection, $config);
-        }   
+        }
     }
 
     protected function createUser(IlluminateConnection $connection, array $config)

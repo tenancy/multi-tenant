@@ -133,4 +133,11 @@ abstract class Validator
             })->toArray();
         })->toArray();
     }
+
+    public function getRulesFor($model, $for = 'create'): array
+    {
+        $rules = $this->{$for} ?? [];
+
+        return $this->replaceVariables($rules, $model);
+    }
 }
