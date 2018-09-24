@@ -47,14 +47,23 @@ class MigratesTenants
      */
     public function migrate(WebsiteEvent $event): bool
     {
-        $path = config('tenancy.db.tenant-migrations-path');
+        $paths = $this->getMigrationPaths();
 
-        if ($path && realpath($path) && $this->connection->migrate($event->website, $path)) {
-            $this->emitEvent(new Events\Websites\Migrated($event->website));
-
-            return true;
+        foreach ($paths as $path) {
+            if ($path && realpath($path) && $this->connection->migrate($event->website, $path)) {
+                $this->emitEvent(new Events\Websites\Migrated($event->website));
+            }
         }
 
         return true;
+    }
+
+    protected function getMigrationPaths()
+    {
+        if (($path = config('tenancy.db.tenant-migrations-path')) && ! empty($path)) {
+            return (array) $path;
+        }
+
+        return [];
     }
 }
