@@ -9,6 +9,7 @@
 namespace Hyn\Tenancy\Commands;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Environment;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -27,24 +28,13 @@ class RunCommand extends Command
     public function handle()
     {
         $websites = $this->getWebsitesFromOption();
-        $newArgv = ['artisan', $this->argument('command')];
-        if ($arguments = $this->option('arguments')) {
-            $newArgv = array_merge($newArgv, explode(' ', trim($arguments)));
-        }
-        if ($options = $this->option('options')) {
-            $newArgv = array_merge($newArgv, explode(' ', trim($options)));
-        }
+        $arguments = $this->option('arguments');
+        $options = $this->option('options');
         $this->output->progressStart(count($websites));
+        $environment = app(Environment::class);
         foreach ($websites as $website) {
-            $tenantApp = require base_path('bootstrap') . '/app.php';
-            $kernel = $tenantApp->make(Kernel::class);
-            $status = $kernel->handle(
-                $input = new ArgvInput($newArgv),
-                new ConsoleOutput
-            );
-            $kernel->terminate($input, $status);
-            $this->comment($status);
-            $this->output->progressAdvance();
+            $environment->tenant($website->find($website->getKey()));
+            $this->call($this->argument('command'), array_merge(explode(' ', trim($arguments),explode(' ', trim($options)))));
         }
         $this->output->progressFinish();
     }
@@ -59,16 +49,16 @@ class RunCommand extends Command
             return $repository->query()->all();
         }
 
-        $tenantOptionArr = explode(',', $this->option('tenant'));
+        $tenants = explode(',', $this->option('tenant'));
 
-        if (count($tenantOptionArr) == 0)
+        if (count($tenants) == 0)
         {
             throw new \InvalidArgumentException("The tenant option must be specified!");
         }
 
         return $repository
             ->query()
-            ->whereIn('id', $tenantOptionArr)
+            ->whereIn('id', $tenants)
             ->get();
     }
 }
