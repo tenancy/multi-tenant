@@ -96,6 +96,7 @@ class HostnameActionsTest extends Test
     public function auto_identification_false()
     {
         config(['tenancy.hostname.auto-identification' => false]);
+        config(['tenancy.hostname.abort-without-identified-hostname' => true]);
 
         try {
             $middleware = new HostnameActions(app()->make(Redirector::class));
