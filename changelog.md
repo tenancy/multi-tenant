@@ -1,3 +1,13 @@
+- 5.3.0
+    - Laravel 5.7 compatibility.
+    - Abort without hostname now set to false by default.
+    - #563, Fixed hardcoded tables for hostnames and websites in validator.
+    - #568, Added a `tenancy:run` command which allows using any artisan command within a tenancy switched environment.
+    - #584, Fixed issue where the route helpers would not read tenants.php routes.
+    - #595, disable bubble option in TenantAwareLogger.
+    - #603, Added support for storing tenants in different schemas in PostgreSQL.
+    - #612, Set charset and collation for new tenant database
+    - #613, Fix setting grants for users when we don't create users for tenant databases.
 - 5.2.7
     - #579, allow configuring the middlewares used by the package
     - Fixed issue with seed command not using the configured seed class.

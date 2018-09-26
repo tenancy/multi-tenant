@@ -125,4 +125,13 @@ class TenancyProvider extends ServiceProvider
             $kernel->prependMiddleware($mw);
         }
     }
+
+    public function provides()
+    {
+        return [
+            Environment::class,
+            Contracts\Tenant::class,
+            Contracts\CurrentHostname::class,
+        ];
+    }
 }

@@ -14,6 +14,8 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
+use Hyn\Tenancy\Contracts\Hostname;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Exceptions\ModelValidationException;
 use Illuminate\Contracts\Validation\Factory;
@@ -119,16 +121,23 @@ abstract class Validator
         /** @var Connection $connection */
         $connection = app(Connection::class);
 
-        return collect($rules)->map(function ($ruleSet) use ($connection, $model) {
-            return collect($ruleSet)->map(function ($rule) use ($connection, $model) {
+        $hostname = app(Hostname::class);
+        $website = app(Website::class);
+
+        return collect($rules)->map(function ($ruleSet) use ($connection, $model, $hostname, $website) {
+            return collect($ruleSet)->map(function ($rule) use ($connection, $model, $hostname, $website) {
                 return str_replace([
                     '%system%',
                     '%tenant%',
-                    '%id%'
+                    '%id%',
+                    '%websites%',
+                    '%hostnames%'
                 ], [
                     $connection->systemName(),
                     $connection->tenantName(),
-                    $model->getKey()
+                    $model->getKey(),
+                    $website->getTable(),
+                    $hostname->getTable()
                 ], $rule);
             })->toArray();
         })->toArray();
