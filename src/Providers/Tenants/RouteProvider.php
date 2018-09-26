@@ -48,6 +48,8 @@ class RouteProvider extends ServiceProvider
 
                     $router->middleware([])->group($path);
 
+                    $router->getRoutes()->refreshNameLookups();
+
                     $url->setRoutes($router->getRoutes());
                 });
             }

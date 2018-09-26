@@ -67,6 +67,16 @@ EOM
     }
 
     /**
+     * @test
+     */
+    public function resolves_route_from_helper()
+    {
+        $url = route('tenant');
+
+        $this->assertEquals(url('/'), $url);
+    }
+
+    /**
      * Create a fake request to send to the router matching logic.
      */
     protected function overrideGlobalRoute()
