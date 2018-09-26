@@ -390,5 +390,16 @@ return [
              */
             'override-global' => true,
         ]
+    ],
+    /**
+     * MIMES configuration for media folder via controller
+     * In some cases especially shared host does not support the full list of mimes, here you can define all you like
+     * If you do not need this feature please comment
+     */
+    /*
+    'mimes' => [
+        'css'   =>  'text/css',
+        'js'    =>  'text/javascript'
     ]
+    */
 ];
