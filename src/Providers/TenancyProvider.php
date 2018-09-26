@@ -22,6 +22,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Commands\RunCommand;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
@@ -96,6 +97,7 @@ class TenancyProvider extends ServiceProvider
     protected function bootCommands()
     {
         $this->commands(RecreateCommand::class);
+        $this->commands(RunCommand::class);
     }
 
     protected function bootEnvironment()

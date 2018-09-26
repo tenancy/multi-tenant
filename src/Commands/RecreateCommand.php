@@ -89,7 +89,7 @@ class RecreateCommand extends Command
                 return true;
             }
         } catch (\Exception $e) {
-            // Surpress exception
+            // Suppress exception
         }
 
         return false;
