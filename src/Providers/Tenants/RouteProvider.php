@@ -19,6 +19,7 @@ use Hyn\Tenancy\Models\Hostname;
 use Illuminate\Config\Repository;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 
 class RouteProvider extends ServiceProvider
@@ -32,17 +33,22 @@ class RouteProvider extends ServiceProvider
         /** @var Router $router */
         $router = $this->app->make(Router::class);
 
+        /** @var UrlGenerator $url */
+        $url = $this->app->make('url');
+
         if ($path) {
             /** @var Hostname $hostname */
             $hostname = $this->app->make(CurrentHostname::class);
 
             if ($hostname && file_exists($path)) {
-                $this->app->booted(function () use ($config, $router, $path) {
+                $this->app->booted(function () use ($config, $router, $path, $url) {
                     if ($config->get('tenancy.routes.replace-global')) {
                         $router->setRoutes(new RouteCollection());
                     }
 
                     $router->middleware([])->group($path);
+
+                    $url->setRoutes($router->getRoutes());
                 });
             }
         }
