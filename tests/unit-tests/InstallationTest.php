@@ -134,7 +134,6 @@ class InstallationTest extends Test
     /**
      * @test
      * @covers \Hyn\Tenancy\Generators\Uuid\ShaGenerator
-     * @covers \Hyn\Tenancy\Contracts\Website\UuidGenerator
      */
     public function verify_uuid_generator()
     {
