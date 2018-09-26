@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Commands;
 
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Console\Command;
 use Hyn\Tenancy\Database\Connection;
@@ -53,23 +54,23 @@ class RecreateCommand extends Command
     /**
      * Execute the console command.
      *
-     * @param Connection $connection
-     * @throws \Hyn\Tenancy\Exceptions\ConnectionException
+     * @param Connection        $connection
+     * @param WebsiteRepository $repository
      */
-    public function handle(Connection $connection)
+    public function handle(Connection $connection, WebsiteRepository $repository)
     {
         $this->connection = $connection;
 
-        $websites = Website::all();
-
-        foreach ($websites as $website) {
-            if ($this->tenantDatabaseExists($website)) {
-                $this->info("Database `{$website->uuid}` exists. Skipping.");
-            } else {
-                $this->info("Recreating database `{$website->uuid}`.");
-                $this->emitEvent(new Events\Created($website));
+        $repository->query()->chunk(50, function ($websites) {
+            foreach ($websites as $website) {
+                if ($this->tenantDatabaseExists($website)) {
+                    $this->info("Database `{$website->uuid}` exists. Skipping.");
+                } else {
+                    $this->info("Recreating database `{$website->uuid}`.");
+                    $this->emitEvent(new Events\Created($website));
+                }
             }
-        }
+        });
     }
 
     /**
