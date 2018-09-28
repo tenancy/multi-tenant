@@ -15,11 +15,11 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Generators\Webserver\Database\DatabaseDriverFactory;
 use Hyn\Tenancy\Generators\Webserver\Database\Drivers\MariaDB;
 use Hyn\Tenancy\Generators\Webserver\Database\Drivers\PostgreSQL;
 use Hyn\Tenancy\Generators\Webserver\Database\Drivers\PostgresSchema;
 use Illuminate\Support\ServiceProvider;
-use Hyn\Tenancy\Generators\Webserver\Database\DatabaseDriverFactory;
 
 class DatabaseDriverProvider extends ServiceProvider
 {

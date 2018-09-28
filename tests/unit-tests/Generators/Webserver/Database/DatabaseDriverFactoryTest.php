@@ -14,14 +14,14 @@
 
 namespace Hyn\Tenancy\Tests\Generators\Webserver\Database;
 
-use Hyn\Tenancy\Tests\Test;
-use Hyn\Tenancy\Generators\Webserver\Database\DatabaseDriverFactory;
-use Hyn\Tenancy\Generators\Webserver\Database\Drivers\MariaDB;
 use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Websites\Created;
 use Hyn\Tenancy\Events\Websites\Deleted;
 use Hyn\Tenancy\Events\Websites\Updated;
+use Hyn\Tenancy\Generators\Webserver\Database\DatabaseDriverFactory;
+use Hyn\Tenancy\Generators\Webserver\Database\Drivers\MariaDB;
+use Hyn\Tenancy\Tests\Test;
 
 class DatabaseDriverFactoryTest extends Test
 {
