@@ -46,6 +46,17 @@ class DatabaseDriverFactoryTest extends Test
 
     /**
      * @test
+     * @expectedException \TypeError
+     */
+    public function throws_an_exception_if_driver_doesnt_implement_contract()
+    {
+        app('tenancy.db.drivers')->put('random', \stdClass::class);
+
+        (new DatabaseDriverFactory())->create('random');
+    }
+
+    /**
+     * @test
      */
     public function allows_to_create_custom_driver()
     {
