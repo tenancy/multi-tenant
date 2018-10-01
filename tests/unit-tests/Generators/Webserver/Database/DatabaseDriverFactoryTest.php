@@ -14,14 +14,10 @@
 
 namespace Hyn\Tenancy\Tests\Generators\Webserver\Database;
 
-use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
-use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Events\Websites\Created;
-use Hyn\Tenancy\Events\Websites\Deleted;
-use Hyn\Tenancy\Events\Websites\Updated;
 use Hyn\Tenancy\Generators\Webserver\Database\DatabaseDriverFactory;
 use Hyn\Tenancy\Generators\Webserver\Database\Drivers\MariaDB;
 use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Tests\Extend\DatabaseDriverExtend;
 
 class DatabaseDriverFactoryTest extends Test
 {
@@ -60,26 +56,8 @@ class DatabaseDriverFactoryTest extends Test
      */
     public function allows_to_create_custom_driver()
     {
-        app('tenancy.db.drivers')->put('custom', CustomDriver::class);
+        app('tenancy.db.drivers')->put('custom', DatabaseDriverExtend::class);
 
-        $this->assertInstanceOf(CustomDriver::class, (new DatabaseDriverFactory())->create('custom'));
-    }
-}
-
-class CustomDriver implements DatabaseGenerator
-{
-    public function created(Created $event, array $config, Connection $connection): bool
-    {
-        return true;
-    }
-
-    public function updated(Updated $event, array $config, Connection $connection): bool
-    {
-        return true;
-    }
-
-    public function deleted(Deleted $event, array $config, Connection $connection): bool
-    {
-        return true;
+        $this->assertInstanceOf(DatabaseDriverExtend::class, (new DatabaseDriverFactory())->create('custom'));
     }
 }
