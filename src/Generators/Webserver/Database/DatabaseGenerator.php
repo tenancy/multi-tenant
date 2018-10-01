@@ -38,18 +38,18 @@ class DatabaseGenerator
     /**
      * @var DatabaseDriverFactory
      */
-    protected $dbDriverFactory;
+    protected $factory;
 
     /**
      * DatabaseGenerator constructor.
      * @param Connection $connection
-     * @param DatabaseDriverFactory $dbDriverFactory
+     * @param DatabaseDriverFactory $factory
      */
-    public function __construct(Connection $connection, DatabaseDriverFactory $dbDriverFactory)
+    public function __construct(Connection $connection, DatabaseDriverFactory $factory)
     {
         $this->connection = $connection;
         $this->mode = config('tenancy.db.tenant-division-mode');
-        $this->dbDriverFactory = $dbDriverFactory;
+        $this->factory = $factory;
     }
 
     /**
@@ -87,7 +87,7 @@ class DatabaseGenerator
             new Events\Database\Creating($config, $event->website)
         );
 
-        if (!$this->dbDriverFactory->create($config['driver'])->created($event, $config, $this->connection)) {
+        if (!$this->factory->create($config['driver'])->created($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not generate database {$config['database']}, one of the statements failed.");
         }
 
@@ -135,7 +135,7 @@ class DatabaseGenerator
             new Events\Database\Deleting($config, $event->website)
         );
 
-        if (!$this->dbDriverFactory->create($config['driver'])->deleted($event, $config, $this->connection)) {
+        if (!$this->factory->create($config['driver'])->deleted($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not delete database {$config['database']}, the statement failed.");
         }
 
@@ -175,7 +175,7 @@ class DatabaseGenerator
             new Events\Database\Renaming($config, $event->website)
         );
 
-        if (!$this->dbDriverFactory->create($config['driver'])->updated($event, $config, $this->connection)) {
+        if (!$this->factory->create($config['driver'])->updated($event, $config, $this->connection)) {
             throw new GeneratorFailedException("Could not rename database {$config['database']}, the statement failed.");
         }
 
