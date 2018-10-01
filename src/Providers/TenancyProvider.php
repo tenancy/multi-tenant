@@ -88,6 +88,7 @@ class TenancyProvider extends ServiceProvider
         $this->app->register(Providers\BusProvider::class);
         $this->app->register(Providers\FilesystemProvider::class);
         $this->app->register(Providers\HostnameProvider::class);
+        $this->app->register(Providers\DatabaseDriverProvider::class);
 
         // Register last.
         $this->app->register(Providers\EventProvider::class);
