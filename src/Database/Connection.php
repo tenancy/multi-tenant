@@ -74,7 +74,7 @@ class Connection
     /**
      * @var DatabaseManager
      */
-    private $db;
+    protected $db;
     /**
      * @var Kernel
      */
