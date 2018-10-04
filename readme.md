@@ -1,5 +1,3 @@
-[![Backers on Open Collective](https://opencollective.com/tenancy/backers/badge.svg)](#backers) 
-[![Sponsors on Open Collective](https://opencollective.com/tenancy/sponsors/badge.svg)](#sponsors) 
 [![Packagist](https://img.shields.io/packagist/v/hyn/multi-tenant.svg)](https://packagist.org/packages/hyn/multi-tenant)
 [![build status](https://circleci.com/gh/hyn/multi-tenant.svg?style=svg)](https://circleci.com/gh/hyn/multi-tenant)
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/5.x)
