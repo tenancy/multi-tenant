@@ -62,7 +62,9 @@ set the `dont-discover` in your application composer.json, like so:
 {
     "extra": {
         "laravel": {
-            "dont-discover": "hyn/multi-tenant"
+            "dont-discover": [
+                "hyn/multi-tenant"
+            ]
         }
     }
 }
