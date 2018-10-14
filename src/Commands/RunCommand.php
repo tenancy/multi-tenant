@@ -73,7 +73,7 @@ class RunCommand extends Command
 
         $exitCodes = [];
 
-        $query->chunk(50, function ($websites) use ($environment, $options, $exitCodes) {
+        $query->chunk(50, function ($websites) use ($environment, $options, &$exitCodes) {
             foreach ($websites as $website) {
                 $environment->tenant($website);
 
