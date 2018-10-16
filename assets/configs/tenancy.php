@@ -372,7 +372,7 @@ return [
         ],
         'views' => [
             /**
-             * Adds the vendor directory of the tenant inside the application.
+             * Enables reading views from tenant directories.
              */
             'enabled' => true,
 
