@@ -1,3 +1,6 @@
+- 5.3.1
+    - #627, allowing custom database drivers.
+    - #636, fixed exit codes not being seeded in `tenancy:run` command.
 - 5.3.0
     - Laravel 5.7 compatibility.
     - Abort without hostname now set to false by default.
