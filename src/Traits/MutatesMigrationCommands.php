@@ -71,9 +71,10 @@ trait MutatesMigrationCommands
             return parent::getMigrationPaths();
         }
 
-        // Tenant migrations path is configured.
-        if (($path = config('tenancy.db.tenant-migrations-path')) && ! empty($path)) {
-            return (array) $path;
+        $paths = $this->connection->getMigrationPaths();
+
+        if (count($paths) > 0) {
+            return $paths;
         }
 
         throw new InvalidArgumentException("To prevent unwanted migrations from database/migrations, always specify a path.");

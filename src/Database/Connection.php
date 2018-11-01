@@ -334,4 +334,32 @@ class Connection
 
         return $clone;
     }
+
+    /**
+     * @return array
+     */
+    public function getMigrationPaths()
+    {
+        if (($path = config('tenancy.db.tenant-migrations-path')) && ! empty($path)) {
+            if (is_array($path)) {
+                // When using multiple migration paths is important to load them all
+                // before doing the migration so we can order by their timestamps
+                // avoiding errors with the order of the migrations
+                $migrations = collect([]);
+                collect($path)->each(function($path) use (&$migrations) {
+                    $files = app('files')->glob($path . "/*_*.php");
+                    foreach ($files as $filePath) {
+                        $migrations->push(['path' => $filePath, 'basename' => basename($filePath)]);
+                    }
+                });
+
+                return $migrations->sortBy('basename')->map(function($fileInfo) {
+                    return $fileInfo['path'];
+                })->toArray();
+            }
+            return (array) $path;
+        }
+
+        return [];
+    }
 }
