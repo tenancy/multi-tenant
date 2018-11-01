@@ -49,10 +49,24 @@ class MigratesTenants
     {
         $paths = $this->connection->getMigrationPaths();
 
+        $migrated_paths = 0;
+        $nonExecutedMigrationsPath = [];
+
         foreach ($paths as $path) {
             if ($path && realpath($path) && $this->connection->migrate($event->website, $path)) {
-                $this->emitEvent(new Events\Websites\Migrated($event->website));
+                $migrated_paths++;
+            } else {
+                $nonExecutedMigrationsPath[] = $path;
             }
+        }
+
+        if ($migrated_paths == count($paths)) {
+            $this->emitEvent(new Events\Websites\Migrated($event->website));
+        } else {
+            throw new \Exception(
+                "Not all migrations were executed. The list of non executed migrations: " .
+                implode(",", $nonExecutedMigrationsPath)
+            );
         }
 
         return true;
