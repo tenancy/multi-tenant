@@ -37,6 +37,7 @@ class MariaDB implements DatabaseGenerator
 
         $user = function ($connection) use ($config, $createUser) {
             if ($createUser) {
+                $config['host'] = config('tenancy.db.user-host-permission');
                 return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
             }
 
@@ -49,6 +50,7 @@ class MariaDB implements DatabaseGenerator
         };
         $grant = function ($connection) use ($config, $createUser) {
             if ($createUser) {
+                $config['host'] = config('tenancy.db.user-host-permission');
                 return $connection->statement("GRANT ALL ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
             }
 

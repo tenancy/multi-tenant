@@ -283,6 +283,12 @@ return [
         'force-system-connection-of-models' => [
 //            App\User::class
         ],
+
+        /**
+         * Define the host permission (used only by MySQL/MariaDB) to enable the connection from remote
+         * machines
+         */
+        'user-host-permission' => env('TENANCY_DATABASE_USER_HOST_PERMISSION', '127.0.0.1'),
     ],
 
     /**
