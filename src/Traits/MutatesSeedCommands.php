@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use Illuminate\Support\Collection;
 
 trait MutatesSeedCommands
 {
@@ -51,12 +52,14 @@ trait MutatesSeedCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
 
-        $this->processHandle(function (Website $website) {
+        $this->processHandle(function (Website $website, Collection $websites) {
             $this->connection->set($website);
 
             parent::handle();
 
-            $this->connection->purge();
+            if ($websites->count() > 1) {
+                $this->connection->purge();
+            }
         });
     }
 

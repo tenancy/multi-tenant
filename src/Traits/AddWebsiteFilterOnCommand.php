@@ -28,7 +28,9 @@ trait AddWebsiteFilterOnCommand
         }
 
         $query->orderBy('id')->chunk(10, function (Collection $websites) use ($callable) {
-            $websites->each($callable);
+            $websites->each(function ($website) use ($callable, $websites) {
+                $callable($website, $websites);
+            });
         });
     }
 

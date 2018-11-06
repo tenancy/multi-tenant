@@ -18,6 +18,8 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\Migrations\Migrator;
 use InvalidArgumentException;
+use Illuminate\Support\Collection;
+use Hyn\Tenancy\Models\Website;
 
 trait MutatesMigrationCommands
 {
@@ -51,12 +53,14 @@ trait MutatesMigrationCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
 
-        $this->processHandle(function ($website) {
+        $this->processHandle(function (Website $website, Collection $websites) {
             $this->connection->set($website);
 
             parent::handle();
 
-            $this->connection->purge();
+            if ($websites->count() > 1) {
+                $this->connection->purge();
+            }
         });
     }
 
