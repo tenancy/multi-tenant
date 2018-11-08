@@ -49,7 +49,7 @@ class MariaDB implements DatabaseGenerator
         };
         $grant = function ($connection) use ($config, $createUser) {
             if ($createUser) {
-                $privileges = 'SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, RELOAD, PROCESS, REFERENCES, INDEX, ALTER, SHOW DATABASES, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER';
+                $privileges = 'SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER';
                 return $connection->statement("GRANT $privileges ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
             }
 
