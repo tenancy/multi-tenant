@@ -24,7 +24,7 @@ trait AddWebsiteFilterOnCommand
         $query = $this->websites->query();
 
         if ($this->option('website_id')) {
-            $query->whereIn('id', $this->option('website_id'));
+            $query->whereIn('id', (array) $this->option('website_id'));
         }
 
         $query->orderBy('id')->chunk(10, function (Collection $websites) use ($callable) {
