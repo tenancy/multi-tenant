@@ -18,7 +18,6 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Database\Migrations\Migrator;
 use InvalidArgumentException;
-use Hyn\Tenancy\Models\Website;
 
 trait MutatesMigrationCommands
 {
@@ -52,9 +51,7 @@ trait MutatesMigrationCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
 
-        $this->processHandle(function (Website $website) {
-            parent::handle();
-        });
+        $this->processHandle();
     }
 
     /**

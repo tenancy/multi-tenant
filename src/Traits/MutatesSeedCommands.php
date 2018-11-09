@@ -16,7 +16,6 @@ namespace Hyn\Tenancy\Traits;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
 trait MutatesSeedCommands
@@ -51,9 +50,7 @@ trait MutatesSeedCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
 
-        $this->processHandle(function (Website $website) {
-            parent::handle();
-        });
+        $this->processHandle();
     }
 
     /**

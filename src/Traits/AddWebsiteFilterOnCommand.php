@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 trait AddWebsiteFilterOnCommand
 {
-    protected function processHandle($callable)
+    protected function processHandle($callable = null)
     {
         $query = $this->websites->query();
 
@@ -31,7 +31,7 @@ trait AddWebsiteFilterOnCommand
             $websites->each(function ($website) use ($callable, $websites) {
                 $this->connection->set($website);
 
-                $callable($website);
+                is_callable($callable) ? $callable($website) : parent::handle();
 
                 if ($websites->count() > 1) {
                     $this->connection->purge();
