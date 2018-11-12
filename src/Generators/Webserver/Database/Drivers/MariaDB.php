@@ -49,7 +49,7 @@ class MariaDB implements DatabaseGenerator
         };
         $grant = function ($connection) use ($config, $createUser) {
             if ($createUser) {
-                $privileges = config('tenancy.db.tenant-database-user-privileges', 'ALL');
+                $privileges = config('tenancy.db.tenant-database-user-privileges', null) ?? 'ALL';
                 return $connection->statement("GRANT $privileges ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
             }
 
