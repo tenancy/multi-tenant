@@ -29,7 +29,7 @@ class PostgresSchema extends PostgreSQL
 
     protected function grantPrivileges(IlluminateConnection $connection, array $config)
     {
-        $privileges = config('tenancy.db.tenant-database-user-privileges', 'ALL PRIVILEGES');
+        $privileges = config('tenancy.db.tenant-database-user-privileges', null) ?? 'ALL PRIVILEGES';
 
         return $connection->statement("GRANT $privileges ON SCHEMA \"{$config['schema']}\" TO \"{$config['username']}\"");
     }
