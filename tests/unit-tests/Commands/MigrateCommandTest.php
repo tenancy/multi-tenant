@@ -84,4 +84,35 @@ class MigrateCommandTest extends DatabaseCommandTest
             );
         });
     }
+
+    /**
+     * @test
+     */
+    public function purges_connection_after_running_migrate_on_multiple_tenants()
+    {
+        $website = new Website();
+        $this->websites->create($website);
+
+        $this->assertEquals(2, $this->websites->query()->count());
+
+        $connection = $this->swapConnectionWithSpy();
+        $this->reloadArtisanCommand(MigrateCommand::class);
+
+        $this->migrateAndTest('migrate');
+
+        $connection->shouldHaveReceived('purge')->twice();
+    }
+
+    /**
+     * @test
+     */
+    public function does_not_purge_connection_after_running_migrate_on_one_tenant()
+    {
+        $connection = $this->swapConnectionWithSpy();
+        $this->reloadArtisanCommand(MigrateCommand::class);
+
+        $this->migrateAndTest('migrate');
+
+        $connection->shouldNotHaveReceived('purge');
+    }
 }

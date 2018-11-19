@@ -51,13 +51,7 @@ trait MutatesMigrationCommands
         $this->input->setOption('force', true);
         $this->input->setOption('database', $this->connection->tenantName());
 
-        $this->processHandle(function ($website) {
-            $this->connection->set($website);
-
-            parent::handle();
-
-            $this->connection->purge();
-        });
+        $this->processHandle();
     }
 
     /**
