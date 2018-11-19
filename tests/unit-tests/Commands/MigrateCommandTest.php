@@ -90,8 +90,8 @@ class MigrateCommandTest extends DatabaseCommandTest
      */
     public function purges_connection_after_running_migrate_on_multiple_tenants()
     {
-        $websiteB = new Website();
-        $this->websites->create($websiteB);
+        $website = new Website();
+        $this->websites->create($website);
 
         $this->assertEquals(2, $this->websites->query()->count());
 
