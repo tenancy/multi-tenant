@@ -38,7 +38,7 @@ class Environment
     /**
      * @var bool
      */
-    protected $installed;
+    protected static $installed;
 
     public function __construct(Application $app)
     {
@@ -70,7 +70,7 @@ class Environment
             }
         };
 
-        return $this->installed ?? $this->installed = $isInstalled();
+        return self::$installed ?? self::$installed = $isInstalled();
     }
 
     public function identifyHostname()
