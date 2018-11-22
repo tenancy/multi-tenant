@@ -21,7 +21,6 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Repositories;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
-use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;

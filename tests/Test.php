@@ -14,7 +14,6 @@
 
 namespace Hyn\Tenancy\Tests;
 
-use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithBuilds;
