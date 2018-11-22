@@ -94,7 +94,6 @@ class Test extends TestCase
         parent::setUp();
 
         $this->migrateSystem();
-        $this->resetInstallStatus();
         $this->duringSetUp($this->app);
     }
 
@@ -132,13 +131,5 @@ class Test extends TestCase
     {
         $this->cleanupTenancy();
         parent::tearDown();
-    }
-
-    private function resetInstallStatus()
-    {
-        Environment::macro('unsetInstalled', function () {
-            static::$installed = null;
-        });
-        Environment::unsetInstalled();
     }
 }
