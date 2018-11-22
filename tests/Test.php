@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests;
 
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithBuilds;
@@ -93,6 +94,7 @@ class Test extends TestCase
         parent::setUp();
 
         $this->migrateSystem();
+        $this->resetInstallStatus();
         $this->duringSetUp($this->app);
     }
 
@@ -130,5 +132,12 @@ class Test extends TestCase
     {
         $this->cleanupTenancy();
         parent::tearDown();
+    }
+
+    private function resetInstallStatus() {
+        Environment::macro('unsetInstalled', function () {
+            static::$installed = null;
+        });
+        Environment::unsetInstalled();
     }
 }
