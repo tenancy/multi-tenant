@@ -134,7 +134,8 @@ class Test extends TestCase
         parent::tearDown();
     }
 
-    private function resetInstallStatus() {
+    private function resetInstallStatus()
+    {
         Environment::macro('unsetInstalled', function () {
             static::$installed = null;
         });
