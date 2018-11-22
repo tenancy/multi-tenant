@@ -45,6 +45,11 @@ class Connection
     const DIVISION_MODE_SEPARATE_PREFIX = 'prefix';
 
     /**
+     * Allows multiple database but with same user access
+     */
+    const DIVISION_MODE_SEPARATE_SHARED_ACCESS = 'shared';
+
+    /**
      * Allows division by schema. Postges only.
      */
     const DIVISION_MODE_SEPARATE_SCHEMA = 'schema';
@@ -319,6 +324,11 @@ class Connection
                 break;
             case static::DIVISION_MODE_SEPARATE_PREFIX:
                 $clone['prefix'] = sprintf('%d_', $website->id);
+                break;
+            case static::DIVISION_MODE_SEPARATE_SHARED_ACCESS:
+                $clone['database'] = $website->uuid;
+                $clone['username'] = config('database.connections.system.username');
+                $clone['password'] = config('database.connections.system.password');
                 break;
             case static::DIVISION_MODE_SEPARATE_SCHEMA:
                 $clone['username'] = $clone['schema'] = $website->uuid;

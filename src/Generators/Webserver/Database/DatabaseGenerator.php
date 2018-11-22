@@ -74,6 +74,7 @@ class DatabaseGenerator
 
         if (!in_array($this->mode, [
             Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SHARED_ACCESS,
             Connection::DIVISION_MODE_SEPARATE_SCHEMA,
         ])) {
             return;
@@ -122,6 +123,7 @@ class DatabaseGenerator
 
         if (!in_array($this->mode, [
             Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SHARED_ACCESS,
             Connection::DIVISION_MODE_SEPARATE_SCHEMA,
         ])) {
             return;
@@ -156,6 +158,7 @@ class DatabaseGenerator
 
         if (!in_array($this->mode, [
             Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SHARED_ACCESS,
             Connection::DIVISION_MODE_SEPARATE_SCHEMA,
         ])) {
             return;
