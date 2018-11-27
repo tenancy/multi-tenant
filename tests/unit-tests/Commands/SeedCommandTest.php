@@ -113,4 +113,39 @@ class SeedCommandTest extends DatabaseCommandTest
             );
         });
     }
+
+    /**
+     * @test
+     */
+    public function purges_connection_after_running_seed_on_multiple_tenants()
+    {
+        $website = new Website();
+        $this->websites->create($website);
+
+        $this->assertEquals(2, $this->websites->query()->count());
+
+        $connection = $this->swapConnectionWithSpy();
+        $this->reloadArtisanCommand(SeedCommand::class);
+
+        $this->migrateAndTest('migrate');
+
+        $this->seedAndTest();
+
+        $connection->shouldHaveReceived('purge')->twice();
+    }
+
+    /**
+     * @test
+     */
+    public function does_not_purge_connection_after_running_seed_on_one_tenant()
+    {
+        $this->migrateAndTest('migrate');
+
+        $connection = $this->swapConnectionWithSpy();
+        $this->reloadArtisanCommand(SeedCommand::class);
+
+        $this->connection->seed($this->website, SampleSeeder::class);
+
+        $connection->shouldNotHaveReceived('purge');
+    }
 }

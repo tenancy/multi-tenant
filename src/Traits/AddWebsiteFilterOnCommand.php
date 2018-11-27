@@ -19,16 +19,24 @@ use Symfony\Component\Console\Input\InputOption;
 
 trait AddWebsiteFilterOnCommand
 {
-    protected function processHandle($callable)
+    protected function processHandle($callable = null)
     {
         $query = $this->websites->query();
 
         if ($this->option('website_id')) {
-            $query->whereIn('id', $this->option('website_id'));
+            $query->whereIn('id', (array) $this->option('website_id'));
         }
 
         $query->orderBy('id')->chunk(10, function (Collection $websites) use ($callable) {
-            $websites->each($callable);
+            $websites->each(function ($website) use ($callable, $websites) {
+                $this->connection->set($website);
+
+                is_callable($callable) ? $callable($website) : parent::handle();
+
+                if ($websites->count() > 1) {
+                    $this->connection->purge();
+                }
+            });
         });
     }
 

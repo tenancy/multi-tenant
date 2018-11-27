@@ -247,6 +247,19 @@ return [
         'auto-create-tenant-database-user' => true,
 
         /**
+         * Set of database privileges to give to the tenant database user.
+         *
+         * @info Useful in case your database restricts the privileges you
+         *       can set (for example AWS RDS).
+         * @info These privileges are only used in case tenant database users
+         *       are set to be created.
+         *
+         * @info null by default means "ALL PRIVILEGES". Override with a list
+         *       of privileges as a string, e.g. 'SELECT, UPDATE'.
+         */
+        'tenant-database-user-privileges' => null,
+
+        /**
          * Automatically rename the tenant database when the random id of the
          * website changes. This should not be too common, but in case it happens
          * we automatically want to move databases accordingly.
