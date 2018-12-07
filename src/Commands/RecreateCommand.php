@@ -15,7 +15,7 @@
 namespace Hyn\Tenancy\Commands;
 
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Console\Command;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Traits\DispatchesEvents;
