@@ -14,22 +14,25 @@
 
 namespace Hyn\Tenancy\Translations;
 
-use Illuminate\Translation\FileLoader;
+use Illuminate\Contracts\Translation\Loader;
 
-class MultiFileLoader extends FileLoader
+class MultiFileLoader implements Loader
 {
     /**
-     * @var FileLoader
+     * @var \Illuminate\Contracts\Translation\Loader[]
      */
-    protected $fileLoaders = [];
+    protected $loaders = [];
+
+    /** @var array */
+    protected $hints = [];
 
     /**
-     * @param FileLoader $loader
+     * @param Loader $loader
      * @return $this
      */
-    public function addLoader(FileLoader $loader)
+    public function addLoader(Loader $loader)
     {
-        $this->fileLoaders[] = $loader;
+        $this->loaders[] = $loader;
         return $this;
     }
 
@@ -44,10 +47,48 @@ class MultiFileLoader extends FileLoader
     public function load($locale, $group, $namespace = null)
     {
         $results = [];
-        foreach ($this->fileLoaders as $loader) {
+        foreach ($this->loaders as $loader) {
             $results = array_merge($results, $loader->load($locale, $group, $namespace));
         }
 
         return $results;
+    }
+
+    /**
+     * Add a new namespace to the loader.
+     *
+     * @param  string $namespace
+     * @param  string $hint
+     * @return void
+     */
+    public function addNamespace($namespace, $hint)
+    {
+        foreach ($this->loaders as $loader) {
+            $loader->addNamespace($namespace, $hint);
+        }
+        $this->hints[$namespace] = $hint;
+    }
+
+    /**
+     * Add a new JSON path to the loader.
+     *
+     * @param  string $path
+     * @return void
+     */
+    public function addJsonPath($path)
+    {
+        foreach ($this->loaders as $loader) {
+            $loader->addJsonPath($path);
+        }
+    }
+
+    /**
+     * Get an array of all the registered namespaces.
+     *
+     * @return array
+     */
+    public function namespaces()
+    {
+        return $this->hints;
     }
 }

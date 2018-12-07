@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\AbstractTenantDirectoryListener;
-use Hyn\Tenancy\Abstracts\HostnameEvent;
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Exceptions\FilesystemException;
 use Illuminate\Contracts\View\Factory;
@@ -62,6 +61,7 @@ class LoadsViews extends AbstractTenantDirectoryListener
     protected function addToGlobal(bool $override)
     {
         if ($override) {
+            $this->config->prepend('view.paths', $this->viewsPath);
             $this->views->getFinder()->prependLocation($this->viewsPath);
 
             // Needed to clear the views cache.
