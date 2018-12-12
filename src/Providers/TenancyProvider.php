@@ -28,10 +28,6 @@ use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
 
 class TenancyProvider extends ServiceProvider
 {
-    public $singletons = [
-        Environment::class => Environment::class,
-    ];
-
     public function register()
     {
         $this->mergeConfigFrom(
@@ -43,6 +39,8 @@ class TenancyProvider extends ServiceProvider
             [__DIR__ . '/../../assets/migrations' => database_path('migrations')],
             'tenancy'
         );
+
+        $this->app->singleton(Environment::class);
 
         $this->registerModels();
 
