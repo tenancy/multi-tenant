@@ -1,5 +1,5 @@
 - 5.3.2
-    - #660, allow configurable database provilege.
+    - #660, allow configurable database privileges.
     - Several stability issues fixed.
     - #662, fixed website filter on commands.
 - 5.3.1

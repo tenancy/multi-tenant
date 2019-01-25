@@ -41,6 +41,7 @@ class TenancyProvider extends ServiceProvider
         );
 
         $this->app->singleton(Environment::class);
+        $this->app->alias(Environment::class, 'tenancy-environment');
 
         $this->registerModels();
 
@@ -108,8 +109,6 @@ class TenancyProvider extends ServiceProvider
     {
         // Immediately instantiate the object to work the magic, if not already instantiated
         $this->app->make(Environment::class);
-
-        $this->app->alias(Environment::class, 'tenancy-environment');
     }
 
     protected function registerMiddleware()
