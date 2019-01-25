@@ -1,3 +1,7 @@
+- 5.3.2
+    - #660, allow configurable database provilege.
+    - Several stability issues fixed.
+    - #662, fixed website filter on commands.
 - 5.3.1
     - #627, allowing custom database drivers.
     - #636, fixed exit codes not being seeded in `tenancy:run` command.
