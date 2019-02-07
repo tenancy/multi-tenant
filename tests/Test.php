@@ -128,6 +128,7 @@ class Test extends TestCase
 
     protected function tearDown()
     {
+        Queue::createPayloadUsing(null);
         $this->cleanupTenancy();
         parent::tearDown();
     }
