@@ -147,7 +147,6 @@ class HostnameRepositoryTest extends Test
             $this->hostnames->create($this->hostname);
             $this->assertFalse($this->hostname->exists);
         }
-
     }
 
     protected function duringSetUp(Application $app)
