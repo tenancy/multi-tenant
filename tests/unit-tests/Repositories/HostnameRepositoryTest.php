@@ -137,12 +137,12 @@ class HostnameRepositoryTest extends Test
     {
         $matchhostnames = ["xn-fsqu00a.xn-0zwm56d","xn-fsqu00a.xn--vermgensberatung-pwb","xn--stackoverflow.com","stackoverflow.xn--com","stackoverflow.co.uk","google.com.au","i.oh1.me","wow.british-library.uk","xn--stackoverflow.com","stackoverflow.xn--com","stackoverflow.co.uk","0-0O_.COM","a.net","0-0O.COM","0-OZ.CO.uk","0-TENSION.COM.br","0-WH-AO14-0.COM-com.net","a-1234567890-1234567890-1234567890-1234567890-1234567890-1234-z.eu.us","subA.subB.subC.example.com","*.subA.subB.example.com"];
         $nomatchhostnames = ["-0-0O.COM","0-0O.-COM","-a.dot","a-1234567890-1234567890-1234567890-1234567890-1234567890-12345-z.eu.us"];
-        foreach ($matchhostnames as $hostname){
+        foreach ($matchhostnames as $hostname) {
             $this->hostname->fqdn = $hostname;
             $this->hostnames->create($this->hostname);
             $this->assertTrue($this->hostname->exists);
         }
-        foreach ($nomatchhostnames as $hostname){
+        foreach ($nomatchhostnames as $hostname) {
             $this->hostname->fqdn = $hostname;
             $this->hostnames->create($this->hostname);
             $this->assertFalse($this->hostname->exists);
