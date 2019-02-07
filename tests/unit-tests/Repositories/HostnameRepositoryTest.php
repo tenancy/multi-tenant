@@ -142,11 +142,11 @@ class HostnameRepositoryTest extends Test
             $this->hostnames->create($this->hostname);
             $this->assertTrue($this->hostname->exists);
         }
-        foreach($nomatchhostnames as $hostname){
+        foreach ($nomatchhostnames as $hostname) {
             $this->hostname->fqdn = $hostname;
-            try{
+            try {
                 $this->hostnames->create($this->hostname);
-            } catch (ModelValidationException $e){
+            } catch (ModelValidationException $e) {
                 $this->assertContains("data was invalid", $e->getMessage());
             }
         }
