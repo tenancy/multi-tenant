@@ -16,7 +16,7 @@ namespace Hyn\Tenancy\Events\Database;
 
 use Hyn\Tenancy\Abstracts\AbstractEvent;
 use Hyn\Tenancy\Database\Connection;
-use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Contracts\Website;
 
 class ConfigurationLoaded extends AbstractEvent
 {
@@ -36,8 +36,9 @@ class ConfigurationLoaded extends AbstractEvent
     public $website;
 
     /**
-     * @param array $configuration
+     * @param array      $configuration
      * @param Connection $connection
+     * @param Website    $website
      */
     public function __construct(array &$configuration, Connection &$connection, Website $website)
     {
