@@ -14,6 +14,7 @@
  
 namespace Hyn\Tenancy\Tests\Providers;
 
+use App\User;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -71,7 +72,7 @@ class TenancyProviderTest extends Test
     {
         Event::fake();
 
-        $user = $this->userStory()->create();
+        $user = factory(User::class)->create();
         $user->notify(new TestNotification());
 
         Event::assertDispatched(JobProcessed::class, function ($event) {
