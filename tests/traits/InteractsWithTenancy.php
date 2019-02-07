@@ -175,7 +175,6 @@ trait InteractsWithTenancy
         $this->connection->purge();
 
         collect($this->tenants)
-            ->merge(compact('website', 'tenant'))
             ->filter()
             ->each(function ($website) {
                 $this->connection->set($website);
