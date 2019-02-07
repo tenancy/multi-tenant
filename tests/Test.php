@@ -22,6 +22,7 @@ use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase;
+use Illuminate\Support\Facades\Queue;
 use Schema;
 
 class Test extends TestCase
