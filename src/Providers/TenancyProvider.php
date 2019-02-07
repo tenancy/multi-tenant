@@ -15,17 +15,21 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Commands\RunCommand;
-use Hyn\Tenancy\Contracts;
-use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
-use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Repositories;
-use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Support\ServiceProvider;
 use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Contracts;
+use Hyn\Tenancy\Environment;
+use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Repositories;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\ServiceProvider;
 
 class TenancyProvider extends ServiceProvider
 {
@@ -55,8 +59,25 @@ class TenancyProvider extends ServiceProvider
         $this->bootCommands();
 
         $this->bootEnvironment();
+        
+        $this->configureJobTenancy();
     }
+    
+    protected function configureJobTenancy(): void
+    {
+        Queue::createPayloadUsing(function () {
+            $environment = $this->app->make(Environment::class);
+            $website = $environment->website();
+            return $website ? ['website_id' => $website->id] : [];
+        });
 
+        Event::listen(JobProcessing::class, function ($event) {
+            $websiteId = $event->job->payload()['website_id'] ?? 0;
+            $website = Website::find($websiteId);
+            $this->app->make(Environment::class)->tenant($website);
+        });
+    }
+    
     protected function registerModels()
     {
         $config = $this->app['config']['tenancy.models'];
