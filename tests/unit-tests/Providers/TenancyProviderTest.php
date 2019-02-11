@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Providers;
 
 use App\User;
+use Illuminate\Contracts\Foundation\Application;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -54,9 +55,15 @@ class TestNotification extends Notification implements ShouldQueue
 
 class TenancyProviderTest extends Test
 {
+    protected function duringSetUp(Application $app)
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+    }
     /** @test */
     public function current_website_id_is_included_in_job_payload()
     {
+        $this->activateTenant();
         Event::fake();
 
         $job = new TestJob();
@@ -70,6 +77,7 @@ class TenancyProviderTest extends Test
     /** @test */
     public function current_website_id_is_included_in_notification_job_payload()
     {
+        $this->activateTenant();
         Event::fake();
 
         $user = factory(User::class)->create();
