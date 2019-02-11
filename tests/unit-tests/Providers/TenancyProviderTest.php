@@ -56,6 +56,7 @@ class TestNotification extends Notification implements ShouldQueue
 
 class TenancyProviderTest extends Test
 {
+    use WithFaker;
     protected function duringSetUp(Application $app)
     {
         $this->setUpHostnames(true);
