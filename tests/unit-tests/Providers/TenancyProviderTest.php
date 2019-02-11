@@ -26,6 +26,7 @@ use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithFaker;
 
 
 class TestJob implements ShouldQueue
