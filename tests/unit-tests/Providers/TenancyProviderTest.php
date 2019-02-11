@@ -28,7 +28,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
 
-
 class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -66,6 +65,7 @@ class TenancyProviderTest extends Test
     public function current_website_id_is_included_in_job_payload()
     {
         $this->activateTenant();
+        
         Event::fake();
 
         $job = new TestJob();
@@ -80,6 +80,7 @@ class TenancyProviderTest extends Test
     public function current_website_id_is_included_in_notification_job_payload()
     {
         $this->activateTenant();
+        
         Event::fake();
 
         $user = factory(User::class)->create();
@@ -90,4 +91,3 @@ class TenancyProviderTest extends Test
         });
     }
 }
-
