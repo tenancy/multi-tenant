@@ -14,76 +14,80 @@
 
 namespace Hyn\Tenancy\Tests\Queue;
 
-use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Contracts\Tenant;
-use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Tests\Extend\JobExtend;
-use Hyn\Tenancy\Tests\Test;
+use App\User;
 use Illuminate\Contracts\Foundation\Application;
+use Hyn\Tenancy\Tests\Test;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\WithFaker;
+
+class TestJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public function handle()
+    {
+    }
+}
+
+class TestNotification extends Notification implements ShouldQueue
+{
+    use Queueable, SerializesModels;
+
+    public function via($notifiable): array
+    {
+        return ['mail',];
+    }
+
+    public function toMail($notifiable): MailMessage
+    {
+        return new MailMessage();
+    }
+}
+
 
 class TenantAwareJobTest extends Test
 {
-    /**
-     * @var Environment
-     */
-    protected $environment;
-
+    use WithFaker;
     protected function duringSetUp(Application $app)
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
-
-        $this->environment = $app->make(Environment::class);
+    }
+    /** @test */
+    public function current_website_id_is_included_in_job_payload()
+    {
         $this->activateTenant();
+
+        Event::fake();
+
+        $job = new TestJob();
+        \dispatch($job);
+
+        Event::assertDispatched(JobProcessed::class, function ($event) {
+            return $event->job->payload()['tenant_id'] === $this->website->id;
+        });
     }
 
-    /**
-     * @test
-     */
-    public function serializes_current_tenant()
+    /** @test */
+    public function current_website_id_is_included_in_notification_job_payload()
     {
-        $this->app->make(CurrentHostname::class);
+        $this->activateTenant();
 
-        $job = new JobExtend();
+        Event::fake();
 
-        $attributes = serialize($job);
+        $user = factory(User::class)->create();
+        $user->notify(new TestNotification());
 
-        // switch to other
-        $this->environment->tenant($this->getReplicatedWebsite());
-
-        /** @var Tenant $identified */
-        $identified = $this->app->make(Tenant::class);
-
-        /** @var JobExtend $job */
-        $job = unserialize($attributes);
-
-        $this->assertInstanceOf(JobExtend::class, $job);
-
-        $restored = $this->environment->tenant();
-
-        $this->assertNotEquals($identified->uuid, $restored->uuid);
-    }
-
-    /**
-     * @test
-     */
-    public function serializes_tenant_manually()
-    {
-        $this->app->make(CurrentHostname::class);
-
-        $replicated = $this->getReplicatedWebsite();
-
-        $job = (new JobExtend())->onTenant($replicated);
-
-        $attributes = serialize($job);
-
-        /** @var JobExtend $job */
-        $job = unserialize($attributes);
-
-        $this->assertInstanceOf(JobExtend::class, $job);
-
-        $restored = $this->environment->tenant();
-
-        $this->assertEquals($replicated->uuid, $restored->uuid);
+        Event::assertDispatched(JobProcessed::class, function ($event) {
+            return $event->job->payload()['tenant_id'] === $this->website->id;
+        });
     }
 }
