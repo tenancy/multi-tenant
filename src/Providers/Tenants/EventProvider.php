@@ -51,6 +51,8 @@ class EventProvider extends ServiceProvider
         Listeners\Filesystem\LoadsViews::class,
         // Activates a disk to be used in filesystem actions.
         Listeners\Filesystem\ActivatesDisk::class,
+        // Forces the app url and url generator to use tenant fqdn.
+        Listeners\URL\UpdateAppUrl::class,
     ];
 
     public function boot()

@@ -2,6 +2,7 @@
     - #660, allow configurable database privileges.
     - Several stability issues fixed.
     - #662, fixed website filter on commands.
+    - Moved forcing app url to listener, so it applies to console and queue too.
 - 5.3.1
     - #627, allowing custom database drivers.
     - #636, fixed exit codes not being seeded in `tenancy:run` command.
