@@ -3,7 +3,7 @@
     - #651, ConfigurationLoading, -Loaded now know about current active tenant website.
     - #660, allow configurable database privileges for tenant databases.
     - #662, fixed website filter on commands.
-    - #711, queue jobs are now always tenant aware.
+    - #711, queue jobs are now always tenant aware, **TenantAwareJob has been removed**.
     - #712, #639 improved hostname validation.
     - Several stability issues fixed.
 - 5.3.1

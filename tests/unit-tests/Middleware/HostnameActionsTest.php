@@ -34,28 +34,6 @@ class HostnameActionsTest extends Test
     /**
      * @test
      */
-    public function sets_app_url()
-    {
-        $this->hostname->save();
-
-        $current = config('app.url');
-
-        $this->assertNotEquals($current, "http://{$this->hostname->fqdn}");
-
-        $this->middleware($this->hostname);
-
-        $this->assertEquals($current, config('app.url'));
-
-        config(['tenancy.hostname.update-app-url' => true]);
-
-        $this->middleware($this->hostname);
-
-        $this->assertEquals("http://{$this->hostname->fqdn}", config('app.url'));
-    }
-
-    /**
-     * @test
-     */
     public function under_maintenance()
     {
         $this->hostname->under_maintenance_since = Carbon::now();
