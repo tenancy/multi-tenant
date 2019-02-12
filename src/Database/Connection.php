@@ -307,7 +307,7 @@ class Connection
 
         $mode = config('tenancy.db.tenant-division-mode');
 
-        $this->emitEvent(new Events\Database\ConfigurationLoading($mode, $clone, $this));
+        $this->emitEvent(new Events\Database\ConfigurationLoading($mode, $clone, $this, $website));
 
         // Even though username/password mutate, let's store website UUID so we can match it up.
         $clone['uuid'] = $website->uuid;
@@ -330,7 +330,7 @@ class Connection
                 throw new ConnectionException("Division mode '$mode' unknown.");
         }
 
-        $this->emitEvent(new Events\Database\ConfigurationLoaded($clone, $this));
+        $this->emitEvent(new Events\Database\ConfigurationLoaded($clone, $this, $website));
 
         return $clone;
     }

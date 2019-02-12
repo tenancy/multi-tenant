@@ -57,9 +57,11 @@ class WebsiteRepository implements Contract
      */
     public function findByUuid(string $uuid)
     {
-        return $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
-            return $this->query()->where('uuid', $uuid)->first();
+        $model = $this->cache->remember("tenancy.website.$uuid", config('tenancy.website.cache'), function () use ($uuid) {
+            return $this->query()->where('uuid', $uuid)->first() ?? 'none';
         });
+
+        return $model === 'none' ? null : $model;
     }
 
     /**

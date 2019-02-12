@@ -35,8 +35,6 @@ class FreshCommand extends BaseCommand
         $this->input->setOption('database', $this->connection->tenantName());
 
         $this->processHandle(function (Website $website) {
-            $this->connection->set($website);
-
             $this->dropAllTables(
                 $database = $this->connection->tenantName()
             );
@@ -57,8 +55,6 @@ class FreshCommand extends BaseCommand
                     '--force' => 1,
                 ]);
             }
-
-            $this->connection->purge();
         });
     }
 

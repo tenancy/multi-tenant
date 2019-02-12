@@ -22,6 +22,9 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Repositories;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Commands\RecreateCommand;
 use Hyn\Tenancy\Providers\Tenants as Providers;
 use Hyn\Tenancy\Contracts\Website as WebsiteContract;
 use Hyn\Tenancy\Contracts\Hostname as HostnameContract;
@@ -44,6 +47,9 @@ class TenancyProvider extends ServiceProvider
             [__DIR__ . '/../../assets/migrations' => database_path('migrations')],
             'tenancy'
         );
+
+        $this->app->singleton(Environment::class);
+        $this->app->alias(Environment::class, 'tenancy-environment');
 
         $this->registerModels();
 
@@ -126,14 +132,8 @@ class TenancyProvider extends ServiceProvider
 
     protected function bootEnvironment()
     {
-        // Immediately instantiate the object to work the magic.
-        $environment = $this->app->make(Environment::class);
-        // Now register it into ioc to make it globally available.
-        $this->app->singleton(Environment::class, function () use ($environment) {
-            return $environment;
-        });
-
-        $this->app->alias(Environment::class, 'tenancy-environment');
+        // Immediately instantiate the object to work the magic, if not already instantiated
+        $this->app->make(Environment::class);
     }
 
     protected function registerMiddleware()

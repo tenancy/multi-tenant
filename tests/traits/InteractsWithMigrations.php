@@ -17,8 +17,10 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Testing\PendingCommand;
 use SampleSeeder;
+use Mockery;
+use Hyn\Tenancy\Database\Connection;
+use Illuminate\Contracts\Console\Kernel;
 
 trait InteractsWithMigrations
 {
@@ -96,5 +98,22 @@ trait InteractsWithMigrations
                 $websites->each($callback);
             });
         }
+    }
+
+    protected function swapConnectionWithSpy()
+    {
+        $spy = Mockery::spy($this->app[Connection::class]);
+
+        $this->app[Connection::class] = $spy;
+
+        return $spy;
+    }
+
+    protected function reloadArtisanCommand($command)
+    {
+        $this->app->forgetInstance($command);
+
+        $kernel = $this->app[Kernel::class];
+        $kernel->registerCommand($this->app[$command]);
     }
 }
