@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Providers\Tenants;
 
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Contracts\Tenant;
 use Hyn\Tenancy\Environment;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +26,10 @@ class HostnameProvider extends ServiceProvider
 
     public function provides()
     {
-        return [CurrentHostname::class];
+        return [
+            CurrentHostname::class,
+            Tenant::class,
+        ];
     }
 
     public function boot(Application $app)

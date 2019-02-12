@@ -41,9 +41,6 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
-        $this->app->singleton(Environment::class);
-        $this->app->alias(Environment::class, 'tenancy-environment');
-
         $this->registerModels();
 
         $this->registerRepositories();
@@ -51,13 +48,14 @@ class TenancyProvider extends ServiceProvider
         $this->registerProviders();
 
         $this->registerMiddleware();
+
+        $this->app->singleton(Environment::class);
+        $this->app->alias(Environment::class, 'tenancy-environment');
     }
 
     public function boot()
     {
         $this->bootCommands();
-
-        $this->bootEnvironment();
     }
     
     protected function registerModels()
@@ -107,12 +105,6 @@ class TenancyProvider extends ServiceProvider
         ]);
     }
 
-    protected function bootEnvironment()
-    {
-        // Immediately instantiate the object to work the magic, if not already instantiated
-        $this->app->make(Environment::class);
-    }
-
     protected function registerMiddleware()
     {
         $middleware = $this->app['config']['tenancy.middleware'];
@@ -128,9 +120,7 @@ class TenancyProvider extends ServiceProvider
     public function provides()
     {
         return [
-            Environment::class,
-            Contracts\Tenant::class,
-            Contracts\CurrentHostname::class,
+            Environment::class
         ];
     }
 }
