@@ -28,9 +28,7 @@ class QueueProvider extends ServiceProvider
                 return [];
             }
 
-            /** @var Environment $environment */
-            $environment = $this->app->make(Environment::class);
-            $tenant = $environment->tenant();
+            $tenant = app(Environment::class)->tenant();
 
             return $tenant ? ['tenant_id' => $tenant->id] : [];
         });
