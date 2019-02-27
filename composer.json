@@ -34,8 +34,7 @@
         "symfony/dom-crawler": "~3.1",
         "laravel/laravel": "5.8.*",
         "mockery/mockery": "^0.9.9",
-        "fzaninotto/faker": "^1.8",
-        "laravel/helpers": "^1.0"
+        "fzaninotto/faker": "^1.8"
     },
     "autoload": {
         "psr-4": {
