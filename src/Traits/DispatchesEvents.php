@@ -26,6 +26,6 @@ trait DispatchesEvents
      */
     public function emitEvent(AbstractEvent $event, array $payload = [])
     {
-        return app(Dispatcher::class)->fire($event, $payload);
+        return app(Dispatcher::class)->dispatch($event, $payload);
     }
 }

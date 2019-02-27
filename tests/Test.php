@@ -89,7 +89,7 @@ class Test extends TestCase
         return $app;
     }
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -127,7 +127,7 @@ class Test extends TestCase
         // ..
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         Queue::createPayloadUsing(null);
         $this->cleanupTenancy();

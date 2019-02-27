@@ -22,6 +22,7 @@ use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
+use Illuminate\Support\Arr;
 
 trait InteractsWithTenancy
 {
@@ -93,7 +94,7 @@ trait InteractsWithTenancy
             }
         });
         Website::deleted(function (Website $website) {
-            array_forget($this->tenants, $website->uuid);
+            Arr::forget($this->tenants, $website->uuid);
         });
     }
 

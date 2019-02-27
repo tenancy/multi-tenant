@@ -19,11 +19,10 @@ use Hyn\Tenancy\Contracts\Tenant;
 use Hyn\Tenancy\Environment;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class HostnameProvider extends ServiceProvider
+class HostnameProvider extends ServiceProvider implements DeferrableProvider
 {
-    public $defer = true;
-
     public function provides()
     {
         return [
