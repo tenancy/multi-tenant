@@ -1,10 +1,11 @@
-- 5.3.2
+- 5.4.0
     - Moved forcing app url to listener, so it applies to console and queue too.
     - #651, ConfigurationLoading, -Loaded now know about current active tenant website.
     - #660, allow configurable database privileges for tenant databases.
     - #662, fixed website filter on commands.
     - #711, queue jobs are now always tenant aware, **TenantAwareJob has been removed**.
     - #712, #639 improved hostname validation.
+    - Website related events now also contain hostname in case one was identified.
     - Several stability issues fixed.
 - 5.3.1
     - #627, allowing custom database drivers.

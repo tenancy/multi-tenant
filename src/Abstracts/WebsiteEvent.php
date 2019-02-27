@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
+use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Contracts\Website;
 
 abstract class WebsiteEvent extends AbstractEvent
@@ -23,8 +24,14 @@ abstract class WebsiteEvent extends AbstractEvent
      */
     public $website;
 
-    public function __construct(Website &$website)
+    /**
+     * @var Hostname
+     */
+    public $hostname;
+
+    public function __construct(Website &$website, Hostname $hostname = null)
     {
         $this->website = &$website;
+        $this->hostname = $hostname;
     }
 }

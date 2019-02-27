@@ -48,7 +48,7 @@ class HostnameIdentification
         $this->emitEvent(new Events\Hostnames\Identified($hostname));
 
         if (optional($hostname)->website) {
-            $this->emitEvent(new Events\Websites\Identified($hostname->website));
+            $this->emitEvent(new Events\Websites\Identified($hostname->website, $hostname));
         } else {
             $this->emitEvent(new Events\Websites\NoneFound($request));
         }

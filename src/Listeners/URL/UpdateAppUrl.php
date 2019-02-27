@@ -19,6 +19,7 @@ use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\URL;
 
 class UpdateAppUrl
 {
@@ -36,7 +37,7 @@ class UpdateAppUrl
             $scheme = optional(request())->getScheme() ?? parse_url(config('app.url', PHP_URL_SCHEME));
 
             /** @var Hostname $hostname */
-            $hostname = app()->make(CurrentHostname::class) ?? $event->website->hostnames->first();
+            $hostname = $event->hostname ?? $event->website->hostnames->first();
 
             if ($hostname) {
                 $url = sprintf('%s://%s', $scheme, $hostname->fqdn);
