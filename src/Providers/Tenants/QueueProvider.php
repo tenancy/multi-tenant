@@ -23,7 +23,7 @@ class QueueProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app['queue']->createPayloadUsing(function (string $connection, string $queue, array $payload = []) {
+        $this->app['queue']->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
             if (isset($payload['tenant_id'])) {
                 return [];
             }
