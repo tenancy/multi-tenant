@@ -24,7 +24,7 @@ return [
         /**
          * Whether the integration with Apache2 is currently active.
          */
-        'enabled' => false,
+        'enabled' => env('TENANCY_APACHE2_ENABLED', false),
 
         /**
          * Define the ports of your Apache service.
@@ -105,7 +105,7 @@ return [
         /**
          * Whether the integration with nginx is currently active.
          */
-        'enabled' => false,
+        'enabled' => env('TENANCY_NGINX_ENABLED', false),
 
         /**
          * The php sock to be used.
