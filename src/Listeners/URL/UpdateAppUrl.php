@@ -19,6 +19,7 @@ use Hyn\Tenancy\Contracts\Hostname;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\URL;
 
 class UpdateAppUrl
 {
