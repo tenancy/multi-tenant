@@ -1,8 +1,28 @@
-opencollective: https://opencollective.com/tenancy
-message: |
+opencollective: tenancy
+tiers:
+  - tiers: '*'
+    labels: ['backer']
+    message: 'Hey <link>'
+backers: |
+  Hey <author>,
+  
+  Thank you for backing our package :heart:. 
+  
+  Issues opened by backers of our Open Collective will automatically labelled with
+  the "backer" tag for priority response and resolve times :tada:.
+  
+  <link>
+invitation: |
   Hey :wave:,
+  
   Thank you for using our package. 
+  
   We firmly believe that open sourcing our code improves the developer experience.
   In a pursuit to continue our work, help us by donating to our collective! :heart:
+  
+  Issues opened by backers of our Open Collective will automatically labelled with
+  the "backer" tag for priority response and resolve times.
+  
+  <link>
 labels:
   - support
