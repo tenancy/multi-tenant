@@ -43,7 +43,7 @@ class TestNotification extends Notification implements ShouldQueue
 
     public function via($notifiable): array
     {
-        return ['mail',];
+        return ['mail'];
     }
 
     public function toMail($notifiable): MailMessage
@@ -72,7 +72,7 @@ class TenantAwareJobTest extends Test
         \dispatch($job);
 
         Event::assertDispatched(JobProcessed::class, function ($event) {
-            return $event->job->payload()['tenant_id'] === $this->website->id;
+            return $event->job->payload()['website_id'] === $this->website->id;
         });
     }
 
@@ -87,7 +87,7 @@ class TenantAwareJobTest extends Test
         $user->notify(new TestNotification());
 
         Event::assertDispatched(JobProcessed::class, function ($event) {
-            return $event->job->payload()['tenant_id'] === $this->website->id;
+            return $event->job->payload()['website_id'] === $this->website->id;
         });
     }
 }
