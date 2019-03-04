@@ -33,10 +33,11 @@ class HostnameRepositoryTest extends Test
 
     /**
      * @test
-     * @expectedException \Hyn\Tenancy\Exceptions\ModelValidationException
      */
     public function assert_validation_fqdn_required()
     {
+        $this->expectException(ModelValidationException::class);
+
         $this->hostname->fqdn = null;
 
         $this->hostnames->create($this->hostname);
@@ -147,7 +148,7 @@ class HostnameRepositoryTest extends Test
             try {
                 $this->hostnames->create($this->hostname);
             } catch (ModelValidationException $e) {
-                $this->assertContains("data was invalid", $e->getMessage());
+                $this->assertStringContainsString("data was invalid", $e->getMessage());
             }
         }
     }

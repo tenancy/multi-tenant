@@ -49,10 +49,16 @@ class MigratesTenants
     {
         $paths = $this->getMigrationPaths();
 
+        $migrated = false;
+
         foreach ($paths as $path) {
             if ($path && realpath($path) && $this->connection->migrate($event->website, $path)) {
-                $this->emitEvent(new Events\Websites\Migrated($event->website));
+                $migrated = true;
             }
+        }
+
+        if ($migrated) {
+            $this->emitEvent(new Events\Websites\Migrated($event->website));
         }
 
         return true;

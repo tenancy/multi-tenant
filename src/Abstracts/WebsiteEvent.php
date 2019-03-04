@@ -25,7 +25,7 @@ abstract class WebsiteEvent extends AbstractEvent
     public $website;
 
     /**
-     * @var Hostname
+     * @var Hostname|null
      */
     public $hostname;
 

@@ -50,10 +50,11 @@ class RunCommandTest extends Test
 
     /**
      * @test
-     * @expectedException \Exception
      */
     public function proxies_exceptions()
     {
+        $this->expectException(\Exception::class);
+
         $this->setUpWebsites(true);
 
         $this->artisan('tenancy:run', [

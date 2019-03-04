@@ -33,19 +33,21 @@ class DatabaseDriverFactoryTest extends Test
 
     /**
      * @test
-     * @expectedException \Hyn\Tenancy\Exceptions\GeneratorFailedException
      */
     public function throws_an_exception_if_driver_doesnt_exist()
     {
+        $this->expectException(\Hyn\Tenancy\Exceptions\GeneratorFailedException::class);
+
         (new DatabaseDriverFactory())->create('non-existing-driver');
     }
 
     /**
      * @test
-     * @expectedException \TypeError
      */
     public function throws_an_exception_if_driver_doesnt_implement_contract()
     {
+        $this->expectException(\TypeError::class);
+
         app('tenancy.db.drivers')->put('random', \stdClass::class);
 
         (new DatabaseDriverFactory())->create('random');

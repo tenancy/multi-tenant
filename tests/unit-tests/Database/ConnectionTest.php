@@ -24,10 +24,11 @@ class ConnectionTest extends Test
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function without_identification_no_tenant_connection_is_active()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->setUpHostnames(true);
 
         $this->connection->get();
@@ -87,11 +88,12 @@ class ConnectionTest extends Test
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Database [tenant] not configured.
      */
     public function override_to_tenant_connection()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Database [tenant] not configured.');
+
         config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
 
         // Run the connection provider again to read this new model.
