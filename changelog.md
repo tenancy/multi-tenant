@@ -1,6 +1,7 @@
 - 5.4.0
     - Minimum requirement for PHP bumped to 7.2+.
     - Upgraded to phpunit 8.
+    - Minimum requirement for Laravel 5.8.
     - Moved forcing app url to listener, so it applies to console and queue too.
     - #651, ConfigurationLoading, -Loaded now know about current active tenant website.
     - #660, allow configurable database privileges for tenant databases.
