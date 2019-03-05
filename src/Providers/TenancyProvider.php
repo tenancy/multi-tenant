@@ -15,8 +15,8 @@
 namespace Hyn\Tenancy\Providers;
 
 use Hyn\Tenancy\Commands\RunCommand;
-use Hyn\Tenancy\Commands\InstallCommand;
 use Hyn\Tenancy\Commands\RecreateCommand;
+use Hyn\Tenancy\Commands\UpdateKeyCommand;
 use Hyn\Tenancy\Contracts;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Listeners\Database\FlushHostnameCache;
@@ -57,7 +57,7 @@ class TenancyProvider extends ServiceProvider
     {
         $this->bootCommands();
     }
-    
+
     protected function registerModels()
     {
         $config = $this->app['config']['tenancy.models'];
@@ -101,7 +101,8 @@ class TenancyProvider extends ServiceProvider
     {
         $this->commands([
             RecreateCommand::class,
-            RunCommand::class
+            RunCommand::class,
+			UpdateKeyCommand::class,
         ]);
     }
 

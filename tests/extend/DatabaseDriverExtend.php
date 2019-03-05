@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Extend;
 
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Events\Websites\Created;
 use Hyn\Tenancy\Events\Websites\Deleted;
 use Hyn\Tenancy\Events\Websites\Updated;
@@ -36,4 +37,9 @@ class DatabaseDriverExtend implements DatabaseGenerator
     {
         return true;
     }
+
+	public function updatePassword(Website $website, array $config, Connection $connection): bool
+	{
+		return true;
+	}
 }

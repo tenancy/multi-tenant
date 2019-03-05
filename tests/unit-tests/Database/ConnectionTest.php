@@ -14,11 +14,15 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
+use Doctrine\DBAL\Driver\PDOException;
+use Hyn\Tenancy\Commands\UpdateKeyCommand;
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants\ConnectionProvider;
 use Hyn\Tenancy\Tests\Extend\NonExtend;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
+use Illuminate\Support\Str;
 
 class ConnectionTest extends Test
 {
@@ -113,5 +117,34 @@ class ConnectionTest extends Test
         (new ConnectionProvider($this->app))->overrideConnectionResolvers();
 
         $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnection()->getName());
+    }
+
+	/**
+	 * @test
+	 */
+	public function can_rotate_tenant_key()
+	{
+		$this->setUpHostnames(true);
+		$this->setUpWebsites(true, true);
+		$this->activateTenant();
+
+		// Check that connection is established before rotating TENANCY_KEY
+		$this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
+
+		config(['tenancy.key' => Str::random()]);
+
+		// Re-establish connection and expect 1045 error code (Access denied for user)
+		app(Environment::class)->tenant($this->website);
+		try {
+			$this->connection->get()->reconnect();
+		} catch (PDOException $exception) {
+			$this->assertTrue($exception->getCode() == 1045, 'Access should be denied for tenant database user.');
+		}
+
+		$this->artisan(UpdateKeyCommand::class);
+
+		// Re-establish connection after updating tenant users password
+		app(Environment::class)->tenant($this->website);
+		$this->connection->get()->reconnect();
     }
 }
