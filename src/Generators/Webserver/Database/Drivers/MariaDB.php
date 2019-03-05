@@ -110,6 +110,7 @@ class MariaDB implements DatabaseGenerator
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
         $user = function (IlluminateConnection $connection) use ($config) {
+            $connection->reconnect();
             return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
