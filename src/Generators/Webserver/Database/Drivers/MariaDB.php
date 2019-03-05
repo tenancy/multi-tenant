@@ -113,14 +113,8 @@ class MariaDB implements DatabaseGenerator
             return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
-        $flush = function (Connection $connection) {
-            $connection->purge($connection->tenantName());
-
-            return true;
-        };
-
-        return $connection->system($website)->transaction(function (IlluminateConnection $c) use ($user, $flush, $connection) {
-            return $user($c) && $flush($connection);
+        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user) {
+            return $user($connection);
         });
     }
 }
