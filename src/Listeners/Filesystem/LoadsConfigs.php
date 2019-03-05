@@ -41,7 +41,7 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
      */
     protected function readConfigurationFiles(string $path)
     {
-        foreach ($this->directory->files($path) as $file) {
+        foreach ($this->directory()->files($path) as $file) {
             if (! Str::endsWith($file, '.php')) {
                 continue;
             }
@@ -54,10 +54,10 @@ class LoadsConfigs extends AbstractTenantDirectoryListener
                 continue;
             }
 
-            if ($this->directory->isLocal()) {
-                $values = $this->directory->getRequire($file);
+            if ($this->directory()->isLocal()) {
+                $values = $this->directory()->getRequire($file);
             } else {
-                $values = include 'data:text/plain,' . $this->directory->get($file);
+                $values = include 'data:text/plain,' . $this->directory()->get($file);
             }
 
             $values = Arr::dot($values, "{$key}.");

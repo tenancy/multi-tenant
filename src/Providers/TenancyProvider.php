@@ -41,16 +41,15 @@ class TenancyProvider extends ServiceProvider
             'tenancy'
         );
 
-        $this->registerModels();
+        $this->app->singleton(Environment::class);
+        $this->app->singleton(Contracts\Repositories\HostnameRepository::class, Repositories\HostnameRepository::class);
+        $this->app->singleton(Contracts\Repositories\WebsiteRepository::class, Repositories\WebsiteRepository::class);
 
-        $this->registerRepositories();
+        $this->registerModels();
 
         $this->registerProviders();
 
         $this->registerMiddleware();
-
-        $this->app->singleton(Environment::class);
-        $this->app->alias(Environment::class, 'tenancy-environment');
     }
 
     public function boot()
@@ -66,18 +65,6 @@ class TenancyProvider extends ServiceProvider
         $this->app->bind(WebsiteContract::class, $config['website']);
 
         forward_static_call([$config['hostname'], 'observe'], FlushHostnameCache::class);
-    }
-
-    protected function registerRepositories()
-    {
-        $this->app->singleton(
-            Contracts\Repositories\HostnameRepository::class,
-            Repositories\HostnameRepository::class
-        );
-        $this->app->singleton(
-            Contracts\Repositories\WebsiteRepository::class,
-            Repositories\WebsiteRepository::class
-        );
     }
 
     protected function registerProviders()
@@ -121,7 +108,9 @@ class TenancyProvider extends ServiceProvider
     public function provides()
     {
         return [
-            Environment::class
+            Environment::class,
+            Contracts\Repositories\HostnameRepository::class,
+            Contracts\Repositories\WebsiteRepository::class,
         ];
     }
 }

@@ -40,11 +40,11 @@ class LoadsViews extends AbstractTenantDirectoryListener
      */
     public function load(WebsiteEvent $event)
     {
-        if ($this->directory->isLocal()) {
+        if ($this->directory()->isLocal()) {
 
             /** @var Factory views */
             $this->views = app(Factory::class);
-            $this->viewsPath = $this->directory->path($this->path, true);
+            $this->viewsPath = $this->directory()->path($this->path, true);
 
             $namespace = $this->config->get('tenancy.folders.views.namespace');
 

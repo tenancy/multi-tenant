@@ -34,7 +34,7 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
      */
     public function load(WebsiteEvent $event)
     {
-        if ($this->directory->isLocal()) {
+        if ($this->directory()->isLocal()) {
             $this->loadRoutes($this->path);
         } else {
             throw new FilesystemException("$this->path is not available locally, cannot include");
@@ -52,7 +52,7 @@ class LoadsRoutes extends AbstractTenantDirectoryListener
         $prefix = config('tenancy.folders.routes.prefix', '');
 
         $router->group(['prefix' => $prefix], function ($router) use ($path) {
-            return $this->directory->getRequire($path);
+            return $this->directory()->getRequire($path);
         });
     }
 }

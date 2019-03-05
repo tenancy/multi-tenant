@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Abstracts;
 
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Hyn\Tenancy\Website\Directory;
@@ -39,10 +40,6 @@ abstract class AbstractTenantDirectoryListener
      * @var Repository
      */
     protected $config;
-    /**
-     * @var Directory
-     */
-    protected $directory;
 
     /**
      * Event has to have a Website object to work.
@@ -63,11 +60,10 @@ abstract class AbstractTenantDirectoryListener
      */
     protected $tenantFilesystemEnabled;
 
-    public function __construct(Filesystem $filesystem, Repository $config, Directory $directory)
+    public function __construct(Filesystem $filesystem, Repository $config)
     {
         $this->filesystem = $filesystem;
         $this->config = $config;
-        $this->directory = $directory;
         $this->tenantFilesystemEnabled = $config->get('tenancy.website.disk') !== false;
     }
 
@@ -88,7 +84,7 @@ abstract class AbstractTenantDirectoryListener
     public function proxy(WebsiteEvent $event)
     {
         if ($event->website) {
-            $this->directory->setWebsite($event->website);
+            $this->directory($event->website);
         } elseif ($this->requiresWebsite) {
             return;
         }
@@ -115,11 +111,11 @@ abstract class AbstractTenantDirectoryListener
      */
     protected function exists(): bool
     {
-        if (!$this->directory->getWebsite()) {
+        if (!$this->directory()->getWebsite()) {
             return false;
         }
 
-        return $this->directory->exists($this->path);
+        return $this->directory()->exists($this->path);
     }
 
     /**
@@ -128,5 +124,17 @@ abstract class AbstractTenantDirectoryListener
     protected function path()
     {
         return $this->directory->path($this->path);
+    }
+
+    protected function directory(Website $website = null): Directory
+    {
+        /** @var Directory $directory */
+        $directory = app(Directory::class);
+
+        if ($website) {
+            $directory->setWebsite($website);
+        }
+
+        return $directory;
     }
 }

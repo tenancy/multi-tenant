@@ -14,11 +14,10 @@
 
 namespace Hyn\Tenancy\Website;
 
+use Hyn\Tenancy\Contracts\Tenant;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Contracts\Website;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Filesystem\FileExistsException;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
@@ -42,19 +41,14 @@ class Directory implements Filesystem
      */
     protected $website;
     /**
-     * @var Environment
-     */
-    protected $environment;
-    /**
      * @var LocalSystem
      */
     protected $local;
 
-    public function __construct(Filesystem $filesystem, Repository $config, Environment $environment, LocalSystem $local)
+    public function __construct(Filesystem $filesystem, Repository $config, LocalSystem $local)
     {
         $this->filesystem = $filesystem;
         $this->folders = $config->get('tenancy.folders', []);
-        $this->environment = $environment;
         $this->local = $local;
     }
 
@@ -356,7 +350,7 @@ class Directory implements Filesystem
      */
     public function getWebsite()
     {
-        return $this->website ?: $this->environment->website();
+        return $this->website ?? app(Tenant::class);
     }
 
     /**

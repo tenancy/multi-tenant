@@ -33,8 +33,8 @@ class LoadsVendor extends AbstractTenantDirectoryListener
      */
     public function load(WebsiteEvent $event)
     {
-        if ($this->directory->isLocal()) {
-            $this->directory->requireOnce($this->path);
+        if ($this->directory()->isLocal()) {
+            $this->directory()->requireOnce($this->path);
         } else {
             throw new FilesystemException("$this->path is not available locally, cannot include");
         }
