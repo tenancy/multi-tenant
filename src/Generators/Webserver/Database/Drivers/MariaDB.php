@@ -126,8 +126,8 @@ class MariaDB implements DatabaseGenerator
     protected function isMariaDb(IlluminateConnection $connection): bool
     {
         $platform = $connection->getDoctrineSchemaManager()->getDatabasePlatform();
-        $platform = get_class($platform);
+        $reflect = new \ReflectionClass($platform);
 
-        return Str::startsWith($platform, 'MariaDb');
+        return Str::startsWith($reflect->getShortName(), 'MariaDb');
     }
 }
