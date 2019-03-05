@@ -185,9 +185,9 @@ trait InteractsWithTenancy
 
         $system = $this->connection->system();
 
-//        if ($system->getConfig('driver') !== 'pgsql' && $system->transactionLevel() > 0) {
-//            $system->rollback();
-//        }
+        if ($system->getConfig('driver') !== 'pgsql' && $system->transactionLevel() > 0) {
+            $system->rollback();
+        }
 
         $system->disconnect();
     }
