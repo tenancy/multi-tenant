@@ -18,7 +18,6 @@ use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\DispatchesEvents;
@@ -184,10 +183,12 @@ trait InteractsWithTenancy
                 $this->websites->delete($website, true);
             });
 
-        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
-            $this->connection->system()->rollback();
+        $system = $this->connection->system();
+
+        if ($system->getConfig('driver') !== 'pgsql' && $system->transactionLevel() > 0) {
+            $system->rollback();
         }
 
-        $this->connection->system()->disconnect();
+        $system->disconnect();
     }
 }
