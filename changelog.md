@@ -5,6 +5,7 @@
     - #651, ConfigurationLoading, -Loaded now know about current active tenant website.
     - #660, allow configurable database privileges for tenant databases.
     - #662, fixed website filter on commands.
+    - #706, issue with loading sequence of classes and especially singleton when app is not yet booted.
     - #711, queue jobs are now always tenant aware, **TenantAwareJob has been removed**.
     - #712, #639 improved hostname validation.
     - #739, #574, allow APP_KEY rotation and using a custom key instead or none. This **introduces a new configuration tenancy.key**.
