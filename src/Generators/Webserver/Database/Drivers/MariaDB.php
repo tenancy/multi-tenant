@@ -109,16 +109,18 @@ class MariaDB implements DatabaseGenerator
 
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
-        $user = function ($connection) use ($config) {
-            return $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE user='{$config['username']}' AND Host='{$config['host']}'");
+        $user = function (IlluminateConnection $connection) use ($config) {
+            return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
-        $flush = function ($connection) {
-            return $connection->statement("FLUSH PRIVILEGES");
+        $flush = function (Connection $connection) {
+            $connection->purge($connection->tenantName());
+
+            return true;
         };
 
-        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
-            return $user($connection) && $flush($connection);
+        return $connection->system($website)->transaction(function (IlluminateConnection $c) use ($user, $flush, $connection) {
+            return $user($c) && $flush($connection);
         });
     }
 }

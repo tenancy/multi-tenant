@@ -200,7 +200,7 @@ class DatabaseGenerator
             $this->configureHost($config);
 
             if (!$this->factory->create($config['driver'])->updatePassword($website, $config, $this->connection)) {
-                throw new GeneratorFailedException("Could not update user {$config['user']} password, one of the statements failed.");
+                throw new GeneratorFailedException("Could not update user {$config['username']} password, one of the statements failed.");
             }
         });
     }
