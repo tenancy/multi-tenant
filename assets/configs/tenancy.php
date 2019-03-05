@@ -121,6 +121,16 @@ return [
          * @warn this must be a FQDN, these have no protocol or path!
          */
         'default' => env('TENANCY_DEFAULT_HOSTNAME'),
+        
+        /**
+         * If you want the multi tenant application to fall back to a fallback
+         * url, without requiring it to be an actual tenant in the system,
+         * complete in detail the default fallback url with protocol.
+         * 
+         * e.g. https://example.org
+         */
+        'fallback-url' => env('TENANCY_FALLBACK_URL'),
+        
         /**
          * The package is able to identify the requested hostname by itself,
          * disable to get full control (and responsibility) over hostname

@@ -69,9 +69,8 @@ class HostnameActions
                 return $this->secure($hostname, $request);
             }
         } else {
-            if (config('tenancy.hostname.default')) {
-                $scheme = optional(request())->getScheme() ?? parse_url(config('app.url', PHP_URL_SCHEME));
-                $url = sprintf('%s://%s', $scheme, config('tenancy.hostname.default'));
+            if (config('tenancy.hostname.fallback-url')) {
+                $url = config('tenancy.hostname.fallback-url');
 
                 if (strstr(request()->url(), $url) == false) {
                     return redirect()->away($url);
