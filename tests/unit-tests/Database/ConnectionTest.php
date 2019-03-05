@@ -119,32 +119,32 @@ class ConnectionTest extends Test
         $this->assertEquals($this->connection->systemName(), (new NonExtend())->getConnection()->getName());
     }
 
-	/**
-	 * @test
-	 */
-	public function can_rotate_tenant_key()
-	{
-		$this->setUpHostnames(true);
-		$this->setUpWebsites(true, true);
-		$this->activateTenant();
+    /**
+     * @test
+     */
+    public function can_rotate_tenant_key()
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
 
-		// Check that connection is established before rotating TENANCY_KEY
-		$this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
+        // Check that connection is established before rotating TENANCY_KEY
+        $this->assertTrue($this->connection->get() instanceof DatabaseConnection, 'Tenant connection is not set up properly.');
 
-		config(['tenancy.key' => Str::random()]);
+        config(['tenancy.key' => Str::random()]);
 
-		// Re-establish connection and expect 1045 error code (Access denied for user)
-		app(Environment::class)->tenant($this->website);
-		try {
-			$this->connection->get()->reconnect();
-		} catch (PDOException $exception) {
-			$this->assertTrue($exception->getCode() == 1045, 'Access should be denied for tenant database user.');
-		}
+        // Re-establish connection and expect 1045 error code (Access denied for user)
+        app(Environment::class)->tenant($this->website);
+        try {
+            $this->connection->get()->reconnect();
+        } catch (PDOException $exception) {
+            $this->assertTrue($exception->getCode() == 1045, 'Access should be denied for tenant database user.');
+        }
 
-		$this->artisan(UpdateKeyCommand::class);
+        $this->artisan(UpdateKeyCommand::class);
 
-		// Re-establish connection after updating tenant users password
-		app(Environment::class)->tenant($this->website);
-		$this->connection->get()->reconnect();
+        // Re-establish connection after updating tenant users password
+        app(Environment::class)->tenant($this->website);
+        $this->connection->get()->reconnect();
     }
 }

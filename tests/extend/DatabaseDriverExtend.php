@@ -38,8 +38,8 @@ class DatabaseDriverExtend implements DatabaseGenerator
         return true;
     }
 
-	public function updatePassword(Website $website, array $config, Connection $connection): bool
-	{
-		return true;
-	}
+    public function updatePassword(Website $website, array $config, Connection $connection): bool
+    {
+        return true;
+    }
 }

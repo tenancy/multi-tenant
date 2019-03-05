@@ -185,23 +185,23 @@ class DatabaseGenerator
         );
     }
 
-	public function keyUpdated(Events\KeyUpdated $event)
-	{
-		if (!in_array($this->mode, [
-			Connection::DIVISION_MODE_SEPARATE_DATABASE,
-			Connection::DIVISION_MODE_SEPARATE_SCHEMA,
-		])) {
-			return;
-		}
+    public function keyUpdated(Events\KeyUpdated $event)
+    {
+        if (!in_array($this->mode, [
+            Connection::DIVISION_MODE_SEPARATE_DATABASE,
+            Connection::DIVISION_MODE_SEPARATE_SCHEMA,
+        ])) {
+            return;
+        }
 
-		app(WebsiteRepository::class)->query()->get()->each(function ($website) {
-			$config = $this->connection->generateConfigurationArray($website);
+        app(WebsiteRepository::class)->query()->get()->each(function ($website) {
+            $config = $this->connection->generateConfigurationArray($website);
 
-			$this->configureHost($config);
+            $this->configureHost($config);
 
-			if (!$this->factory->create($config['driver'])->updatePassword($website, $config, $this->connection)) {
-				throw new GeneratorFailedException("Could not update user {$config['user']} password, one of the statements failed.");
-			}
-		});
+            if (!$this->factory->create($config['driver'])->updatePassword($website, $config, $this->connection)) {
+                throw new GeneratorFailedException("Could not update user {$config['user']} password, one of the statements failed.");
+            }
+        });
     }
 }

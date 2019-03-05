@@ -41,6 +41,6 @@ class UpdateKeyCommand extends Command
      */
     public function handle()
     {
-    	$this->emitEvent(new KeyUpdated());
+        $this->emitEvent(new KeyUpdated());
     }
 }
