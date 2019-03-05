@@ -118,8 +118,12 @@ class MariaDB implements DatabaseGenerator
             }
         };
 
-        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user) {
-            return $user($connection);
+        $flush = function (IlluminateConnection $connection) {
+            return $connection->statement('FLUSH PRIVILEGES');
+        };
+
+        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
+            return $user($connection) && $flush($connection);
         });
     }
 
