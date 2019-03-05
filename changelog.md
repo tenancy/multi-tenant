@@ -8,6 +8,7 @@
     - #662, fixed website filter on commands.
     - #711, queue jobs are now always tenant aware, **TenantAwareJob has been removed**.
     - #712, #639 improved hostname validation.
+    - #739, #574, allow APP_KEY rotation and using a custom key instead or none. This **introduces a new configuration tenancy.key**.
     - Website related events now also contain hostname in case one was identified.
     - Several stability issues fixed.
 - 5.3.1

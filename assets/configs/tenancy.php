@@ -19,7 +19,7 @@ return [
 	/**
 	 * Random key used for tenant database user password
 	 */
-	'key' => env('TENANCY_KEY'),
+	'key' => env('TENANCY_KEY', env('APP_KEY')),
 
     'models' => [
         /**
