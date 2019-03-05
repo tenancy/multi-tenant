@@ -97,6 +97,7 @@ class MariaDB implements DatabaseGenerator
 
             return true;
         };
+
         $delete = function ($connection) use ($config) {
             return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
         };
@@ -109,13 +110,15 @@ class MariaDB implements DatabaseGenerator
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
         $user = function ($connection) use ($config) {
-            $change = $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE user='{$config['username']}' AND Host='{$config['host']}'");
-            $connection->statement("FLUSH PRIVILEGES");
-            return $change;
+            return $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE user='{$config['username']}' AND Host='{$config['host']}'");
         };
 
-        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user) {
-            return $user($connection);
+        $flush = function ($connection) {
+            return $connection->statement("FLUSH PRIVILEGES");
+        };
+
+        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
+            return $user($connection) && $flush($connection);
         });
     }
 }
