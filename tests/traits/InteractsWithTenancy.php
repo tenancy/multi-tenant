@@ -73,9 +73,9 @@ trait InteractsWithTenancy
 
         $this->connection = app(Connection::class);
 
-        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
-            $this->connection->system()->beginTransaction();
-        }
+//        if ($this->connection->system()->getConfig('driver') !== 'pgsql') {
+//            $this->connection->system()->beginTransaction();
+//        }
 
         $this->handleTenantDestruction();
     }
@@ -185,9 +185,9 @@ trait InteractsWithTenancy
 
         $system = $this->connection->system();
 
-        if ($system->getConfig('driver') !== 'pgsql' && $system->transactionLevel() > 0) {
-            $system->rollback();
-        }
+//        if ($system->getConfig('driver') !== 'pgsql' && $system->transactionLevel() > 0) {
+//            $system->rollback();
+//        }
 
         $system->disconnect();
     }
