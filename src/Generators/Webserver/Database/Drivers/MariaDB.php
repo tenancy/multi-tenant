@@ -23,6 +23,7 @@ use Hyn\Tenancy\Events\Websites\Updated;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
 use Illuminate\Database\Connection as IlluminateConnection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class MariaDB implements DatabaseGenerator
 {
@@ -109,18 +110,24 @@ class MariaDB implements DatabaseGenerator
 
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
-        $existing = $connection->configuration();
-
-        if ($existing['uuid'] === $website->uuid) {
-            $connection->purge();
-        }
-
         $user = function (IlluminateConnection $connection) use ($config) {
-            return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+            if ($this->isMariaDb($connection)) {
+                return $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE User='{$config['username']}' AND Host='{$config['host']}'");
+            } else {
+                return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
+            }
         };
 
         return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user) {
             return $user($connection);
         });
+    }
+
+    protected function isMariaDb(IlluminateConnection $connection): bool
+    {
+        $platform = $connection->getDoctrineSchemaManager()->getDatabasePlatform();
+        $platform = get_class($platform);
+
+        return Str::startsWith($platform, 'MariaDb');
     }
 }
