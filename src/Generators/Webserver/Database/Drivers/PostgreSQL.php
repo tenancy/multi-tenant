@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 
 use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Websites\Created;
 use Hyn\Tenancy\Events\Websites\Deleted;
@@ -149,4 +150,9 @@ class PostgreSQL implements DatabaseGenerator
 
         return true;
     }
+
+	public function updatePassword(Website $website, array $config, Connection $connection): bool
+	{
+		return $connection->system($website)->statement("ALTER USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+	}
 }

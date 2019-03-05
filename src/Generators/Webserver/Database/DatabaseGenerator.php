@@ -14,10 +14,10 @@
 
 namespace Hyn\Tenancy\Generators\Webserver\Database;
 
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
-use Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
@@ -60,6 +60,7 @@ class DatabaseGenerator
         $events->listen(Events\Websites\Created::class, [$this, 'created']);
         $events->listen(Events\Websites\Updated::class, [$this, 'updated']);
         $events->listen(Events\Websites\Deleted::class, [$this, 'deleted']);
+        $events->listen(Events\KeyUpdated::class, [$this, 'keyUpdated']);
     }
 
     /**
@@ -182,5 +183,25 @@ class DatabaseGenerator
         $this->emitEvent(
             new Events\Database\Renamed($config, $event->website)
         );
+    }
+
+	public function keyUpdated(Events\KeyUpdated $event)
+	{
+		if (!in_array($this->mode, [
+			Connection::DIVISION_MODE_SEPARATE_DATABASE,
+			Connection::DIVISION_MODE_SEPARATE_SCHEMA,
+		])) {
+			return;
+		}
+
+		app(WebsiteRepository::class)->query()->get()->each(function ($website) {
+			$config = $this->connection->generateConfigurationArray($website);
+
+			$this->configureHost($config);
+
+			if (!$this->factory->create($config['driver'])->updatePassword($website, $config, $this->connection)) {
+				throw new GeneratorFailedException("Could not update user {$config['user']} password, one of the statements failed.");
+			}
+		});
     }
 }

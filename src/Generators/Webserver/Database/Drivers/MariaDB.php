@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 
 use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
+use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Websites\Created;
 use Hyn\Tenancy\Events\Websites\Deleted;
@@ -104,4 +105,17 @@ class MariaDB implements DatabaseGenerator
             return $delete($connection) && $user($connection);
         });
     }
+
+	public function updatePassword(Website $website, array $config, Connection $connection): bool
+	{
+		$user = function ($connection) use ($config) {
+			$change = $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE user='{$config['username']}' AND Host='{$config['host']}'");
+			$connection->statement("FLUSH PRIVILEGES");
+			return $change;
+		};
+
+		return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user) {
+			return $user($connection);
+		});
+	}
 }

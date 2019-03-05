@@ -37,9 +37,11 @@ class DefaultPasswordGenerator implements PasswordGenerator
     public function generate(Website $website) : string
     {
         return md5(sprintf(
-            '%s.%d',
-            $this->app['config']->get('app.key'),
-            $website->id
+			'%d.%s.%s.%s',
+			$website->id,
+			$website->uuid,
+			$website->created_at,
+            $this->app['config']->get('tenancy.key')
         ));
     }
 }
