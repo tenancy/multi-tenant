@@ -151,8 +151,8 @@ class PostgreSQL implements DatabaseGenerator
         return true;
     }
 
-	public function updatePassword(Website $website, array $config, Connection $connection): bool
-	{
-		return $connection->system($website)->statement("ALTER USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
-	}
+    public function updatePassword(Website $website, array $config, Connection $connection): bool
+    {
+        return $connection->system($website)->statement("ALTER USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+    }
 }
