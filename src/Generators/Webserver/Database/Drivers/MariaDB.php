@@ -109,8 +109,13 @@ class MariaDB implements DatabaseGenerator
 
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
+        $existing = $connection->configuration();
+
+        if ($existing['uuid'] === $website->uuid) {
+            $connection->purge();
+        }
+
         $user = function (IlluminateConnection $connection) use ($config) {
-            $connection->reconnect();
             return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
