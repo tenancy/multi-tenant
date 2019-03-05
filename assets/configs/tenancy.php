@@ -15,7 +15,6 @@
 use Hyn\Tenancy\Database\Connection;
 
 return [
-
 	/**
 	 * Random key used for tenant database user password
 	 */

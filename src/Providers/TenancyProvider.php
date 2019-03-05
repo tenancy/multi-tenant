@@ -102,7 +102,7 @@ class TenancyProvider extends ServiceProvider
         $this->commands([
             RecreateCommand::class,
             RunCommand::class,
-			UpdateKeyCommand::class,
+            UpdateKeyCommand::class,
         ]);
     }
 
