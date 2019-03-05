@@ -138,7 +138,6 @@ class ConnectionTest extends Test
         try {
             $this->connection->get()->reconnect();
         } catch (PDOException $e) {
-
             $this->assertTrue($e->getCode() === 1045 || $e->getCode() === 7, 'Access should be denied for tenant database user: [code: '.$e->getCode().'] '. $e->getMessage());
         }
 
