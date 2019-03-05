@@ -1,6 +1,5 @@
 - 5.4.0
     - Minimum requirement for PHP bumped to 7.2+.
-    - Upgraded to phpunit 8.
     - Minimum requirement for Laravel 5.8.
     - Moved forcing app url to listener, so it applies to console and queue too.
     - #651, ConfigurationLoading, -Loaded now know about current active tenant website.
@@ -10,6 +9,7 @@
     - #712, #639 improved hostname validation.
     - #739, #574, allow APP_KEY rotation and using a custom key instead or none. This **introduces a new configuration tenancy.key**.
     - Website related events now also contain hostname in case one was identified.
+    - Upgraded to phpunit 8.
     - Several stability issues fixed.
 - 5.3.1
     - #627, allowing custom database drivers.
