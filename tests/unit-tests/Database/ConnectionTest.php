@@ -137,8 +137,8 @@ class ConnectionTest extends Test
         app(Environment::class)->tenant($this->website);
         try {
             $this->connection->get()->reconnect();
-        } catch (PDOException $exception) {
-            $this->assertTrue($exception->getCode() == 1045, 'Access should be denied for tenant database user.');
+        } catch (PDOException $e) {
+            $this->assertTrue($e->getCode() == 1045, 'Access should be denied for tenant database user: '. $e->getMessage());
         }
 
         $this->artisan(UpdateKeyCommand::class);
