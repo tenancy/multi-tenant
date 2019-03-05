@@ -76,6 +76,6 @@ class NginxGeneratorTest extends Test
 
         $config = $this->filesystem->get($path);
 
-        $this->assertContains('alias', $config);
+        $this->assertStringContainsString('alias', $config);
     }
 }
