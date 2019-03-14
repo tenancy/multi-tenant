@@ -25,7 +25,7 @@ trait InteractsWithRoutes
     protected function create_and_test_route(string $path, string $uri = null)
     {
         /** @var Directory $directory */
-        $directory = resolve(Directory::class);
+        $directory = $this->app->make(Directory::class);
         $directory->setWebsite($this->website);
 
         if (!$uri) {
@@ -45,7 +45,7 @@ EOM
         $this->activateTenant();
 
         /** @var Router $router */
-        $router = resolve('router');
+        $router = $this->app->make('router');
 
         $request = Request::createFromBase(FoundationRequest::create($uri));
 
