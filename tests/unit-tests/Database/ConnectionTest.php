@@ -185,10 +185,15 @@ class ConnectionTest extends Test
         $this->setUpWebsites(true, true);
         $this->activateTenant();
 
+        $schema = null;
+        if($this->connection->get()->getDriverName() === 'pgsql'){
+            $schema = "public";
+        }
+
         if (config('tenancy.db.tenant-division-mode') === 'schema') {
             $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
         } else {
-            $this->assertEquals("public", $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
+            $this->assertEquals($schema, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
         }
     }
 }
