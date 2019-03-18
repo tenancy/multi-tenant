@@ -160,7 +160,7 @@ class ConnectionTest extends Test
         $tenantId = app(Environment::class)->tenant()->uuid;
         $this->assertEquals($tenantId, $this->connection->get()->getConfig('username'), "Wrong username used in tenant connection");
 
-        switch(config('tenancy.db.tenant-division-mode')){
+        switch (config('tenancy.db.tenant-division-mode')) {
             case "database":
                 $this->assertEquals($tenantId, $this->connection->get()->getConfig('database'), "Wrong database used in tenant connection");
                 break;
