@@ -157,7 +157,7 @@ class ConnectionTest extends Test
         $this->setUpWebsites(true, true);
         $this->activateTenant();
 
-        $tenantId = app(Environment::class)->tenant()->uuid;
+        $tenantId = $this->website->uuid;
         $this->assertEquals($tenantId, $this->connection->get()->getConfig('username'), "Wrong username used in tenant connection");
 
         switch(config('tenancy.db.tenant-division-mode')){
