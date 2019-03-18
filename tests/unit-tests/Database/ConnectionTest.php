@@ -169,8 +169,7 @@ class ConnectionTest extends Test
         $this->setUpWebsites(true, true);
         $this->activateTenant();
 
-        if(config('tenancy.db.tenant-division-mode') === 'database')
-        {
+        if (config('tenancy.db.tenant-division-mode') === 'database') {
             $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('database'), "Wrong database used in tenant connection");
         } else {
             $this->assertEquals($this->connection->system()->getConfig('database'), $this->connection->get()->getConfig('database'), "Wrong database used in tenant connection");
@@ -186,8 +185,7 @@ class ConnectionTest extends Test
         $this->setUpWebsites(true, true);
         $this->activateTenant();
 
-        if(config('tenancy.db.tenant-division-mode') === 'schema')
-        {
+        if (config('tenancy.db.tenant-division-mode') === 'schema') {
             $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
         } else {
             $this->assertEquals("public", $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
