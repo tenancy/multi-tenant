@@ -151,22 +151,36 @@ class ConnectionTest extends Test
     /**
      * @test
      */
-    public function test_connection_switch_config()
+    public function test_connection_username()
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
         $this->activateTenant();
 
-        $tenantId = $this->website->uuid;
-        $this->assertEquals($tenantId, $this->connection->get()->getConfig('username'), "Wrong username used in tenant connection");
+        $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('username'), "Wrong username used in tenant connection");
+    }
 
-        switch (config('tenancy.db.tenant-division-mode')) {
-            case "database":
-                $this->assertEquals($tenantId, $this->connection->get()->getConfig('database'), "Wrong database used in tenant connection");
-                break;
-            case "schema":
-                $this->assertEquals($tenantId, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
-                break;
-        }
+    /**
+     * @test
+     */
+    public function test_connection_database()
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
+
+        $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('database'), "Wrong database used in tenant connection");
+    }
+
+    /**
+     * @test
+     */
+    public function test_connection_schema()
+    {
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
+
+        $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
     }
 }
