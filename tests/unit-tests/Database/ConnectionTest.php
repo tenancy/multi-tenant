@@ -190,7 +190,7 @@ class ConnectionTest extends Test
         {
             $this->assertEquals($this->website->uuid, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
         } else {
-            $this->assertEquals(null, $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
+            $this->assertEquals("public", $this->connection->get()->getConfig('schema'), "Wrong schema used in tenant connection");
         }
     }
 }
