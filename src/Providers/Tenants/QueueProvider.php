@@ -29,7 +29,7 @@ class QueueProvider extends ServiceProvider
             }
 
             /** @var Environment $environment */
-            $environment = $this->app->make(Environment::class);
+            $environment = resolve(Environment::class);
             $tenant = $environment->tenant();
 
             return $tenant ? ['website_id' => $tenant->id] : [];
@@ -38,9 +38,9 @@ class QueueProvider extends ServiceProvider
         $this->app['events']->listen(JobProcessing::class, function ($event) {
             if (isset($event->job->payload()['website_id'])) {
                 /** @var Environment $environment */
-                $environment = $this->app->make(Environment::class);
+                $environment = resolve(Environment::class);
                 /** @var WebsiteRepository $repository */
-                $repository = $this->app->make(WebsiteRepository::class);
+                $repository = resolve(WebsiteRepository::class);
 
                 $tenant = $repository->findById($event->job->payload()['website_id']);
 
