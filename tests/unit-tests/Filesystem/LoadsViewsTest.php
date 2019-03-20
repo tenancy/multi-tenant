@@ -61,7 +61,7 @@ class LoadsViewsTest extends Test
 
         $this->assertTrue($this->views->exists('foo'));
 
-        $this->assertEquals('bar', $this->views->make('foo')->render());
+        $this->assertEquals("bar\n", $this->views->make('foo')->render());
     }
 
     /**
@@ -80,7 +80,7 @@ class LoadsViewsTest extends Test
 
         $this->activateTenant();
 
-        $this->assertEquals('bar', $this->views->make('welcome')->render());
+        $this->assertEquals("bar\n", $this->views->make('welcome')->render());
     }
 
     /**
@@ -101,7 +101,7 @@ class LoadsViewsTest extends Test
 
         $this->activateTenant();
 
-        $this->assertNotEquals('bar', $this->views->make('welcome')->render());
+        $this->assertNotEquals("bar\n", $this->views->make('welcome')->render());
     }
 
     /**
@@ -122,7 +122,7 @@ class LoadsViewsTest extends Test
 
         $this->activateTenant();
 
-        $this->assertNotEquals('bar', $this->views->make('welcome')->render());
-        $this->assertEquals('bar', $this->views->make('tenant::welcome')->render());
+        $this->assertNotEquals("bar\n", $this->views->make('welcome')->render());
+        $this->assertEquals("bar\n", $this->views->make('tenant::welcome')->render());
     }
 }
