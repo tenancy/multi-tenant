@@ -1,3 +1,6 @@
+- 5.4.1
+    - #728, Fixed duplication of Environment in Queues.
+    - FPM sock defaults to 7.3.
 - 5.4.0
     - Minimum requirement for PHP bumped to 7.2+.
     - Minimum requirement for Laravel 5.8.
