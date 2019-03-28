@@ -42,6 +42,7 @@ class MediaController
         $path = "media/$path";
 
         if ($this->directory->exists($path)) {
+            ob_end_clean();
             return response($this->directory->get($path))
                 ->header('Content-Type', Storage::disk('tenant')->mimeType($path));
         }
