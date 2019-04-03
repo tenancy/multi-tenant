@@ -45,7 +45,7 @@ class QueueProvider extends ServiceProvider
 
             $key = $command->website_id ?? $payload['website_id'] ?? null;
 
-            if($key){
+            if ($key) {
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
                 /** @var WebsiteRepository $repository */
