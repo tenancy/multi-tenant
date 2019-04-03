@@ -15,18 +15,18 @@
 namespace Hyn\Tenancy\Tests\Queue;
 
 use App\User;
-use Illuminate\Contracts\Foundation\Application;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class TestJob implements ShouldQueue
 {
