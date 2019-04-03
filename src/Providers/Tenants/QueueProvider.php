@@ -18,36 +18,50 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Environment;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Arr;
 
 class QueueProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
-        $this->app['queue']->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
-            if (isset($payload['website_id'])) {
-                return [];
-            }
+        $this->app->extend('queue', function (QueueManager $queue) {
+            $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
+                if (isset($payload['website_id'])) {
+                    return [];
+                }
 
-            /** @var Environment $environment */
-            $environment = resolve(Environment::class);
-            $tenant = $environment->tenant();
-
-            return $tenant ? ['website_id' => $tenant->id] : [];
-        });
-
-        $this->app['events']->listen(JobProcessing::class, function ($event) {
-            if (isset($event->job->payload()['website_id'])) {
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
-                /** @var WebsiteRepository $repository */
-                $repository = resolve(WebsiteRepository::class);
+                $tenant = $environment->tenant();
 
-                $tenant = $repository->findById($event->job->payload()['website_id']);
+                return $tenant ? [
+                    'website_id' => $tenant->id,
+                ] : [];
+            });
 
-                if ($tenant) {
+            $queue->before(function (JobProcessing $event) {
+                /** @var array $payload */
+                $payload = $event->job->payload();
+                if ($command = Arr::get($payload, 'data.command')) {
+                    $command = unserialize($command);
+                }
+
+                $key = $command->website_id ?? $payload['website_id'] ?? null;
+
+                if ($key) {
+                    /** @var Environment $environment */
+                    $environment = resolve(Environment::class);
+                    /** @var WebsiteRepository $repository */
+                    $repository = resolve(WebsiteRepository::class);
+
+                    $tenant = $repository->findById($key);
+
                     $environment->tenant($tenant);
                 }
-            }
+            });
+
+            return $queue;
         });
     }
 }
