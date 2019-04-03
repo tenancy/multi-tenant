@@ -27,14 +27,24 @@ class QueueProvider extends ServiceProvider
     {
         $this->app->extend('queue', function (QueueManager $queue) {
             $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
+                // if payload has website_id set, no change is required
                 if (isset($payload['website_id'])) {
                     return [];
                 }
 
+                // if job overrides website_id and payload doesn't have it, we need to add it and back out
+                if (isset(Arr::get($payload, 'data.commandName')->{'website_id'})) {
+                    return [
+                        'website_id' => Arr::get($payload, 'data.commandName')->{'website_id'}
+                    ];
+                }
+
+                // if no override was found, we're attempting tenant auto-discovery
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
                 $tenant = $environment->tenant();
 
+                // if tenant was discovered, we're adding it to the payload
                 return $tenant ? [
                     'website_id' => $tenant->id,
                 ] : [];
