@@ -56,11 +56,13 @@ class TestNotification extends Notification implements ShouldQueue
 class TenantAwareJobTest extends Test
 {
     use WithFaker;
+
     protected function duringSetUp(Application $app)
     {
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
     }
+    
     /** @test */
     public function current_website_id_is_included_in_job_payload()
     {
