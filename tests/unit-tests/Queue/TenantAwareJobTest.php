@@ -15,18 +15,21 @@
 namespace Hyn\Tenancy\Tests\Queue;
 
 use App\User;
-use Illuminate\Contracts\Foundation\Application;
 use Hyn\Tenancy\Tests\Test;
+use Hyn\Tenancy\Environment;
 use Illuminate\Bus\Queueable;
+use Hyn\Tenancy\Models\Website;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Notifications\Notification;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class TestJob implements ShouldQueue
 {
@@ -68,7 +71,6 @@ class TenantAwareJobTest extends Test
         $this->setUpHostnames(true);
         $this->setUpWebsites(true, true);
     }
-    /** @test */
     public function current_website_id_is_included_in_job_payload()
     {
         $this->activateTenant();
@@ -83,7 +85,6 @@ class TenantAwareJobTest extends Test
         });
     }
 
-    /** @test */
     public function current_website_id_is_included_in_notification_job_payload()
     {
         $this->activateTenant();
@@ -101,14 +102,18 @@ class TenantAwareJobTest extends Test
     /** @test */
     public function queued_jobs_allow_arbitrary_website_id_override()
     {
-        $this->activateTenant(); // this will create a tenant of ID 1
-        $websiteIDOverride = 5; // this is the ID we're going to use for the override
-        Event::fake();
-        $job = new TestJob($websiteIDOverride);
-        \dispatch($job);
-        $this->assertEquals($this->website->id, 1);
-        Event::assertDispatched(JobProcessed::class, function ($event) use ($websiteIDOverride) {
-            return $event->job->payload()['website_id'] === $websiteIDOverride;
+        $this->activateTenant();
+
+        $website = new Website;
+        $this->websites->create($website);
+
+        $uuid = $website->uuid;
+
+        Event::listen(JobProcessed::class, function ($event) use ($uuid) {
+            $this->assertEquals($uuid, config('database.connections.tenant.uuid'));
         });
+
+        $job = new TestJob($website->id);
+        \dispatch($job);
     }
 }
