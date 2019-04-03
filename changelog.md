@@ -1,3 +1,5 @@
+- 5.4.2
+    - Fixed ability to override tenant in queue jobs.
 - 5.4.1
     - #728, Fixed duplication of Environment in Queues.
     - FPM sock defaults to 7.3.
