@@ -32,6 +32,14 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $website_id;
+    
+    public function __construct($website_id = null)
+    {
+        // note that website_id should be optional to enable auto-discovery fallback
+        $this->website_id = $website_id;
+    }
+
     public function handle()
     {
     }
