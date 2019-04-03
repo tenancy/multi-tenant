@@ -90,4 +90,18 @@ class TenantAwareJobTest extends Test
             return $event->job->payload()['website_id'] === $this->website->id;
         });
     }
+
+    /** @test */
+    public function queued_jobs_allow_arbitrary_website_id_override()
+    {
+        $this->activateTenant(); // this will create a tenant of ID 1
+        $websiteIDOverride = 5; // this is the ID we're going to use for the override
+        Event::fake();
+        $job = new TestJob($websiteIDOverride);
+        \dispatch($job);
+        $this->assertEquals($this->website->id, 1);
+        Event::assertDispatched(JobProcessed::class, function ($event) use ($websiteIDOverride) {
+            return $event->job->payload()['website_id'] === $websiteIDOverride;
+        });
+    }
 }
