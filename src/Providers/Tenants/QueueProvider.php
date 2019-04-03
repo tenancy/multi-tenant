@@ -57,9 +57,7 @@ class QueueProvider extends ServiceProvider
 
                     $tenant = $repository->findById($key);
 
-                    if($tenant){
-                        $environment->tenant($tenant);
-                    }
+                    $environment->tenant($tenant);
                 }
             });
 
