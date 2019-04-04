@@ -36,13 +36,20 @@ class QueueProvider extends ServiceProvider
         });
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
-            if (isset($event->job->payload()['website_id'])) {
+            $payload = $event->job->payload();
+            if ($command = Arr::get($payload, 'data.command')) {
+                $command = unserialize($command);
+            }
+
+            $key = $command->website_id ?? $payload['website_id'] ?? null;
+
+            if ( $key ) {
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
                 /** @var WebsiteRepository $repository */
                 $repository = resolve(WebsiteRepository::class);
 
-                $tenant = $repository->findById($event->job->payload()['website_id']);
+                $tenant = $repository->findById($key);
 
                 if ($tenant) {
                     $environment->tenant($tenant);
