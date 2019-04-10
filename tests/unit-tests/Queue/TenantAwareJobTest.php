@@ -27,10 +27,19 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Testing\WithFaker;
+use Hyn\Tenancy\Models\Website;
+use Hyn\Tenancy\Environment;
+use Illuminate\Queue\Events\JobProcessing;
 
 class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $website_id;
+
+    public function __construct($website_id = null){
+        $this->website_id = $website_id;
+    }
 
     public function handle()
     {
@@ -89,5 +98,66 @@ class TenantAwareJobTest extends Test
         Event::assertDispatched(JobProcessed::class, function ($event) {
             return $event->job->payload()['website_id'] === $this->website->id;
         });
+    }
+    protected function prepare_override()
+    {
+        $this->website2 = new Website;
+        $this->websites->create($this->website2);
+
+    }
+
+    public function dispatch($job){
+        return \dispatch_now($job);
+    }
+
+    /** @test */
+    public function without_identified()
+    {
+
+        $this->prepare_override();
+
+        $job = new TestJob();
+        $this->dispatch($job);
+
+        $this->assertNull(resolve(Environment::class)->tenant());
+    }
+
+    /** @test */
+    public function override_without_identified()
+    {
+        $this->prepare_override();
+
+        $id = $this->website2->id;
+        $job = new TestJob($id);
+        $this->dispatch($job);
+
+        $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
+    }
+
+    /** @test */
+    public function identified()
+    {
+        $this->activateTenant();
+
+        $id = resolve(Environment::class)->tenant()->id;
+
+        $job = new TestJob();
+        $this->dispatch($job);
+
+        $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
+
+    }
+
+    /** @test */
+    public function override_identified()
+    {
+        $this->prepare_override();
+        $this->activateTenant();
+
+        $id = $this->website2->id;
+        $job = new TestJob($id);
+        $this->dispatch($job);
+
+        $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
 }
