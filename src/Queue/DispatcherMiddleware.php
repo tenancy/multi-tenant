@@ -23,7 +23,7 @@ class DispatcherMiddleware
     {
         $key = $command->website_id ?? null;
 
-        if( $key ){
+        if ($key) {
             $environment = resolve(Environment::class);
 
             $repository = resolve(WebsiteRepository::class);
@@ -34,7 +34,5 @@ class DispatcherMiddleware
         }
 
         return $next($command);
-
     }
-
 }

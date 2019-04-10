@@ -37,7 +37,8 @@ class TestJob implements ShouldQueue
 
     public $website_id;
 
-    public function __construct($website_id = null){
+    public function __construct($website_id = null)
+    {
         $this->website_id = $website_id;
     }
 
@@ -103,17 +104,16 @@ class TenantAwareJobTest extends Test
     {
         $this->website2 = new Website;
         $this->websites->create($this->website2);
-
     }
 
-    public function dispatch($job){
+    public function dispatch($job)
+    {
         return \dispatch_now($job);
     }
 
     /** @test */
     public function without_identified()
     {
-
         $this->prepare_override();
 
         $job = new TestJob();
@@ -145,7 +145,6 @@ class TenantAwareJobTest extends Test
         $this->dispatch($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
-
     }
 
     /** @test */
