@@ -57,9 +57,6 @@ class QueueProvider extends ServiceProvider
                 $environment->tenant($tenant);
             }
         });
-    }
-    public function boot()
-    {
         $this->app->make(Dispatcher::class)->pipeThrough([DispatcherMiddleware::class]);
     }
 }
