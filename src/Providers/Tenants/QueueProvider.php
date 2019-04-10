@@ -18,6 +18,7 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Environment;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Arr;
 
 class QueueProvider extends ServiceProvider
 {
