@@ -20,6 +20,8 @@ use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Arr;
+use Hyn\Tenancy\Queue\DispatcherMiddleware;
+use Illuminate\Contracts\Bus\Dispatcher;
 
 class QueueProvider extends ServiceProvider
 {
@@ -63,5 +65,9 @@ class QueueProvider extends ServiceProvider
 
             return $queue;
         });
+    }
+    public function boot()
+    {
+        $this->app->make(Dispatcher::class)->pipeThrough([DispatcherMiddleware::class]);
     }
 }
