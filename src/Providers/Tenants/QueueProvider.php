@@ -19,6 +19,8 @@ use Hyn\Tenancy\Environment;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Arr;
+use Hyn\Tenancy\Queue\DispatcherMiddleware;
+use Illuminate\Contracts\Bus\Dispatcher;
 
 class QueueProvider extends ServiceProvider
 {
@@ -55,5 +57,9 @@ class QueueProvider extends ServiceProvider
                 $environment->tenant($tenant);
             }
         });
+    }
+    public function boot()
+    {
+        $this->app->make(Dispatcher::class)->pipeThrough([DispatcherMiddleware::class]);
     }
 }
