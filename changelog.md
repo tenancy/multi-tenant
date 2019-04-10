@@ -1,3 +1,6 @@
+- 5.4.3
+    - #778, Fix queue provider horizon bug by partially reverting
+    - #779, Auto job tenancy for the dispatcher
 - 5.4.2
     - Fixed ability to override tenant in queue jobs.
 - 5.4.1
