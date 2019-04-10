@@ -99,25 +99,12 @@ class TenantAwareJobTest extends Test
             return $event->job->payload()['website_id'] === $this->website->id;
         });
     }
-    protected function prepare_override()
-    {
-        $this->website2 = new Website;
-        $this->websites->create($this->website2);
-
-    }
-
-    public function dispatch($job){
-        return \dispatch_now($job);
-    }
 
     /** @test */
     public function without_identified()
     {
-
-        $this->prepare_override();
-
         $job = new TestJob();
-        $this->dispatch($job);
+        dispatch_now($job);
 
         $this->assertNull(resolve(Environment::class)->tenant());
     }
@@ -125,11 +112,12 @@ class TenantAwareJobTest extends Test
     /** @test */
     public function override_without_identified()
     {
-        $this->prepare_override();
+        $this->website2 = new Website;
+        $this->websites->create($this->website2);
 
         $id = $this->website2->id;
         $job = new TestJob($id);
-        $this->dispatch($job);
+        dispatch_now($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
@@ -142,7 +130,7 @@ class TenantAwareJobTest extends Test
         $id = resolve(Environment::class)->tenant()->id;
 
         $job = new TestJob();
-        $this->dispatch($job);
+        dispatch_now($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
 
@@ -151,12 +139,13 @@ class TenantAwareJobTest extends Test
     /** @test */
     public function override_identified()
     {
-        $this->prepare_override();
+        $this->website2 = new Website;
+        $this->websites->create($this->website2);
         $this->activateTenant();
 
         $id = $this->website2->id;
         $job = new TestJob($id);
-        $this->dispatch($job);
+        dispatch_now($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
