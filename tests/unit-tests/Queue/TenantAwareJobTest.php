@@ -102,7 +102,7 @@ class TenantAwareJobTest extends Test
     }
 
     /** @test */
-    public function without_identified()
+    public function dispatch_now_without_identified()
     {
         $job = new TestJob();
         dispatch_now($job);
@@ -111,7 +111,7 @@ class TenantAwareJobTest extends Test
     }
 
     /** @test */
-    public function override_without_identified()
+    public function dispatch_now_overrides_without_identified()
     {
         $second = new Website;
         $this->websites->create($second);
@@ -124,7 +124,7 @@ class TenantAwareJobTest extends Test
     }
 
     /** @test */
-    public function identified()
+    public function dispatch_now_identified()
     {
         $this->activateTenant();
 
@@ -137,7 +137,7 @@ class TenantAwareJobTest extends Test
     }
 
     /** @test */
-    public function override_identified()
+    public function dispatch_now_overrides_identified()
     {
         $second = new Website;
         $this->websites->create($second);
