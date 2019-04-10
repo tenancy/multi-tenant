@@ -18,50 +18,42 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Environment;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Arr;
 
 class QueueProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
-        $this->app->extend('queue', function (QueueManager $queue) {
-            $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
-                if (isset($payload['website_id'])) {
-                    return [];
-                }
+        $this->app['queue']->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
+            if (isset($payload['website_id'])) {
+                return [];
+            }
 
+            /** @var Environment $environment */
+            $environment = resolve(Environment::class);
+            $tenant = $environment->tenant();
+
+            return $tenant ? ['website_id' => $tenant->id] : [];
+        });
+
+        $this->app['events']->listen(JobProcessing::class, function ($event) {
+            $payload = $event->job->payload();
+            if ($command = Arr::get($payload, 'data.command')) {
+                $command = unserialize($command);
+            }
+
+            $key = $command->website_id ?? $payload['website_id'] ?? null;
+
+            if ($key) {
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
-                $tenant = $environment->tenant();
+                /** @var WebsiteRepository $repository */
+                $repository = resolve(WebsiteRepository::class);
 
-                return $tenant ? [
-                    'website_id' => $tenant->id,
-                ] : [];
-            });
+                $tenant = $repository->findById($key);
 
-            $queue->before(function (JobProcessing $event) {
-                /** @var array $payload */
-                $payload = $event->job->payload();
-                if ($command = Arr::get($payload, 'data.command')) {
-                    $command = unserialize($command);
-                }
-
-                $key = $command->website_id ?? $payload['website_id'] ?? null;
-
-                if ($key) {
-                    /** @var Environment $environment */
-                    $environment = resolve(Environment::class);
-                    /** @var WebsiteRepository $repository */
-                    $repository = resolve(WebsiteRepository::class);
-
-                    $tenant = $repository->findById($key);
-
-                    $environment->tenant($tenant);
-                }
-            });
-
-            return $queue;
+                $environment->tenant($tenant);
+            }
         });
     }
 }
