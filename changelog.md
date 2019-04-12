@@ -1,3 +1,5 @@
+- 5.4.4
+    - Fixed queue provider again, seems like we didn't tackle it yet.
 - 5.4.3
     - #778, Fix queue provider horizon bug by partially reverting
     - #779, Auto job tenancy for the dispatcher
