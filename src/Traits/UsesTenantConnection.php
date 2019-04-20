@@ -20,6 +20,6 @@ trait UsesTenantConnection
 {
     public function getConnectionName()
     {
-        return app(Connection::class)->tenantName();
+        return $this->connection ?: app(Connection::class)->tenantName();
     }
 }

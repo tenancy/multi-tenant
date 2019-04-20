@@ -34,4 +34,20 @@ class TenantModelTest extends Test
 
         $this->assertEquals($model->getConnection(), $this->connection->get());
     }
+
+    /**
+     * @test
+     */
+    public function can_override_connection()
+    {
+        $model = (new TenantExtend)->setConnection($this->connection->systemName());
+
+        $this->assertEquals($model->getConnectionName(), $this->connection->systemName());
+
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
+
+        $this->assertEquals($model->getConnection(), $this->connection->system());
+    }
 }
