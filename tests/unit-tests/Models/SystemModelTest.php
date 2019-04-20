@@ -29,4 +29,20 @@ class SystemModelTest extends Test
         $this->assertEquals($model->getConnectionName(), $this->connection->systemName());
         $this->assertEquals($model->getConnection(), $this->connection->system());
     }
+
+    /**
+     * @test
+     */
+    public function can_override_connection()
+    {
+        $model = (new SystemExtend())->setConnection($this->connection->tenantName());
+
+        $this->assertEquals($model->getConnectionName(), $this->connection->tenantName());
+
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
+
+        $this->assertEquals($model->getConnection(), $this->connection->get());
+    }
 }

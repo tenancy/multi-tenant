@@ -20,6 +20,6 @@ trait UsesSystemConnection
 {
     public function getConnectionName()
     {
-        return app(Connection::class)->systemName();
+        return $this->connection ?: app(Connection::class)->systemName();
     }
 }
