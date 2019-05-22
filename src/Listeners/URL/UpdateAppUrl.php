@@ -34,7 +34,7 @@ class UpdateAppUrl
     public function force($event)
     {
         if (config('tenancy.hostname.update-app-url', false)) {
-            $scheme = optional(request())->getScheme() ?? parse_url(config('app.url', PHP_URL_SCHEME));
+            $scheme = optional(request())->getScheme() ?? parse_url(config('app.url'), PHP_URL_SCHEME);
 
             /** @var Hostname $hostname */
             $hostname = $event->hostname ?? $event->website->hostnames->first();
