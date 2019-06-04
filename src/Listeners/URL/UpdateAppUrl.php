@@ -37,7 +37,9 @@ class UpdateAppUrl
             $scheme = optional(request())->getScheme() ?? parse_url(config('app.url'), PHP_URL_SCHEME);
 
             /** @var Hostname $hostname */
-            $hostname = $event->hostname ?? $event->website->hostnames->first();
+            $hostname = $event->hostname
+                ?? $event->website->hostnames->firstWhere('fqdn', optional(request())->getHost())
+                ?? $event->website->hostnames->first();
 
             if ($hostname) {
                 $url = sprintf('%s://%s', $scheme, $hostname->fqdn);
@@ -46,7 +48,9 @@ class UpdateAppUrl
                     'app.url' => $url
                 ]);
 
-                URL::forceRootUrl($url);
+                URL::forceRootUrl(optional(request())->getPort()
+                    ? ($url . ':' . request()->getPort())
+                    : $url);
             }
         }
     }
