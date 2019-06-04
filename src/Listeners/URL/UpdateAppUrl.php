@@ -48,7 +48,9 @@ class UpdateAppUrl
                     'app.url' => $url
                 ]);
 
-                URL::forceRootUrl($url);
+                URL::forceRootUrl(optional(request())->getPort()
+                    ? ($url . ':' . request()->getPort())
+                    : $url);
             }
         }
     }
