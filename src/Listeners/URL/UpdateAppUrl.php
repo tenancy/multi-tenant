@@ -47,10 +47,6 @@ class UpdateAppUrl
                 config([
                     'app.url' => $url
                 ]);
-
-                URL::forceRootUrl(optional(request())->getPort()
-                    ? ($url . ':' . request()->getPort())
-                    : $url);
             }
         }
     }
