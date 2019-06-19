@@ -72,7 +72,7 @@ class NginxGenerator implements VhostGenerator, ReloadsServices
     public function reload(): bool
     {
         if ($this->testConfiguration() && $reload = config('webserver.nginx.paths.actions.reload')) {
-            return (new Process($reload))
+            return (Process::fromShellCommandline($reload))
                 ->mustRun()
                 ->isSuccessful();
         }
@@ -91,7 +91,7 @@ class NginxGenerator implements VhostGenerator, ReloadsServices
             return $test;
         }
 
-        return (new Process($test))
+        return (Process::fromShellCommandline($test))
             ->mustRun()
             ->isSuccessful();
     }
