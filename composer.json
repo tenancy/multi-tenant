@@ -24,17 +24,17 @@
     },
     "require": {
         "php": ">= 7.2",
-        "phpseclib/phpseclib": "~2.0",
-        "doctrine/dbal": "~2.5",
-        "ramsey/uuid": "^3.5",
-        "laravel/framework": "5.8.*"
+        "phpseclib/phpseclib": "*",
+        "doctrine/dbal": "*",
+        "ramsey/uuid": "*",
+        "laravel/framework": "5.8 - 6.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~8.0",
-        "symfony/dom-crawler": "~3.1",
-        "laravel/laravel": "5.8.*",
-        "mockery/mockery": "^0.9.9",
-        "fzaninotto/faker": "^1.8"
+        "symfony/dom-crawler": "*",
+        "laravel/laravel": "dev-develop@dev",
+        "mockery/mockery": "*",
+        "fzaninotto/faker": "*"
     },
     "autoload": {
         "psr-4": {
@@ -62,5 +62,7 @@
                 "Tenancy": "Hyn\\Tenancy\\Facades\\TenancyFacade"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
