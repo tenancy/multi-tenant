@@ -29,7 +29,7 @@ class RunCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tenancy:run {run : The artisan command to run for the tenants} 
+    protected $signature = 'tenancy:run {run : The artisan command to run for the tenants}
         {--tenant=* : The tenant(s) to run the command for}
         {--argument=* : Arguments to pass onto the command}
         {--option=* : Options to pass onto the command}
@@ -54,6 +54,7 @@ class RunCommand extends Command
 
         if ($ids = $this->option('tenant')) {
             $query->whereIn('id', $ids);
+            config(['database.default' => 'tenant']);
         }
 
         $options = collect($this->option('option') ?? [])
