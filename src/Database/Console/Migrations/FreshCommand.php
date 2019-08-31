@@ -35,16 +35,9 @@ class FreshCommand extends BaseCommand
         $this->input->setOption('database', $this->connection->tenantName());
 
         $this->processHandle(function (Website $website) {
-            // $this->dropAllTables(
-            //     $database = $this->connection->tenantName()
-            // );
-            $database = $this->connection->tenantName();
-            $this->call('db:wipe', array_filter([
-                '--database' => $database,
-                '--drop-views' => $this->option('drop-views'),
-                '--drop-types' => $this->option('drop-types'),
-                '--force' => true,
-            ]));
+            $this->dropAllTables(
+                $database = $this->connection->tenantName()
+            );
 
             $this->call('tenancy:migrate', [
                 '--database' => $database,
@@ -81,5 +74,32 @@ class FreshCommand extends BaseCommand
         return array_merge($options, [
             $this->addWebsiteOption()
         ]);
+    }
+
+    protected function dropAllTables($database)
+    {
+        if ($this->parentMethodExists($this, "dropAllTables")) {
+            parent::dropAllTables($database);
+
+            return;
+        }
+
+        $this->call('db:wipe', array_filter([
+            '--database' => $database,
+            '--drop-views' => $this->option('drop-views'),
+            '--drop-types' => $this->option('drop-types'),
+            '--force' => true,
+        ]));
+    }
+
+    protected function parentMethodExists($object, $method)
+    {
+        foreach (class_parents($object) as $parent) {
+            if (method_exists($parent, $method)) {
+               return true;
+            }
+        }
+
+        return false;
     }
 }
