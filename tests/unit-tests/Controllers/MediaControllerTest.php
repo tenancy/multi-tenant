@@ -37,6 +37,7 @@ class MediaControllerTest extends Test
 
     /**
      * @test
+     * @group test
      */
     public function request_file_via_controller()
     {

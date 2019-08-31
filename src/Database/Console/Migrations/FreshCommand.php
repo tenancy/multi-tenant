@@ -35,9 +35,16 @@ class FreshCommand extends BaseCommand
         $this->input->setOption('database', $this->connection->tenantName());
 
         $this->processHandle(function (Website $website) {
-            $this->dropAllTables(
-                $database = $this->connection->tenantName()
-            );
+            // $this->dropAllTables(
+            //     $database = $this->connection->tenantName()
+            // );
+            $database = $this->connection->tenantName();
+            $this->call('db:wipe', array_filter([
+                '--database' => $database,
+                '--drop-views' => $this->option('drop-views'),
+                '--drop-types' => $this->option('drop-types'),
+                '--force' => true,
+            ]));
 
             $this->call('tenancy:migrate', [
                 '--database' => $database,

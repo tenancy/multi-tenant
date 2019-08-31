@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use App\Console\Kernel;
+use Error;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -53,7 +54,7 @@ class RunCommandTest extends Test
      */
     public function proxies_exceptions()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Error::class);
 
         $this->setUpWebsites(true);
 
