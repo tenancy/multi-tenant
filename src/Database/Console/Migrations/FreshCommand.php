@@ -96,7 +96,7 @@ class FreshCommand extends BaseCommand
     {
         foreach (class_parents($object) as $parent) {
             if (method_exists($parent, $method)) {
-               return true;
+                return true;
             }
         }
 
