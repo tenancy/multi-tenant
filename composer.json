@@ -24,16 +24,16 @@
     },
     "require": {
         "doctrine/dbal": "*",
-        "laravel/framework": "5.8 - 6.0",
+        "laravel/framework": "6.*",
         "php": ">= 7.2",
         "phpseclib/phpseclib": "*",
         "ramsey/uuid": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "*",
-        "laravel/laravel": "dev-develop@dev",
+        "laravel/laravel": "6.*",
         "mockery/mockery": "*",
-        "phpunit/phpunit": "~8.0",
+        "phpunit/phpunit": "8.*",
         "symfony/dom-crawler": "*"
     },
     "autoload": {

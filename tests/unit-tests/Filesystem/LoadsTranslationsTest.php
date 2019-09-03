@@ -91,6 +91,10 @@ EOM
 
     protected function saveAndConfirmTenantTranslation()
     {
+        $original = include base_path('resources/lang/en/passwords.php');
+
+        $this->assertEquals($original['reset'], trans('passwords.reset', [], 'en'));
+
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('lang'));
 
