@@ -15,7 +15,6 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use App\Console\Kernel;
-use Error;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -28,7 +27,7 @@ class RunCommandTest extends Test
 
         $kernel->command('foo', function () {
         });
-        $kernel->command('exception', function () {
+        $kernel->command('commandThatDoesNotExist', function () {
             throw new \Exception;
         });
         $kernel->command('with:args {foo} {--bar}', function () {
@@ -54,12 +53,12 @@ class RunCommandTest extends Test
      */
     public function proxies_exceptions()
     {
-        $this->expectException(Error::class);
+        $this->expectException(\Exception::class);
 
         $this->setUpWebsites(true);
 
         $this->artisan('tenancy:run', [
-            'run' => 'exception'
+            'run' => 'commandThatDoesNotExist'
         ]);
     }
 
