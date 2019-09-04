@@ -27,7 +27,7 @@ class RunCommandTest extends Test
 
         $kernel->command('foo', function () {
         });
-        $kernel->command('exception', function () {
+        $kernel->command('commandThatDoesNotExist', function () {
             throw new \Exception;
         });
         $kernel->command('with:args {foo} {--bar}', function () {
@@ -58,7 +58,7 @@ class RunCommandTest extends Test
         $this->setUpWebsites(true);
 
         $this->artisan('tenancy:run', [
-            'run' => 'exception'
+            'run' => 'commandThatDoesNotExist'
         ]);
     }
 

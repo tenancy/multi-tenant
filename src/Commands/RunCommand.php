@@ -29,7 +29,7 @@ class RunCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tenancy:run {run : The artisan command to run for the tenants} 
+    protected $signature = 'tenancy:run {run : The artisan command to run for the tenants}
         {--tenant=* : The tenant(s) to run the command for}
         {--argument=* : Arguments to pass onto the command}
         {--option=* : Options to pass onto the command}

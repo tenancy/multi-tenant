@@ -1,4 +1,4 @@
-<VirtualHost *:{{ array_get($config, 'ports.http', 80) }}>
+<VirtualHost *:{{ Arr::get($config, 'ports.http', 80) }}>
     ServerName {{ $hostname->fqdn }}
 
     # public path, serving content

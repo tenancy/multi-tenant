@@ -1,6 +1,6 @@
 server {
 
-    listen {{ array_get($config, 'ports.http', 80) }};
+    listen {{ Arr::get($config, 'ports.http', 80) }};
 
     # server hostnames
     server_name {{ $hostname->fqdn }};
@@ -30,7 +30,7 @@ server {
 
     # pass the PHP scripts to FastCGI server from upstream phpfcgi
     location ~ \.php(/|$) {
-        fastcgi_pass {{ array_get($config, 'php-sock') }};
+        fastcgi_pass {{ Arr::get($config, 'php-sock') }};
         include fastcgi_params;
 
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
