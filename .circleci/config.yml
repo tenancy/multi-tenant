@@ -47,11 +47,11 @@ references:
         name: mysql2
         environment: *mysql_environment
     mariadb: &mariadb
-        image: mariadb:10.3.17-bionic
+        image: mariadb:latest
         name: mariadb
         environment: *mysql_environment
     mariadb2: &mariadb2
-        image: mariadb:10.3.17-bionic
+        image: mariadb:latest
         name: mariadb2
         environment: *mysql_environment
     pgsql: &pgsql
