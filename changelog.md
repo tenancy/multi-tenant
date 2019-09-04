@@ -1,3 +1,5 @@
+- 5.5.0
+    - Minimum requirement for Laravel 6.0.
 - 5.4.5
     - #805, Fix parsing of url scheme in UpdateAppUrl listener.
     - #811, Fix issue that prevented multiple hostnames to work properly.
