@@ -23,18 +23,18 @@
         "docs": "https://laravel-tenancy.com"
     },
     "require": {
-        "doctrine/dbal": "*",
-        "laravel/framework": "6.*",
-        "php": ">= 7.2",
-        "phpseclib/phpseclib": "*",
-        "ramsey/uuid": "*"
+        "php": "^7.2",
+        "phpseclib/phpseclib": "~2.0",
+        "doctrine/dbal": "~2.5",
+        "ramsey/uuid": "^3.5",
+        "laravel/framework": "^6.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "*",
-        "laravel/laravel": "6.*",
-        "mockery/mockery": "*",
-        "phpunit/phpunit": "8.*",
-        "symfony/dom-crawler": "*"
+        "phpunit/phpunit": "^8.0",
+        "symfony/dom-crawler": "~3.1",
+        "laravel/laravel": "^6.0",
+        "mockery/mockery": "^1.0",
+        "fzaninotto/faker": "^1.8"
     },
     "autoload": {
         "psr-4": {
