@@ -62,7 +62,5 @@
                 "Tenancy": "Hyn\\Tenancy\\Facades\\TenancyFacade"
             }
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
