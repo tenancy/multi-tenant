@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
-    backupStaticAttributes="false"
-    bootstrap="vendor/autoload.php"
-    colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    processIsolation="false"
-    stopOnFailure="true"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
 >
     <testsuites>
         <testsuite name="Installation Test Suite">
@@ -26,11 +26,9 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
-        <env name="DB_HOST" value="192.168.10.10"/>
-        <env name="DB_CONNECTION" value="mysql"/>
-        <env name="DB_DATABASE" value="tenancy-tests"/>
-        <env name="DB_PASSWORD" value="secret"/>
-        <env name="DB_USERNAME" value="homestead"/>
+        <env name="DB_DATABASE" value="tenancy"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_USERNAME" value="root"/>
         <env name="LIMIT_UUID_LENGTH_32" value="1"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="TENANCY_DATABASE_AUTO_DELETE" value="1"/>
