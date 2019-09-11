@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see https://laravel-tenancy.com
+ * @see https://tenancy.dev
  * @see https://github.com/hyn/multi-tenant
  */
 
@@ -72,7 +72,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
     public function reload(): bool
     {
         if ($this->testConfiguration() && $reload = config('webserver.apache2.paths.actions.reload')) {
-            return (new Process($reload))
+            return (Process::fromShellCommandline($reload))
                 ->mustRun()
                 ->isSuccessful();
         }
@@ -91,7 +91,7 @@ class ApacheGenerator implements VhostGenerator, ReloadsServices
             return $test;
         }
 
-        return (new Process($test))
+        return (Process::fromShellCommandline($test))
             ->mustRun()
             ->isSuccessful();
     }

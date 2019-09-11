@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see https://laravel-tenancy.com
+ * @see https://tenancy.dev
  * @see https://github.com/hyn/multi-tenant
  */
 
@@ -35,9 +35,13 @@ class FreshCommand extends BaseCommand
         $this->input->setOption('database', $this->connection->tenantName());
 
         $this->processHandle(function (Website $website) {
-            $this->dropAllTables(
-                $database = $this->connection->tenantName()
-            );
+            $database = $this->connection->tenantName();
+            $this->call('db:wipe', array_filter([
+                '--database' => $database,
+                '--drop-views' => $this->option('drop-views'),
+                '--drop-types' => $this->option('drop-types'),
+                '--force' => true,
+            ]));
 
             $this->call('tenancy:migrate', [
                 '--database' => $database,

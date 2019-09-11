@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see https://laravel-tenancy.com
+ * @see https://tenancy.dev
  * @see https://github.com/hyn/multi-tenant
  */
 
@@ -93,7 +93,7 @@ EOM
     {
         $original = include base_path('resources/lang/en/passwords.php');
 
-        $this->assertEquals($original['password'], trans('passwords.password', [], 'en'));
+        $this->assertEquals($original['reset'], trans('passwords.reset', [], 'en'));
 
         // Directory should now exists, let's write the config folder.
         $this->assertTrue($this->directory->makeDirectory('lang'));

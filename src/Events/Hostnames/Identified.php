@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see https://laravel-tenancy.com
+ * @see https://tenancy.dev
  * @see https://github.com/hyn/multi-tenant
  */
 

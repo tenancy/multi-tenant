@@ -6,7 +6,7 @@ references:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client libpng-dev
+            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev
             - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
@@ -47,11 +47,11 @@ references:
         name: mysql2
         environment: *mysql_environment
     mariadb: &mariadb
-        image: mariadb:latest
+        image: mariadb:10.3.17-bionic
         name: mariadb
         environment: *mysql_environment
     mariadb2: &mariadb2
-        image: mariadb:latest
+        image: mariadb:10.3.17-bionic
         name: mariadb2
         environment: *mysql_environment
     pgsql: &pgsql
@@ -129,7 +129,7 @@ jobs:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev mysql-client libpng-dev
+            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev
             - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: pecl install xdebug
             - run: docker-php-ext-enable xdebug
