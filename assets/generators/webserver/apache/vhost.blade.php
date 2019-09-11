@@ -1,6 +1,6 @@
 #
 #   Auto generated Apache configuration
-#       @author: hyn/multi-tenant
+#       @author: tenancy/multi-tenant
 #       @see: https://tenancy.dev
 #       @time: {{ date('H:i:s d-m-Y') }}
 #       @website id: {{ $website->id }}
