@@ -27,7 +27,7 @@ class QueueProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->extends('queue', function (QueueManager $queue){
+        $this->app->extends('queue', function (QueueManager $queue) {
             $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
                 /** @var Environment $environment */
                 $environment = resolve(Environment::class);
