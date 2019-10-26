@@ -21,19 +21,22 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Arr;
 use Hyn\Tenancy\Queue\DispatcherMiddleware;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Queue\QueueManager;
 
 class QueueProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app['queue']->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
-            /** @var Environment $environment */
-            $environment = resolve(Environment::class);
+        $this->app->extends('queue', function (QueueManager $queue){
+            $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
+                /** @var Environment $environment */
+                $environment = resolve(Environment::class);
 
-            /** @var mixed|null $website_id */
-            $website_id = Arr::get($payload, 'data.command')->website_id ?? optional($environment->tenant())->getKey();
+                /** @var mixed|null $website_id */
+                $website_id = Arr::get($payload, 'data.command')->website_id ?? optional($environment->tenant())->getKey();
 
-            return ['website_id' => $website_id];
+                return ['website_id' => $website_id];
+            });
         });
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
@@ -48,7 +51,7 @@ class QueueProvider extends ServiceProvider
                 $environment->tenant($tenant);
             }
         });
-        
+
         $this->app->make(Dispatcher::class)->pipeThrough([DispatcherMiddleware::class]);
     }
 }
