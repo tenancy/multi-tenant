@@ -37,6 +37,7 @@ class QueueProvider extends ServiceProvider
 
                 return ['website_id' => $website_id];
             });
+            return $queue;
         });
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
