@@ -20,7 +20,7 @@
     "support": {
         "issues": "https://github.com/hyn/multi-tenant/issues",
         "source": "https://github.com/hyn/multi-tenant",
-        "docs": "https://laravel-tenancy.com"
+        "docs": "https://tenancy.dev"
     },
     "require": {
         "php": "^7.2",
