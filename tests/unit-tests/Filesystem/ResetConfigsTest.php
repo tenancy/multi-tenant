@@ -45,8 +45,7 @@ class ConfigJob implements ShouldQueue
     public function handle()
     {
         $website = Website::find($this->website_id);
-        if ($website)
-        {
+        if ($website) {
             app(Environment::class)->tenant($website);
         }
         $this->appName = config('app.name');
