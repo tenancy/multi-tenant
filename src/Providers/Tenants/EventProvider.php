@@ -39,6 +39,8 @@ class EventProvider extends ServiceProvider
         Generators\Filesystem\DirectoryGenerator::class,
         // Sets the uuid value on a website based on tenancy configuration.
         Listeners\WebsiteUuidGeneration::class,
+        // Reset default configuration
+        Listeners\Filesystem\ResetConfigs::class,
         // Loads custom configuration folder for tenant.
         Listeners\Filesystem\LoadsConfigs::class,
         // Adds tenant specific routes.
