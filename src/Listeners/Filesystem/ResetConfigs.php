@@ -29,7 +29,7 @@ class ResetConfigs
 
     public function reset(WebsiteEvent $event)
     {
-        if($event->website)
+        if ($event->website) {
         {
             config(app()->call(ConfigurationLoader::class . '@reset'));
         }
