@@ -40,7 +40,7 @@ Database separation methods:
 - Apache or Nginx.
 - MySQL, MariaDB or PostgreSQL.
 
-Please read the full [requirements in the documentation](https://tenancy.dev/docs/hyn/5.3/requirements).
+Please read the full [requirements in the documentation](https://tenancy.dev/docs/hyn/5.4/requirements).
 
 ## Installation
 
