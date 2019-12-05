@@ -113,9 +113,9 @@ return [
         'auto-delete-tenant-directory' => false,
 
         /**
-         * Time to cache websites in minutes. Set to false to disable.
+         * Time to cache websites in seconds. Set to false to disable.
          */
-        'cache' => 10,
+        'cache' => 600,
     ],
     'hostname' => [
         /**
@@ -153,9 +153,9 @@ return [
         'abort-without-identified-hostname' => env('TENANCY_ABORT_WITHOUT_HOSTNAME', false),
 
         /**
-         * Time to cache hostnames in minutes. Set to false to disable.
+         * Time to cache hostnames in seconds. Set to false to disable.
          */
-        'cache' => 10,
+        'cache' => 600,
 
         /**
          * Automatically update the app.url configured inside Laravel to match
