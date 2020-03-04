@@ -1,3 +1,6 @@
+- 5.6.0
+    - Minimum requirement for Laravel 7.0.
+    - #870, Laravel 5.8+ uses seconds for its cache remember function
 - 5.5.0
     - Minimum requirement for Laravel 6.0.
 - 5.4.5
