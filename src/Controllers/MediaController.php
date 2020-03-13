@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Storage;
  * Class MediaController
  *
  * @package Hyn\Tenancy\Controllers
- * @use Route::get('/media/{path}', Hyn\Tenancy\Controllers\MediaController)
+ * @use Route::get('/media/{path}', '\Hyn\Tenancy\Controllers\MediaController')
  *          ->where('path', '.+')
  *          ->name('tenant.media');
  */
