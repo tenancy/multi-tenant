@@ -27,18 +27,20 @@ class QueueProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->extend('queue', function (QueueManager $queue) {
-            $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
-                /** @var Environment $environment */
-                $environment = resolve(Environment::class);
+        $this->app->booted(function() {
+            $this->app->extend('queue', function (QueueManager $queue) {
+                $queue->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
+                    /** @var Environment $environment */
+                    $environment = resolve(Environment::class);
 
-                /** @var mixed|null $website_id */
-                $website_id = Arr::get($payload, 'data.command')->website_id ?? optional($environment->tenant())->getKey();
+                    /** @var mixed|null $website_id */
+                    $website_id = Arr::get($payload, 'data.command')->website_id ?? optional($environment->tenant())->getKey();
 
-                return ['website_id' => $website_id];
+                    return ['website_id' => $website_id];
+                });
+
+                return $queue;
             });
-
-            return $queue;
         });
 
         $this->app['events']->listen(JobProcessing::class, function ($event) {
