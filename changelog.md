@@ -1,3 +1,5 @@
+- 5.6.1
+    - #904, Update QueueProvider.php
 - 5.6.0
     - Minimum requirement for Laravel 7.0.
     - #870, Laravel 5.8+ uses seconds for its cache remember function
