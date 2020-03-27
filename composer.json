@@ -26,7 +26,7 @@
         "php": "^7.2",
         "phpseclib/phpseclib": "~2.0",
         "doctrine/dbal": "~2.5",
-        "ramsey/uuid": "^3.5",
+        "ramsey/uuid": "^4.0",
         "laravel/framework": "^7.0"
     },
     "require-dev": {
