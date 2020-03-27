@@ -1,3 +1,5 @@
+- 5.6.2
+    - Upgrade ramsey/uuid to ^4.0
 - 5.6.1
     - #904, Update QueueProvider.php
 - 5.6.0
