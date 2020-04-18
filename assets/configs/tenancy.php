@@ -35,6 +35,9 @@ return [
         // Must implement \Hyn\Tenancy\Contracts\Website
         'website' => \Hyn\Tenancy\Models\Website::class
     ],
+    'jobs' => [
+        'hostname_identification' => \Hyn\Tenancy\Jobs\HostnameIdentification::class,
+    ],
     /**
      * The package middleware. Removing a middleware here will disable it.
      * You can of course extend/replace them or add your own.
