@@ -95,7 +95,7 @@ class HostnameActions
     {
         $this->emitEvent(new Secured($hostname));
 
-        return $this->redirect->secure($request->path());
+        return $this->redirect->secure($request->getRequestUri());
     }
 
     /**

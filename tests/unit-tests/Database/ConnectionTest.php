@@ -96,7 +96,7 @@ class ConnectionTest extends Test
     public function override_to_tenant_connection()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Database [tenant] not configured.');
+        $this->expectExceptionMessage('Database connection [tenant] not configured.');
 
         config(['tenancy.db.force-tenant-connection-of-models' => [NonExtend::class]]);
 

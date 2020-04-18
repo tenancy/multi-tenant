@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/hyn/multi-tenant/branch/5.x/graph/badge.svg)](https://codecov.io/gh/hyn/multi-tenant/branch/5.x)
 [![Packagist](https://img.shields.io/packagist/dt/hyn/multi-tenant.svg)](https://packagist.org/packages/hyn/multi-tenant)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ac3e21d7a5f64e3f87f64c4913c1ca09?branch=4.x)](https://www.codacy.com/app/Luceos/multi-tenant)
-[![Join our Discord server](https://discordapp.com/api/guilds/146267795754057729/embed.png)](https://laravel-tenancy.com/chat)
+[![Join our Discord server](https://discordapp.com/api/guilds/146267795754057729/embed.png)](https://tenancy.dev/chat)
 [![Mentioned in Awesome Laravel](https://awesome.re/mentioned-badge.svg)](https://github.com/chiraggude/awesome-laravel)
 
 The unobtrusive Laravel package that makes your app multi tenant. Serving 
@@ -30,7 +30,7 @@ Database separation methods:
 - Table prefixed in the system database.
 - Or .. manually, the way you want, by listening to an event.
 
-[Complete documentation](https://laravel-tenancy.com) covers more than just the
+[Complete documentation](https://tenancy.dev) covers more than just the
  installation and configuration.
 
 ## Requirements, recommended environment
@@ -40,7 +40,7 @@ Database separation methods:
 - Apache or Nginx.
 - MySQL, MariaDB or PostgreSQL.
 
-Please read the full [requirements in the documentation](https://laravel-tenancy.com/docs/hyn/5.3/requirements).
+Please read the full [requirements in the documentation](https://tenancy.dev/docs/hyn/5.4/requirements).
 
 ## Installation
 
@@ -166,5 +166,5 @@ All changes are covered in the [changelog](changelog.md).
 Get in touch personally using;
 
 - The email address provided in the [composer.json](composer.json).
-- [Discord chat](https://laravel-tenancy.com/chat).
+- [Discord chat](https://tenancy.dev/chat).
 - [Twitter](http://twitter.com/laraveltenancy).

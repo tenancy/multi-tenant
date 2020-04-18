@@ -111,11 +111,7 @@ class MariaDB implements DatabaseGenerator
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
         $user = function (IlluminateConnection $connection) use ($config) {
-            if ($this->isMariaDb($connection)) {
-                return $connection->statement("UPDATE mysql.user SET Password=PASSWORD('{$config['password']}') WHERE User='{$config['username']}' AND Host='{$config['host']}'");
-            } else {
-                return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
-            }
+            return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
         };
 
         $flush = function (IlluminateConnection $connection) {
@@ -125,13 +121,5 @@ class MariaDB implements DatabaseGenerator
         return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
             return $user($connection) && $flush($connection);
         });
-    }
-
-    protected function isMariaDb(IlluminateConnection $connection): bool
-    {
-        $platform = $connection->getDoctrineSchemaManager()->getDatabasePlatform();
-        $reflect = new \ReflectionClass($platform);
-
-        return Str::startsWith($reflect->getShortName(), 'MariaDb');
     }
 }
