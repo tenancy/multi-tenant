@@ -20,7 +20,6 @@ use Hyn\Tenancy\Contracts\Tenant;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events;
-use Hyn\Tenancy\Jobs\HostnameIdentification;
 use Hyn\Tenancy\Traits\DispatchesEvents;
 use Hyn\Tenancy\Traits\DispatchesJobs;
 use Illuminate\Contracts\Foundation\Application;
@@ -76,8 +75,9 @@ class Environment
     public function identifyHostname()
     {
         $this->app->singleton(CurrentHostname::class, function () {
+            $job = config('tenancy.jobs.hostname_identification');
             /** @var Hostname $hostname */
-            $hostname = $this->dispatch(new HostnameIdentification());
+            $hostname = $this->dispatch(new $job());
 
             $this->tenant(optional($hostname)->website);
 
