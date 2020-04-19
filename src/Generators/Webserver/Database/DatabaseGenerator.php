@@ -104,10 +104,14 @@ class DatabaseGenerator
      */
     protected function configureHost(&$config)
     {
-        $host = Arr::get($config, 'host');
+        if ($host = config('tenancy.db.tenant-database-user-host', null)) {
+            $config['host'] = $host;
+        } else {
+            $host = Arr::get($config, 'host');
 
-        if (! in_array($host, ['localhost', '127.0.0.1', '192.168.0.1'])) {
-            $config['host'] = '%';
+            if (! in_array($host, ['localhost', '127.0.0.1', '192.168.0.1'])) {
+                $config['host'] = '%';
+            }
         }
     }
 

@@ -265,6 +265,19 @@ return [
         'tenant-database-user-privileges' => null,
 
         /**
+         * Specify the client host from which the tenant database user should be allowed to connect
+         *
+         * @info null by default means it will use % (connecting from any host)
+         * when a remote host is set as system database connection host
+         *
+         * @info This should be configured for MySQL and MariaDB if you use a remote database
+         * and you want to restrict the client host from which you can connect. Also it's
+         * needed if you use a proxy connection through localhost and remote database
+         * resolves your connection with a remote hostname
+         */
+        'tenant-database-user-host' => null,
+
+        /**
          * Automatically rename the tenant database when the random id of the
          * website changes. This should not be too common, but in case it happens
          * we automatically want to move databases accordingly.
