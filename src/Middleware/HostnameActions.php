@@ -57,7 +57,7 @@ class HostnameActions
             : null;
 
         if ($hostname != null) {
-            if ($hostname->under_maintenance_since) {
+            if ($hostname->under_maintenance_since && $hostname->under_maintenance_since <= now()) {
                 return $this->maintenance($hostname);
             }
 
