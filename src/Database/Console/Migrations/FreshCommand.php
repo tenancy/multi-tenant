@@ -69,7 +69,8 @@ class FreshCommand extends BaseCommand
      */
     protected function getOptions()
     {
-        foreach ($options = parent::getOptions() as $option) {
+        $options = parent::getOptions();
+        foreach ($options as &$option) {
             if ($option[0] === 'seeder') {
                 $option[4] = config('tenancy.db.tenant-seed-class', null);
             }

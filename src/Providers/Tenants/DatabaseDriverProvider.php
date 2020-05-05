@@ -32,7 +32,7 @@ class DatabaseDriverProvider extends ServiceProvider
         $this->app->singleton(DatabaseDriverFactory::class);
     }
 
-    private function drivers()
+    protected function drivers()
     {
         $isPgsqlSchema = config('tenancy.db.tenant-division-mode') === Connection::DIVISION_MODE_SEPARATE_SCHEMA;
         
