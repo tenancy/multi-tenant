@@ -1,3 +1,6 @@
+- 5.6.4
+    - Add new conditions to enable maintenance mode (#940)
+    - Use contract instead of concrete implementation (#944)
 - 5.6.3
     - Fix the 'tenancy:migration:fresh --seed' command (#919)
 - 5.6.2
