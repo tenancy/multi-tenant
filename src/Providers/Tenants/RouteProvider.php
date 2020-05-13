@@ -14,13 +14,13 @@
 
 namespace Hyn\Tenancy\Providers\Tenants;
 
-use Hyn\Tenancy\Contracts\CurrentHostname;
-use Hyn\Tenancy\Models\Hostname;
-use Illuminate\Config\Repository;
-use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
+use Illuminate\Config\Repository;
+use Hyn\Tenancy\Contracts\Hostname;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\ServiceProvider;
+use Hyn\Tenancy\Contracts\CurrentHostname;
 
 class RouteProvider extends ServiceProvider
 {

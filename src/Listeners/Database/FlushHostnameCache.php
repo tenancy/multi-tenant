@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Listeners\Database;
 
-use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Contracts\Hostname;
 use Illuminate\Contracts\Cache\Factory;
 
 class FlushHostnameCache
