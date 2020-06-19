@@ -121,6 +121,10 @@ class DatabaseGenerator
             return;
         }
 
+        if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, class_uses($event->website)) && ! $event->website->forceDeleting) {
+            return;
+        }
+
         if (!in_array($this->mode, [
             Connection::DIVISION_MODE_SEPARATE_DATABASE,
             Connection::DIVISION_MODE_SEPARATE_SCHEMA,
