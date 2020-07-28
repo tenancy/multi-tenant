@@ -24,7 +24,7 @@ class PostgresSchema extends PostgreSQL
 {
     protected function createDatabase(IlluminateConnection $connection, array $config)
     {
-        return $connection->statement("CREATE SCHEMA \"{$config['schema']}\"");
+        return $connection->statement("CREATE SCHEMA IF NOT EXISTS \"{$config['schema']}\"");
     }
 
     protected function grantPrivileges(IlluminateConnection $connection, array $config)
