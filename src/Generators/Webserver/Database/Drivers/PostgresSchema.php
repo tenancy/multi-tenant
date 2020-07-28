@@ -54,6 +54,6 @@ class PostgresSchema extends PostgreSQL
 
     protected function dropDatabase(IlluminateConnection $connection, array $config)
     {
-        return $connection->statement("DROP SCHEMA IF EXISTS \"{$config['schema']}\"");
+        return $connection->statement("DROP SCHEMA IF EXISTS \"{$config['schema']}\" CASCADE");
     }
 }
