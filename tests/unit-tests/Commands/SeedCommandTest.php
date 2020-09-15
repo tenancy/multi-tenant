@@ -108,7 +108,8 @@ class SeedCommandTest extends DatabaseCommandTest
             $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
 
             $this->assertEquals(
-                2, $this->connection->get()->table('samples')->count(),
+                2,
+                $this->connection->get()->table('samples')->count(),
                 "Connection for {$website->uuid} has incorrect sample data"
             );
         });
