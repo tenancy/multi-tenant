@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Console\Kernel;
-use SampleSeeder;
+use Hyn\Tenancy\Tests\Seeds\SampleSeeder;
 
 class SeedCommandTest extends DatabaseCommandTest
 {

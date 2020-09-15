@@ -1,5 +1,7 @@
 <?php
 
+namespace Hyn\Tenancy\Tests\Seeds;
+
 /*
  * This file is part of the hyn/multi-tenant package.
  *

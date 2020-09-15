@@ -12,11 +12,12 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tests;
+namespace Hyn\Tenancy\Tests\Repositories;
 
-use Hyn\Tenancy\Exceptions\ModelValidationException;
-use Illuminate\Contracts\Foundation\Application;
+use Hyn\Tenancy\Tests\Test;
 use Illuminate\Support\Arr;
+use Illuminate\Contracts\Foundation\Application;
+use Hyn\Tenancy\Exceptions\ModelValidationException;
 
 class HostnameRepositoryTest extends Test
 {
