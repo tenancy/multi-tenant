@@ -46,6 +46,7 @@
         "psr-4": {
             "Hyn\\Tenancy\\Tests\\": "tests/unit-tests/",
             "Hyn\\Tenancy\\Tests\\Extend\\": "tests/extend/",
+            "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/seeds/",
             "Hyn\\Tenancy\\Tests\\Traits\\": "tests/traits/"
         },
         "classmap": [
