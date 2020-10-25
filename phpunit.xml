@@ -18,8 +18,8 @@
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="DB_DATABASE" value="tenancy"/>
-        <env name="DB_PASSWORD" value="EgHVxwTqHq9zikfzAoe6"/>
-        <env name="DB_USERNAME" value="forge"/>
+        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_USERNAME" value="root"/>
         <env name="MAIL_MAILER" value="log"/>
         <env name="LIMIT_UUID_LENGTH_32" value="1"/>
         <env name="QUEUE_DRIVER" value="sync"/>
