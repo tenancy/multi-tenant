@@ -45,12 +45,14 @@ class LoadsConfigsTest extends Test
         $this->assertTrue($this->directory->makeDirectory('config'));
 
         // Write a testing config.
-        $this->assertTrue($this->directory->put('config/test.php', <<<EOM
+        $this->assertTrue($this->directory->put(
+            'config/test.php',
+            <<<EOM
 <?php
 
 return ['foo' => 'bar'];
 EOM
-));
+        ));
 
         $this->assertTrue($this->directory->exists('config/test.php'));
 
@@ -70,7 +72,9 @@ EOM
         $this->assertTrue($this->directory->makeDirectory('config'));
 
         // Write a testing config.
-        $this->assertTrue($this->directory->put('config/app.php', <<<EOM
+        $this->assertTrue($this->directory->put(
+            'config/app.php',
+            <<<EOM
 <?php
 
 return ['name' => 'bar'];
@@ -93,7 +97,9 @@ EOM
         $this->assertTrue($this->directory->makeDirectory('config'));
 
         // Write a testing config.
-        $this->assertTrue($this->directory->put('config/database.php', <<<EOM
+        $this->assertTrue($this->directory->put(
+            'config/database.php',
+            <<<EOM
 <?php
 
 return ['foo' => 'bar'];

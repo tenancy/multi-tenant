@@ -33,7 +33,9 @@ trait InteractsWithRoutes
         }
 
         // Write a testing config.
-        $this->assertTrue($directory->put('routes.php', <<<EOM
+        $this->assertTrue($directory->put(
+            'routes.php',
+            <<<EOM
 <?php
 
 \Route::get('$path', function () { return 'testing'; })->name('bar');
