@@ -6,7 +6,7 @@
 [![Join our Discord server](https://discordapp.com/api/guilds/146267795754057729/embed.png)](https://tenancy.dev/chat)
 [![Mentioned in Awesome Laravel](https://awesome.re/mentioned-badge.svg)](https://github.com/chiraggude/awesome-laravel)
 
-The unobtrusive Laravel package that makes your app multi tenant. Serving 
+The unobtrusive Laravel package that makes your app multi tenant. Serving
 multiple websites, each with one or more hostnames from the same codebase. But
 with clear separation of assets, database and the ability to override logic per
 tenant.
@@ -20,7 +20,7 @@ for different clients or start-ups building the next software as a
 Offers:
 
 - Integration with the awesome Laravel framework.
-- Event driven, extensible architecture.  
+- Event driven, extensible architecture.
 - Close - optional - integration into the web server.
 - The ability to add tenant specific configs, code, routes etc.
 
@@ -35,10 +35,10 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
-- Latest stable and LTS Laravel versions.
-- PHP 7+.
+- Laravel 8.0+.
+- PHP 7.3+
 - Apache or Nginx.
-- MySQL, MariaDB or PostgreSQL.
+- MySQL, MariaDB, or PostgreSQL.
 
 Please read the full [requirements in the documentation](https://tenancy.dev/docs/hyn/5.4/requirements).
 
@@ -51,11 +51,11 @@ composer require hyn/multi-tenant
 ### Automatic service registration
 
 Using [auto discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518), the
-tenancy package will be auto detected by Laravel automatically. 
+tenancy package will be auto detected by Laravel automatically.
 
 #### Manual service registration
 
-In case you want to disable webserver integration or prefer manual integration, 
+In case you want to disable webserver integration or prefer manual integration,
 set the `dont-discover` in your application composer.json, like so:
 
 ```json

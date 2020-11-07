@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Traits;
 use Hyn\Tenancy\Providers\TenancyProvider;
 use Hyn\Tenancy\Providers\Tenants\ConfigurationProvider;
 use Illuminate\Database\Eloquent\Collection;
-use SampleSeeder;
+use Hyn\Tenancy\Tests\Seeds\SampleSeeder;
 use Mockery;
 use Hyn\Tenancy\Database\Connection;
 use Illuminate\Contracts\Console\Kernel;

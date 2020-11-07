@@ -38,19 +38,34 @@ class ConnectionProvider extends ServiceProvider
     protected function registerMigrationCommands()
     {
         $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
-            return new Console\Migrations\FreshCommand($app->make('migrator'));
+            return new Console\Migrations\FreshCommand(
+                $app->make('migrator'),
+                $app->make("events")
+            );
         });
         $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
-            return new Console\Migrations\MigrateCommand($app->make('migrator'));
+            return new Console\Migrations\MigrateCommand(
+                $app->make('migrator'),
+                $app->make("events")
+            );
         });
         $this->app->singleton(Console\Migrations\RollbackCommand::class, function (Application $app) {
-            return new Console\Migrations\RollbackCommand($app->make('migrator'));
+            return new Console\Migrations\RollbackCommand(
+                $app->make('migrator'),
+                $app->make("events")
+            );
         });
         $this->app->singleton(Console\Migrations\ResetCommand::class, function (Application $app) {
-            return new Console\Migrations\ResetCommand($app->make('migrator'));
+            return new Console\Migrations\ResetCommand(
+                $app->make('migrator'),
+                $app->make("events")
+            );
         });
         $this->app->singleton(Console\Migrations\RefreshCommand::class, function (Application $app) {
-            return new Console\Migrations\RefreshCommand($app->make('migrator'));
+            return new Console\Migrations\RefreshCommand(
+                $app->make('migrator'),
+                $app->make("events")
+            );
         });
         $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
             return new Console\Seeds\SeedCommand($app['db']);

@@ -12,8 +12,9 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-namespace Hyn\Tenancy\Tests;
+namespace Hyn\Tenancy\Tests\Repositories;
 
+use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
 class WebsiteRepositoryTest extends Test

@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Console\Kernel;
-use SampleSeeder;
+use Hyn\Tenancy\Tests\Seeds\SampleSeeder;
 
 class SeedCommandTest extends DatabaseCommandTest
 {
@@ -108,7 +108,8 @@ class SeedCommandTest extends DatabaseCommandTest
             $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
 
             $this->assertEquals(
-                2, $this->connection->get()->table('samples')->count(),
+                2,
+                $this->connection->get()->table('samples')->count(),
                 "Connection for {$website->uuid} has incorrect sample data"
             );
         });
