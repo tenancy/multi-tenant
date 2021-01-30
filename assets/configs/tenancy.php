@@ -358,9 +358,9 @@ return [
             
             /**
              * Allows adding middlewares tenant specific routes.
-             * Accept array or string value
+             * Accepted values array|string|null
              */
-            'middleware' => ['web'],
+            'middleware' => null,
         ],
         'trans' => [
             /**
