@@ -355,6 +355,12 @@ return [
              * Prefix all tenant routes.
              */
             'prefix' => null,
+            
+            /**
+             * Allows adding middlewares tenant specific routes.
+             * Accept array or string value
+             */
+            'middleware' => ['web'],
         ],
         'trans' => [
             /**
