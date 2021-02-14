@@ -25,7 +25,9 @@ class RouteProviderTest extends Test
 {
     protected function pathIdentified(string $path)
     {
-        file_put_contents("$path/routes/tenants.php", <<<EOM
+        file_put_contents(
+            "$path/routes/tenants.php",
+            <<<EOM
 <?php
 
 \Route::get('/', function () { return 'bar'; })->name('tenant');

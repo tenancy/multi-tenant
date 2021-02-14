@@ -17,7 +17,7 @@ namespace Hyn\Tenancy\Tests\Commands;
 use Hyn\Tenancy\Database\Console\Migrations\FreshCommand;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Foundation\Application;
-use SampleSeeder;
+use Hyn\Tenancy\Tests\Seeds\SampleSeeder;
 
 class FreshCommandTest extends DatabaseCommandTest
 {

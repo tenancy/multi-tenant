@@ -147,9 +147,10 @@ class PostgreSQL implements DatabaseGenerator
 
     protected function dropUser(IlluminateConnection $connection, array $config)
     {
-        if (config('tenancy.db.auto-delete-tenant-database-user')
-            && $this->userExists($connection, $config['username'])
-        ) {
+        if (config('tenancy.db.auto-delete-tenant-database-user') && $this->userExists(
+            $connection,
+            $config['username']
+        )) {
             return $connection->statement("DROP USER \"{$config['username']}\"");
         }
 
