@@ -121,7 +121,7 @@ jobs:
         <<: *steps
     coverage:
         docker:
-            - image: php:7.2
+            - image: php:7.3
               environment: *environment
             - *mariadb
             - *mariadb2
