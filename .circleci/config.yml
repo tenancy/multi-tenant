@@ -35,7 +35,7 @@ references:
         - MYSQL_PASSWORD: testing
         - MYSQL_ALLOW_EMPTY_PASSWORD: yes
         - MYSQL_ROOT_HOST: "%"
-    
+
     mysql: &mysql
         image: mysql:latest
         entrypoint: ['/entrypoint.sh', '--default-authentication-plugin=mysql_native_password']
@@ -75,17 +75,6 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-7.2-apache":
-        docker:
-            - image: php:7.2-apache
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-            - *mysql2
-            - *mariadb2
-            - *pgsql2
-        <<: *steps
     "php-7.3-apache":
         docker:
             - image: php:7.3-apache
@@ -97,9 +86,9 @@ jobs:
             - *mariadb2
             - *pgsql2
         <<: *steps
-    "php-7.2-nginx":
+    "php-7.3-nginx":
         docker:
-            - image: php:7.2-fpm
+            - image: php:7.3-fpm
               environment: *environment
             - *mysql
             - *mariadb
@@ -108,7 +97,18 @@ jobs:
             - *mariadb2
             - *pgsql2
         <<: *steps
-    "php-7.3-nginx":
+    "php-7.4-apache":
+        docker:
+            - image: php:7.3-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-7.4-nginx":
         docker:
             - image: php:7.3-fpm
               environment: *environment
@@ -145,22 +145,22 @@ jobs:
             - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: DB_CONNECTION=mysql DB_HOST=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql ./vendor/bin/phpunit -c ci.phpunit.xml --coverage-clover=coverage.xml
             - run: bash <(curl -s https://codecov.io/bash)
-            
+
 
 workflows:
     version: 2
     test:
         jobs:
-            - "php-7.2-apache"
             - "php-7.3-apache"
-            - "php-7.2-nginx"
             - "php-7.3-nginx"
+            - "php-7.4-apache"
+            - "php-7.4-nginx"
             - coverage:
                 filters:
                     branches:
                         only: /^([0-9]+)\.x$/
                 requires:
-                    - "php-7.2-apache"
                     - "php-7.3-apache"
-                    - "php-7.2-nginx"
                     - "php-7.3-nginx"
+                    - "php-7.4-apache"
+                    - "php-7.4-nginx"

@@ -14,10 +14,11 @@
 
 namespace Hyn\Tenancy\Traits;
 
-use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Database\Connection;
-use Illuminate\Database\Migrations\Migrator;
 use InvalidArgumentException;
+use Hyn\Tenancy\Database\Connection;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Database\Migrations\Migrator;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 
 trait MutatesMigrationCommands
 {
@@ -31,9 +32,9 @@ trait MutatesMigrationCommands
      */
     private $connection;
 
-    public function __construct(Migrator $migrator)
+    public function __construct(Migrator $migrator, Dispatcher $dispatcher)
     {
-        parent::__construct($migrator);
+        parent::__construct($migrator, $dispatcher);
 
         $this->setName('tenancy:' . $this->getName());
         $this->specifyParameters();

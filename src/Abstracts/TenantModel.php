@@ -15,8 +15,9 @@
 namespace Hyn\Tenancy\Abstracts;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use Illuminate\Database\Eloquent\Model;
 
-abstract class TenantModel extends AbstractModel
+abstract class TenantModel extends Model
 {
     use UsesTenantConnection;
 }

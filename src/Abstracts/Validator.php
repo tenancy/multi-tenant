@@ -19,6 +19,7 @@ use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Exceptions\ModelValidationException;
 use Illuminate\Contracts\Validation\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Validator as Native;
 
 abstract class Validator
@@ -37,10 +38,10 @@ abstract class Validator
     protected $delete = [];
 
     /**
-     * @param AbstractModel $model
+     * @param Model $model
      * @return bool
      */
-    public function save(AbstractModel $model): bool
+    public function save(Model $model): bool
     {
         if ($model->exists) {
             return $this->update($model);
@@ -50,10 +51,10 @@ abstract class Validator
     }
 
     /**
-     * @param AbstractModel $model
+     * @param Model $model
      * @return bool
      */
-    public function delete(AbstractModel $model)
+    public function delete(Model $model)
     {
         return $this->validate(
             $model,
@@ -62,10 +63,10 @@ abstract class Validator
     }
 
     /**
-     * @param AbstractModel $model
+     * @param Model $model
      * @return bool
      */
-    protected function update(AbstractModel $model)
+    protected function update(Model $model)
     {
         return $this->validate(
             $model,
@@ -74,10 +75,10 @@ abstract class Validator
     }
 
     /**
-     * @param AbstractModel $model
+     * @param Model $model
      * @return bool
      */
-    protected function create(AbstractModel $model)
+    protected function create(Model $model)
     {
         return $this->validate(
             $model,
@@ -86,12 +87,12 @@ abstract class Validator
     }
 
     /**
-     * @param AbstractModel $model
+     * @param Model $model
      * @param array $rules
      * @return bool
      * @throws ModelValidationException
      */
-    protected function validate(AbstractModel $model, array $rules)
+    protected function validate(Model $model, array $rules)
     {
         /** @var Factory $validator */
         $factory = app(Factory::class);
@@ -113,10 +114,10 @@ abstract class Validator
 
     /**
      * @param array $rules
-     * @param AbstractModel $model
+     * @param Model $model
      * @return array
      */
-    protected function replaceVariables(array $rules, AbstractModel $model)
+    protected function replaceVariables(array $rules, Model $model)
     {
         /** @var Connection $connection */
         $connection = app(Connection::class);
