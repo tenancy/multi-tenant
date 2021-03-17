@@ -37,19 +37,19 @@ class MariaDB implements DatabaseGenerator
     {
         $createUser = config('tenancy.db.auto-create-tenant-database-user', true);
 
-        $user = function ($connection) use ($config, $createUser) {
+        $user = function (IlluminateConnection $connection) use ($config, $createUser) {
             if ($createUser) {
                 return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
             }
 
             return true;
         };
-        $create = function ($connection) use ($config) {
+        $create = function (IlluminateConnection $connection) use ($config) {
             return $connection->statement("CREATE DATABASE IF NOT EXISTS `{$config['database']}`
             DEFAULT CHARACTER SET {$config['charset']}
             DEFAULT COLLATE {$config['collation']}");
         };
-        $grant = function ($connection) use ($config, $createUser) {
+        $grant = function (IlluminateConnection $connection) use ($config, $createUser) {
             if ($createUser) {
                 $privileges = config('tenancy.db.tenant-database-user-privileges', null) ?? 'ALL';
                 return $connection->statement("GRANT $privileges ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
@@ -89,7 +89,7 @@ class MariaDB implements DatabaseGenerator
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        $user = function ($connection) use ($config) {
+        $user = function (IlluminateConnection $connection) use ($config) {
             if (config('tenancy.db.auto-delete-tenant-database-user', false)) {
                 return $connection->statement("DROP USER IF EXISTS `{$config['username']}`@'{$config['host']}'");
             }
@@ -97,7 +97,7 @@ class MariaDB implements DatabaseGenerator
             return true;
         };
 
-        $delete = function ($connection) use ($config) {
+        $delete = function (IlluminateConnection $connection) use ($config) {
             return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
         };
 
