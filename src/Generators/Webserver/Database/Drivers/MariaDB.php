@@ -58,9 +58,7 @@ class MariaDB implements DatabaseGenerator
             return true;
         };
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
-            return $user($connection) && $create($connection) && $grant($connection);
-        });
+        return $user && $create && $grant ? true : false;
     }
 
     /**
@@ -103,9 +101,7 @@ class MariaDB implements DatabaseGenerator
             return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
         };
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
-            return $delete($connection) && $user($connection);
-        });
+        return $user && $delete ? true : false;
     }
 
     public function updatePassword(Website $website, array $config, Connection $connection): bool
@@ -118,8 +114,6 @@ class MariaDB implements DatabaseGenerator
             return $connection->statement('FLUSH PRIVILEGES');
         };
 
-        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
-            return $user($connection) && $flush($connection);
-        });
+        return $user && $flush ? true : false;
     }
 }
