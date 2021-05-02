@@ -35,6 +35,10 @@ class UpdateAppUrl
     {
         if (config('tenancy.hostname.update-app-url', false)) {
             $scheme = optional(request())->getScheme() ?? parse_url(config('app.url'), PHP_URL_SCHEME);
+            $port = optional(request())->getPort();
+            if (in_array($port, [80, 443])) {
+                $port = null;
+            }
 
             /** @var Hostname $hostname */
             $hostname = $event->hostname
@@ -42,7 +46,7 @@ class UpdateAppUrl
                 ?? $event->website->hostnames->first();
 
             if ($hostname) {
-                $url = sprintf('%s://%s', $scheme, $hostname->fqdn);
+                $url = sprintf('%s://%s', $scheme, $hostname->fqdn.($port ? ":$port" : ""));
 
                 config([
                     'app.url' => $url
