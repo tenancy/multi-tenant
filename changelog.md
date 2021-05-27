@@ -1,3 +1,5 @@
+- 5.7.2
+    - Trim slashes from request uri before redirecting (#1001)
 - 5.7.1
     - Fix An argument with name class already exists. (#987)
 - 5.7.0
