@@ -14,16 +14,14 @@
 
 namespace Hyn\Tenancy\Generators\Webserver\Database\Drivers;
 
-use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
+use Illuminate\Support\Arr;
 use Hyn\Tenancy\Contracts\Website;
 use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Events\Websites\Created;
 use Hyn\Tenancy\Events\Websites\Deleted;
 use Hyn\Tenancy\Events\Websites\Updated;
 use Hyn\Tenancy\Exceptions\GeneratorFailedException;
-use Illuminate\Database\Connection as IlluminateConnection;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use Hyn\Tenancy\Contracts\Webserver\DatabaseGenerator;
 
 class MariaDB implements DatabaseGenerator
 {
@@ -31,44 +29,40 @@ class MariaDB implements DatabaseGenerator
      * @param Created $event
      * @param array $config
      * @param Connection $connection
+     *
      * @return bool
      */
     public function created(Created $event, array $config, Connection $connection): bool
     {
         $createUser = config('tenancy.db.auto-create-tenant-database-user', true);
 
-        $user = function ($connection) use ($config, $createUser) {
-            if ($createUser) {
-                return $connection->statement("CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
-            }
+        $user = "CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'";
 
-            return true;
-        };
-        $create = function ($connection) use ($config) {
-            return $connection->statement("CREATE DATABASE IF NOT EXISTS `{$config['database']}`
+        $create = "CREATE DATABASE IF NOT EXISTS `{$config['database']}`
             DEFAULT CHARACTER SET {$config['charset']}
-            DEFAULT COLLATE {$config['collation']}");
-        };
-        $grant = function ($connection) use ($config, $createUser) {
-            if ($createUser) {
-                $privileges = config('tenancy.db.tenant-database-user-privileges', null) ?? 'ALL';
-                return $connection->statement("GRANT $privileges ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'");
-            }
+            DEFAULT COLLATE {$config['collation']}";
 
-            return true;
-        };
+        $privileges = config('tenancy.db.tenant-database-user-privileges', null) ?? 'ALL';
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $create, $grant) {
-            return $user($connection) && $create($connection) && $grant($connection);
-        });
+        $grant = "GRANT $privileges ON `{$config['database']}`.* TO `{$config['username']}`@'{$config['host']}'";
+
+        if ($createUser) {
+            return $connection->system($event->website)->statement($user)
+                && $connection->system($event->website)->statement($create)
+                && $connection->system($event->website)->statement($grant);
+        }
+
+        return $connection->system($event->website)->statement($create);
     }
 
     /**
      * @param Updated $event
      * @param array $config
      * @param Connection $connection
-     * @return bool
+     *
      * @throws GeneratorFailedException
+     *
+     * @return bool
      */
     public function updated(Updated $event, array $config, Connection $connection): bool
     {
@@ -87,39 +81,32 @@ class MariaDB implements DatabaseGenerator
      * @param Deleted $event
      * @param array $config
      * @param Connection $connection
+     *
      * @return bool
      */
     public function deleted(Deleted $event, array $config, Connection $connection): bool
     {
-        $user = function ($connection) use ($config) {
-            if (config('tenancy.db.auto-delete-tenant-database-user', false)) {
-                return $connection->statement("DROP USER IF EXISTS `{$config['username']}`@'{$config['host']}'");
-            }
+        $deleteUser = config('tenancy.db.auto-delete-tenant-database-user', false);
 
-            return true;
-        };
+        $user = "DROP USER IF EXISTS `{$config['username']}`@'{$config['host']}'";
 
-        $delete = function ($connection) use ($config) {
-            return $connection->statement("DROP DATABASE IF EXISTS `{$config['database']}`");
-        };
+        $delete = "DROP DATABASE IF EXISTS `{$config['database']}`";
 
-        return $connection->system($event->website)->transaction(function (IlluminateConnection $connection) use ($user, $delete) {
-            return $delete($connection) && $user($connection);
-        });
+        if ($deleteUser) {
+            return $connection->system($event->website)->statement($user)
+                && $connection->system($event->website)->statement($delete);
+        }
+
+        return $connection->system($event->website)->statement($delete);
     }
 
     public function updatePassword(Website $website, array $config, Connection $connection): bool
     {
-        $user = function (IlluminateConnection $connection) use ($config) {
-            return $connection->statement("ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'");
-        };
+        $user = "ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'";
 
-        $flush = function (IlluminateConnection $connection) {
-            return $connection->statement('FLUSH PRIVILEGES');
-        };
+        $flush = 'FLUSH PRIVILEGES';
 
-        return $connection->system($website)->transaction(function (IlluminateConnection $connection) use ($user, $flush) {
-            return $user($connection) && $flush($connection);
-        });
+        return $connection->system($website)->statement($user)
+            && $connection->system($website)->statement($flush);
     }
 }
