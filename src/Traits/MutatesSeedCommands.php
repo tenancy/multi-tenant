@@ -35,7 +35,6 @@ trait MutatesSeedCommands
         parent::__construct($resolver);
 
         $this->setName('tenancy:' . $this->getName());
-        $this->specifyParameters();
 
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);

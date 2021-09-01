@@ -1,3 +1,10 @@
+- 5.7.2
+    - Trim slashes from request uri before redirecting (#1001)
+- 5.7.1
+    - Fix An argument with name class already exists. (#987)
+- 5.7.0
+    - Added Laravel 8 Support
+    - Removed Laravel 7 Support
 - 5.6.4
     - Add new conditions to enable maintenance mode (#940)
     - Use contract instead of concrete implementation (#944)
