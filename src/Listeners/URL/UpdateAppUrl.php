@@ -51,6 +51,10 @@ class UpdateAppUrl
                 config([
                     'app.url' => $url
                 ]);
+
+                if (app()->runningInConsole()) {
+                    URL::forceRootUrl($url);
+                }
             }
         }
     }
