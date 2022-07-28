@@ -90,14 +90,6 @@ class Directory implements Filesystem
             $path = "$prefix$path";
         }
 
-        if ($local && $this->isLocal()) {
-            $path = sprintf(
-                "%s%s",
-                $this->filesystem->getAdapter()->getPathPrefix(),
-                $path
-            );
-        }
-
         return $path;
     }
 
