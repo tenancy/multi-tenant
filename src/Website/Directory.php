@@ -22,7 +22,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use League\Flysystem\Adapter\Local;
+use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class Directory implements Filesystem
@@ -88,6 +88,10 @@ class Directory implements Filesystem
 
         if (!Str::startsWith($path, $prefix)) {
             $path = "$prefix$path";
+        }
+
+        if ($local && $this->isLocal()) {
+            $path = Storage::path($path);
         }
 
         return $path;
