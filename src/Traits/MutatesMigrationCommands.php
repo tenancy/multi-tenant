@@ -32,9 +32,17 @@ trait MutatesMigrationCommands
      */
     private $connection;
 
-    public function __construct(Migrator $migrator, Dispatcher $dispatcher)
+    protected $migrator;
+
+    protected $dispatcher;
+
+    public function __construct()
     {
-        parent::__construct($migrator, $dispatcher);
+        $this->migrator = app('migrator');
+
+        $this->dispatcher = app('events');
+
+        parent::__construct($this->migrator, $this->dispatcher);
 
         $this->setName('tenancy:' . $this->getName());
         $this->specifyParameters();

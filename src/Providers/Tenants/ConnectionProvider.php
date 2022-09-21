@@ -19,6 +19,12 @@ use Hyn\Tenancy\Database\Console;
 use Hyn\Tenancy\Database\Resolver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
+use Hyn\Tenancy\Database\Console\Migrations\FreshCommand;
+use Hyn\Tenancy\Database\Console\Migrations\MigrateCommand;
+use Hyn\Tenancy\Database\Console\Migrations\RollbackCommand;
+use Hyn\Tenancy\Database\Console\Migrations\ResetCommand;
+use Hyn\Tenancy\Database\Console\Migrations\RefreshCommand;
+use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 
 class ConnectionProvider extends ServiceProvider
 {
@@ -37,47 +43,32 @@ class ConnectionProvider extends ServiceProvider
      */
     protected function registerMigrationCommands()
     {
-        $this->app->singleton(Console\Migrations\FreshCommand::class, function (Application $app) {
-            return new Console\Migrations\FreshCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
+        $this->app->singleton(\Illuminate\Database\Console\Migrations\FreshCommand::class, function (Application $app) {
+            return new FreshCommand();
         });
-        $this->app->singleton(Console\Migrations\MigrateCommand::class, function (Application $app) {
-            return new Console\Migrations\MigrateCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
+        $this->app->singleton(\Illuminate\Database\Console\Migrations\MigrateCommand::class, function (Application $app) {
+            return new MigrateCommand();
         });
-        $this->app->singleton(Console\Migrations\RollbackCommand::class, function (Application $app) {
-            return new Console\Migrations\RollbackCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
+        $this->app->singleton(\Illuminate\Database\Console\Migrations\RollbackCommand::class, function (Application $app) {
+            return new RollbackCommand();
         });
-        $this->app->singleton(Console\Migrations\ResetCommand::class, function (Application $app) {
-            return new Console\Migrations\ResetCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
+        $this->app->singleton(\Illuminate\Database\Console\Migrations\ResetCommand::class, function (Application $app) {
+            return new ResetCommand();
         });
-        $this->app->singleton(Console\Migrations\RefreshCommand::class, function (Application $app) {
-            return new Console\Migrations\RefreshCommand(
-                $app->make('migrator'),
-                $app->make("events")
-            );
+        $this->app->singleton(\Illuminate\Database\Console\Migrations\RefreshCommand::class, function (Application $app) {
+            return new RefreshCommand();
         });
-        $this->app->singleton(Console\Seeds\SeedCommand::class, function (Application $app) {
-            return new Console\Seeds\SeedCommand($app['db']);
+        $this->app->singleton(\Illuminate\Database\Console\Seeds\SeedCommand::class, function (Application $app) {
+            return new SeedCommand($app['db']);
         });
 
         $this->commands([
-            Console\Migrations\FreshCommand::class,
-            Console\Migrations\MigrateCommand::class,
-            Console\Migrations\RollbackCommand::class,
-            Console\Migrations\ResetCommand::class,
-            Console\Migrations\RefreshCommand::class,
-            Console\Seeds\SeedCommand::class
+            FreshCommand::class,
+            MigrateCommand::class,
+            RollbackCommand::class,
+            ResetCommand::class,
+            RefreshCommand::class,
+            SeedCommand::class
         ]);
     }
 
