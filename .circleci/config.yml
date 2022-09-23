@@ -75,50 +75,6 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-7.3-apache":
-        docker:
-            - image: php:7.3-apache
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-            - *mysql2
-            - *mariadb2
-            - *pgsql2
-        <<: *steps
-    "php-7.3-nginx":
-        docker:
-            - image: php:7.3-fpm
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-            - *mysql2
-            - *mariadb2
-            - *pgsql2
-        <<: *steps
-    "php-7.4-apache":
-        docker:
-            - image: php:7.4-apache
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-            - *mysql2
-            - *mariadb2
-            - *pgsql2
-        <<: *steps
-    "php-7.4-nginx":
-        docker:
-            - image: php:7.4-fpm
-              environment: *environment
-            - *mysql
-            - *mariadb
-            - *pgsql
-            - *mysql2
-            - *mariadb2
-            - *pgsql2
-        <<: *steps
     "php-8.0-apache":
         docker:
             - image: php:8.0-apache
@@ -143,7 +99,7 @@ jobs:
         <<: *steps
     coverage:
         docker:
-            - image: php:7.3
+            - image: php:8.0-fpm
               environment: *environment
             - *mariadb
             - *mariadb2
@@ -173,10 +129,6 @@ workflows:
     version: 2
     test:
         jobs:
-            - "php-7.3-apache"
-            - "php-7.3-nginx"
-            - "php-7.4-apache"
-            - "php-7.4-nginx"
             - "php-8.0-apache"
             - "php-8.0-nginx"
             - coverage:
@@ -184,9 +136,5 @@ workflows:
                     branches:
                         only: /^([0-9]+)\.x$/
                 requires:
-                    - "php-7.3-apache"
-                    - "php-7.3-nginx"
-                    - "php-7.4-apache"
-                    - "php-7.4-nginx"
                     - "php-8.0-apache"
                     - "php-8.0-nginx"
