@@ -104,7 +104,7 @@ class HostnameActions
     protected function maintenance(Hostname $hostname)
     {
         $this->emitEvent(new UnderMaintenance($hostname));
-        throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp);
+        throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp, null, "");
     }
 
     /**

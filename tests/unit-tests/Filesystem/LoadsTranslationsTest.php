@@ -93,7 +93,7 @@ EOM
 
     protected function saveAndConfirmTenantTranslation()
     {
-        $original = include base_path('resources/lang/en/passwords.php');
+        $original = include base_path('lang/en/passwords.php');
 
         $this->assertEquals($original['reset'], trans('passwords.reset', [], 'en'));
 
