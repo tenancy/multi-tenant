@@ -321,7 +321,7 @@ class Connection
                 $clone['prefix'] = sprintf('%d_', $website->id);
                 break;
             case static::DIVISION_MODE_SEPARATE_SCHEMA:
-                $clone['username'] = $clone['schema'] = $website->uuid;
+                $clone['username'] = $clone['schema'] = $clone['search_path'] = $website->uuid;
                 $clone['password'] = $this->passwordGenerator->generate($website);
                 break;
             case static::DIVISION_MODE_BYPASS:
