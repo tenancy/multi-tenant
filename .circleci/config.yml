@@ -11,7 +11,6 @@ references:
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
             - run: mv composer.phar /usr/local/bin/composer
-            - run: composer config -g github-oauth.github.com $GITHUB_TOKEN
             - run: composer install -n --prefer-dist --no-progress -o
             - run:
                 name: Wait for other docker instances to be up
