@@ -23,6 +23,7 @@ use Illuminate\Filesystem\Filesystem as LocalSystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class Directory implements Filesystem
 {
@@ -90,9 +91,10 @@ class Directory implements Filesystem
         }
 
         if ($local && $this->isLocal()) {
+            $config = $this->filesystem->getConfig();
             $path = sprintf(
-                "%s%s",
-                $this->filesystem->getAdapter()->getPathPrefix(),
+                "%s/%s",
+                $config['root'],
                 $path
             );
         }
@@ -359,7 +361,7 @@ class Directory implements Filesystem
      */
     public function isLocal(): bool
     {
-        return $this->filesystem->getAdapter() instanceof Local;
+        return $this->filesystem->getAdapter() instanceof LocalFilesystemAdapter;
     }
 
     public function __call($name, $arguments)

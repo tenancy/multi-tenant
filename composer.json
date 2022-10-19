@@ -23,14 +23,14 @@
         "docs": "https://tenancy.dev"
     },
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "doctrine/dbal": "~2.5|~3.0",
         "ramsey/uuid": "^4.0",
-        "laravel/framework": "^8.0|^9.0"
+        "laravel/framework": "^9.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.12",
-        "laravel/laravel": "^8.0",
+        "laravel/laravel": "^9.0",
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^9.0",
         "symfony/dom-crawler": "~3.1"
