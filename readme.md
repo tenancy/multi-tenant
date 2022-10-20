@@ -35,8 +35,8 @@ Database separation methods:
 
 ## Requirements, recommended environment
 
-- Laravel 8.0+.
-- PHP 7.3+
+- Laravel 9.0+.
+- PHP 8.0+
 - Apache or Nginx.
 - MySQL, MariaDB, or PostgreSQL.
 
