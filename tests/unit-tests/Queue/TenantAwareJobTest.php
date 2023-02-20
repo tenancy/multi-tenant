@@ -102,42 +102,42 @@ class TenantAwareJobTest extends Test
     }
 
     /** @test */
-    public function dispatch_now_without_identified()
+    public function dispatch_sync_without_identified()
     {
         $job = new TestJob();
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertNull(resolve(Environment::class)->tenant());
     }
 
     /** @test */
-    public function dispatch_now_overrides_without_identified()
+    public function dispatch_sync_overrides_without_identified()
     {
         $second = new Website;
         $this->websites->create($second);
 
         $id = $second->id;
         $job = new TestJob($id);
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
 
     /** @test */
-    public function dispatch_now_identified()
+    public function dispatch_sync_identified()
     {
         $this->activateTenant();
 
         $id = resolve(Environment::class)->tenant()->id;
 
         $job = new TestJob();
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
 
     /** @test */
-    public function dispatch_now_overrides_identified()
+    public function dispatch_sync_overrides_identified()
     {
         $second = new Website;
         $this->websites->create($second);
@@ -145,7 +145,7 @@ class TenantAwareJobTest extends Test
 
         $id = $second->id;
         $job = new TestJob($id);
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
