@@ -6,7 +6,7 @@ references:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev
+            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev postgresql
             - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
@@ -19,7 +19,7 @@ references:
             - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mysql2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
-            - run: mysql --host=pgsql -e "GRANT ALL ON SCHEMA public TO testing;"
+            - run: PGPASSWORD=testing psql --host=pgsql --user=testin --host=pgsql --user=testing -e "GRANT ALL ON SCHEMA public TO testing;"
             - run: |
                 if [[ "${CIRCLE_JOB}" == *-nginx ]]; then
                     apt-get -yqq install nginx
