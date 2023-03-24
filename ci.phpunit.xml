@@ -27,8 +27,6 @@
         <env name="APP_ENV" value="testing"/>
         <env name="APP_KEY" value="Phei9thoong3ai8aqu4ieHie6kee1zee"/>
         <env name="DB_DATABASE" value="testing"/>
-        <env name="DB_PASSWORD" value="root"/>
-        <env name="DB_USERNAME" value="root"/>
         <env name="IN_CI" value="1"/>
         <env name="LIMIT_UUID_LENGTH_32" value="1"/>
         <env name="MAIL_MAILER" value="log"/>
