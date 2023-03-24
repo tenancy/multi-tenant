@@ -19,7 +19,7 @@ references:
             - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mysql2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
-            - run: PGPASSWORD=testing psql --host=pgsql --user=testin --host=pgsql --user=testing -c "GRANT ALL ON SCHEMA public TO root;"
+            - run: PGPASSWORD=testing psql --host=pgsql --user=testing -c "GRANT ALL ON SCHEMA public TO root;"
             - run: |
                 if [[ "${CIRCLE_JOB}" == *-nginx ]]; then
                     apt-get -yqq install nginx
@@ -59,8 +59,8 @@ references:
         name: pgsql
         environment:
             - POSTGRES_DB: testing
-            - POSTGRES_USER: testing
-            - POSTGRES_PASSWORD: testing
+            - POSTGRES_USER: root
+            - POSTGRES_PASSWORD: root
     pgsql2: &pgsql2
         image: postgres:latest
         name: pgsql2
