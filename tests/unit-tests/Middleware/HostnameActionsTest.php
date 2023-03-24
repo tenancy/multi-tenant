@@ -21,7 +21,6 @@ use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Middleware\HostnameActions;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Carbon;
@@ -43,8 +42,8 @@ class HostnameActionsTest extends Test
             $this->middleware($this->hostname);
 
             $this->fail('Middleware didn\'t fire maintenance exception');
-        } catch (MaintenanceModeException $e) {
-            $this->assertEquals($e->wentDownAt->timestamp, $this->hostname->under_maintenance_since->timestamp);
+        } catch (HttpException $e) {
+            $this->assertEquals(503, $e->getStatusCode());
         }
 
         $this->hostname->under_maintenance_since = null;
