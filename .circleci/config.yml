@@ -19,7 +19,7 @@ references:
             - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mysql2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
-            - run: PGPASSWORD=testing psql --host=pgsql --user=testin --host=pgsql --user=testing -e "GRANT ALL ON SCHEMA public TO testing;"
+            - run: PGPASSWORD=testing psql --host=pgsql --user=testin --host=pgsql --user=testing -c "GRANT ALL ON SCHEMA public TO testing;"
             - run: |
                 if [[ "${CIRCLE_JOB}" == *-nginx ]]; then
                     apt-get -yqq install nginx
