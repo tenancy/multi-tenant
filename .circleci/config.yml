@@ -55,14 +55,14 @@ references:
         name: mariadb2
         environment: *mysql_environment
     pgsql: &pgsql
-        image: postgres:latest
+        image: postgres:14
         name: pgsql
         environment:
             - POSTGRES_DB: testing
             - POSTGRES_USER: testing
             - POSTGRES_PASSWORD: testing
     pgsql2: &pgsql2
-        image: postgres:latest
+        image: postgres:14
         name: pgsql2
         environment:
             - POSTGRES_DB: testing
