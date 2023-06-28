@@ -151,9 +151,15 @@ workflows:
     test:
         jobs:
             - "php-8.1-apache"
-            - "php-8.1-nginx"
-            - "php-8.2-apache"
-            - "php-8.2-nginx"
+            - "php-8.1-nginx":
+                requires:
+                    - "php-8.1-apache"
+            - "php-8.2-apache":
+                  requires:
+                      - "php-8.1-nginx"
+            - "php-8.2-nginx":
+                  requires:
+                      - "php-8.2-apache"
             - coverage:
                 filters:
                     branches:
