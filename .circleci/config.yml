@@ -97,6 +97,28 @@ jobs:
             - *mariadb2
             - *pgsql2
         <<: *steps
+    "php-8.2-apache":
+        docker:
+            - image: php:8.2-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-8.2-nginx":
+        docker:
+            - image: php:8.2-fpm
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
     coverage:
         docker:
             - image: php:8.1-fpm
@@ -130,6 +152,8 @@ workflows:
         jobs:
             - "php-8.1-apache"
             - "php-8.1-nginx"
+            - "php-8.2-apache"
+            - "php-8.2-nginx"
             - coverage:
                 filters:
                     branches:
