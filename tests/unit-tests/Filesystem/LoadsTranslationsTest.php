@@ -93,6 +93,7 @@ EOM
 
     protected function saveAndConfirmTenantTranslation()
     {
+        $this->artisan("lang:publish");
         $original = include base_path('lang/en/passwords.php');
 
         $this->assertEquals($original['reset'], trans('passwords.reset', [], 'en'));

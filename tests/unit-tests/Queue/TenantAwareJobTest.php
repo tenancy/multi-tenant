@@ -105,7 +105,7 @@ class TenantAwareJobTest extends Test
     public function dispatch_now_without_identified()
     {
         $job = new TestJob();
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertNull(resolve(Environment::class)->tenant());
     }
@@ -118,7 +118,7 @@ class TenantAwareJobTest extends Test
 
         $id = $second->id;
         $job = new TestJob($id);
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
@@ -131,7 +131,7 @@ class TenantAwareJobTest extends Test
         $id = resolve(Environment::class)->tenant()->id;
 
         $job = new TestJob();
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
@@ -145,7 +145,7 @@ class TenantAwareJobTest extends Test
 
         $id = $second->id;
         $job = new TestJob($id);
-        dispatch_now($job);
+        dispatch_sync($job);
 
         $this->assertEquals($id, resolve(Environment::class)->tenant()->id);
     }
