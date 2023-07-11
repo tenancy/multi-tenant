@@ -55,14 +55,14 @@ references:
         name: mariadb2
         environment: *mysql_environment
     pgsql: &pgsql
-        image: postgres:latest
+        image: postgres:14
         name: pgsql
         environment:
             - POSTGRES_DB: testing
             - POSTGRES_USER: testing
             - POSTGRES_PASSWORD: testing
     pgsql2: &pgsql2
-        image: postgres:latest
+        image: postgres:14
         name: pgsql2
         environment:
             - POSTGRES_DB: testing
@@ -89,6 +89,28 @@ jobs:
     "php-8.1-nginx":
         docker:
             - image: php:8.1-fpm
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-8.2-apache":
+        docker:
+            - image: php:8.2-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-8.2-nginx":
+        docker:
+            - image: php:8.2-fpm
               environment: *environment
             - *mysql
             - *mariadb
@@ -129,7 +151,15 @@ workflows:
     test:
         jobs:
             - "php-8.1-apache"
-            - "php-8.1-nginx"
+            - "php-8.1-nginx":
+                requires:
+                    - "php-8.1-apache"
+            - "php-8.2-apache":
+                  requires:
+                      - "php-8.1-nginx"
+            - "php-8.2-nginx":
+                  requires:
+                      - "php-8.2-apache"
             - coverage:
                 filters:
                     branches:

@@ -36,7 +36,9 @@ class Hostname extends SystemModel implements HostnameContract
 {
     use SoftDeletes;
 
-    protected $dates = ['under_maintenance_since'];
+    protected $casts = [
+        'under_maintenance_since' => 'datetime',
+    ];
 
     public function website(): BelongsTo
     {
