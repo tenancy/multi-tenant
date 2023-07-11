@@ -28,7 +28,6 @@ use Illuminate\Support\Arr;
 
 class InstallationTest extends Test
 {
-
     /**
      * @test
      */

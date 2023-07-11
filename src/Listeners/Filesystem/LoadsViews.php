@@ -41,7 +41,6 @@ class LoadsViews extends AbstractTenantDirectoryListener
     public function load(WebsiteEvent $event)
     {
         if ($this->directory()->isLocal()) {
-
             /** @var Factory views */
             $this->views = app(Factory::class);
             $this->viewsPath = $this->directory()->path($this->path, true);

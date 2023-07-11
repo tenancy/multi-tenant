@@ -18,7 +18,6 @@ use Hyn\Tenancy\Abstracts\FilesystemEvent;
 
 class DirectoryRenamed extends FilesystemEvent
 {
-
     /**
      * @var string
      */
