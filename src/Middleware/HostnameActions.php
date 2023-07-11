@@ -22,7 +22,6 @@ use Hyn\Tenancy\Events\Hostnames\Redirected;
 use Hyn\Tenancy\Events\Hostnames\Secured;
 use Hyn\Tenancy\Events\Hostnames\UnderMaintenance;
 use Hyn\Tenancy\Traits\DispatchesEvents;
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -104,7 +103,12 @@ class HostnameActions
     protected function maintenance(Hostname $hostname)
     {
         $this->emitEvent(new UnderMaintenance($hostname));
-        throw new MaintenanceModeException($hostname->under_maintenance_since->timestamp, null, "");
+
+        throw new \Symfony\Component\HttpKernel\Exception\HttpException(
+            503,
+            'Service Unavailable',
+            null
+        );
     }
 
     /**

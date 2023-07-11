@@ -6,7 +6,7 @@ references:
         steps:
             - checkout
             - run: apt-get -yqq update
-            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev
+            - run: apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev postgresql
             - run: docker-php-ext-install pdo_pgsql pdo_mysql gd
             - run: curl -sS https://getcomposer.org/installer | php
             - run: chmod +x composer.phar
@@ -19,6 +19,7 @@ references:
             - run: mysql --host=mysql -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mariadb2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
             - run: mysql --host=mysql2 -e "grant all privileges on *.* to 'testing'@'%' with grant option;"
+            - run: PGPASSWORD=testing psql --host=pgsql --user=testing -c "GRANT ALL ON SCHEMA public TO testing;"
             - run: |
                 if [[ "${CIRCLE_JOB}" == *-nginx ]]; then
                     apt-get -yqq install nginx
@@ -54,14 +55,14 @@ references:
         name: mariadb2
         environment: *mysql_environment
     pgsql: &pgsql
-        image: postgres:latest
+        image: postgres:14
         name: pgsql
         environment:
             - POSTGRES_DB: testing
             - POSTGRES_USER: testing
             - POSTGRES_PASSWORD: testing
     pgsql2: &pgsql2
-        image: postgres:latest
+        image: postgres:14
         name: pgsql2
         environment:
             - POSTGRES_DB: testing
@@ -74,9 +75,9 @@ references:
         - APP_KEY: deela5kinohw0haekoothahSh8eexach
 
 jobs:
-    "php-8.0-apache":
+    "php-8.1-apache":
         docker:
-            - image: php:8.0-apache
+            - image: php:8.1-apache
               environment: *environment
             - *mysql
             - *mariadb
@@ -85,9 +86,31 @@ jobs:
             - *mariadb2
             - *pgsql2
         <<: *steps
-    "php-8.0-nginx":
+    "php-8.1-nginx":
         docker:
-            - image: php:8.0-fpm
+            - image: php:8.1-fpm
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-8.2-apache":
+        docker:
+            - image: php:8.2-apache
+              environment: *environment
+            - *mysql
+            - *mariadb
+            - *pgsql
+            - *mysql2
+            - *mariadb2
+            - *pgsql2
+        <<: *steps
+    "php-8.2-nginx":
+        docker:
+            - image: php:8.2-fpm
               environment: *environment
             - *mysql
             - *mariadb
@@ -98,7 +121,7 @@ jobs:
         <<: *steps
     coverage:
         docker:
-            - image: php:8.0-fpm
+            - image: php:8.1-fpm
               environment: *environment
             - *mariadb
             - *mariadb2
@@ -127,12 +150,20 @@ workflows:
     version: 2
     test:
         jobs:
-            - "php-8.0-apache"
-            - "php-8.0-nginx"
+            - "php-8.1-apache"
+            - "php-8.1-nginx":
+                requires:
+                    - "php-8.1-apache"
+            - "php-8.2-apache":
+                  requires:
+                      - "php-8.1-nginx"
+            - "php-8.2-nginx":
+                  requires:
+                      - "php-8.2-apache"
             - coverage:
                 filters:
                     branches:
                         only: /^([0-9]+)\.x$/
                 requires:
-                    - "php-8.0-apache"
-                    - "php-8.0-nginx"
+                    - "php-8.1-apache"
+                    - "php-8.1-nginx"

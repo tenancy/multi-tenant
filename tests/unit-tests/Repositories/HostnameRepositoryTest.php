@@ -149,7 +149,7 @@ class HostnameRepositoryTest extends Test
             try {
                 $this->hostnames->create($this->hostname);
             } catch (ModelValidationException $e) {
-                $this->assertStringContainsString("The fqdn format is invalid.", $e->getMessage());
+                $this->assertStringContainsString("The fqdn field format is invalid.", $e->getMessage());
             }
         }
     }

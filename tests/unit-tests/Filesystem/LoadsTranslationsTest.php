@@ -32,6 +32,8 @@ class LoadsTranslationsTest extends Test
 
         $this->directory = $app->make(Directory::class);
         $this->directory->setWebsite($this->website);
+
+        $this->artisan('lang:publish');
     }
 
     /**
