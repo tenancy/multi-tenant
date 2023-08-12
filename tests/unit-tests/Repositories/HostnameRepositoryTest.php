@@ -56,8 +56,7 @@ class HostnameRepositoryTest extends Test
         } catch (ModelValidationException $e) {
             $this->assertEquals(
                 Arr::get($e->validator->failed(), 'website_id.Exists.0'),
-                sprintf("%s.websites",]
-                 $this->connection->systemName())
+                sprintf("%s.websites", $this->connection->systemName())
             );
         }
     }
