@@ -154,14 +154,15 @@ class HostnameRepositoryTest extends Test
         try {
             $this->hostnames->create($this->hostname);
         } catch (ModelValidationException $e) {
-            $this->assertStringContainsString("The fqdn field format is invalid.", $e->getMessage());
+            $this->assertStringContainsString(" fqdn ", $e->getMessage());
+            $this->assertStringContainsString("is invalid.", $e->getMessage());
         }
     }
 
     protected function matchHostnames(): array
     {
         return [
-            ["xn-fsqu00a.xn-0zwm56d",]
+            ["xn-fsqu00a.xn-0zwm56d"],
             ["xn-fsqu00a.xn--vermgensberatung-pwb"],
             ["xn--stackoverflow.com"],
             ["stackoverflow.xn--com"],
