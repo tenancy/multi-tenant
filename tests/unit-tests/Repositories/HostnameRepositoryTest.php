@@ -193,7 +193,7 @@ class HostnameRepositoryTest extends Test
             ["-a.dot"],
             ["a-1234567890-1234567890-1234567890-1234567890-1234567890-12345-z.eu.us"]
         ];
-    }    
+    }
 
     protected function duringSetUp(Application $app)
     {

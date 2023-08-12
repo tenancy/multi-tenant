@@ -38,7 +38,6 @@ class LoadsTranslationsTest extends Test
         } catch (\Exception $e) {
             // Laravel 9 will throw an exception because the command does not exist.
         }
-        
     }
 
     /**
