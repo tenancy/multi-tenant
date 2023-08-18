@@ -132,26 +132,67 @@ class HostnameRepositoryTest extends Test
 
         $this->assertFalse($this->hostname->exists);
     }
+
     /**
      * @test
+     * @dataProvider matchHostnames
      */
-    public function hostname_regex_validation()
+    public function hostname_regex_validation_matches(string $hostname)
     {
-        $matchhostnames = ["xn-fsqu00a.xn-0zwm56d","xn-fsqu00a.xn--vermgensberatung-pwb","xn--stackoverflow.com","stackoverflow.xn--com","stackoverflow.co.uk","google.com.au","i.oh1.me","wow.british-library.uk","xn--stackoverflow.com","stackoverflow.xn--com","stackoverflow.co.uk","0-0O_.COM","a.net","0-0O.COM","0-OZ.CO.uk","0-TENSION.COM.br","0-WH-AO14-0.COM-com.net","a-1234567890-1234567890-1234567890-1234567890-1234567890-1234-z.eu.us","subA.subB.subC.example.com","*.subA.subB.example.com"];
-        $nomatchhostnames = ["-0-0O.COM","0-0O.-COM","-a.dot","a-1234567890-1234567890-1234567890-1234567890-1234567890-12345-z.eu.us"];
-        foreach ($matchhostnames as $hostname) {
-            $this->hostname->fqdn = $hostname;
+        $this->hostname->fqdn = $hostname;
+        $this->hostnames->create($this->hostname);
+        $this->assertTrue($this->hostname->exists);
+    }
+
+    /**
+     * @test
+     * @dataProvider noMatchHostnames
+     */
+    public function hostname_regex_validation_no_matches(string $hostname)
+    {
+        $this->hostname->fqdn = $hostname;
+        try {
             $this->hostnames->create($this->hostname);
-            $this->assertTrue($this->hostname->exists);
+        } catch (ModelValidationException $e) {
+            $this->assertStringContainsString(" fqdn ", $e->getMessage());
+            $this->assertStringContainsString("is invalid.", $e->getMessage());
         }
-        foreach ($nomatchhostnames as $hostname) {
-            $this->hostname->fqdn = $hostname;
-            try {
-                $this->hostnames->create($this->hostname);
-            } catch (ModelValidationException $e) {
-                $this->assertStringContainsString("The fqdn field format is invalid.", $e->getMessage());
-            }
-        }
+    }
+
+    protected function matchHostnames(): array
+    {
+        return [
+            ["xn-fsqu00a.xn-0zwm56d"],
+            ["xn-fsqu00a.xn--vermgensberatung-pwb"],
+            ["xn--stackoverflow.com"],
+            ["stackoverflow.xn--com"],
+            ["stackoverflow.co.uk"],
+            ["google.com.au"],
+            ["i.oh1.me"],
+            ["wow.british-library.uk"],
+            ["xn--stackoverflow.com"],
+            ["stackoverflow.xn--com"],
+            ["stackoverflow.co.uk"],
+            ["0-0O_.COM"],
+            ["a.net"],
+            ["0-0O.COM"],
+            ["0-OZ.CO.uk"],
+            ["0-TENSION.COM.br"],
+            ["0-WH-AO14-0.COM-com.net"],
+            ["a-1234567890-1234567890-1234567890-1234567890-1234567890-1234-z.eu.us"],
+            ["subA.subB.subC.example.com"],
+            ["*.subA.subB.example.com"],
+        ];
+    }
+
+    protected function noMatchHostnames(): array
+    {
+        return [
+            ["-0-0O.COM"],
+            ["0-0O.-COM"],
+            ["-a.dot"],
+            ["a-1234567890-1234567890-1234567890-1234567890-1234567890-12345-z.eu.us"]
+        ];
     }
 
     protected function duringSetUp(Application $app)

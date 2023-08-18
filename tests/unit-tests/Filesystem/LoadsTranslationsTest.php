@@ -33,7 +33,11 @@ class LoadsTranslationsTest extends Test
         $this->directory = $app->make(Directory::class);
         $this->directory->setWebsite($this->website);
 
-        $this->artisan('lang:publish');
+        try {
+            $this->artisan('lang:publish');
+        } catch (\Exception $e) {
+            // Laravel 9 will throw an exception because the command does not exist.
+        }
     }
 
     /**
