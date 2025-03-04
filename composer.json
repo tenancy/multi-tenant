@@ -23,7 +23,7 @@
         "docs": "https://tenancy.dev"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ramsey/uuid": "^4.0",
         "laravel/framework": "^12.0"
     },
