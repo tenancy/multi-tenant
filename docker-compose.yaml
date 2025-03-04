@@ -1,0 +1,25 @@
+services:
+    mysql:
+        image: 'mysql:8.0'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_DATABASE: 'tenancy'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        command: --default-authentication-plugin=mysql_native_password
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: hyn_app
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+
+        command: >
+            bash -c "composer install
+            && vendor/bin/phpunit"
+volumes:
+    db_data:

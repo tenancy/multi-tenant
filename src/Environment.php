@@ -83,6 +83,8 @@ class Environment
 
             return $hostname;
         });
+        // needed, does not work without it in laravel 12, but does in 10 (don't know why)
+        $this->app->make(CurrentHostname::class);
     }
 
     /**
@@ -101,6 +103,7 @@ class Environment
             return $hostname;
         }
 
+        echo "-------MAKE HOSTNAME------\n";
         return $this->app->make(CurrentHostname::class);
     }
 

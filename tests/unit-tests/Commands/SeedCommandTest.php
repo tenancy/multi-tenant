@@ -18,6 +18,7 @@ use Hyn\Tenancy\Database\Console\Seeds\SeedCommand;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Contracts\Console\Kernel;
 use Hyn\Tenancy\Tests\Seeds\SampleSeeder;
+use Illuminate\Support\Facades\Schema;
 
 class SeedCommandTest extends DatabaseCommandTest
 {
@@ -49,8 +50,8 @@ class SeedCommandTest extends DatabaseCommandTest
 
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
-        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse(Schema::connection($this->connection->tenantName())->hasTable('users'));
+        $this->assertTrue(Schema::connection($this->connection->tenantName())->hasTable('samples'));
 
         $this->assertGreaterThan(
             0,
@@ -87,8 +88,8 @@ class SeedCommandTest extends DatabaseCommandTest
 
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
-        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse(Schema::connection($this->connection->tenantName())->hasTable('users'));
+        $this->assertTrue(Schema::connection($this->connection->tenantName())->hasTable('samples'));
     }
 
     /**
@@ -98,14 +99,14 @@ class SeedCommandTest extends DatabaseCommandTest
     {
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse(Schema::connection($this->connection->tenantName())->hasTable('samples'));
 
         $this->migrateAndTest('migrate');
 
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website);
 
-            $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+            $this->assertTrue(Schema::connection($this->connection->tenantName())->hasTable('samples'));
 
             $this->assertEquals(
                 2,

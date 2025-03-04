@@ -50,7 +50,7 @@ EOM
     {
         $this->overrideGlobalRoute();
 
-        $this->assertEquals(2, $this->app['router']->getRoutes()->count());
+        $this->assertEquals(3, $this->app['router']->getRoutes()->count());
     }
 
     /**
