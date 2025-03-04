@@ -25,6 +25,6 @@ trait DispatchesJobs
      */
     public function dispatch($command, $handler = null)
     {
-        return app(Dispatcher::class)->dispatchNow($command, $handler);
+        return app(Dispatcher::class)->dispatchSync($command, $handler);
     }
 }
