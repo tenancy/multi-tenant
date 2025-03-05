@@ -93,7 +93,7 @@ class Environment
      * @param Hostname|null $hostname
      * @return Hostname|null
      */
-    public function hostname(Hostname $hostname = null): ?Hostname
+    public function hostname(?Hostname $hostname = null): ?Hostname
     {
         if ($hostname !== null) {
             $this->app->instance(CurrentHostname::class, $hostname);
@@ -120,7 +120,7 @@ class Environment
      * @param Website|null $website
      * @return Tenant|null
      */
-    public function tenant(Website $website = null): ?Website
+    public function tenant(?Website $website = null): ?Website
     {
         if ($website !== null) {
             $this->app->instance(Tenant::class, $website);

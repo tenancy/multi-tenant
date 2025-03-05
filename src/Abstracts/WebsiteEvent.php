@@ -29,7 +29,7 @@ abstract class WebsiteEvent extends AbstractEvent
      */
     public $hostname;
 
-    public function __construct(Website &$website, Hostname $hostname = null)
+    public function __construct(?Website &$website, ?Hostname $hostname = null)
     {
         $this->website = &$website;
         $this->hostname = $hostname;

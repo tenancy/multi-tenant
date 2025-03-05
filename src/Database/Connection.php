@@ -124,7 +124,7 @@ class Connection
      * @param string|null $connection
      * @return bool
      */
-    public function exists(string $connection = null): bool
+    public function exists(?string $connection = null): bool
     {
         $connection = $connection ?? $this->tenantName();
 
@@ -178,7 +178,7 @@ class Connection
         return true;
     }
 
-    public function configuration(string $connection = null): array
+    public function configuration(?string $connection = null): array
     {
         $connection = $connection ?? $this->tenantName();
 
@@ -244,7 +244,7 @@ class Connection
      * @param string|null $path
      * @return bool
      */
-    public function migrate($for, string $path = null): bool
+    public function migrate($for, ?string $path = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
@@ -273,7 +273,7 @@ class Connection
      * @param string $class
      * @return bool
      */
-    public function seed($for, string $class = null): bool
+    public function seed($for, ?string $class = null): bool
     {
         $website = $this->convertWebsiteOrHostnameToWebsite($for);
 
