@@ -24,7 +24,7 @@ class Updated extends HostnameEvent
      */
     public $dirty;
 
-    public function __construct(Hostname $hostname = null, array $dirty = [])
+    public function __construct(?Hostname $hostname = null, array $dirty = [])
     {
         parent::__construct($hostname);
 

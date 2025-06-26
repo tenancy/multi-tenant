@@ -14,7 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Commands;
 
-use App\Console\Kernel;
+use Illuminate\Foundation\Console\Kernel;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 

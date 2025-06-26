@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request as FoundationRequest;
 
 trait InteractsWithRoutes
 {
-    protected function create_and_test_route(string $path, string $uri = null)
+    protected function create_and_test_route(string $path, ?string $uri = null)
     {
         /** @var Directory $directory */
         $directory = $this->app->make(Directory::class);

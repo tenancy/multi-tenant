@@ -89,7 +89,7 @@ class HostnameActionsTest extends Test
         }
     }
 
-    protected function middleware(Hostname $set = null)
+    protected function middleware(?Hostname $set = null)
     {
         app(Environment::class)->hostname($set);
 

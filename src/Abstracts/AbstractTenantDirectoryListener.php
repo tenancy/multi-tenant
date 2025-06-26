@@ -126,7 +126,7 @@ abstract class AbstractTenantDirectoryListener
         return $this->directory->path($this->path);
     }
 
-    protected function directory(Website $website = null): Directory
+    protected function directory(?Website $website = null): Directory
     {
         /** @var Directory $directory */
         $directory = app(Directory::class);
