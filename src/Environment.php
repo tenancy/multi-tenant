@@ -103,7 +103,6 @@ class Environment
             return $hostname;
         }
 
-        echo "-------MAKE HOSTNAME------\n";
         return $this->app->make(CurrentHostname::class);
     }
 
