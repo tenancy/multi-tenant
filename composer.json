@@ -42,14 +42,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hyn\\Tenancy\\Tests\\": "tests/unit-tests/",
+            "Hyn\\Tenancy\\Tests\\": ["tests/unit-tests/", "tests/"],
             "Hyn\\Tenancy\\Tests\\Extend\\": "tests/extend/",
             "Hyn\\Tenancy\\Tests\\Seeds\\": "tests/seeds/",
             "Hyn\\Tenancy\\Tests\\Traits\\": "tests/traits/"
-        },
-        "classmap": [
-            "tests/Test.php"
-        ]
+        }
     },
     "extra": {
         "laravel": {
