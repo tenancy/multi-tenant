@@ -125,6 +125,9 @@ jobs:
       - name: Install dependencies
         run: composer install -n --prefer-dist --no-progress
 
+      - name: Disable SSL verification for mysql client
+        run: printf '[client]\nssl=0\n' > ~/.my.cnf
+
       - name: Configure MySQL (switch auth plugin for PHP compatibility)
         run: |
           mysql --host=mysql --user=root --password=root \
@@ -229,6 +232,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install -n --prefer-dist --no-progress
+
+      - name: Disable SSL verification for mysql client
+        run: printf '[client]\nssl=0\n' > ~/.my.cnf
 
       - name: Configure MariaDB
         run: |
