@@ -17,6 +17,10 @@ jobs:
     container:
       image: php:${{ matrix.php }}-fpm
 
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -176,6 +180,10 @@ jobs:
     container:
       image: php:8.1-fpm
     if: github.ref_type == 'branch' && endsWith(github.ref_name, '.x')
+
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}
 
     services:
       mariadb:
