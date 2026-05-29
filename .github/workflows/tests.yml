@@ -1,0 +1,180 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+env:
+  DB_DATABASE: testing
+  DB_USERNAME: testing
+  DB_PASSWORD: testing
+  APP_KEY: deela5kinohw0haekoothahSh8eexach
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2']
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_USER: testing
+          MYSQL_PASSWORD: testing
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_USER: testing
+          MYSQL_PASSWORD: testing
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+      pgsql:
+        image: postgres:14
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: testing
+          POSTGRES_PASSWORD: testing
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U testing"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_mysql, pdo_pgsql, gd
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
+      - name: Install dependencies
+        run: composer install -n --prefer-dist --no-progress -o
+
+      - name: Configure MySQL (switch auth plugin for PHP compatibility)
+        run: |
+          mysql --host=127.0.0.1 --port=3306 --user=root --password=root \
+            -e "ALTER USER 'testing'@'%' IDENTIFIED WITH mysql_native_password BY 'testing'; GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+      - name: Configure MariaDB
+        run: |
+          mysql --host=127.0.0.1 --port=3307 --user=root --password=root \
+            -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+      - name: Configure PostgreSQL
+        run: |
+          PGPASSWORD=testing psql --host=127.0.0.1 --port=5432 --user=testing --dbname=testing \
+            -c "GRANT ALL ON SCHEMA public TO testing;"
+
+      - name: Test (MariaDB)
+        run: |
+          DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3307 TENANCY_SYSTEM_CONNECTION_NAME=mysql \
+            ./vendor/bin/phpunit -c ci.phpunit.xml
+
+      - name: Test (MySQL, UUID32)
+        run: |
+          DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3306 LIMIT_UUID_LENGTH_32=1 TENANCY_SYSTEM_CONNECTION_NAME=mysql \
+            ./vendor/bin/phpunit -c ci.phpunit.xml
+
+      - name: Test (PostgreSQL)
+        run: |
+          DB_CONNECTION=pgsql DB_HOST=127.0.0.1 DB_PORT=5432 TENANCY_SYSTEM_CONNECTION_NAME=pgsql \
+            ./vendor/bin/phpunit -c ci.phpunit.xml
+
+      - name: Test (PostgreSQL schema division)
+        run: |
+          DB_CONNECTION=pgsql DB_HOST=127.0.0.1 DB_PORT=5432 TENANCY_SYSTEM_CONNECTION_NAME=pgsql \
+          TENANCY_DATABASE_DIVISION_MODE=schema \
+            ./vendor/bin/phpunit -c ci.phpunit.xml ./tests/unit-tests/Database/ConnectionTest.php
+
+  coverage:
+    name: Coverage (PHP 8.1)
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'branch' && endsWith(github.ref_name, '.x')
+
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_DATABASE: testing
+          MYSQL_USER: testing
+          MYSQL_PASSWORD: testing
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.1 with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: pdo_mysql, pdo_pgsql, gd
+          coverage: xdebug
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-php-8.1-composer-${{ hashFiles('composer.json') }}
+          restore-keys: ${{ runner.os }}-php-8.1-composer-
+
+      - name: Install dependencies
+        run: composer install -n --prefer-dist --no-progress -o
+
+      - name: Configure MariaDB
+        run: |
+          mysql --host=127.0.0.1 --port=3307 --user=root --password=root \
+            -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+      - name: Generate coverage report
+        run: |
+          DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3307 TENANCY_SYSTEM_CONNECTION_NAME=mysql \
+            ./vendor/bin/phpunit -c ci.phpunit.xml --coverage-clover=coverage.xml
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: coverage.xml
