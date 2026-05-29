@@ -39,15 +39,14 @@ jobs:
       mariadb:
         image: mariadb:latest
         env:
-          MYSQL_DATABASE: testing
-          MYSQL_USER: testing
-          MYSQL_PASSWORD: testing
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_ROOT_HOST: '%'
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+          MARIADB_DATABASE: testing
+          MARIADB_USER: testing
+          MARIADB_PASSWORD: testing
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
@@ -93,7 +92,7 @@ jobs:
 
       - name: Configure MariaDB
         run: |
-          mysql --host=127.0.0.1 --port=3307 --user=root --password=root \
+          mysql --host=127.0.0.1 --port=3307 --user=root \
             -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
       - name: Configure PostgreSQL
@@ -131,15 +130,14 @@ jobs:
       mariadb:
         image: mariadb:latest
         env:
-          MYSQL_DATABASE: testing
-          MYSQL_USER: testing
-          MYSQL_PASSWORD: testing
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_ROOT_HOST: '%'
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+          MARIADB_DATABASE: testing
+          MARIADB_USER: testing
+          MARIADB_PASSWORD: testing
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -uroot -proot"
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
@@ -166,7 +164,7 @@ jobs:
 
       - name: Configure MariaDB
         run: |
-          mysql --host=127.0.0.1 --port=3307 --user=root --password=root \
+          mysql --host=127.0.0.1 --port=3307 --user=root \
             -e "GRANT ALL PRIVILEGES ON *.* TO 'testing'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
       - name: Generate coverage report
