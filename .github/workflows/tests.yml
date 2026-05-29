@@ -123,7 +123,7 @@ jobs:
           restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
       - name: Install dependencies
-        run: composer install -n --prefer-dist --no-progress -o
+        run: composer install -n --prefer-dist --no-progress
 
       - name: Configure MySQL (switch auth plugin for PHP compatibility)
         run: |
@@ -228,7 +228,7 @@ jobs:
           restore-keys: ${{ runner.os }}-php-8.1-composer-
 
       - name: Install dependencies
-        run: composer install -n --prefer-dist --no-progress -o
+        run: composer install -n --prefer-dist --no-progress
 
       - name: Configure MariaDB
         run: |
