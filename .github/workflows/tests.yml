@@ -9,6 +9,7 @@ env:
   DB_USERNAME: testing
   DB_PASSWORD: testing
   APP_KEY: deela5kinohw0haekoothahSh8eexach
+  IN_CI: true
 
 jobs:
   test:
@@ -16,10 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: php:${{ matrix.php }}-fpm
-
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
 
     strategy:
       fail-fast: false
@@ -153,14 +150,6 @@ jobs:
           PGPASSWORD=testing psql --host=pgsql2 --user=testing --dbname=testing \
             -c "GRANT ALL ON SCHEMA public TO testing;"
 
-      - name: Debug working directory
-        run: |
-          echo "Shell CWD: $(pwd)"
-          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          php -r "echo 'PHP CWD: ' . getcwd() . PHP_EOL;"
-          ls -la ci.phpunit.xml vendor/bin/phpunit 2>&1 || echo "Files missing!"
-          php -r "echo 'ci.phpunit.xml: ' . (file_exists('ci.phpunit.xml') ? 'exists' : 'MISSING') . PHP_EOL;"
-
       - name: Test (MariaDB)
         run: |
           DB_CONNECTION=mysql DB_HOST=mariadb TENANCY_SYSTEM_CONNECTION_NAME=mysql \
@@ -188,10 +177,6 @@ jobs:
     container:
       image: php:8.1-fpm
     if: github.ref_type == 'branch' && endsWith(github.ref_name, '.x')
-
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
 
     services:
       mariadb:
