@@ -103,12 +103,14 @@ jobs:
           --health-retries=10
 
     steps:
+      - name: Install git (needed before checkout so actions/checkout uses git, not REST API archive)
+        run: apt-get -yqq update && apt-get -yqq install git ca-certificates
+
       - uses: actions/checkout@v4
 
       - name: Install system dependencies
         run: |
-          apt-get -yqq update
-          apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev postgresql-client
+          apt-get -yqq install unzip zip libpq-dev default-mysql-client libpng-dev postgresql-client
           docker-php-ext-install pdo_pgsql pdo_mysql gd
 
       - name: Install Composer
@@ -206,12 +208,14 @@ jobs:
           --health-retries=10
 
     steps:
+      - name: Install git (needed before checkout so actions/checkout uses git, not REST API archive)
+        run: apt-get -yqq update && apt-get -yqq install git ca-certificates
+
       - uses: actions/checkout@v4
 
       - name: Install system dependencies
         run: |
-          apt-get -yqq update
-          apt-get -yqq install git unzip zip libpq-dev default-mysql-client libpng-dev
+          apt-get -yqq install unzip zip libpq-dev default-mysql-client libpng-dev
 
       - name: Install PHP extensions and Xdebug
         run: |
