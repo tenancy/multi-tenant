@@ -68,6 +68,7 @@ class RefreshCommand extends BaseCommand
         if ($this->needsSeeding()) {
             $this->call('tenancy:db:seed', [
                 '--database' => $database,
+                '--website_id' => $website_id,
                 '--class' => $this->option('seeder') ?? config('tenancy.db.tenant-seed-class') ?? 'DatabaseSeeder',
                 '--force' => $force,
             ]);
