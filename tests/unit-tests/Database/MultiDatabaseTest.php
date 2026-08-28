@@ -50,9 +50,17 @@ class MultiDatabaseTest extends Test
         // make sure the Website model still uses the regular system name.
         $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
 
+        $secondary = $this->getConnection('secondary');
+
+        // PostgreSQL keeps its databases in a catalogue of their own.
+        $databases = $secondary->getDriverName() === 'pgsql'
+            ? $secondary->select('select datname as name from pg_database')
+            : $secondary->select('select schema_name as name from information_schema.schemata');
+
         $this->assertTrue(in_array(
             $this->website->uuid,
-            $this->getConnection('secondary')->getDoctrineSchemaManager()->listDatabases()
+            array_column(array_map('get_object_vars', $databases), 'name'),
+            true
         ));
     }
 }
