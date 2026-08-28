@@ -30,6 +30,45 @@ so nothing errors and nothing is logged.
 that asked for it, and `DispatcherMiddleware` deliberately switches the ambient
 tenant there. That behaviour is unchanged.
 
+### PostgreSQL 15 and newer can provision tenants again   ⚠️ behaviour change
+
+**What changed.** PostgreSQL 15 revoked the `CREATE` privilege that the `public`
+schema used to hand to every role. The driver only ever granted privileges on
+the *database*, which on 15 and newer is no longer enough to create a table, so
+a tenant database was created successfully and then failed every migration with
+`permission denied for schema public`. Provisioning now also grants on the
+schema, from a connection to the new database, because a schema grant has no
+effect from anywhere else.
+
+Two things follow from that grant. It is issued to `PUBLIC` rather than to the
+tenant role, since a role level grant is recorded as a dependency and would make
+`DROP USER` fail when the tenant is deleted. And to keep that from widening
+anything, `CONNECT` is now revoked from `PUBLIC` on each new tenant database.
+
+**How this can affect you.** Any role that used to reach a tenant database
+purely through the default `PUBLIC` connect privilege will be refused on
+databases created from now on. Reading rows was already refused, but listing
+tables was not. Roles that were granted access explicitly, the tenant itself,
+and the owner of the database are unaffected.
+
+Backup, monitoring or reporting roles are the ones to check. Grant them what
+they need explicitly:
+
+```sql
+GRANT CONNECT ON DATABASE "<tenant uuid>" TO "<your role>";
+```
+
+**Databases created before this change do not gain the revoke retroactively.**
+They keep working exactly as before. To apply the same boundary to them, run
+this once per existing tenant database:
+
+```sql
+REVOKE CONNECT ON DATABASE "<tenant uuid>" FROM PUBLIC;
+```
+
+**Not affected.** The `schema` division mode, which grants on its own schema and
+never relied on `public`. MySQL and MariaDB.
+
 ### Connection::set(null) now clears the connection configuration
 
 **What changed.** Releasing the tenant with `Connection::set(null)` used to
