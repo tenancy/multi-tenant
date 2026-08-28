@@ -40,6 +40,12 @@ class MultiDatabaseTest extends Test
             return $this->markTestSkipped("Can't access secondary database for testing");
         }
 
+        if (config('tenancy.db.tenant-division-mode') !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            return $this->markTestSkipped(
+                'Only the database division mode gives the tenant a database of its own on the secondary server.'
+            );
+        }
+
         $this->website->managed_by_database_connection = 'secondary';
 
         $this->websites->create($this->website);

@@ -14,6 +14,7 @@
 
 namespace Hyn\Tenancy\Tests\Isolation;
 
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Tests\Extend\AwareExtend;
 use Hyn\Tenancy\Tests\Test;
 use Hyn\Tenancy\Tests\Traits\InteractsWithIsolation;
@@ -205,16 +206,34 @@ class ConnectionIsolationTest extends Test
     /**
      * @test
      */
-    public function each_tenant_gets_its_own_database_and_credentials()
+    public function each_tenant_gets_its_own_slice_of_the_server()
     {
         $a = $this->connection->generateConfigurationArray($this->tenantA);
         $b = $this->connection->generateConfigurationArray($this->tenantB);
 
-        $this->assertNotSame($a['database'], $b['database'], 'Tenants must not share a database name.');
-        $this->assertNotSame($a['username'], $b['username'], 'Tenants must not share a database user.');
-        $this->assertNotSame($a['password'], $b['password'], 'Tenants must not share a database password.');
         $this->assertSame($this->tenantA->uuid, $a['uuid']);
         $this->assertSame($this->tenantB->uuid, $b['uuid']);
+
+        // Assert on whichever separator the configured mode hands out.
+        switch (config('tenancy.db.tenant-division-mode')) {
+            case Connection::DIVISION_MODE_SEPARATE_DATABASE:
+                $this->assertNotSame($a['database'], $b['database'], 'Tenants must not share a database name.');
+                $this->assertNotSame($a['username'], $b['username'], 'Tenants must not share a database user.');
+                $this->assertNotSame($a['password'], $b['password'], 'Tenants must not share a database password.');
+                break;
+
+            case Connection::DIVISION_MODE_SEPARATE_SCHEMA:
+                $this->assertNotSame($a['schema'], $b['schema'], 'Tenants must not share a schema.');
+                $this->assertNotSame($a['username'], $b['username'], 'Tenants must not share a database user.');
+                break;
+
+            case Connection::DIVISION_MODE_SEPARATE_PREFIX:
+                $this->assertNotSame($a['prefix'], $b['prefix'], 'Tenants must not share a table prefix.');
+                break;
+
+            default:
+                $this->markTestSkipped('This division mode does not separate tenants at the connection level.');
+        }
     }
 
     /**
@@ -225,12 +244,17 @@ class ConnectionIsolationTest extends Test
         // The last line of defence: with a connection aimed straight at
         // another tenant's database, the server itself must refuse the rows.
         //
-        // How it refuses differs by engine, and only the outcome is asserted
-        // here. MySQL and MariaDB reject the connection outright, because a
-        // tenant's user is granted privileges on its own database only.
-        // PostgreSQL lets the connection through, since every role may CONNECT
-        // to a new database by default, and refuses at the table instead. Both
-        // are acceptable; returning rows is not.
+        // Only the outcome is asserted. MySQL and MariaDB reject the connection,
+        // PostgreSQL refuses at CONNECT or, on databases provisioned before the
+        // revoke, at the table. Any refusal will do; returning rows will not.
+        if (config('tenancy.db.tenant-division-mode') !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            $this->markTestSkipped(
+                'Only the database division mode hands each tenant its own credentials, so there are '
+                .'none to cross here. The other modes separate tenants inside one database, which the '
+                .'switching tests in this class cover.'
+            );
+        }
+
         $a = $this->connection->generateConfigurationArray($this->tenantA);
         $b = $this->connection->generateConfigurationArray($this->tenantB);
 
