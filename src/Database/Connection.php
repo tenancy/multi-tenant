@@ -143,6 +143,19 @@ class Connection
 
         $website = $this->convertWebsiteOrHostnameToWebsite($to);
 
+        if (! $website) {
+            // Closing the connection is not enough: the previous tenant's
+            // credentials would stay in config, ready for the next model
+            // asking for the tenant connection to reopen them.
+            $this->purge($connection);
+
+            $this->emitEvent(
+                new Events\Database\ConnectionSet(null, $connection)
+            );
+
+            return true;
+        }
+
         $existing = $this->configuration($connection);
 
         if ($website) {
