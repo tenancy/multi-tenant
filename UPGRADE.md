@@ -30,6 +30,35 @@ so nothing errors and nothing is logged.
 that asked for it, and `DispatcherMiddleware` deliberately switches the ambient
 tenant there. That behaviour is unchanged.
 
+### tenancy:migrate:fresh no longer wipes the whole database in prefix mode   ⚠️ behaviour change
+
+**What changed.** The command called `db:wipe` on the tenant connection, which
+empties every table in the database behind it. In the `database` and `schema`
+division modes that database belongs to the tenant alone, so that was right. In
+`prefix` mode all tenants and the system tables share one database, so running
+it dropped **every tenant's tables along with `websites` and `hostnames`**. The
+damage was visible from inside the command itself, whose next page of websites
+was read from the table it had just dropped.
+
+It now drops only the tables carrying that tenant's prefix.
+
+**How this can affect you.** If you use `prefix` mode, this command was
+destroying your installation and you very likely never ran it twice. Nothing you
+relied on changes; it simply stops taking everything else with it.
+
+**Views and user defined types are not dropped** in `prefix` mode. `--drop-views`
+and `--drop-types` are honoured in the modes that give the tenant a database of
+its own, where dropping everything is safe. In a shared database there is no
+prefix on those objects to tell whose they are.
+
+**In the `bypass` division mode the command now refuses to run.** There, the
+tenant connection *is* the system connection and nothing marks a tenant's tables
+apart, so any wipe would take the system with it. It fails with an explanation
+instead.
+
+**Not affected.** The `database` and `schema` division modes, which keep calling
+`db:wipe` exactly as before.
+
 ### PostgreSQL 15 and newer can provision tenants again   ⚠️ behaviour change
 
 **What changed.** PostgreSQL 15 revoked the `CREATE` privilege that the `public`
