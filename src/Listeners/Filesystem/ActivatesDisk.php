@@ -16,6 +16,7 @@ namespace Hyn\Tenancy\Listeners\Filesystem;
 
 use Hyn\Tenancy\Abstracts\WebsiteEvent;
 use Hyn\Tenancy\Events\Websites\Identified;
+use Hyn\Tenancy\Events\Websites\Forgotten;
 use Hyn\Tenancy\Events\Websites\Switched;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -40,6 +41,7 @@ class ActivatesDisk
     public function subscribe(Dispatcher $events)
     {
         $events->listen([Identified::class, Switched::class], [$this, 'activate']);
+        $events->listen(Forgotten::class, [$this, 'deactivate']);
     }
 
     /**
@@ -58,5 +60,19 @@ class ActivatesDisk
             // Force flush the manager to resolve the disk anew when requested.
             $this->filesystem->set('tenant', null);
         }
+    }
+
+    /**
+     * Reacts when the active tenant is released.
+     *
+     * Leaving the disk configured would keep it rooted in the released
+     * tenant's directory, so whatever wrote to it next would land in that
+     * customer's files.
+     */
+    public function deactivate()
+    {
+        config(['filesystems.disks.tenant' => null]);
+
+        $this->filesystem->set('tenant', null);
     }
 }

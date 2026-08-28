@@ -73,16 +73,26 @@ class RunCommand extends Command
 
         $exitCodes = [];
 
-        $query->chunk(50, function ($websites) use ($environment, $options, &$exitCodes) {
-            foreach ($websites as $website) {
-                $environment->tenant($website);
+        // Whatever was active before, the command puts back afterwards. The
+        // loop leaves the last tenant of the last chunk active otherwise, and
+        // that outlives the command whenever it is called from a request or a
+        // job rather than from a terminal.
+        $previous = $environment->tenant();
 
-                $exitCodes[] = $this->call(
-                    $this->argument('run'),
-                    $options->toArray()
-                );
-            }
-        });
+        try {
+            $query->chunk(50, function ($websites) use ($environment, $options, &$exitCodes) {
+                foreach ($websites as $website) {
+                    $environment->tenant($website);
+
+                    $exitCodes[] = $this->call(
+                        $this->argument('run'),
+                        $options->toArray()
+                    );
+                }
+            });
+        } finally {
+            $previous ? $environment->tenant($previous) : $environment->forgetTenant();
+        }
 
         if (count($exitCodes) === 0) {
             $this->warn("Command was executed on zero tenants.");

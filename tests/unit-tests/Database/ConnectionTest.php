@@ -14,7 +14,8 @@
 
 namespace Hyn\Tenancy\Tests\Database;
 
-use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Database\QueryException;
+use PDOException;
 use Hyn\Tenancy\Commands\UpdateKeyCommand;
 use Hyn\Tenancy\Contracts\CurrentHostname;
 use Hyn\Tenancy\Environment;
@@ -137,7 +138,7 @@ class ConnectionTest extends Test
         app(Environment::class)->tenant($this->website);
         try {
             $this->connection->get()->reconnect();
-        } catch (PDOException $e) {
+        } catch (PDOException | QueryException $e) {
             $this->assertTrue($e->getCode() === 1045 || $e->getCode() === 7, 'Access should be denied for tenant database user: [code: '.$e->getCode().'] '. $e->getMessage());
         }
 

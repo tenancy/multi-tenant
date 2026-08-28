@@ -49,8 +49,8 @@ class SeedCommandTest extends DatabaseCommandTest
 
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
-        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse($this->connection->get()->getSchemaBuilder()->hasTable('users'));
+        $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
 
         $this->assertGreaterThan(
             0,
@@ -87,8 +87,8 @@ class SeedCommandTest extends DatabaseCommandTest
 
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('users'));
-        $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse($this->connection->get()->getSchemaBuilder()->hasTable('users'));
+        $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
     }
 
     /**
@@ -98,14 +98,14 @@ class SeedCommandTest extends DatabaseCommandTest
     {
         $this->connection->set($this->website);
 
-        $this->assertFalse($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+        $this->assertFalse($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
 
         $this->migrateAndTest('migrate');
 
         $this->seedAndTest(function (Website $website) {
             $this->connection->set($website);
 
-            $this->assertTrue($this->connection->get()->getDoctrineSchemaManager()->tablesExist('samples'));
+            $this->assertTrue($this->connection->get()->getSchemaBuilder()->hasTable('samples'));
 
             $this->assertEquals(
                 2,

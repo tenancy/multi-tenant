@@ -64,7 +64,42 @@ class PostgreSQL implements DatabaseGenerator
 
     protected function grantPrivileges(IlluminateConnection $connection, array $config)
     {
-        return $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
+        $granted = $connection->statement("GRANT ALL PRIVILEGES ON DATABASE \"{$config['database']}\" TO \"{$config['username']}\"");
+
+        // Every role may connect to a new database by default, leaving one
+        // tenant able to reach another's.
+        $connection->statement("REVOKE CONNECT ON DATABASE \"{$config['database']}\" FROM PUBLIC");
+
+        return $this->grantSchemaPrivileges($connection, $config) && $granted;
+    }
+
+    /**
+     * Grants the tenant the right to create objects in its own database.
+     *
+     * PostgreSQL 15 revoked the CREATE privilege the public schema used to
+     * grant to everyone, which privileges on the database no longer cover. A
+     * schema grant only applies inside its own database, hence the connection.
+     *
+     * It goes to PUBLIC rather than to the tenant role because a role level
+     * grant is recorded as a dependency and makes DROP USER fail on deletion.
+     * CONNECT was revoked from PUBLIC above, so nothing else reaches it.
+     */
+    protected function grantSchemaPrivileges(IlluminateConnection $connection, array $config)
+    {
+        $name = 'tenancy-provisioning';
+
+        config([
+            "database.connections.{$name}" => array_merge(
+                $connection->getConfig(),
+                ['database' => $config['database']]
+            ),
+        ]);
+
+        try {
+            return app('db')->connection($name)->statement('GRANT ALL ON SCHEMA public TO PUBLIC');
+        } finally {
+            app('db')->purge($name);
+        }
     }
 
     protected function userExists($connection, string $username): bool

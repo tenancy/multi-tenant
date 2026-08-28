@@ -38,6 +38,7 @@ class ConnectsTenants
     {
         $events->listen(Events\Websites\Identified::class, [$this, 'switch']);
         $events->listen(Events\Websites\Switched::class, [$this, 'switch']);
+        $events->listen(Events\Websites\Forgotten::class, [$this, 'forget']);
     }
 
     /**
@@ -49,5 +50,20 @@ class ConnectsTenants
     public function switch(WebsiteEvent $event) : bool
     {
         return $this->connection->set($event->website);
+    }
+
+    /**
+     * Reacts when the active tenant is released.
+     *
+     * purge() clears the stored configuration as well as the open connection,
+     * which set(null) does not.
+     *
+     * @return bool
+     */
+    public function forget(): bool
+    {
+        $this->connection->purge();
+
+        return true;
     }
 }

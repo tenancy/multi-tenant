@@ -40,6 +40,12 @@ class MultiDatabaseTest extends Test
             return $this->markTestSkipped("Can't access secondary database for testing");
         }
 
+        if (config('tenancy.db.tenant-division-mode') !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            return $this->markTestSkipped(
+                'Only the database division mode gives the tenant a database of its own on the secondary server.'
+            );
+        }
+
         $this->website->managed_by_database_connection = 'secondary';
 
         $this->websites->create($this->website);
@@ -50,9 +56,17 @@ class MultiDatabaseTest extends Test
         // make sure the Website model still uses the regular system name.
         $this->assertEquals(app(Connection::class)->systemName(), $this->website->getConnectionName());
 
+        $secondary = $this->getConnection('secondary');
+
+        // PostgreSQL keeps its databases in a catalogue of their own.
+        $databases = $secondary->getDriverName() === 'pgsql'
+            ? $secondary->select('select datname as name from pg_database')
+            : $secondary->select('select schema_name as name from information_schema.schemata');
+
         $this->assertTrue(in_array(
             $this->website->uuid,
-            $this->getConnection('secondary')->getDoctrineSchemaManager()->listDatabases()
+            array_column(array_map('get_object_vars', $databases), 'name'),
+            true
         ));
     }
 }

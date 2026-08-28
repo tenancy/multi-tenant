@@ -130,6 +130,24 @@ class Environment
         return $this->app->make(Tenant::class);
     }
 
+    /**
+     * Release the active tenant, so that none is active.
+     *
+     * tenant(null) reads as releasing one but returns whatever is active
+     * instead, leaving no way to say that there is none.
+     */
+    public function forgetTenant(): void
+    {
+        $empty = function () {
+            return null;
+        };
+
+        $this->app->forgetInstance(Tenant::class);
+        $this->app->singleton(Tenant::class, $empty);
+
+        $this->emitEvent(new Events\Websites\Forgotten());
+    }
+
     protected function defaults()
     {
         $empty = function () {
