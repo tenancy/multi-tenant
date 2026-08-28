@@ -30,6 +30,43 @@ so nothing errors and nothing is logged.
 that asked for it, and `DispatcherMiddleware` deliberately switches the ambient
 tenant there. That behaviour is unchanged.
 
+### Releasing the tenant now releases its disk too   ⚠️ behaviour change
+
+**What changed.** `ActivatesDisk` rooted the `tenant` disk in the active
+tenant's directory when one was identified or switched to, and did nothing when
+one was released. The disk stayed pointed at the tenant that had just been let
+go, so anything writing to `Storage::disk('tenant')` afterwards landed in that
+customer's files. It is the filesystem counterpart of the connection keeping the
+previous tenant's credentials.
+
+Releasing the tenant now clears the disk as well, which makes the next access
+fail loudly rather than write to the wrong place.
+
+**How this can affect you.** Code that wrote to `Storage::disk('tenant')`
+outside any tenant's context used to succeed silently against whichever tenant
+came last. It now throws. That is the point of the change, but it does turn
+previously silent behaviour into a visible failure — most likely on a queue
+worker, which releases the tenant between jobs.
+
+**What to do.** Make sure anything touching `disk('tenant')` runs inside the
+context of the tenant it belongs to.
+
+### tenancy:run puts back the tenant it found   ⚠️ behaviour change
+
+**What changed.** The command switched tenant on each website in turn and left
+the last one active when it finished, and on the way out of an exception. Run
+from a terminal that hardly matters, since the process ends. Called from a
+request or a job through `Artisan::call('tenancy:run')`, the caller silently
+carried on as a customer it never asked for.
+
+It now restores whatever tenant was active beforehand, or releases it when
+there was none.
+
+**Not affected.** The commands built on `processHandle()` —
+`tenancy:migrate` and friends — keep their current behaviour: with a single
+tenant in the chunk the connection is deliberately left active, and the suite
+asserts it.
+
 ### tenancy:migrate:fresh no longer wipes the whole database in prefix mode   ⚠️ behaviour change
 
 **What changed.** The command called `db:wipe` on the tenant connection, which

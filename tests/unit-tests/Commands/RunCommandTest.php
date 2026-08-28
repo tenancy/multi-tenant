@@ -15,6 +15,7 @@
 namespace Hyn\Tenancy\Tests\Commands;
 
 use App\Console\Kernel;
+use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -79,5 +80,44 @@ class RunCommandTest extends Test
             ]
         ]);
         $this->assertEquals(0, $code);
+    }
+
+    /**
+     * The loop switches tenant on every website and the last one outlives the
+     * command, which matters whenever it is called from a request or a job.
+     *
+     * @test
+     */
+    public function running_across_tenants_leaves_no_tenant_active()
+    {
+        $this->setUpWebsites(true);
+        $this->getReplicatedWebsite();
+
+        $this->artisan('tenancy:run', ['run' => 'env']);
+
+        $this->assertNull(
+            app(Environment::class)->tenant(),
+            'tenancy:run left a tenant active after it finished.'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function a_failing_command_leaves_no_tenant_active_either()
+    {
+        $this->setUpWebsites(true);
+        $this->getReplicatedWebsite();
+
+        try {
+            $this->artisan('tenancy:run', ['run' => 'commandThatDoesNotExist']);
+        } catch (\Throwable $e) {
+            // The point is what is left behind, not the exception itself.
+        }
+
+        $this->assertNull(
+            app(Environment::class)->tenant(),
+            'tenancy:run left a tenant active after failing.'
+        );
     }
 }
