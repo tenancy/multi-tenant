@@ -166,6 +166,25 @@ return [
          */
         'update-app-url' => false,
     ],
+    'queue' => [
+        /**
+         * Release the active tenant when a job declares none, and after every
+         * job ends or fails.
+         *
+         * A queue worker is a long-lived process handling one job after
+         * another in the same memory. Without this, a job with no website_id
+         * runs against whichever tenant went before it, on a connection that
+         * is valid and authenticated: nothing errors, nothing is logged, and
+         * the only evidence is data landing in the wrong tenant's database.
+         *
+         * @warn Turning this off restores the behaviour of hyn/multi-tenant
+         *       5.9 and earlier, which leaks tenant context between jobs.
+         *       Only do so as a temporary measure while adapting jobs that
+         *       relied on inheriting an ambient tenant.
+         */
+        'reset-tenant-between-jobs' => env('TENANCY_QUEUE_RESET_TENANT', true),
+    ],
+
     'db' => [
         /**
          * The default connection to use; this overrules the Laravel database.default
