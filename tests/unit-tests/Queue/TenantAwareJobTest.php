@@ -14,19 +14,18 @@
 
 namespace Hyn\Tenancy\Tests\Queue;
 
-use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\WithFaker;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Environment;
 use Illuminate\Queue\Events\JobProcessing;
@@ -63,9 +62,19 @@ class TestNotification extends Notification implements ShouldQueue
 }
 
 
+class TestNotifiable
+{
+    use Notifiable;
+
+    public function routeNotificationForMail(): string
+    {
+        return 'tenant@local.testing';
+    }
+}
+
+
 class TenantAwareJobTest extends Test
 {
-    use WithFaker;
     protected function duringSetUp(Application $app)
     {
         $this->setUpHostnames(true);
@@ -93,8 +102,7 @@ class TenantAwareJobTest extends Test
 
         Event::fake();
 
-        $user = User::factory()->create();
-        $user->notify(new TestNotification());
+        (new TestNotifiable())->notify(new TestNotification());
 
         Event::assertDispatched(JobProcessed::class, function ($event) {
             return $event->job->payload()['website_id'] === $this->website->id;

@@ -19,13 +19,18 @@ use Hyn\Tenancy\Providers\WebserverProvider;
 use Hyn\Tenancy\Tests\Traits\InteractsWithBuilds;
 use Hyn\Tenancy\Tests\Traits\InteractsWithMigrations;
 use Hyn\Tenancy\Tests\Traits\InteractsWithTenancy;
-use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Foundation\Testing\TestCase;
 use Illuminate\Support\Facades\Queue;
-use Schema;
+use Illuminate\Support\Facades\Schema;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class Test extends TestCase
+/**
+ * The suite runs on the application skeleton Orchestra Testbench ships, not on
+ * a copy of laravel/laravel located at runtime. Testbench is what every other
+ * Laravel package uses, it absorbs the skeleton changes each framework release
+ * brings, and it is the only way to reach a booted HTTP kernel from a test.
+ */
+class Test extends BaseTestCase
 {
     use InteractsWithBuilds,
         InteractsWithMigrations,
@@ -43,57 +48,40 @@ class Test extends TestCase
 
     public $mockConsoleOutput = false;
 
-    public function createApplication()
+    /**
+     * @param Application $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
     {
-        $appPaths = [];
-        if (getenv('CI_PROJECT_DIR')) {
-            $appPaths[] = realpath(getenv('CI_PROJECT_DIR') . '/vendor/laravel/laravel');
-        }
-        $appPaths[] = realpath(__DIR__ . '/..');
-        $appPaths[] = realpath(__DIR__ . '/../vendor/laravel/laravel');
+        return $this->loadProviders;
+    }
 
-        $app = false;
-
-        foreach ($appPaths as $path) {
-            $boot = "$path/bootstrap/app.php";
-            if (file_exists($boot)) {
-                /** @var Application $app */
-                $app = require $boot;
-
-                $this->pathIdentified($path);
-
-                break;
-            }
-        }
-
-        if (!$app) {
-            throw new \RuntimeException("No bootstrap file found, make sure laravel/laravel is installed");
-        }
-
-        $app->make(Kernel::class)->bootstrap();
-
-        foreach ($this->loadProviders as $provider) {
-            if (!$app->register($provider)) {
-                throw new \RuntimeException("Failed registering $provider");
-            }
-        }
-
-        $this->setSchemaLength();
-
-        $this->identifyBuild();
-
-        $this->beforeSetUp($app);
-
-        $this->setUpTenancy();
-
-        return $app;
+    /**
+     * Runs before the providers are registered, which is the only moment a test
+     * can still put files where a provider will look for them during boot.
+     *
+     * @param Application $app
+     */
+    protected function defineEnvironment($app)
+    {
+        $this->prepareSkeleton($app->basePath());
     }
 
     protected function setUp() : void
     {
         parent::setUp();
 
+        $this->setSchemaLength();
+
+        $this->identifyBuild();
+
+        $this->beforeSetUp($this->app);
+
+        $this->setUpTenancy();
+
         $this->migrateSystem();
+
         $this->duringSetUp($this->app);
     }
 
@@ -122,7 +110,12 @@ class Test extends TestCase
         // ..
     }
 
-    protected function pathIdentified(string $path)
+    /**
+     * Allows implementation in a test.
+     *
+     * @param string $path The base path of the application under test.
+     */
+    protected function prepareSkeleton(string $path)
     {
         // ..
     }

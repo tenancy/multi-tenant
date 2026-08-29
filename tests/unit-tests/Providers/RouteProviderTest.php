@@ -19,11 +19,12 @@ use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Routing\Router;
 use Symfony\Component\HttpFoundation\Request as FoundationRequest;
 
 class RouteProviderTest extends Test
 {
-    protected function pathIdentified(string $path)
+    protected function prepareSkeleton(string $path)
     {
         file_put_contents(
             "$path/routes/tenants.php",
@@ -34,6 +35,28 @@ class RouteProviderTest extends Test
 
 EOM
         );
+    }
+
+    /**
+     * The skeleton the suite runs on ships no routes of its own, so the global
+     * routes a real application would have are declared here: one the tenant
+     * route file takes over, and one that has to survive it.
+     *
+     * Testbench registers these on a booted callback queued before the
+     * providers boot, which puts them ahead of the tenant routes — the same
+     * order a real application loads them in.
+     *
+     * @param Router $router
+     */
+    protected function defineRoutes($router)
+    {
+        $router->get('/', function () {
+            return 'foo';
+        })->name('global');
+
+        $router->get('other', function () {
+            return 'foo';
+        })->name('other');
     }
 
     protected function duringSetUp(Application $app)
