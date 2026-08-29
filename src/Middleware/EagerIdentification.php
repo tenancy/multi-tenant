@@ -22,8 +22,13 @@ class EagerIdentification
 {
     public function handle(Request $request, Closure $next)
     {
-        if (config('tenancy.hostname.early-identification')) {
-            app(Environment::class);
+        if (config('tenancy.hostname.auto-identification') &&
+            config('tenancy.hostname.early-identification')) {
+            // Identification reads the request, so it belongs here rather than
+            // in the environment's constructor. Asking again on every request
+            // is what keeps a long lived process from serving the tenant it
+            // identified for the first one.
+            app(Environment::class)->identifyHostname();
         }
 
         return $next($request);

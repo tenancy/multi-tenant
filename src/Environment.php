@@ -49,9 +49,7 @@ class Environment
         if ((! $app->runningInConsole() || $app->runningUnitTests()) &&
             $this->installed() &&
             config('tenancy.hostname.auto-identification')) {
-            $this->identifyHostname();
-            // Identifies the current hostname, sets the binding using the native resolving strategy.
-            $app->make(CurrentHostname::class);
+            $this->registerHostnameIdentification();
         }
     }
 
@@ -73,7 +71,23 @@ class Environment
         return $this->installed ?? $this->installed = $isInstalled();
     }
 
+    /**
+     * Identify the hostname of the current request, and its tenant with it.
+     */
     public function identifyHostname()
+    {
+        $this->registerHostnameIdentification();
+
+        $this->app->make(CurrentHostname::class);
+    }
+
+    /**
+     * Arrange for the hostname to be identified, once something asks for it.
+     *
+     * Identification reads the current request, so it has to wait until there
+     * is one. Registering the binding is all that can be done up front.
+     */
+    protected function registerHostnameIdentification()
     {
         $this->app->singleton(CurrentHostname::class, function () {
             /** @var Hostname $hostname */
