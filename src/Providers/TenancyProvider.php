@@ -110,7 +110,9 @@ class TenancyProvider extends ServiceProvider
         /** @var Kernel|\Illuminate\Foundation\Http\Kernel $kernel */
         $kernel = $this->app->make(Kernel::class);
 
-        foreach ($middleware as $mw) {
+        // Reversed, since each one is pushed in front of the last: the stack
+        // ends up in the order the configuration lists them.
+        foreach (array_reverse($middleware) as $mw) {
             $kernel->prependMiddleware($mw);
         }
     }
