@@ -50,11 +50,14 @@ class PostgreSQL implements DatabaseGenerator
 
     protected function createUser(IlluminateConnection $connection, array $config)
     {
-        if (!$this->userExists($connection, $config['username'])) {
-            return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
+        // A role left behind by an earlier tenant keeps the password it was
+        // given then, and the password is derived per website. Reporting
+        // success without setting it hands back a tenant that cannot connect.
+        if ($this->userExists($connection, $config['username'])) {
+            return $connection->statement("ALTER USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
         }
 
-        return true;
+        return $connection->statement("CREATE USER \"{$config['username']}\" WITH PASSWORD '{$config['password']}'");
     }
 
     protected function createDatabase(IlluminateConnection $connection, array $config)

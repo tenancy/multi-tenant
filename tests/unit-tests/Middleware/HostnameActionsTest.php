@@ -23,7 +23,9 @@ use Hyn\Tenancy\Tests\Test;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Carbon;
+use ReflectionProperty;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -107,6 +109,24 @@ class HostnameActionsTest extends Test
         return $middleware->handle($request, function () {
             return static::RESPONSE;
         });
+    }
+
+    /**
+     * @test
+     */
+    public function tenancy_middleware_lead_the_global_stack()
+    {
+        $configured = config('tenancy.middleware');
+
+        $kernel = $this->app->make(Kernel::class);
+        $property = new ReflectionProperty($kernel, 'middleware');
+        $property->setAccessible(true);
+
+        $this->assertEquals(
+            $configured,
+            array_slice($property->getValue($kernel), 0, count($configured)),
+            'Tenancy middleware do not lead the global stack, in the configured order.'
+        );
     }
 
     protected function duringSetUp(Application $app)

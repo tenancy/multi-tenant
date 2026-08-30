@@ -17,11 +17,15 @@ namespace Hyn\Tenancy\Tests\Database;
 use Doctrine\DBAL\Driver\PDOException;
 use Hyn\Tenancy\Commands\UpdateKeyCommand;
 use Hyn\Tenancy\Contracts\CurrentHostname;
+use Hyn\Tenancy\Database\Connection;
 use Hyn\Tenancy\Environment;
 use Hyn\Tenancy\Providers\Tenants\ConnectionProvider;
 use Hyn\Tenancy\Tests\Extend\NonExtend;
+use Hyn\Tenancy\Events\Database\ConnectionSet;
+use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Tests\Test;
 use Illuminate\Database\Connection as DatabaseConnection;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 
 class ConnectionTest extends Test
@@ -146,5 +150,118 @@ class ConnectionTest extends Test
         // Re-establish connection after updating tenant users password
         app(Environment::class)->tenant($this->website);
         $this->connection->get()->reconnect();
+    }
+
+    /**
+     * A name configured as empty is not a connection called nothing. The
+     * second argument of get() only covers a key that is missing altogether.
+     *
+     * @test
+     */
+    public function an_empty_connection_name_falls_back_to_the_default()
+    {
+        $previous = [
+            'tenancy.db.tenant-connection-name' => config('tenancy.db.tenant-connection-name'),
+            'tenancy.db.system-connection-name' => config('tenancy.db.system-connection-name'),
+        ];
+
+        try {
+            foreach ([null, ''] as $empty) {
+                config([
+                    'tenancy.db.tenant-connection-name' => $empty,
+                    'tenancy.db.system-connection-name' => $empty,
+                ]);
+
+                $this->assertEquals(Connection::DEFAULT_TENANT_NAME, $this->connection->tenantName());
+                $this->assertEquals(Connection::DEFAULT_SYSTEM_NAME, $this->connection->systemName());
+            }
+        } finally {
+            // Left behind, these names reach teardown and it cannot find the
+            // connection it is asked to clean up.
+            config($previous);
+        }
+    }
+
+    /**
+     * The credentials are derived from the website, its id among them, so the
+     * same uuid can come back needing a different password. Keeping the open
+     * connection then means reconnecting with the old one.
+     *
+     * @test
+     */
+    public function a_tenant_whose_credentials_changed_purges_the_connection()
+    {
+        $this->setUpWebsites(true);
+
+        $this->connection->set($this->website);
+
+        $purged = [];
+
+        Event::listen(ConnectionSet::class, function (ConnectionSet $event) use (&$purged) {
+            $purged[] = $event->purged;
+        });
+
+        $this->connection->set($this->website);
+
+        $this->assertSame([false], $purged, 'Nothing changed, so nothing had to be purged.');
+
+        $sameTenantNewCredentials = Website::unguarded(function () {
+            return new Website(['uuid' => $this->website->uuid]);
+        });
+
+        $sameTenantNewCredentials->id = $this->website->id + 1000;
+
+        $this->connection->set($sameTenantNewCredentials);
+
+        $this->assertSame([false, true], $purged);
+    }
+
+    /**
+     * A database user surviving from an earlier tenant of the same name holds
+     * a password that no longer opens anything. Provisioning has to set it,
+     * not assume it.
+     *
+     * @test
+     */
+    public function provisioning_over_a_surviving_database_user_still_connects()
+    {
+        if (config('tenancy.db.tenant-division-mode') !== Connection::DIVISION_MODE_SEPARATE_DATABASE) {
+            $this->markTestSkipped('Only the database division mode gives a tenant a database of its own.');
+        }
+
+        $website = new Website();
+        $this->websites->create($website);
+
+        $uuid = $website->uuid;
+
+        // Delete the tenant but leave its user behind, which is what a failed
+        // drop leaves in place.
+        config(['tenancy.db.auto-delete-tenant-database-user' => false]);
+
+        $this->websites->delete($website, true);
+
+        config(['tenancy.db.auto-delete-tenant-database-user' => true]);
+
+        $again = Website::unguarded(function () use ($uuid) {
+            return new Website(['uuid' => $uuid]);
+        });
+
+        $this->websites->create($again);
+
+        $reachable = true;
+
+        try {
+            $this->connection->set($again);
+            $this->connection->get()->getSchemaBuilder()->hasTable('a_table_no_tenant_has');
+        } catch (\Throwable $e) {
+            $reachable = false;
+        } finally {
+            $this->connection->purge();
+        }
+
+        $this->assertTrue(
+            $reachable,
+            "Tenant $uuid was provisioned over a surviving user and cannot connect."
+        );
     }
 }
