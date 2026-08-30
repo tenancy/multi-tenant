@@ -36,6 +36,9 @@ trait MutatesSeedCommands
 
         $this->setName('tenancy:' . $this->getName());
 
+        $this->defineWebsiteOption();
+        $this->defineSeederDefault('class');
+
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
     }
@@ -52,23 +55,4 @@ trait MutatesSeedCommands
         $this->processHandle();
     }
 
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        foreach ($options = parent::getOptions() as $i => $option) {
-            if ($option[0] === 'class') {
-                $option[4] = config('tenancy.db.tenant-seed-class', false) ?: $option[4];
-
-                $options[$i] = $option;
-            }
-        }
-
-        return array_merge($options, [
-            $this->addWebsiteOption()
-        ]);
-    }
 }

@@ -145,15 +145,25 @@ class Connection
 
         $existing = $this->configuration($connection);
 
+        $generated = $website ? $this->generateConfigurationArray($website) : null;
+
         if ($website) {
             // Sets current connection settings.
             $this->config->set(
                 sprintf('database.connections.%s', $connection),
-                $this->generateConfigurationArray($website)
+                $generated
             );
         }
 
-        if (Arr::get($existing, 'uuid') === optional($website)->uuid) {
+        // The uuid does not tell one configuration from another: credentials
+        // are derived per website, so the same tenant can come back needing a
+        // different password, and anything already open would keep
+        // reconnecting with the old one.
+        $unchanged = $website
+            ? $existing == $generated
+            : Arr::get($existing, 'uuid') === null;
+
+        if ($unchanged) {
             $this->emitEvent(
                 new Events\Database\ConnectionSet($website, $connection, false)
             );
@@ -210,7 +220,9 @@ class Connection
      */
     public function systemName(): string
     {
-        return $this->config->get('tenancy.db.system-connection-name', static::DEFAULT_SYSTEM_NAME);
+        // An empty name means unconfigured; the default only covers a key that
+        // is missing altogether.
+        return $this->config->get('tenancy.db.system-connection-name') ?: static::DEFAULT_SYSTEM_NAME;
     }
 
     /**
@@ -218,7 +230,7 @@ class Connection
      */
     public function tenantName(): string
     {
-        return $this->config->get('tenancy.db.tenant-connection-name', static::DEFAULT_TENANT_NAME);
+        return $this->config->get('tenancy.db.tenant-connection-name') ?: static::DEFAULT_TENANT_NAME;
     }
 
     /**

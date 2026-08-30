@@ -37,7 +37,10 @@ trait MutatesMigrationCommands
         parent::__construct($migrator, $dispatcher);
 
         $this->setName('tenancy:' . $this->getName());
-        $this->specifyParameters();
+        $this->defineWebsiteOption();
+
+        // Only migrate:fresh has one; the rest are left alone.
+        $this->defineSeederDefault('seeder');
 
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
@@ -81,6 +84,6 @@ trait MutatesMigrationCommands
      */
     protected function getOptions()
     {
-        return array_merge([$this->addWebsiteOption()], parent::getOptions());
+        return parent::getOptions();
     }
 }

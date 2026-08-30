@@ -38,6 +38,12 @@ class MariaDB implements DatabaseGenerator
 
         $user = "CREATE USER IF NOT EXISTS `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'";
 
+        // A user left behind by an earlier tenant keeps the password it was
+        // given then, and the password is derived per website. CREATE USER IF
+        // NOT EXISTS skips the whole statement, so it would be handed back a
+        // tenant that cannot connect.
+        $password = "ALTER USER `{$config['username']}`@'{$config['host']}' IDENTIFIED BY '{$config['password']}'";
+
         $create = "CREATE DATABASE IF NOT EXISTS `{$config['database']}`
             DEFAULT CHARACTER SET {$config['charset']}
             DEFAULT COLLATE {$config['collation']}";
@@ -48,6 +54,7 @@ class MariaDB implements DatabaseGenerator
 
         if ($createUser) {
             return $connection->system($event->website)->statement($user)
+                && $connection->system($event->website)->statement($password)
                 && $connection->system($event->website)->statement($create)
                 && $connection->system($event->website)->statement($grant);
         }

@@ -40,6 +40,38 @@ trait AddWebsiteFilterOnCommand
         });
     }
 
+    /**
+     * Put the website filter on the definition the parent already built.
+     *
+     * getOptions() is only consulted for a command that declares no
+     * $signature, and which of the two a framework command uses is not ours
+     * to depend on.
+     */
+    protected function defineWebsiteOption(): void
+    {
+        if ($this->getDefinition()->hasOption('website_id')) {
+            return;
+        }
+
+        [$name, $shortcut, $mode, $description] = $this->addWebsiteOption();
+
+        $this->getDefinition()->addOption(new InputOption($name, $shortcut, $mode, $description));
+    }
+
+    /**
+     * Point an option at the seeder the configuration names, if it names one.
+     */
+    protected function defineSeederDefault(string $option): void
+    {
+        $seeder = config('tenancy.db.tenant-seed-class');
+
+        if (! $seeder || ! $this->getDefinition()->hasOption($option)) {
+            return;
+        }
+
+        $this->getDefinition()->getOption($option)->setDefault($seeder);
+    }
+
     protected function addWebsiteOption()
     {
         return ['website_id', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'The tenancy website_ids (not uuid) to migrate specifically.', null];
